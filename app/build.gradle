@@ -32,6 +32,17 @@ android {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.2.3'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
+    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '5.2.3'
+    implementation 'javax.xml.stream:stax-api:1.0'
+    implementation 'com.fasterxml:aalto-xml:1.2.2'
+    implementation 'ro.andob.androidawt:androidawt:1.0.4'
+
+
+
+
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'

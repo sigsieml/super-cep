@@ -2,12 +2,20 @@
     <string name="app_name">super-cep</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Super-CEP</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_batiment">Batiment</string>
+    <string name="menu_enveloppes">Enveloppe</string>
+    <string name="menu_usageEtOccupation">Usage et occupation</string>
+    <string name="menu_chauffages">Chauffages</string>
+    <string name="menu_climatisation">Climatisation</string>
+    <string name="menu_ventilation">Ventilation</string>
+    <string name="menu_ecs">Système de production d\'ECS</string>
+    <string name="menu_approvisionnementEnergetique">Approvisionnement énergétique</string>
+    <string name="menu_remarques">Remarques</string>
+    <string name="menu_preconisations">Préconisations</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

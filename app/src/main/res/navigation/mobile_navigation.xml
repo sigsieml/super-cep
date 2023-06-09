@@ -3,23 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_batiment">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.super_cep.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/nav_batiment"
+        android:name="com.example.super_cep.view.fragments.batiment"
+        android:label="Batiment"
+        tools:layout="@layout/fragment_batiment"/>
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.super_cep.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_enveloppes"
+        android:name="com.example.super_cep.view.fragments.Enveloppe"
+        android:label="Enveloppe"
+        tools:layout="@layout/fragment_enveloppe" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.super_cep.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_usage_et_occupation"
+        android:name="com.example.super_cep.view.fragments.UsageEtOccupation"
+        android:label="Usage et occupation"
+        tools:layout="@layout/fragment_usage_et_occupation" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_chauffages"
+        android:name="com.example.super_cep.view.fragments.Chauffages"
+        android:label="Chauffages"
+        tools:layout="@layout/fragment_chauffages" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_climatisation"
+        android:name="com.example.super_cep.view.fragments.Climatisation"
+        android:label="Climatisation"
+        tools:layout="@layout/fragment_climatisation" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_ventilation"
+        android:name="com.example.super_cep.view.fragments.Ventilation"
+        android:label="Ventilation"
+        tools:layout="@layout/fragment_ventilation"></fragment>
+    <fragment
+        android:id="@+id/nav_ecs"
+        android:name="com.example.super_cep.view.fragments.ECS"
+        android:label="Système de production d'ECS"
+        tools:layout="@layout/fragment_e_c_s"></fragment>
+    <fragment
+        android:id="@+id/nav_approvisionnement_energetique"
+        android:name="com.example.super_cep.view.fragments.ApprovisonnementEnergetique"
+        android:label="Approvisionnement énergétique"
+        tools:layout="@layout/fragment_approvisonnement_energetique"></fragment>
+    <fragment
+        android:id="@+id/nav_remarques"
+        android:name="com.example.super_cep.view.fragments.Remarques"
+        android:label="Remarques"
+        tools:layout="@layout/fragment_remarques"></fragment>
+    <fragment
+        android:id="@+id/nav_preconisations"
+        android:name="com.example.super_cep.view.fragments.Preconisation"
+        android:label="Préconisations"
+        tools:layout="@layout/fragment_preconisation" />
 </navigation>
