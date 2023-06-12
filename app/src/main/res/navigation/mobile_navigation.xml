@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_batiment"/>
     <fragment
         android:id="@+id/nav_enveloppes"
-        android:name="com.example.super_cep.view.fragments.Enveloppe"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.Enveloppe"
         android:label="Enveloppe"
         tools:layout="@layout/fragment_enveloppe" />
     <fragment

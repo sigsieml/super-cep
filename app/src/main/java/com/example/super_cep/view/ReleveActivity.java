@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.super_cep.R;
-import com.example.super_cep.databinding.ReleveBinding;
+import com.example.super_cep.databinding.ActivityReleveBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -19,13 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ReleveActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ReleveBinding binding;
+    private ActivityReleveBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ReleveBinding.inflate(getLayoutInflater());
+        binding = ActivityReleveBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarReleve.toolbar);
