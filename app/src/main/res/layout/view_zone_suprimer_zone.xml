@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutZoneElement"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -19,26 +18,26 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageViewZoneElement"
+            android:id="@+id/imageViewSuprimerZone"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cropped_cropped_logo_sieml_110_1"
-            tools:srcCompat="@drawable/cropped_cropped_logo_sieml_110_1" />
+            app:srcCompat="@android:drawable/ic_menu_delete"
+            tools:srcCompat="@android:drawable/ic_menu_delete" />
 
         <TextView
             android:id="@+id/textViewZoneElement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mur chaufferie"
+            android:text="ajouter un élément"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewZoneElement" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewSuprimerZone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

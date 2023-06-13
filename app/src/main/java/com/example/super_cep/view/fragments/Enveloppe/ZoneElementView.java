@@ -1,21 +1,33 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TableLayout;
+import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.super_cep.R;
-import com.example.super_cep.model.ZoneElement;
+import com.example.super_cep.databinding.ViewZoneElementBinding;
+import com.example.super_cep.model.Enveloppe.ZoneElement;
 
 public class ZoneElementView extends View {
-    public ZoneElementView(TableRow tableRow, ZoneElement zoneElement) {
+
+    ViewZoneElementBinding binding;
+    public ZoneElementView(TableRow tableRow, ZoneElement zoneElement, ZoneUiHandler zoneUiHandler) {
         super(tableRow.getContext());
-        LayoutInflater inflater = LayoutInflater.from(tableRow.getContext());
-        View view =  inflater.inflate(R.layout.view_zone_element, tableRow, true);
-        TextView textViewZoneElement = view.findViewById(R.id.textViewZoneElement);
+        binding = ViewZoneElementBinding.inflate(LayoutInflater.from(tableRow.getContext()), tableRow, true);
+
+        TextView textViewZoneElement = binding.textViewZoneElement;
         textViewZoneElement.setText(zoneElement.getNom());
+
+        ImageView imageView = binding.imageViewZoneElement;
+        ImageFromZoneElement imageFromZoneElement = new ImageFromZoneElement();
+        imageView.setImageResource(imageFromZoneElement.getImage(zoneElement));
+
+        binding.layoutZoneElement.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zoneUiHandler.voirZoneElement(zoneElement);
+            }
+        });
     }
 }
