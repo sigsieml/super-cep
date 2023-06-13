@@ -3,27 +3,17 @@ package com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
-import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentAjoutMurBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.view.SharedViewModelReleve;
+import com.example.super_cep.view.ReleveViewModel;
 import com.example.super_cep.view.SpinnerDataViewModel;
-import com.example.super_cep.view.fragments.Enveloppe.AjoutElementZone;
-import com.example.super_cep.view.fragments.Enveloppe.Enveloppe;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
 
 public class AjoutMur extends Fragment {
 
@@ -49,20 +39,20 @@ public class AjoutMur extends Fragment {
 
     private FragmentAjoutMurBinding binding;
 
-    private SharedViewModelReleve releveViewModel;
+    private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAjoutMurBinding.inflate(inflater, container, false);
-        releveViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModelReleve.class);
+        releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
         spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeMur, "typeMur");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeIsolant, "typeIsolant");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
-
+        
         binding.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

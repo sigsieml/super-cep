@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.batiment">
+    tools:context=".view.fragments.Batiment">
 
     <ScrollView
         android:layout_width="0dp"
@@ -34,7 +34,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/editTextNomBatiment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -68,10 +68,10 @@
                     android:layout_marginTop="16dp"
                     android:text="Date de construction"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNomBatiment" />
 
                 <EditText
-                    android:id="@+id/editTextDate"
+                    android:id="@+id/editTextDateDeConstruction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -104,7 +104,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextDate2"
+                    android:id="@+id/editTextDateDeRenovation"
                     android:layout_width="0dp"
                     android:layout_height="49dp"
                     android:layout_marginStart="16dp"
@@ -115,7 +115,7 @@
                     android:inputType="date"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimal"
+                    app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -126,11 +126,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="surface total chauffée"
-                    app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimal"
+                    app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextNumberDecimal"
+                    android:id="@+id/editTextNumberDecimalSurfaceTotalChauffe"
                     android:layout_width="141dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="m²"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextNumberDecimal"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -167,7 +167,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine"
+                    android:id="@+id/editTextMultiLineDescriptionBatiment"
                     android:layout_width="320dp"
                     android:layout_height="150dp"
                     android:layout_marginStart="16dp"

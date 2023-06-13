@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_batiment"
-        android:name="com.example.super_cep.view.fragments.batiment"
+        android:name="com.example.super_cep.view.fragments.Batiment"
         android:label="Batiment"
         tools:layout="@layout/fragment_batiment"/>
     <fragment
@@ -58,4 +58,9 @@
         android:name="com.example.super_cep.view.fragments.Preconisation"
         android:label="Préconisations"
         tools:layout="@layout/fragment_preconisation" />
+    <fragment
+        android:id="@+id/nav_export_data"
+        android:name="com.example.super_cep.view.fragments.Exportdata"
+        android:label="Exporter les données"
+        tools:layout="@layout/fragment_exportdata" />
 </navigation>

@@ -14,16 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.view.SharedViewModelReleve;
+import com.example.super_cep.view.ReleveViewModel;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
 
@@ -32,13 +28,13 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
     private LiveData<Releve> releve;
 
     public FragmentEnveloppeBinding binding;
-    private SharedViewModelReleve sharedViewModelReleve;
+    private ReleveViewModel releveViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        sharedViewModelReleve = new ViewModelProvider(requireActivity()).get(SharedViewModelReleve.class);
-        releve = sharedViewModelReleve.getReleve();
+        releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
+        releve = releveViewModel.getReleve();
         binding = FragmentEnveloppeBinding.inflate(inflater, container, false);
         setupFab();
         releve.observe(getViewLifecycleOwner(), releve -> {
@@ -74,7 +70,7 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void deleteZone(Zone zone) {
-        sharedViewModelReleve.deleteZone(zone);
+        releveViewModel.deleteZone(zone);
     }
 
     @Override
@@ -87,6 +83,6 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
     }
 
     public void nouvelleZone(String toString) {
-        sharedViewModelReleve.addZone(new Zone(toString));
+        releveViewModel.addZone(new Zone(toString));
     }
 }

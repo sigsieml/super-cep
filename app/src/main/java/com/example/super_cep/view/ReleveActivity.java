@@ -7,7 +7,6 @@ import com.example.super_cep.R;
 import com.example.super_cep.databinding.ActivityReleveBinding;
 import com.example.super_cep.model.Enveloppe.Eclairage;
 import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Sol;
 import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
@@ -33,7 +32,7 @@ public class ReleveActivity extends AppCompatActivity {
     private ActivityReleveBinding binding;
 
     private Releve releve;
-    private SharedViewModelReleve sharedViewModelReleve;
+    private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
     @Override
@@ -88,8 +87,8 @@ public class ReleveActivity extends AppCompatActivity {
         zoneElements3.add(new Eclairage("éclairage cuisine"));
         releve.addZone(new Zone("cuisine", zoneElements3));
 
-        sharedViewModelReleve = new ViewModelProvider(this).get(SharedViewModelReleve.class);
-        sharedViewModelReleve.setReleve(releve);
+        releveViewModel = new ViewModelProvider(this).get(ReleveViewModel.class);
+        releveViewModel.setReleve(releve);
 
     }
 
@@ -101,7 +100,7 @@ public class ReleveActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_batiment, R.id.nav_enveloppes, R.id.nav_usage_et_occupation, R.id.nav_chauffages,
                 R.id.nav_climatisation, R.id.nav_ventilation, R.id.nav_ecs, R.id.nav_approvisionnement_energetique,
-                R.id.nav_remarques, R.id.nav_preconisations)
+                R.id.nav_remarques, R.id.nav_preconisations, R.id.nav_export_data)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
