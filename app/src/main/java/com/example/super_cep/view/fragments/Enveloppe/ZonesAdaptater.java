@@ -1,16 +1,23 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
+import com.example.super_cep.databinding.ViewZoneBinding;
+import com.example.super_cep.databinding.ViewZoneElementBinding;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,7 +43,12 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ZoneViewHolder holder, int position) {
         Zone zone = zones[position];
+        setupDragAndDrop(holder, zone);
         holder.getZoneName().setText(zone.nom);
+        updateZoneElements(holder, zone);
+    }
+
+    private void updateZoneElements(ZoneViewHolder holder, Zone zone) {
         int nbElementPerRow = 0;
         Context context = holder.getTableLayout().getContext();
         TableLayout tableLayout = holder.getTableLayout();
@@ -62,6 +74,47 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> {
         ajouterBouttonAjoutElement(tableRow, zone);
         if(zone.zoneElements.size() == 0)
             ajouterBouttonSuprimerZone(tableRow, zone);
+    }
+
+    private void setupDragAndDrop(ZoneViewHolder holder, Zone zone) {
+        holder.itemView.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch (event.getAction()){
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                            ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.teal_200));
+                            v.invalidate();
+                            return true;
+                        }
+
+                        return false;
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.purple_500));
+                        v.invalidate();
+                        return true;
+                    case DragEvent.ACTION_DRAG_LOCATION:
+                        return true;
+                    case DragEvent.ACTION_DRAG_EXITED:
+                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.teal_200));
+                        v.invalidate();
+
+                        return true;
+                    case DragEvent.ACTION_DROP:
+                        ClipData.Item item = event.getClipData().getItemAt(0);
+                        CharSequence dragData = item.getText();
+                        Toast.makeText(v.getContext(), "Dragged data is " + dragData + " moved to " + zone.nom, Toast.LENGTH_LONG).show();
+                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.white));
+                        v.invalidate();
+                        return true;
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.white));
+                        v.invalidate();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void ajouterBouttonAjoutElement(TableRow tableRow, Zone zone) {

@@ -1,5 +1,7 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +29,18 @@ public class ZoneElementView extends View {
             @Override
             public void onClick(View v) {
                 zoneUiHandler.voirZoneElement(zoneElement);
+            }
+        });
+
+        binding.layoutZoneElement.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //start drag
+                ClipData.Item item = new ClipData.Item(zoneElement.getNom());
+                ClipData dragData = new ClipData(zoneElement.getNom(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(binding.layoutZoneElement);
+                v.startDragAndDrop(dragData, myShadow, null, 0);
+                return true;
             }
         });
     }
