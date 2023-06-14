@@ -10,6 +10,7 @@ import com.example.super_cep.model.Enveloppe.ZoneElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +20,12 @@ public class Releve {
 
     private Map<String, Zone> zones;
 
-    public String nomBatiment;
-    public Date dateDeConstruction;
-    public Date dateDeDerniereRenovation;
-    public float surfaceTotaleChauffe;
-    public String description;
-    public String adresse;
+    public String nomBatiment = "";
+    public Calendar dateDeConstruction = Calendar.getInstance();
+    public Calendar dateDeDerniereRenovation = Calendar.getInstance();
+    public float surfaceTotaleChauffe = 0;
+    public String description = "";
+    public String adresse = "";
 
 
     public Releve(){

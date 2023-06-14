@@ -50,8 +50,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:ems="10"
+                    android:hint="Entrez le nom du mur"
                     android:inputType="text"
-                    android:text="Entrez le nom dur mur"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
@@ -66,6 +66,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/editTextNomMur">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutImageViewsZoneElement"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -74,29 +75,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <ImageView
-                                android:id="@+id/imageView4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_marginBottom="32dp"
-                                android:src="@drawable/cropped_cropped_logo_sieml_110_1"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.5" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
                             <Button
-                                android:id="@+id/button"
+                                android:id="@+id/buttonAjouterImage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Releve;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class ReleveViewModel extends ViewModel {
@@ -40,12 +41,12 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
-    public void setDateDeConstruction(Date dateDeConstruction){
+    public void setDateDeConstruction(Calendar dateDeConstruction){
         releve.getValue().dateDeConstruction = dateDeConstruction;
         forceUpdateReleve();
     }
 
-    public void setDateDeDerniereRenovation(Date dateDeDerniereRenovation){
+    public void setDateDeDerniereRenovation(Calendar dateDeDerniereRenovation){
         releve.getValue().dateDeDerniereRenovation = dateDeDerniereRenovation;
         forceUpdateReleve();
     }

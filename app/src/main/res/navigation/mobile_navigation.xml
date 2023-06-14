@@ -60,7 +60,7 @@
         tools:layout="@layout/fragment_preconisation" />
     <fragment
         android:id="@+id/nav_export_data"
-        android:name="com.example.super_cep.view.fragments.Exportdata"
+        android:name="com.example.super_cep.view.fragments.ExportData.Exportdata"
         android:label="Exporter les données"
         tools:layout="@layout/fragment_exportdata" />
 </navigation>

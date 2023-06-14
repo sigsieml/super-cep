@@ -18,11 +18,6 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 public class CreateSlideShowTest {
     @Test
     public void createSlideAndAddText() {

@@ -1,5 +1,6 @@
 package com.example.super_cep.view;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -15,6 +16,7 @@ import com.example.super_cep.model.Releve;
 import com.example.super_cep.model.SpinnerDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -121,4 +123,8 @@ public class ReleveActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+
+
 }

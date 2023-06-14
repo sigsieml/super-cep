@@ -34,6 +34,7 @@ public class PopUpNouvelleZone extends View {
         pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
         pw.setAnimationStyle(R.style.Animation);
+        pw.update();
 
         binding.buttonAnnuler.setOnClickListener(new OnClickListener() {
             @Override

@@ -79,6 +79,7 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), AjoutElementZone.newInstance(zone.nom), "ajoutZoneElement");
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.commit();
     }
 

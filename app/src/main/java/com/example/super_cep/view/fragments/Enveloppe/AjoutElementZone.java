@@ -18,7 +18,7 @@ public class AjoutElementZone extends Fragment {
     private static final String ARG_PARAM1 = "nomZone";
     private String nomZone;
 
-    private AjoutElementZone() {
+    public AjoutElementZone() {
         // Required empty public constructor
     }
 
@@ -66,6 +66,7 @@ public class AjoutElementZone extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.commit();
     }
 }
