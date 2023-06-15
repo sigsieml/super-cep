@@ -67,6 +67,16 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void editZoneElement(String oldNomZoneElement,String nomZone, ZoneElement zoneElement){
+        getReleve().getValue().getZone(nomZone).removeZoneElement(oldNomZoneElement);
+        getReleve().getValue().getZone(nomZone).addZoneElement(zoneElement);
+        forceUpdateReleve();
+    }
+    public void removeZoneElement(String nomZone, String nomZoneElement){
+        getReleve().getValue().getZone(nomZone).removeZoneElement(nomZoneElement);
+        forceUpdateReleve();
+    }
+
     public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
         Releve releve = this.releve.getValue();
         Zone previousZone = releve.getZone(nomPreviousZone);

@@ -18,6 +18,8 @@ public class ZoneViewHolder extends RecyclerView.ViewHolder {
         this.root = root;
     }
 
+
+
     public TextView getZoneName() {
         return root.findViewById(R.id.textViewZoneName);
     }

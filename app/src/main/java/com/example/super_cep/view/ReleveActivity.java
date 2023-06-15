@@ -16,6 +16,8 @@ import com.example.super_cep.model.Releve;
 import com.example.super_cep.model.SpinnerDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -41,7 +43,7 @@ public class ReleveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityReleveBinding.inflate(getLayoutInflater());
-
+        askForPermissions();
         setupReleve();
         setupSpinnerData();
 
@@ -53,6 +55,14 @@ public class ReleveActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void askForPermissions() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA},
+                PackageManager.PERMISSION_GRANTED);
     }
 
     private void setupSpinnerData() {

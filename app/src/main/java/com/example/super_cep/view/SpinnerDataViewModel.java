@@ -41,4 +41,13 @@ public class SpinnerDataViewModel extends ViewModel {
         spinnerTypeMur.setAdapter(adapter);
 
     }
+
+    public void setSpinnerSelection(Spinner spinner, String value){
+        for(int i = 0; i < spinner.getCount(); i++){
+            if(spinner.getItemAtPosition(i).toString().equals(value)){
+                spinner.setSelection(i);
+                return;
+            }
+        }
+    }
 }

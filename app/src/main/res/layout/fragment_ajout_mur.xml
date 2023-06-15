@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayoutAjoutMur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -20,7 +21,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/textViewTitleMur"
                     android:layout_width="395dp"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
@@ -41,7 +42,7 @@
                     android:layout_marginTop="24dp"
                     android:text="Nom du mur"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTitleMur" />
 
                 <EditText
                     android:id="@+id/editTextNomMur"
@@ -170,7 +171,7 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
@@ -246,7 +247,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="349dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView32"
@@ -295,33 +296,16 @@
                     android:layout_height="86dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
                     android:ems="10"
                     android:gravity="start|top"
                     android:hint="note"
                     android:inputType="textMultiLine"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
-                <Button
-                    android:id="@+id/buttonAnnuler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="Annuler"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <Button
-                    android:id="@+id/buttonValider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="Enregistrer"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

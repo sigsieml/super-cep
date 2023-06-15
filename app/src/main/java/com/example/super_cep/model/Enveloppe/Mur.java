@@ -26,6 +26,7 @@ public class Mur extends ZoneElement{
         this.niveauIsolation = niveauIsolation;
         this.epaisseurIsolant = epaisseurIsolant;
         this.uriImages = uriImages;
+        this.aVerifier = aVerifier;
         this.note = note;
     }
 

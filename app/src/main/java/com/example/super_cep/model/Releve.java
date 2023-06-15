@@ -46,7 +46,7 @@ public class Releve {
 
     public Zone getZone(String name){
         if(!zones.containsKey(name))
-            throw new IllegalArgumentException("La zone n'existe pas");
+            throw new IllegalArgumentException("La zone n'existe pas + " + name);
         return zones.get(name);
     }
 

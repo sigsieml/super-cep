@@ -1,0 +1,143 @@
+package com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone;
+
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
+import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve;
+import com.example.super_cep.view.ReleveViewModel;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation.AjoutMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElementView;
+
+public class AjoutElementZone extends Fragment {
+
+    private static final String ARG_PARAM1 = "nomZone";
+    private String nomZone;
+    public AjoutElementZone() {}
+    public static AjoutElementZone newInstance(String nomZone) {
+        AjoutElementZone fragment = new AjoutElementZone();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, nomZone);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        nomZone = requireArguments().getString(ARG_PARAM1);
+    }
+
+    FragmentAjoutElementZoneBinding binding;
+    private ReleveViewModel releveViewModel;
+    private LiveData<Releve> releve;
+    public Zone[] zones;
+
+    private ZonesCopieAdaptater zonesCopieAdaptater;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentAjoutElementZoneBinding.inflate(inflater, container, false);
+        binding.textViewNomZone.setText("nouvel élément dans la zone " + nomZone);
+        releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
+        releve = releveViewModel.getReleve();
+        setupRecyclerView(releve.getValue().getZones());
+        releve.observe(getViewLifecycleOwner(), releve -> {
+            zones = releve.getZones();
+            updateRecyclerView(zones);
+        });
+
+
+        binding.buttonAnnulerAjoutElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+        binding.layoutMur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OuvrirFragmentAjout(AjoutMur.newInstance(nomZone));
+            }
+        });
+
+
+        return binding.getRoot();
+    }
+
+
+    private void setupRecyclerView(Zone[] zones) {
+        RecyclerView recyclerView = binding.recyclerViewCopieZoneElement;
+        zonesCopieAdaptater = new ZonesCopieAdaptater(zones, new ElementZoneCopieHandler() {
+            @Override
+            public void onClick(Zone zone, ZoneElement zoneElement) {
+                OuvrirFragmentCopie( zone,  zoneElement);
+            }
+        });
+
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                zonesCopieAdaptater.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+        recyclerView.setAdapter(zonesCopieAdaptater);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void updateRecyclerView(Zone[] zones){
+        zonesCopieAdaptater.updateZones(zones);
+    }
+
+    private void OuvrirFragmentCopie(Zone ancienneZone, ZoneElement zoneElement){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = getFragmentFromZoneElement(ancienneZone, zoneElement);
+        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.commit();
+    }
+
+    private void OuvrirFragmentAjout(Fragment fragment){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.commit();
+    }
+
+    private Fragment getFragmentFromZoneElement(Zone ancienneZone, ZoneElement zoneElement){
+        if(zoneElement instanceof Mur){
+            return AjoutMur.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+        }
+        throw new IllegalArgumentException("ZoneElement non reconnu");
+
+    }
+}

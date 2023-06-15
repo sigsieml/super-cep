@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.Enveloppe.AjoutElementZone">
+    tools:context=".view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -267,9 +267,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
+                    android:iconifiedByDefault="false"
                     android:orientation="horizontal" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCopieZoneElement"
                     android:layout_width="match_parent"
                     android:layout_height="472dp"
                     android:layout_marginTop="8dp" />

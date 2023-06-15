@@ -12,14 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <SearchView
+            android:id="@+id/searchViewZonesElements"
+            android:layout_width="0dp"
+            android:layout_height="67dp"
+            android:iconifiedByDefault="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerViewZones"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/searchViewZonesElements">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -30,6 +40,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:src="@drawable/plus_solid"
             android:tooltipText="nouvelle zone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

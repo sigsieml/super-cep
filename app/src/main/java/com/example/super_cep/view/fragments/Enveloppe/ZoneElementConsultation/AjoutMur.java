@@ -1,7 +1,5 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,17 +11,15 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -32,6 +28,8 @@ import android.widget.Toast;
 import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentAjoutMurBinding;
+import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
+import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.view.ReleveViewModel;
@@ -39,38 +37,67 @@ import com.example.super_cep.view.SpinnerDataViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class AjoutMur extends Fragment {
 
-    private static final String NOM_ZONE = "param1";
-    private static final int REQUEST_SELECT_PHOTO = 1;
-    private static final int REQUEST_CAPTURE_PHOTO = 2;
-    private String nomZone;
+    private enum Mode{
+        Ajout,
+        Edition,
+        Consultation
+    }
 
+
+    private static final String NOM_ZONE = "param1";
+
+    private static final String NOM_ELEMENT = "param2";
+
+    private static final String NOM_ANCIENNE_ZONE = "param3";
+    private String nomZone;
+    private String nomElement;
+
+    private String nomAncienneZone;
+
+    private Mode mode = Mode.Ajout;
     private PhotoManager photoManager;
     public AjoutMur() {
         // Required empty public constructor
     }
 
     public static AjoutMur newInstance(String nomZone) {
+        return newInstance(nomZone, null, null);
+    }
+
+    public static AjoutMur newInstance(String nomZone, String nomElement){
+        return newInstance(nomZone, null, nomElement);
+    }
+
+    public static AjoutMur newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
         AjoutMur fragment = new AjoutMur();
         Bundle args = new Bundle();
-        args.putString(NOM_ZONE, nomZone);
+        args.putString(NOM_ZONE, nouvelleZone);
+        args.putString(NOM_ELEMENT, nomElement);
+        args.putString(NOM_ANCIENNE_ZONE, ancienneZone);
         fragment.setArguments(args);
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nomZone = requireArguments().getString(NOM_ZONE);
+        if(getArguments().getString(NOM_ANCIENNE_ZONE) != null){
+            mode = Mode.Edition;
+            nomElement = getArguments().getString(NOM_ELEMENT);
+            nomAncienneZone = getArguments().getString(NOM_ANCIENNE_ZONE);
+        }else if(getArguments().getString(NOM_ELEMENT) != null){
+            mode = Mode.Consultation;
+            nomElement = getArguments().getString(NOM_ELEMENT);
+        }
+
     }
 
     private FragmentAjoutMurBinding binding;
@@ -93,26 +120,96 @@ public class AjoutMur extends Fragment {
         updateSpinner();
         setupButtons();
 
+        if(mode == Mode.Ajout || mode == Mode.Edition){
+            addFooterAjout();
+        }
+
+
+
+        try {
+            if(mode == Mode.Consultation){
+                Mur mur =(Mur) releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement);
+                setMondeConsultation(mur);
+                addDataToView(mur);
+            }
+            if(mode == Mode.Edition){
+                Mur mur =(Mur) releveViewModel.getReleve().getValue().getZone(nomAncienneZone).getZoneElement(nomElement);
+                addDataToView(mur);
+            }
+        }catch (Exception e){
+            Log.e("AjoutMur", "onCreateView: ", e);
+            Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
+            getParentFragmentManager().popBackStack();
+            getParentFragmentManager().popBackStack();
+        }
+
         return binding.getRoot();
 
     }
 
-    private void setupButtons() {
-        binding.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
+    private void addFooterAjout() {
+        ViewFooterZoneElementBinding viewFooter = ViewFooterZoneElementBinding.inflate(getLayoutInflater());
+        viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getParentFragmentManager().popBackStack();
             }
         });
 
-        binding.buttonValider.setOnClickListener(new View.OnClickListener() {
+        viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addMurToReleve();
             }
         });
 
+        binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
+    }
 
+    private void setMondeConsultation(Mur mur) {
+        binding.textViewTitleMur.setText(mur.getNom());
+        ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
+        viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+        viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editMur();
+            }
+        });
+
+        viewFooter.buttonSupprimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                releveViewModel.removeZoneElement(nomZone, nomElement);
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+        binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
+    }
+
+    private void addDataToView(Mur mur) {
+        binding.editTextNomMur.setText(mur.getNom());
+        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMur, mur.typeMur);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, mur.typeMiseEnOeuvre);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, mur.typeIsolant);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, mur.niveauIsolation);
+        binding.checkBoxAVerifierMur.setChecked(mur.aVerifier);
+        binding.editTextMultilineNoteMur.setText(mur.note);
+
+        for (Uri uri : mur.uriImages) {
+            addPhotoToView(uri);
+        }
+    }
+
+    private void setupButtons() {
         binding.buttonAjouterImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +251,7 @@ public class AjoutMur extends Fragment {
             public void onActivityResult(Uri result) {
                 Uri selectedPhotoUri = result;
                 Log.i("AjoutMur", "URI de la photo sélectionnée : " + selectedPhotoUri);
-                addPhotoToReleve(selectedPhotoUri);
+                addPhotoToView(selectedPhotoUri);
             }
         });
 
@@ -164,12 +261,12 @@ public class AjoutMur extends Fragment {
                 Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
                 Log.i("AjoutMur", "Bitmap de la photo prise : " + photoBitmap);
                 Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                addPhotoToReleve(photo);
+                addPhotoToView(photo);
             }
         });
     }
 
-    private void addPhotoToReleve(Uri selectedPhotoUri) {
+    private void addPhotoToView(Uri selectedPhotoUri) {
         uriImages.add(selectedPhotoUri);
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
@@ -182,8 +279,12 @@ public class AjoutMur extends Fragment {
         viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //get
+                File file = new File(selectedPhotoUri.getPath());
+                Uri fileUri = FileProvider.getUriForFile(getContext(), "com.example.super_cep.fileprovider", file);
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(selectedPhotoUri, "image/*");
+                intent.setDataAndType(fileUri, "image/*");
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(intent);
             }
@@ -212,19 +313,7 @@ public class AjoutMur extends Fragment {
 
     private void addMurToReleve() {
         try {
-            Mur mur = new Mur(
-                    binding.editTextNomMur.getText().toString(),
-                    binding.spinnerTypeMur.getSelectedItem().toString(),
-                    binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
-                    binding.spinnerTypeIsolant.getSelectedItem().toString(),
-                    binding.spinnerNiveauIsolation.getSelectedItem().toString(),
-                    Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
-                    binding.checkBoxAVerifierMur.isChecked(),
-                    binding.editTextMultilineNoteMur.getText().toString(),
-                    uriImages
-                    );
-
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(mur);
+            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getMurFromViews());
             releveViewModel.forceUpdateReleve();
             getParentFragmentManager().popBackStack();
             getParentFragmentManager().popBackStack();
@@ -233,6 +322,31 @@ public class AjoutMur extends Fragment {
             Snackbar.make(binding.getRoot(), "impossible d'ajouter le mur " + e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
+
+    private void editMur(){
+        try {
+            releveViewModel.editZoneElement(nomElement, nomZone, getMurFromViews());
+            getParentFragmentManager().popBackStack();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Mur getMurFromViews() {
+        Mur mur = new Mur(
+                binding.editTextNomMur.getText().toString(),
+                binding.spinnerTypeMur.getSelectedItem().toString(),
+                binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
+                binding.spinnerTypeIsolant.getSelectedItem().toString(),
+                binding.spinnerNiveauIsolation.getSelectedItem().toString(),
+                Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
+                binding.checkBoxAVerifierMur.isChecked(),
+                binding.editTextMultilineNoteMur.getText().toString(),
+                uriImages
+        );
+        return mur;
+    }
+
 
 
 }
