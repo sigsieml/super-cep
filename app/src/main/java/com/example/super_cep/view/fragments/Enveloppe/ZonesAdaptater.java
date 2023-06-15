@@ -3,6 +3,7 @@ package com.example.super_cep.view.fragments.Enveloppe;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,9 +55,9 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> {
         TableLayout tableLayout = holder.getTableLayout();
         TableRow tableRow = new TableRow(context);
         tableLayout.addView(tableRow);
-        List<ZoneElement> zoneElements = zone.zoneElements;
-        for (ZoneElement zoneElement : zone.zoneElements) {
-            ZoneElementView zoneElementView = new ZoneElementView(tableRow, zoneElement, zoneUiHandler);
+        ZoneElement[] zoneElements = zone.getZoneElements();
+        for (ZoneElement zoneElement : zone.getZoneElements()) {
+            ZoneElementView zoneElementView = new ZoneElementView(tableRow,zone,  zoneElement, zoneUiHandler);
 
             // Define LayoutParams for ZoneElementView
             TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
@@ -72,7 +73,7 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> {
 
         }
         ajouterBouttonAjoutElement(tableRow, zone);
-        if(zone.zoneElements.size() == 0)
+        if(zoneElements.length == 0)
             ajouterBouttonSuprimerZone(tableRow, zone);
     }
 
@@ -83,32 +84,37 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> {
                 switch (event.getAction()){
                     case DragEvent.ACTION_DRAG_STARTED:
                         if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                            ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.teal_200));
+                            ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_teal));
                             v.invalidate();
                             return true;
                         }
 
                         return false;
                     case DragEvent.ACTION_DRAG_ENTERED:
-                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.purple_500));
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_green));
                         v.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
                         return true;
                     case DragEvent.ACTION_DRAG_EXITED:
-                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.teal_200));
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_teal));
                         v.invalidate();
 
                         return true;
                     case DragEvent.ACTION_DROP:
-                        ClipData.Item item = event.getClipData().getItemAt(0);
-                        CharSequence dragData = item.getText();
-                        Toast.makeText(v.getContext(), "Dragged data is " + dragData + " moved to " + zone.nom, Toast.LENGTH_LONG).show();
-                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.white));
+                        ClipData.Item itemZoneElement = event.getClipData().getItemAt(0);
+                        CharSequence nomZoneElement = itemZoneElement.getText();
+                        ClipData.Item itemZone = event.getClipData().getItemAt(1);
+                        CharSequence nomZone = itemZone.getText();
+                        Log.i("drag",  "Dragged data is " + nomZoneElement + " moved to " + zone.nom + " from " + nomZone);
+
+                        zoneUiHandler.moveZoneElement(nomZoneElement.toString(), nomZone.toString(), zone.nom);
+
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_black));
                         v.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
-                        ((ConstraintLayout) v).setBackgroundColor(v.getContext().getColor(R.color.white));
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_black));
                         v.invalidate();
                         return true;
                 }

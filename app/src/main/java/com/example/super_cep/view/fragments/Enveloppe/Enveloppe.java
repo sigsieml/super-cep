@@ -74,6 +74,12 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
     }
 
     @Override
+    public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
+        releveViewModel.moveZoneElement(nomZoneElement, nomPreviousZone, nomNewZone);
+    }
+
+
+    @Override
     public void nouvelleElementZone(Zone zone) {
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

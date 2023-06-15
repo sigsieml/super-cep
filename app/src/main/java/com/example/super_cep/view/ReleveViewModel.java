@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 
 import java.util.Calendar;
@@ -66,4 +67,16 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
+        Releve releve = this.releve.getValue();
+        Zone previousZone = releve.getZone(nomPreviousZone);
+        Zone newZone = releve.getZone(nomNewZone);
+
+        ZoneElement zoneElement = previousZone.getZoneElement(nomZoneElement);
+        previousZone.removeZoneElement(nomZoneElement);
+
+        newZone.addZoneElement(zoneElement);
+        forceUpdateReleve();
+
+    }
 }

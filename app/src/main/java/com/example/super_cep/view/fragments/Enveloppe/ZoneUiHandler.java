@@ -8,4 +8,6 @@ public interface ZoneUiHandler {
     void voirZoneElement(ZoneElement zoneElement);
 
     void deleteZone(Zone zone);
+
+    void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone);
 }

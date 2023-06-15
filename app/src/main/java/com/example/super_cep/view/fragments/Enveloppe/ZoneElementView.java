@@ -9,12 +9,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.super_cep.databinding.ViewZoneElementBinding;
+import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 
 public class ZoneElementView extends View {
 
     ViewZoneElementBinding binding;
-    public ZoneElementView(TableRow tableRow, ZoneElement zoneElement, ZoneUiHandler zoneUiHandler) {
+    public ZoneElementView(TableRow tableRow, Zone zone, ZoneElement zoneElement, ZoneUiHandler zoneUiHandler) {
         super(tableRow.getContext());
         binding = ViewZoneElementBinding.inflate(LayoutInflater.from(tableRow.getContext()), tableRow, true);
 
@@ -38,8 +39,11 @@ public class ZoneElementView extends View {
                 //start drag
                 ClipData.Item item = new ClipData.Item(zoneElement.getNom());
                 ClipData dragData = new ClipData(zoneElement.getNom(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+                ClipData.Item item2 = new ClipData.Item(zone.nom);
+                dragData.addItem(item2);
                 View.DragShadowBuilder myShadow = new View.DragShadowBuilder(binding.layoutZoneElement);
                 v.startDragAndDrop(dragData, myShadow, null, 0);
+
                 return true;
             }
         });
