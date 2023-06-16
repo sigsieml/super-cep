@@ -81,11 +81,16 @@ public class ReleveViewModel extends ViewModel {
         Releve releve = this.releve.getValue();
         Zone previousZone = releve.getZone(nomPreviousZone);
         Zone newZone = releve.getZone(nomNewZone);
-
         ZoneElement zoneElement = previousZone.getZoneElement(nomZoneElement);
-        previousZone.removeZoneElement(nomZoneElement);
 
+        if(newZone.getZoneElement(nomZoneElement) != null){
+            throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
+        }
+
+        previousZone.removeZoneElement(nomZoneElement);
         newZone.addZoneElement(zoneElement);
+
+
         forceUpdateReleve();
 
     }

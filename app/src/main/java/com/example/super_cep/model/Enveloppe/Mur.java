@@ -20,10 +20,6 @@ public class Mur extends ZoneElement{
     public String typeIsolant;
     public String niveauIsolation;
     public float epaisseurIsolant;
-    public String note;
-
-
-    public boolean aVerifier;
 
     @JsonCreator
     public Mur(@JsonProperty("nom") String nom,
@@ -35,15 +31,12 @@ public class Mur extends ZoneElement{
                @JsonProperty("aVerifier") boolean aVerifier,
                @JsonProperty("note") String note,
                @JsonProperty("uriImages") List<Uri> uriImages) {
-        super(nom);
+        super(nom, aVerifier, note, uriImages);
         this.typeMur = typeMur;
         this.typeMiseEnOeuvre = typeMiseEnOeuvre;
         this.typeIsolant = typeIsolant;
         this.niveauIsolation = niveauIsolation;
         this.epaisseurIsolant = epaisseurIsolant;
-        this.uriImages = uriImages;
-        this.aVerifier = aVerifier;
-        this.note = note;
     }
 
     @JsonIgnore
@@ -51,9 +44,6 @@ public class Mur extends ZoneElement{
     public String logo() {
         return "mur";
     }
-
-
-
 
     @Override
     public String toString() {

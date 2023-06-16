@@ -1,10 +1,9 @@
-package com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation;
+package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +12,10 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -31,20 +26,19 @@ import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
-import com.example.super_cep.databinding.FragmentAjoutMurBinding;
+import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.databinding.FragmentToitureOuFauxPlafondBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AjoutMur extends Fragment {
+public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private enum Mode{
         Ajout,
@@ -65,20 +59,20 @@ public class AjoutMur extends Fragment {
 
     private Mode mode = Mode.Ajout;
     private PhotoManager photoManager;
-    public AjoutMur() {
+    public FragmentToitureOuFauxPlafond() {
         // Required empty public constructor
     }
 
-    public static AjoutMur newInstance(String nomZone) {
+    public static FragmentToitureOuFauxPlafond newInstance(String nomZone) {
         return newInstance(nomZone, null, null);
     }
 
-    public static AjoutMur newInstance(String nomZone, String nomElement){
+    public static FragmentToitureOuFauxPlafond newInstance(String nomZone, String nomElement){
         return newInstance(nomZone, null, nomElement);
     }
 
-    public static AjoutMur newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
-        AjoutMur fragment = new AjoutMur();
+    public static FragmentToitureOuFauxPlafond newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
+        FragmentToitureOuFauxPlafond fragment = new FragmentToitureOuFauxPlafond();
         Bundle args = new Bundle();
         args.putString(NOM_ZONE, nouvelleZone);
         args.putString(NOM_ELEMENT, nomElement);
@@ -104,12 +98,12 @@ public class AjoutMur extends Fragment {
 
     }
 
-    private FragmentAjoutMurBinding binding;
+    private FragmentToitureOuFauxPlafondBinding binding;
 
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
-    private ActivityResultLauncher<Intent>  launcherGetPhoto;
+    private ActivityResultLauncher<Intent> launcherGetPhoto;
     private ActivityResultLauncher<Intent> launcherCapturePhoto;
 
     List<Uri> uriImages = new ArrayList<>();
@@ -117,7 +111,7 @@ public class AjoutMur extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAjoutMurBinding.inflate(inflater, container, false);
+        binding = FragmentToitureOuFauxPlafondBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         photoManager = new PhotoManager(getContext());
         setupPhotoLaunchers();
@@ -164,11 +158,11 @@ public class AjoutMur extends Fragment {
             }
         });
 
-        binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutToiture.addView(viewFooter.getRoot());
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleMur.setText(zoneElement.getNom());
+        binding.textViewTitleToiture.setText(zoneElement.getNom());
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +186,7 @@ public class AjoutMur extends Fragment {
             }
         });
 
-        binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutToiture.addView(viewFooter.getRoot());
     }
 
 
@@ -338,7 +332,7 @@ public class AjoutMur extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeMur, "typeMur");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeToiture, "typeToiture");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeIsolant, "typeIsolant");
         spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
@@ -346,36 +340,34 @@ public class AjoutMur extends Fragment {
 
 
     private ZoneElement getZoneElementFromViews() {
-        Mur mur = new Mur(
-                binding.editTextNomMur.getText().toString(),
-                binding.spinnerTypeMur.getSelectedItem().toString(),
+        Toiture toiture = new Toiture(
+                binding.editTextNomToiture.getText().toString(),
+                binding.spinnerTypeToiture.getSelectedItem().toString(),
                 binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
                 binding.spinnerTypeIsolant.getSelectedItem().toString(),
                 binding.spinnerNiveauIsolation.getSelectedItem().toString(),
                 Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
-                binding.checkBoxAVerifierMur.isChecked(),
-                binding.editTextMultilineNoteMur.getText().toString(),
+                binding.checkBoxAVerifierToiture.isChecked(),
+                binding.editTextMultilineNoteToiture.getText().toString(),
                 uriImages
         );
-        return mur;
+        return toiture;
     }
 
     private void addDataToView(ZoneElement zoneElement){
-        Mur mur = (Mur) zoneElement;
-        binding.editTextNomMur.setText(mur.getNom());
-        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMur, mur.typeMur);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, mur.typeMiseEnOeuvre);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, mur.typeIsolant);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, mur.niveauIsolation);
-        binding.checkBoxAVerifierMur.setChecked(mur.aVerifier);
-        binding.editTextMultilineNoteMur.setText(mur.note);
+        Toiture toiture = (Toiture) zoneElement;
+        binding.editTextNomToiture.setText(toiture.getNom());
+        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(toiture.epaisseurIsolant));
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeToiture, toiture.typeToiture);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, toiture.typeMiseEnOeuvre);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, toiture.typeIsolant);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, toiture.niveauIsolation);
+        binding.checkBoxAVerifierToiture.setChecked(toiture.aVerifier);
+        binding.editTextMultilineNoteToiture.setText(toiture.note);
 
-        for (Uri uri : mur.uriImages) {
+        for (Uri uri : toiture.uriImages) {
             addPhotoToView(uri);
         }
     }
-
-
 
 }

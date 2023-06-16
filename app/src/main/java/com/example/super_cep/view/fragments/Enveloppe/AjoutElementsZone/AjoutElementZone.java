@@ -17,11 +17,13 @@ import android.widget.SearchView;
 
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation.AjoutMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class AjoutElementZone extends Fragment {
 
@@ -72,7 +74,14 @@ public class AjoutElementZone extends Fragment {
         binding.layoutMur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(AjoutMur.newInstance(nomZone));
+                OuvrirFragmentAjout(FragmentMur.newInstance(nomZone));
+            }
+        });
+
+        binding.layoutToitureEtFauxPlafond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OuvrirFragmentAjout(FragmentToitureOuFauxPlafond.newInstance(nomZone));
             }
         });
 
@@ -133,7 +142,10 @@ public class AjoutElementZone extends Fragment {
 
     private Fragment getFragmentFromZoneElement(Zone ancienneZone, ZoneElement zoneElement){
         if(zoneElement instanceof Mur){
-            return AjoutMur.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return FragmentMur.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+        }
+        if(zoneElement instanceof Toiture){
+            return FragmentToitureOuFauxPlafond.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 

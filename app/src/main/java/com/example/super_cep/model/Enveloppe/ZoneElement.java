@@ -30,15 +30,20 @@ import java.util.List;
 public class ZoneElement {
 
     private String nom;
+    public boolean aVerifier;
 
+    public String note;
     @JsonSerialize(using = UriSerializer.class)
     @JsonDeserialize(using = UriDeserializer.class)
     public List<Uri> uriImages;
 
 
     @JsonCreator
-    public ZoneElement(@JsonProperty("nom") String nom) {
+    public ZoneElement(@JsonProperty("nom") String nom, @JsonProperty("aVerifier") boolean aVerifier, @JsonProperty("note") String note, @JsonProperty("uriImages") List<Uri> uriImages) {
         this.nom = nom;
+        this.aVerifier = aVerifier;
+        this.uriImages = uriImages;
+        this.note = note;
     }
 
     public String getNom() {

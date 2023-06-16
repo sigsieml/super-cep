@@ -14,6 +14,8 @@ public class SpinnerDataProvider {
         spinnersData.put("typeDeMiseEnOeuvre", List.of("Enduit", "Bardage", "Autre"));
         spinnersData.put("typeIsolant", List.of("Laine de verre", "Laine de roche", "Polystyrène", "Autre"));
         spinnersData.put("niveauIsolation", List.of("Inconnu", "Non isolé", "Faiblement isolé", "Moyennement isolé", "Assez bien isolé", "Bien isolé"));
+        spinnersData.put("typeToiture", List.of("Faux plafond en dalles", "Plafond en platre", "Plafond autres", "Toiture terrasse", "Rampants", "Combles perdues"));
+
     }
 
     public Map<String, List<String>> getSpinnersData(){

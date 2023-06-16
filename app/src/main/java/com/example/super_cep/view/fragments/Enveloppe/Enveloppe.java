@@ -18,12 +18,14 @@ import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation.AjoutMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
 
@@ -103,7 +105,11 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
-        releveViewModel.moveZoneElement(nomZoneElement, nomPreviousZone, nomNewZone);
+        try {
+            releveViewModel.moveZoneElement(nomZoneElement, nomPreviousZone, nomNewZone);
+        } catch (IllegalArgumentException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -119,7 +125,10 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     private Fragment getFragmentFromZoneElement(Zone zone, ZoneElement zoneElement){
         if(zoneElement instanceof Mur){
-            return AjoutMur.newInstance(zone.nom,   zoneElement.getNom());
+            return FragmentMur.newInstance(zone.nom,   zoneElement.getNom());
+        }
+        if(zoneElement instanceof Toiture){
+            return FragmentToitureOuFauxPlafond.newInstance(zone.nom,   zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 
