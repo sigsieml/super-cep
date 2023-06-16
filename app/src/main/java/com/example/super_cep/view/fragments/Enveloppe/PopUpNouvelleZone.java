@@ -13,7 +13,6 @@ import com.example.super_cep.R;
 import com.example.super_cep.databinding.PopupNouvelleZoneBinding;
 
 public class PopUpNouvelleZone extends View {
-
     PopupNouvelleZoneBinding binding;
     public PopUpNouvelleZone(Context context, Enveloppe enveloppe) {
         super(context);

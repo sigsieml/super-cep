@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_enveloppe" />
     <fragment
         android:id="@+id/nav_usage_et_occupation"
-        android:name="com.example.super_cep.view.fragments.UsageEtOccupation"
+        android:name="com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupation"
         android:label="Usage et occupation"
         tools:layout="@layout/fragment_usage_et_occupation" >
     </fragment>

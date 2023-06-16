@@ -1,15 +1,19 @@
 package com.example.super_cep.model;
 
+import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Releve {
 
     private Map<String, Zone> zones;
+
+    public Map<String, Calendrier> calendriers;
 
     public String nomBatiment = "";
     public Calendar dateDeConstruction = Calendar.getInstance();
@@ -21,6 +25,7 @@ public class Releve {
 
     public Releve(){
         this.zones = new HashMap<>();
+        this.calendriers = new HashMap<>();
     }
 
     public void addZone(Zone zone){
@@ -47,6 +52,17 @@ public class Releve {
         if(!zones.containsKey(name))
             throw new IllegalArgumentException("La zone n'existe pas + " + name);
         return zones.get(name);
+    }
+
+    @JsonIgnore
+    public Calendrier[] getCalendriersValues(){
+        return calendriers.values().toArray(new Calendrier[0]);
+    }
+
+    public void addCalendrier(Calendrier calendrier){
+        if(calendriers.containsKey(calendrier.nom))
+            throw new IllegalArgumentException("Le calendrier existe déjà");
+        calendriers.put(calendrier.nom, calendrier);
     }
 
 

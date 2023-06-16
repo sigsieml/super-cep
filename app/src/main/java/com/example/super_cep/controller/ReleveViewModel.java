@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -77,6 +79,11 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void addCalendrier(Calendrier calendrier){
+        releve.getValue().addCalendrier(calendrier);
+        forceUpdateReleve();
+    }
+
     public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
         Releve releve = this.releve.getValue();
         Zone previousZone = releve.getZone(nomPreviousZone);
@@ -93,5 +100,20 @@ public class ReleveViewModel extends ViewModel {
 
         forceUpdateReleve();
 
+    }
+
+    public void updateCalendrier(String oldName, Calendrier calendrier) {
+        Releve releve = this.releve.getValue();
+        if(!calendrier.nom.equals(oldName) && Arrays.stream(releve.getCalendriersValues()).filter(cldr -> cldr.nom.equals(calendrier.nom)).findAny().isPresent()){
+            throw new IllegalArgumentException("Un calendrier porte déjà ce nom");
+        }
+        releve.calendriers.remove(oldName);
+        releve.addCalendrier(calendrier);
+        forceUpdateReleve();
+    }
+
+    public void supprimerCalendrier(String nomCalendrier) {
+        releve.getValue().calendriers.remove(nomCalendrier);
+        forceUpdateReleve();
     }
 }
