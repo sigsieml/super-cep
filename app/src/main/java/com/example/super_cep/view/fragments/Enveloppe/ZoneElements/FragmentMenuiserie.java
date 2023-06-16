@@ -28,17 +28,17 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
-import com.example.super_cep.databinding.FragmentToitureOuFauxPlafondBinding;
+import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Enveloppe.Toiture;
+import com.example.super_cep.model.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentToitureOuFauxPlafond extends Fragment {
+public class FragmentMenuiserie extends Fragment {
     private static final String NOM_ZONE = "param1";
 
     private static final String NOM_ELEMENT = "param2";
@@ -51,20 +51,20 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private Mode mode = Mode.Ajout;
     private PhotoManager photoManager;
-    public FragmentToitureOuFauxPlafond() {
+    public FragmentMenuiserie() {
         // Required empty public constructor
     }
 
-    public static FragmentToitureOuFauxPlafond newInstance(String nomZone) {
+    public static FragmentMenuiserie newInstance(String nomZone) {
         return newInstance(nomZone, null, null);
     }
 
-    public static FragmentToitureOuFauxPlafond newInstance(String nomZone, String nomElement){
+    public static FragmentMenuiserie newInstance(String nomZone, String nomElement){
         return newInstance(nomZone, null, nomElement);
     }
 
-    public static FragmentToitureOuFauxPlafond newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
-        FragmentToitureOuFauxPlafond fragment = new FragmentToitureOuFauxPlafond();
+    public static FragmentMenuiserie newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
+        FragmentMenuiserie fragment = new FragmentMenuiserie();
         Bundle args = new Bundle();
         args.putString(NOM_ZONE, nouvelleZone);
         args.putString(NOM_ELEMENT, nomElement);
@@ -90,7 +90,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     }
 
-    private FragmentToitureOuFauxPlafondBinding binding;
+    private FragmentMenuiserieBinding binding;
 
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
@@ -103,7 +103,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentToitureOuFauxPlafondBinding.inflate(inflater, container, false);
+        binding = FragmentMenuiserieBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         photoManager = new PhotoManager(getContext());
         setupPhotoLaunchers();
@@ -150,11 +150,11 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             }
         });
 
-        binding.linearLayoutAjoutToiture.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutMenuiserie.addView(viewFooter.getRoot());
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleToiture.setText(zoneElement.getNom());
+        binding.textViewTitleMenuiserie.setText(zoneElement.getNom());
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             }
         });
 
-        binding.linearLayoutAjoutToiture.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutMenuiserie.addView(viewFooter.getRoot());
     }
 
 
@@ -324,42 +324,38 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeToiture, "typeToiture");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeIsolant, "typeIsolant");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeMenuiserie, "typeMenuiserie");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerMatRiau, "materiau");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerProtectionsSolaires, "protectionsSolaires");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeVitrage, "typeVitrage");
     }
 
 
     private ZoneElement getZoneElementFromViews() {
-        Toiture toiture = new Toiture(
-                binding.editTextNomToiture.getText().toString(),
-                binding.spinnerTypeToiture.getSelectedItem().toString(),
-                binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
-                binding.spinnerTypeIsolant.getSelectedItem().toString(),
-                binding.spinnerNiveauIsolation.getSelectedItem().toString(),
-                Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
-                binding.checkBoxAVerifierToiture.isChecked(),
-                binding.editTextMultilineNoteToiture.getText().toString(),
+        Menuiserie menuiserie = new Menuiserie(
+                binding.editTextNomMenuiserie.getText().toString(),
+                binding.spinnerTypeMenuiserie.getSelectedItem().toString(),
+                binding.spinnerMatRiau.getSelectedItem().toString(),
+                binding.spinnerProtectionsSolaires.getSelectedItem().toString(),
+                binding.spinnerTypeVitrage.getSelectedItem().toString(),
+                binding.checkBoxAVerifierMenuiserie.isChecked(),
+                binding.editTextMultilineNoteMenuiserie.getText().toString(),
                 uriImages
         );
-        return toiture;
+        return menuiserie;
     }
 
     private void addDataToView(ZoneElement zoneElement){
-        Toiture toiture = (Toiture) zoneElement;
-        binding.editTextNomToiture.setText(toiture.getNom());
-        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(toiture.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeToiture, toiture.typeToiture);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, toiture.typeMiseEnOeuvre);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, toiture.typeIsolant);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, toiture.niveauIsolation);
-        binding.checkBoxAVerifierToiture.setChecked(toiture.aVerifier);
-        binding.editTextMultilineNoteToiture.setText(toiture.note);
-
-        for (Uri uri : toiture.uriImages) {
+        Menuiserie menuiserie = (Menuiserie) zoneElement;
+        binding.editTextNomMenuiserie.setText(menuiserie.getNom());
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMenuiserie, menuiserie.typeMenuiserie);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMatRiau, menuiserie.materiau);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerProtectionsSolaires, menuiserie.protectionsSolaires);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeVitrage, menuiserie.typeVitrage);
+        binding.checkBoxAVerifierMenuiserie.setChecked(menuiserie.aVerifier);
+        binding.editTextMultilineNoteMenuiserie.setText(menuiserie.note);
+        for (Uri uri : menuiserie.uriImages) {
             addPhotoToView(uri);
         }
     }
-
 }

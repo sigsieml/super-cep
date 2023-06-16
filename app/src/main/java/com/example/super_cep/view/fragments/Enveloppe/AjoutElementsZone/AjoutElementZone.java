@@ -16,12 +16,14 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
+import com.example.super_cep.model.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
@@ -82,6 +84,13 @@ public class AjoutElementZone extends Fragment {
             @Override
             public void onClick(View v) {
                 OuvrirFragmentAjout(FragmentToitureOuFauxPlafond.newInstance(nomZone));
+            }
+        });
+
+        binding.layoutMenuiserie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OuvrirFragmentAjout(FragmentMenuiserie.newInstance(nomZone));
             }
         });
 
@@ -146,6 +155,9 @@ public class AjoutElementZone extends Fragment {
         }
         if(zoneElement instanceof Toiture){
             return FragmentToitureOuFauxPlafond.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+        }
+        if(zoneElement instanceof Menuiserie){
+            return FragmentMenuiserie.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 

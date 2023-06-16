@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.Enveloppe.ZoneElements.FragmentMur">
+    tools:context=".view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayoutAjoutMur"
+            android:id="@+id/linearLayoutAjoutMenuiserie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -21,14 +21,14 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textViewTitleMur"
+                    android:id="@+id/textViewTitleMenuiserie"
                     android:layout_width="395dp"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:autoSizeTextType="uniform"
-                    android:text="Ajouter un mur"
+                    android:text="Ajouter une menuiserie"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -40,19 +40,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Nom du mur"
+                    android:text="Nom de la menuiserie "
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewTitleMur" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTitleMenuiserie" />
 
                 <EditText
-                    android:id="@+id/editTextNomMur"
+                    android:id="@+id/editTextNomMenuiserie"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:hint="Entrez le nom du mur"
+                    android:hint="Entrez le nom de la menuiserie"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,12 +63,12 @@
                     android:layout_width="0dp"
                     android:layout_height="135dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNomMur">
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNomMenuiserie">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutImageViewsZoneElement"
@@ -123,14 +123,14 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
-                            android:text="Type de mur"
+                            android:text="Type :"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.045"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Spinner
-                            android:id="@+id/spinnerTypeMur"
+                            android:id="@+id/spinnerTypeMenuiserie"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -154,12 +154,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="Type de mise en oeuvre"
+                            android:text="Matériau"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Spinner
-                            android:id="@+id/spinnerTypeDeMiseEnOeuvre"
+                            android:id="@+id/spinnerMatériau"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -170,80 +170,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView28"
                             app:layout_constraintVertical_bias="0.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/textView29"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Type d'isolant"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <Spinner
-                            android:id="@+id/spinnerTypeIsolant"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView29"
-                            app:layout_constraintVertical_bias="0.0" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/textView30"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Epaisseur de l'isolant"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/editTextNumberEpaisseurIsolant"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:ems="10"
-                            android:inputType="numberSigned"
-                            android:text="10"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/textView31"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView30" />
-
-                        <TextView
-                            android:id="@+id/textView31"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:text="cm"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
 
@@ -259,12 +185,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Niveau d'isolation"
+                    android:text="Protections solaires"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
-                    android:id="@+id/spinnerNiveauIsolation"
+                    android:id="@+id/spinnerProtectionsSolaires"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -275,14 +201,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
                 <CheckBox
-                    android:id="@+id/checkBoxAVerifierMur"
+                    android:id="@+id/checkBoxAVerifierMenuiserie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="16dp"
                     android:text="À Vérifier"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerNiveauIsolation" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeVitrage" />
 
                 <TextView
                     android:id="@+id/textView33"
@@ -292,10 +218,10 @@
                     android:layout_marginTop="12dp"
                     android:text="Note"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkBoxAVerifierMur" />
+                    app:layout_constraintTop_toBottomOf="@+id/checkBoxAVerifierMenuiserie" />
 
                 <EditText
-                    android:id="@+id/editTextMultilineNoteMur"
+                    android:id="@+id/editTextMultilineNoteMenuiserie"
                     android:layout_width="0dp"
                     android:layout_height="86dp"
                     android:layout_marginStart="16dp"
@@ -309,6 +235,27 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:text="Type de vitrage :"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerProtectionsSolaires" />
+
+                <Spinner
+                    android:id="@+id/spinnerTypeVitrage"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

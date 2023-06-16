@@ -40,13 +40,6 @@ import java.util.List;
 
 public class FragmentMur extends Fragment {
 
-    private enum Mode{
-        Ajout,
-        Edition,
-        Consultation
-    }
-
-
     private static final String NOM_ZONE = "param1";
 
     private static final String NOM_ELEMENT = "param2";
