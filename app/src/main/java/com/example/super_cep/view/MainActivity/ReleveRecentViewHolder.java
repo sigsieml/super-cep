@@ -33,7 +33,8 @@ public class ReleveRecentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setFileName(String relevePath) {
-        viewholderReleveFileBinding.textViewReleveFile.setText(relevePath);
+
+        viewholderReleveFileBinding.textViewReleveFile.setText(relevePath.replace(".json", ""));
         viewholderReleveFileBinding.textViewReleveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

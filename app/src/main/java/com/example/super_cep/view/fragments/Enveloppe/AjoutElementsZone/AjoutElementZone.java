@@ -16,15 +16,19 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
+import com.example.super_cep.model.Enveloppe.Eclairage;
 import com.example.super_cep.model.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Sol;
 import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class AjoutElementZone extends Fragment {
@@ -94,6 +98,19 @@ public class AjoutElementZone extends Fragment {
             }
         });
 
+        binding.layoutSols.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OuvrirFragmentAjout(FragmentSol.newInstance(nomZone));
+            }
+        });
+
+        binding.layoutEclairage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OuvrirFragmentAjout(FragmentEclairage.newInstance(nomZone));
+            }
+        });
 
         return binding.getRoot();
     }
@@ -158,6 +175,12 @@ public class AjoutElementZone extends Fragment {
         }
         if(zoneElement instanceof Menuiserie){
             return FragmentMenuiserie.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+        }
+        if(zoneElement instanceof Sol){
+            return FragmentSol.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+        }
+        if(zoneElement instanceof Eclairage){
+            return FragmentEclairage.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 

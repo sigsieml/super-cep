@@ -17,16 +17,20 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
+import com.example.super_cep.model.Enveloppe.Eclairage;
 import com.example.super_cep.model.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Sol;
 import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
+import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
@@ -134,6 +138,12 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         }
         if(zoneElement instanceof Menuiserie){
             return FragmentMenuiserie.newInstance(zone.nom,   zoneElement.getNom());
+        }
+        if(zoneElement instanceof Sol){
+            return FragmentSol.newInstance(zone.nom,   zoneElement.getNom());
+        }
+        if(zoneElement instanceof Eclairage){
+            return FragmentEclairage.newInstance(zone.nom,   zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 

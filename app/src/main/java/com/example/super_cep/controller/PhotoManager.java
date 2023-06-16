@@ -62,6 +62,9 @@ public class PhotoManager {
             mediaScanIntent.setData(contentUri);
             context.sendBroadcast(mediaScanIntent);
 
+            // ajout de la photo dans la galerie
+            MediaScannerConnection.scanFile(context, new String[]{photoFile.getAbsolutePath()}, null, null);
+
             // Afficher un message de succès
             Toast.makeText(context, "La photo a été sauvegardée avec succès dans le dossier de photos", Toast.LENGTH_SHORT).show();
             return contentUri;
