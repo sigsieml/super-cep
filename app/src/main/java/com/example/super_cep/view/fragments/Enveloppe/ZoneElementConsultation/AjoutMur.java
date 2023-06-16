@@ -276,9 +276,7 @@ public class AjoutMur extends Fragment {
                     if (selectedPhotoUri.getScheme().equals("content")) {
                         contentUri = selectedPhotoUri;
                     } else if (selectedPhotoUri.getScheme().equals("file")) {
-                        String fileName = selectedPhotoUri.getLastPathSegment();
-                        File photoFile = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
-                        contentUri = FileProvider.getUriForFile(getContext(), "com.example.super_cep.fileprovider", photoFile);
+                        contentUri = photoManager.getFileProviderUri(selectedPhotoUri);
                     }
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(contentUri, "image/*");

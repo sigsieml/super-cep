@@ -29,7 +29,11 @@ public class PhotoManager {
         this.context = context;
     }
 
-
+    public Uri getFileProviderUri(Uri uri){
+        String fileName = uri.getLastPathSegment();
+        File photoFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
+        return FileProvider.getUriForFile(context, "com.example.super_cep.fileprovider", photoFile);
+    }
 
     public Uri savePhotoToStorage(Bitmap photoBitmap) {
         // Vérifier si le dossier de photos existe, sinon le créer
