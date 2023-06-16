@@ -1,4 +1,4 @@
-package com.example.super_cep.view;
+package com.example.super_cep.controller;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;

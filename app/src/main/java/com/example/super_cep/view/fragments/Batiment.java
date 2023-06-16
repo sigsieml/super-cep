@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import com.example.super_cep.databinding.FragmentBatimentBinding;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.view.ReleveViewModel;
+import com.example.super_cep.controller.ReleveViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

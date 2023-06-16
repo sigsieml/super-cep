@@ -14,16 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.view.ReleveViewModel;
+import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation.AjoutMur;
-import com.google.android.material.snackbar.Snackbar;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
 
@@ -43,9 +43,9 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         releve = releveViewModel.getReleve();
         binding = FragmentEnveloppeBinding.inflate(inflater, container, false);
         setupFab();
-        setupRecyclerView(releve.getValue().getZones());
+        setupRecyclerView(releve.getValue().getZonesValues());
         releve.observe(getViewLifecycleOwner(), releve -> {
-            zones = releve.getZones();
+            zones = releve.getZonesValues();
             updateRecyclerView(zones);
         });
         return binding.getRoot();
@@ -127,6 +127,10 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
 
     public void nouvelleZone(String toString) {
-        releveViewModel.addZone(new Zone(toString));
+        try {
+            releveViewModel.addZone(new Zone(toString));
+        }catch (IllegalArgumentException e){
+            Toast.makeText(getContext(), "une zone avec le même nom existe déjà", Toast.LENGTH_SHORT).show();
+        }
     }
 }

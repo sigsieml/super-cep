@@ -1,8 +1,10 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +18,9 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -32,9 +36,9 @@ import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.view.ReleveViewModel;
-import com.example.super_cep.view.SpinnerDataViewModel;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.controller.SpinnerDataViewModel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -105,7 +109,7 @@ public class AjoutMur extends Fragment {
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
-    private ActivityResultLauncher<String> launcherGetPhoto;
+    private ActivityResultLauncher<Intent>  launcherGetPhoto;
     private ActivityResultLauncher<Intent> launcherCapturePhoto;
 
     List<Uri> uriImages = new ArrayList<>();
@@ -124,22 +128,19 @@ public class AjoutMur extends Fragment {
             addFooterAjout();
         }
 
-
-
         try {
             if(mode == Mode.Consultation){
-                Mur mur =(Mur) releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement);
-                setMondeConsultation(mur);
-                addDataToView(mur);
+                ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement);
+                setMondeConsultation(zoneElement);
+                addDataToView(zoneElement);
             }
             if(mode == Mode.Edition){
-                Mur mur =(Mur) releveViewModel.getReleve().getValue().getZone(nomAncienneZone).getZoneElement(nomElement);
-                addDataToView(mur);
+                ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomAncienneZone).getZoneElement(nomElement);
+                addDataToView(zoneElement);
             }
         }catch (Exception e){
-            Log.e("AjoutMur", "onCreateView: ", e);
+            Log.e("AjoutZoneElement", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
-            getParentFragmentManager().popBackStack();
             getParentFragmentManager().popBackStack();
         }
 
@@ -159,15 +160,15 @@ public class AjoutMur extends Fragment {
         viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMurToReleve();
+                addZoneElementToReleve();
             }
         });
 
         binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
     }
 
-    private void setMondeConsultation(Mur mur) {
-        binding.textViewTitleMur.setText(mur.getNom());
+    private void setMondeConsultation(ZoneElement zoneElement) {
+        binding.textViewTitleMur.setText(zoneElement.getNom());
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +180,7 @@ public class AjoutMur extends Fragment {
         viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editMur();
+                editZoneElement();
             }
         });
 
@@ -194,20 +195,7 @@ public class AjoutMur extends Fragment {
         binding.linearLayoutAjoutMur.addView(viewFooter.getRoot());
     }
 
-    private void addDataToView(Mur mur) {
-        binding.editTextNomMur.setText(mur.getNom());
-        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMur, mur.typeMur);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, mur.typeMiseEnOeuvre);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, mur.typeIsolant);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, mur.niveauIsolation);
-        binding.checkBoxAVerifierMur.setChecked(mur.aVerifier);
-        binding.editTextMultilineNoteMur.setText(mur.note);
 
-        for (Uri uri : mur.uriImages) {
-            addPhotoToView(uri);
-        }
-    }
 
     private void setupButtons() {
         binding.buttonAjouterImage.setOnClickListener(new View.OnClickListener() {
@@ -221,13 +209,15 @@ public class AjoutMur extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:// Lancer l'activité de sélection de photo
-                                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), binding.buttonAjouterImage, "AjoutMur");
-                                launcherGetPhoto.launch("image/*");
+                                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                intent.setType("image/*");
+                                launcherGetPhoto.launch(intent);
                                 break;
                             case 1:
                                 // Lancer l'activité de capture d'image
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent);
+                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                launcherCapturePhoto.launch(intent2);
                                 break;
                         }
                     }
@@ -235,6 +225,117 @@ public class AjoutMur extends Fragment {
                 builder.show();
             }
         });
+    }
+
+
+
+    private void setupPhotoLaunchers() {
+
+        launcherGetPhoto = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                        // Faites ce que vous devez faire avec l'URI ici
+                        addPhotoToView(uri);
+
+                    }
+                });
+
+
+        launcherCapturePhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
+                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
+                addPhotoToView(photo);
+            }
+        });
+    }
+
+    private void addPhotoToView(Uri selectedPhotoUri) {
+        try {
+            uriImages.add(selectedPhotoUri);
+
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
+            int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthInDp, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(layoutParams);
+            binding.linearLayoutImageViewsZoneElement.addView(view, 0);
+            ViewImageZoneElementBinding viewImageZoneElementBinding = ViewImageZoneElementBinding.bind(view);
+            viewImageZoneElementBinding.imageViewZoneElement.setImageURI(selectedPhotoUri);
+            viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Obtenez l'URI de FileProvider
+                    Uri contentUri = null;
+                    if (selectedPhotoUri.getScheme().equals("content")) {
+                        contentUri = selectedPhotoUri;
+                    } else if (selectedPhotoUri.getScheme().equals("file")) {
+                        String fileName = selectedPhotoUri.getLastPathSegment();
+                        File photoFile = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
+                        contentUri = FileProvider.getUriForFile(getContext(), "com.example.super_cep.fileprovider", photoFile);
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(contentUri, "image/*");
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    startActivity(intent);
+                }
+            });
+
+            viewImageZoneElementBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // show a dialog to confirm the deletion
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Supprimer l'image ?");
+                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            binding.linearLayoutImageViewsZoneElement.removeView(view);
+                            uriImages.remove(selectedPhotoUri);
+                        }
+                    });
+                    builder.setNegativeButton("Non", null);
+                    builder.show();
+                    return true;
+                }
+            });
+
+        }catch (Exception e){
+            Log.e("AjoutZoneElement", "addPhotoToView: ", e);
+            Toast.makeText(getContext(), "Erreur avec les images elles sont donc supprimer", Toast.LENGTH_SHORT).show();
+            uriImages.remove(selectedPhotoUri);
+            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).uriImages = uriImages;
+            releveViewModel.forceUpdateReleve();
+        }
+
+    }
+
+    private void addZoneElementToReleve() {
+        try {
+            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
+            releveViewModel.forceUpdateReleve();
+            getParentFragmentManager().popBackStack();
+            getParentFragmentManager().popBackStack();
+
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Impossible d'ajouter l'élément", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void editZoneElement(){
+        try {
+            releveViewModel.editZoneElement(nomElement, nomZone, getZoneElementFromViews());
+            getParentFragmentManager().popBackStack();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void updateSpinner() {
@@ -245,94 +346,8 @@ public class AjoutMur extends Fragment {
         spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
     }
 
-    private void setupPhotoLaunchers() {
-        launcherGetPhoto = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                Uri selectedPhotoUri = result;
-                Log.i("AjoutMur", "URI de la photo sélectionnée : " + selectedPhotoUri);
-                addPhotoToView(selectedPhotoUri);
-            }
-        });
 
-        launcherCapturePhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
-                Log.i("AjoutMur", "Bitmap de la photo prise : " + photoBitmap);
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                addPhotoToView(photo);
-            }
-        });
-    }
-
-    private void addPhotoToView(Uri selectedPhotoUri) {
-        uriImages.add(selectedPhotoUri);
-
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
-        int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthInDp, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(layoutParams);
-        binding.linearLayoutImageViewsZoneElement.addView(view, 0);
-        ViewImageZoneElementBinding viewImageZoneElementBinding = ViewImageZoneElementBinding.bind(view);
-        viewImageZoneElementBinding.imageViewZoneElement.setImageURI(selectedPhotoUri);
-        viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //get
-                File file = new File(selectedPhotoUri.getPath());
-                Uri fileUri = FileProvider.getUriForFile(getContext(), "com.example.super_cep.fileprovider", file);
-
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(fileUri, "image/*");
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(intent);
-            }
-        });
-
-
-        viewImageZoneElementBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // show a dialog to confirm the deletion
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Supprimer l'image ?");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        binding.linearLayoutImageViewsZoneElement.removeView(view);
-                        uriImages.remove(selectedPhotoUri);
-                    }
-                });
-                builder.setNegativeButton("Non", null);
-                builder.show();
-                return true;
-            }
-        });
-    }
-
-    private void addMurToReleve() {
-        try {
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getMurFromViews());
-            releveViewModel.forceUpdateReleve();
-            getParentFragmentManager().popBackStack();
-            getParentFragmentManager().popBackStack();
-
-        }catch (Exception e){
-            Snackbar.make(binding.getRoot(), "impossible d'ajouter le mur " + e.getMessage(), Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private void editMur(){
-        try {
-            releveViewModel.editZoneElement(nomElement, nomZone, getMurFromViews());
-            getParentFragmentManager().popBackStack();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private Mur getMurFromViews() {
+    private ZoneElement getZoneElementFromViews() {
         Mur mur = new Mur(
                 binding.editTextNomMur.getText().toString(),
                 binding.spinnerTypeMur.getSelectedItem().toString(),
@@ -345,6 +360,22 @@ public class AjoutMur extends Fragment {
                 uriImages
         );
         return mur;
+    }
+
+    private void addDataToView(ZoneElement zoneElement){
+        Mur mur = (Mur) zoneElement;
+        binding.editTextNomMur.setText(mur.getNom());
+        binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMur, mur.typeMur);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, mur.typeMiseEnOeuvre);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, mur.typeIsolant);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, mur.niveauIsolation);
+        binding.checkBoxAVerifierMur.setChecked(mur.aVerifier);
+        binding.editTextMultilineNoteMur.setText(mur.note);
+
+        for (Uri uri : mur.uriImages) {
+            addPhotoToView(uri);
+        }
     }
 
 

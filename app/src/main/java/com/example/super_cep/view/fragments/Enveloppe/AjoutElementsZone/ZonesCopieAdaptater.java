@@ -1,10 +1,6 @@
 package com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +8,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
@@ -23,12 +17,9 @@ import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElementView;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElementViewClickHandler;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneUiHandler;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneViewHolder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 interface ElementZoneCopieHandler {
     void onClick(Zone zone, ZoneElement zoneElement);
@@ -67,8 +58,8 @@ public class ZonesCopieAdaptater extends RecyclerView.Adapter<ZoneViewHolder> im
         tableLayout.removeAllViews();
         TableRow tableRow = new TableRow(context);
         tableLayout.addView(tableRow);
-        ZoneElement[] zoneElements = zone.getZoneElements();
-        for (ZoneElement zoneElement : zone.getZoneElements()) {
+        ZoneElement[] zoneElements = zone.getZoneElementsValues();
+        for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
             ZoneElementView zoneElementView = new ZoneElementView(tableRow, zoneElement, new ZoneElementViewClickHandler() {
                 @Override
                 public void onClick(View v) {
@@ -135,7 +126,7 @@ public class ZonesCopieAdaptater extends RecyclerView.Adapter<ZoneViewHolder> im
                 zoneToFilter = list[i];
                 nlist[i] = new Zone(zoneToFilter.nom, new ArrayList<>());
                 for (ZoneElement zoneElement :
-                        zoneToFilter.getZoneElements()) {
+                        zoneToFilter.getZoneElementsValues()) {
                     String[] zoneElementWord = zoneElement.getNom().split(" ");
                     for (String s :
                             zoneElementWord) {

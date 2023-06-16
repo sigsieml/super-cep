@@ -1,19 +1,10 @@
 package com.example.super_cep.model;
 
-import com.example.super_cep.model.Enveloppe.Eclairage;
-import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.model.Enveloppe.Sol;
-import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Releve {
@@ -33,10 +24,18 @@ public class Releve {
     }
 
     public void addZone(Zone zone){
+        if(zones.containsKey(zone.nom))
+            throw new IllegalArgumentException("La zone existe déjà");
         zones.put(zone.nom, zone);
     }
 
-    public Zone[] getZones() {
+
+    public Map<String, Zone> getZones(){
+        return zones;
+    }
+
+    @JsonIgnore
+    public Zone[] getZonesValues() {
         return zones.values().toArray(new Zone[0]);
     }
 
@@ -51,5 +50,16 @@ public class Releve {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Releve{" +
+                "zones=" + zones +
+                ", nomBatiment='" + nomBatiment + '\'' +
+                ", dateDeConstruction=" + dateDeConstruction +
+                ", dateDeDerniereRenovation=" + dateDeDerniereRenovation +
+                ", surfaceTotaleChauffe=" + surfaceTotaleChauffe +
+                ", description='" + description + '\'' +
+                ", adresse='" + adresse + '\'' +
+                '}';
+    }
 }

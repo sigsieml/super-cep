@@ -1,12 +1,17 @@
 package com.example.super_cep.model.Enveloppe;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Sol extends ZoneElement{
-    public Sol(String nom) {
+
+    @JsonCreator
+    public Sol(@JsonProperty("nom") String nom) {
         super(nom);
     }
 
     @Override
-    public String getImage() {
+    public String logo() {
         return "sol";
     }
 }

@@ -114,8 +114,8 @@ public class PowerpointExporter {
 
     private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide) {
         if(context == null) return;
-        for (Zone zone : releve.getZones()){
-            for (ZoneElement zoneElement : zone.getZoneElements()){
+        for (Zone zone : releve.getZonesValues()){
+            for (ZoneElement zoneElement : zone.getZoneElementsValues()){
                 if(zoneElement instanceof Mur){
                     Mur mur = (Mur) zoneElement;
                     for (Uri uri : mur.uriImages){

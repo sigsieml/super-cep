@@ -3,28 +3,27 @@ package com.example.super_cep.view.fragments.ExportData;
 import static com.example.super_cep.model.Export.PowerpointExporter.POWERPOINT_VIERGE_NAME;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentExportdataBinding;
+import com.example.super_cep.model.Export.JsonExporter;
 import com.example.super_cep.model.Export.PowerpointExporter;
-import com.example.super_cep.view.ReleveViewModel;
+import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.model.Releve;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,6 +51,23 @@ public class Exportdata extends Fragment {
             @Override
             public void onClick(View v) {
                 createFile();
+            }
+        });
+
+        binding.buttonSauvegarder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //save releve as json to application file
+                Releve releve = releveViewModel.getReleve().getValue();
+                String releveJson = JsonExporter.serialize(releve);
+
+                try (FileOutputStream fos = v.getContext().openFileOutput(releve.nomBatiment + ".json", Context.MODE_PRIVATE)) {
+                    fos.write(releveJson.getBytes());
+                    Toast.makeText(v.getContext(), "Relevé sauvegardé", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         return binding.getRoot();

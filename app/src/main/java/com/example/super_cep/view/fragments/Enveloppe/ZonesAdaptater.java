@@ -12,22 +12,17 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.databinding.ViewZoneBinding;
-import com.example.super_cep.databinding.ViewZoneElementBinding;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.ZonesCopieAdaptater;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> implements Filterable {
 
@@ -68,8 +63,8 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
         tableLayout.removeAllViews();
         TableRow tableRow = new TableRow(context);
         tableLayout.addView(tableRow);
-        ZoneElement[] zoneElements = zone.getZoneElements();
-        for (ZoneElement zoneElement : zone.getZoneElements()) {
+        ZoneElement[] zoneElements = zone.getZoneElementsValues();
+        for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
             ZoneElementView zoneElementView = new ZoneElementView(tableRow,  zoneElement, new ZoneElementViewClickHandler() {
                 @Override
                 public void onClick(View v) { zoneUiHandler.voirZoneElement(zone, zoneElement);}
@@ -221,7 +216,7 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
                 zoneToFilter = list[i];
                 nlist[i] = new Zone(zoneToFilter.nom, new ArrayList<>());
                 for (ZoneElement zoneElement :
-                        zoneToFilter.getZoneElements()) {
+                        zoneToFilter.getZoneElementsValues()) {
                     String[] zoneElementWord = zoneElement.getNom().split(" ");
                     for (String s :
                             zoneElementWord) {

@@ -1,10 +1,15 @@
 package com.example.super_cep.view;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.example.super_cep.R;
+import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.ActivityReleveBinding;
 import com.example.super_cep.model.Enveloppe.Eclairage;
 import com.example.super_cep.model.Enveloppe.Menuiserie;
@@ -12,12 +17,11 @@ import com.example.super_cep.model.Enveloppe.Sol;
 import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Export.JsonExporter;
 import com.example.super_cep.model.Releve;
 import com.example.super_cep.model.SpinnerDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -27,6 +31,10 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +47,7 @@ public class ReleveActivity extends AppCompatActivity {
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +59,6 @@ public class ReleveActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarReleve.toolbar);
         setupNavBar();
-
-
-
-
-
     }
 
     private void askForPermissions() {
@@ -71,33 +75,28 @@ public class ReleveActivity extends AppCompatActivity {
         spinnerDataViewModel.setSpinnerData(spinnerDataProvider.getSpinnersData());
     }
 
+
     private void setupReleve() {
-        releve = new Releve();
+        //get relevepath from intent
+        String relevePath = getIntent().getStringExtra("relevePath");
+        if(relevePath != null){
+            File releveFile = new File(getFilesDir(), relevePath);
+            try {
+                byte[] bytes = Files.readAllBytes(releveFile.toPath());
+                String json = new String(bytes);
+                releve =  JsonExporter.deserialize(json);
+                if(releve == null)
+                    throw new Exception("Impossible de récupérer le relevé");
+            } catch (Exception e) {
+                Log.e("ReleveActivity", "setupReleve: ", e);
+                Toast.makeText(this, "Erreur lors de la lecture du fichier", Toast.LENGTH_SHORT).show();
+                releve = new Releve();
+            }
+        }
+        else{
+            releve = new Releve();
+        }
 
-        List<ZoneElement> zoneElements1 = new ArrayList<>();
-        zoneElements1.add(new Toiture("Toiture salon 1"));
-        zoneElements1.add(new Sol("sol salon 1"));
-        zoneElements1.add(new Eclairage("éclairage salon 1"));
-        zoneElements1.add(new Sol("sol salon 1"));
-        zoneElements1.add(new Menuiserie("fenêtre salon 1"));
-
-        releve.addZone(new Zone("salon 1", zoneElements1));
-
-        List<ZoneElement> zoneElements2 = new ArrayList<>();
-        zoneElements2.add(new Toiture("Toiture chaufferie"));
-        zoneElements2.add(new Sol("sol chaufferie"));
-        zoneElements2.add(new Eclairage("éclairage chaufferie"));
-        zoneElements2.add(new Menuiserie("fenêtre chaufferie"));
-        releve.addZone(new Zone("chaufferie", zoneElements2));
-
-        List<ZoneElement> zoneElements3 = new ArrayList<>();
-        zoneElements3.add(new Toiture("Toiture cuisine"));
-        zoneElements3.add(new Sol("sol cuisine"));
-        zoneElements3.add(new Menuiserie("fenêtre cuisine"));
-        zoneElements3.add(new Eclairage("éclairage cuisine"));
-        zoneElements3.add(new Eclairage("éclairage cuisine"));
-        zoneElements3.add(new Eclairage("éclairage cuisine"));
-        releve.addZone(new Zone("cuisine", zoneElements3));
 
         releveViewModel = new ViewModelProvider(this).get(ReleveViewModel.class);
         releveViewModel.setReleve(releve);
@@ -133,8 +132,5 @@ public class ReleveActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
-
 
 }

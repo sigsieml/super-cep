@@ -22,8 +22,8 @@ public class ImageFromZoneElement {
     }
 
     public int getImage(ZoneElement zoneElement){
-        if(images.containsKey(zoneElement.getImage())){
-            return images.get(zoneElement.getImage());
+        if(images.containsKey(zoneElement.logo())){
+            return images.get(zoneElement.logo());
         }else{
             return DEFAULT_IMAGE;
         }

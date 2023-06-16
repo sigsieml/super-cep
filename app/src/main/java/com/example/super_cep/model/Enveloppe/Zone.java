@@ -2,6 +2,10 @@ package com.example.super_cep.model.Enveloppe;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +16,8 @@ public class Zone {
     public String nom;
     private Map<String, ZoneElement> zoneElements;
 
-    public Zone(String nom){
+    @JsonCreator
+    public Zone(@JsonProperty("nom") String nom){
         this(nom, new ArrayList<>());
     }
 
@@ -25,7 +30,12 @@ public class Zone {
         }
     }
 
-    public ZoneElement[] getZoneElements(){
+    public Map<String, ZoneElement> getZoneElements(){
+        return zoneElements;
+    }
+
+    @JsonIgnore
+    public ZoneElement[] getZoneElementsValues(){
         return zoneElements.values().toArray(new ZoneElement[0]);
     }
 
@@ -50,6 +60,8 @@ public class Zone {
     @Override
     public String toString() {
         return "Zone{" +
-                "nom='" + nom + '\'' +'}';
+                "nom='" + nom + '\'' +
+                ", zoneElements=" + zoneElements +
+                '}';
     }
 }

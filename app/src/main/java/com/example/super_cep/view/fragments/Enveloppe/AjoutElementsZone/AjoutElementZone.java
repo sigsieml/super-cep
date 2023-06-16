@@ -14,16 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.view.ReleveViewModel;
+import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElementConsultation.AjoutMur;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElementView;
 
 public class AjoutElementZone extends Fragment {
 
@@ -57,9 +55,9 @@ public class AjoutElementZone extends Fragment {
         binding.textViewNomZone.setText("nouvel élément dans la zone " + nomZone);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         releve = releveViewModel.getReleve();
-        setupRecyclerView(releve.getValue().getZones());
+        setupRecyclerView(releve.getValue().getZonesValues());
         releve.observe(getViewLifecycleOwner(), releve -> {
-            zones = releve.getZones();
+            zones = releve.getZonesValues();
             updateRecyclerView(zones);
         });
 

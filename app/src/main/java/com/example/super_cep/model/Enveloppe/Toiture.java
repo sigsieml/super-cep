@@ -1,12 +1,17 @@
 package com.example.super_cep.model.Enveloppe;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Toiture extends ZoneElement{
-    public Toiture(String nom) {
+
+    @JsonCreator
+    public Toiture(@JsonProperty("nom") String nom) {
         super(nom);
     }
 
     @Override
-    public String getImage() {
+    public String logo() {
         return "toiture";
     }
 }

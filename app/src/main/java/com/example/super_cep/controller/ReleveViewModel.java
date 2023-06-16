@@ -1,4 +1,4 @@
-package com.example.super_cep.view;
+package com.example.super_cep.controller;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
