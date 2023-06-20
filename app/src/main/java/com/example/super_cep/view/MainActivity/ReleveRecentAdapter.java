@@ -24,6 +24,11 @@ public class ReleveRecentAdapter extends RecyclerView.Adapter<ReleveRecentViewHo
         this.listener = listener;
     }
 
+
+    public void updateReleves(String[] releves) {
+        this.releves = releves;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public ReleveRecentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

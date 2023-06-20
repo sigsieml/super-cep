@@ -22,6 +22,7 @@ import java.nio.file.Files;
 public class MainActivity extends AppCompatActivity implements ReleveRecentViewHolderListener {
 
     private ActivityMainBinding activityMainBinding;
+    private ReleveRecentAdapter releveRecentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +54,14 @@ public class MainActivity extends AppCompatActivity implements ReleveRecentViewH
 
     private void setupRecyclerView() {
         String[] files = fileList();
-        Log.i("MainActivity", "setupRecyclerView: " + files);
-        activityMainBinding.releveRecentRecyclerView.setAdapter(new ReleveRecentAdapter(files, this));
+        releveRecentAdapter = new ReleveRecentAdapter(files, this);
+        activityMainBinding.releveRecentRecyclerView.setAdapter(releveRecentAdapter);
         activityMainBinding.releveRecentRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+    }
+
+    private void updateRecyclerView(){
+        String[] files = fileList();
+        releveRecentAdapter.updateReleves(files);
     }
 
     @Override
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ReleveRecentViewH
             File releveFile = new File(getFilesDir(), relevePath);
             releveFile.delete();
             dialog.dismiss();
+            updateRecyclerView();
         });
         builder.setNegativeButton("Non", (dialog, which) -> {
             dialog.dismiss();
