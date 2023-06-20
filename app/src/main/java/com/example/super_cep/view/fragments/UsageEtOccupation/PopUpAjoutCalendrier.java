@@ -50,12 +50,12 @@ public class PopUpAjoutCalendrier extends View {
         binding.buttonValider.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Zone> zones = new ArrayList<>();
+                List<String> zones = new ArrayList<>();
                 for (View view  : binding.linearLayoutZones.getTouchables()) {
                     if (view instanceof CheckBox) {
                         CheckBox checkBox = (CheckBox) view;
                         if (checkBox.isChecked()) {
-                            zones.add(getZoneByName(checkBox.getText().toString()));
+                            zones.add(checkBox.getText().toString());
                         }
                     }
                 }

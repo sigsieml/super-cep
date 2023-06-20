@@ -57,12 +57,12 @@ public class PopUpModificationCalendrier extends View {
         binding.buttonValider.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Zone> zones = new ArrayList<>();
+                List<String> zones = new ArrayList<>();
                 for (View view  : binding.linearLayoutZones.getTouchables()) {
                     if (view instanceof CheckBox) {
                         CheckBox checkBox = (CheckBox) view;
                         if (checkBox.isChecked()) {
-                            zones.add(getZoneByName(checkBox.getText().toString()));
+                            zones.add(checkBox.getText().toString());
                         }
                     }
                 }
@@ -89,23 +89,24 @@ public class PopUpModificationCalendrier extends View {
     }
 
 
-    public Zone getZoneByName(String name){
-        for (Zone zone : zones) {
-            if (zone.nom.equals(name)) {
-                return zone;
-            }
-        }
-        throw new RuntimeException("Zone not found");
-    }
 
     private void setupZones() {
         for (Zone zone: zones) {
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setText(zone.nom);
-            if (calendrier.zones.contains(zone)) {
+            if (containZone(zone)) {
                 checkBox.setChecked(true);
             }
             binding.linearLayoutZones.addView(checkBox);
         }
+    }
+
+    private boolean containZone(Zone zone) {
+        for (String calendrierZone : calendrier.zones) {
+            if (calendrierZone.equals(zone.nom)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

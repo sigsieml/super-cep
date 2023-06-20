@@ -16,9 +16,9 @@ public class CalendrierAdaptater extends RecyclerView.Adapter<CalendrierViewHold
     private Calendrier[] calendriers;
     private Zone[] zones;
 
-    private PopUpModificationCalendrierListener listener;
+    private CalendrierViewHolderListener listener;
 
-    public CalendrierAdaptater(Calendrier[] calendriersValues, Zone[] zones, PopUpModificationCalendrierListener listener) {
+    public CalendrierAdaptater(Calendrier[] calendriersValues, Zone[] zones, CalendrierViewHolderListener listener){
         this.calendriers = calendriersValues;
         this.zones = zones;
         this.listener = listener;

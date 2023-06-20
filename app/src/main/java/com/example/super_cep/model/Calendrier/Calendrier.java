@@ -12,18 +12,23 @@ import java.util.Map;
 public class Calendrier {
 
     public String nom;
-    public List<Zone> zones;
+    public List<String> zones;
     @JsonDeserialize(keyUsing = CalendrierDateKeyDeserializer.class)
     public Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap;
 
     @JsonCreator
-    public Calendrier(@JsonProperty("nom") String nom,@JsonProperty("zones") List<Zone> zones, @JsonProperty("calendrierDateChaufferOccuperMap") Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap) {
+    public Calendrier(@JsonProperty("nom") String nom,@JsonProperty("zones") List<String> zones, @JsonProperty("calendrierDateChaufferOccuperMap") Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap) {
         this.nom = nom;
         this.zones = zones;
         this.calendrierDateChaufferOccuperMap = calendrierDateChaufferOccuperMap;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Calendrier{" +
+                "nom='" + nom + '\'' +
+                ", zones=" + zones +
+                ", calendrierDateChaufferOccuperMap=" + calendrierDateChaufferOccuperMap +
+                '}';
+    }
 }

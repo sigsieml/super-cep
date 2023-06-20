@@ -4,6 +4,7 @@ import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.ObjectInputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,8 @@ public class Releve {
     private Map<String, Zone> zones;
 
     public Map<String, Calendrier> calendriers;
+    public Map<String, Chauffage> chauffages;
+    public Map<String, Climatisation> climatisations;
 
     public String nomBatiment = "";
     public Calendar dateDeConstruction = Calendar.getInstance();
@@ -26,6 +29,8 @@ public class Releve {
     public Releve(){
         this.zones = new HashMap<>();
         this.calendriers = new HashMap<>();
+        this.chauffages = new HashMap<>();
+        this.climatisations = new HashMap<>();
     }
 
     public void addZone(Zone zone){

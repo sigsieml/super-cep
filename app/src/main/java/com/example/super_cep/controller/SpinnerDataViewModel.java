@@ -31,15 +31,18 @@ public class SpinnerDataViewModel extends ViewModel {
         return spinnerData;
     }
 
-    public void updateSpinnerData(Spinner spinnerTypeMur, String key) {
+    public void updateSpinnerData(Spinner spinner, String key) {
         if(!spinnerData.getValue().containsKey(key)){
-            Snackbar.make(spinnerTypeMur, "Erreur lors de la récupération des données de " + key, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(spinner, "Erreur lors de la récupération des données de " + key, Snackbar.LENGTH_LONG).show();
             return;
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(spinnerTypeMur.getContext(), android.R.layout.simple_spinner_item, spinnerData.getValue().get(key));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTypeMur.setAdapter(adapter);
+        updateSpinnerData(spinner, spinnerData.getValue().get(key));
+    }
 
+    public static void updateSpinnerData(Spinner spinner, List<String> values ){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(spinner.getContext(), android.R.layout.simple_spinner_item, values);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     public void setSpinnerSelection(Spinner spinner, String value){

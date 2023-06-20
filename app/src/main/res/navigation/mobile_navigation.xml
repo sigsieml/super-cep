@@ -23,19 +23,19 @@
     </fragment>
     <fragment
         android:id="@+id/nav_chauffages"
-        android:name="com.example.super_cep.view.fragments.Chauffages"
+        android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffage"
         android:label="Chauffages"
         tools:layout="@layout/fragment_chauffages" >
     </fragment>
     <fragment
         android:id="@+id/nav_climatisation"
-        android:name="com.example.super_cep.view.fragments.Climatisation"
+        android:name="com.example.super_cep.view.fragments.Climatisation.FragmentClimatisation"
         android:label="Climatisation"
         tools:layout="@layout/fragment_climatisation" >
     </fragment>
     <fragment
         android:id="@+id/nav_ventilation"
-        android:name="com.example.super_cep.view.fragments.Ventilation"
+        android:name="com.example.super_cep.view.fragments.Ventilation.FragmentVentilation"
         android:label="Ventilation"
         tools:layout="@layout/fragment_ventilation"></fragment>
     <fragment

@@ -22,6 +22,14 @@ public class SpinnerDataProvider {
         spinnersData.put("typeSol", List.of("Terre plein", "Vide sanitaire", "Cave", "Sous-sol"));
         spinnersData.put("typeEclairage", List.of("LED", "Tube fluorescent", "Fluocompact", "Ampoule basse consommation", "Halogène"));
         spinnersData.put("typeRegulation", List.of("interrupteur", "détection de présence", "relance temporisée"));
+        spinnersData.put("typeChauffageProducteur",  List.of("Chaudière gaz simple", "Chaudière gaz à condensation", "Chaudière fioul simple", "Chaudière fioul à condensation", "Chaudière bois granulés", "Chaudière bois plaquettes", "PAC air/air", "PAC air/eau", "PAC géothermique", "Chaudière électrique"));
+        spinnersData.put("typeChauffageEmetteur",  List.of("Convecteur électrique simple", "Panneau rayonnant électrique", "Radiateur à inertie électrique", "Emetteur à infrarouges", "Plancher chauffant", "Ventilo-convecteur", "Aérotherme", "Radiateur acier avec rob thermo", "Radiateur acier sans rob thermo", "Radiateur fonte avec rob thermo", "Radiateur fonte sans rob thermo"));
+        spinnersData.put("regulationChauffage",  List.of("Thermostat simple sur émetteur", "Thermostat programmable centralisé", "Régulation programmable à distance", "GTC", "Horloge", "Sonde d'ambiance intérieure", "Interrupteur", "T° constante", "Loi d'eau et vanne(s) 3 voies", "Loi d'eau + programmation hebdo confort / réduit / HG", "Sonde d'ambiance + programmation hebdo confort / réduit / HG", "Télécommande"));
+        spinnersData.put("marqueProducteur", List.of( "Acova", "Airelec", "Ariston", "Atlantic", "Chappee", "Daikin", "De Dietrich", "Frisquet", "Froling", "Noirot", "Oertli", "Okofen", "Sauter", "Thermor", "Unical", "Vaillant", "Viessmann", "Weishaupt"));
+        spinnersData.put("marqueEmetteur", List.of("Acova", "Airelec", "Atlantic", "Sauter", "Thermor"));
+        spinnersData.put("typeClimatisation", List.of("Climatisation réversible", "Climatisation non réversible", "PAC air/air", "PAC air/eau", "PAC géothermique"));
+        spinnersData.put("marqueClimatisation", List.of("Daikin", "Mitsubishi", "Hitachi", "Panasonic", "Toshiba", "Fujitsu General", "Technibel", "Samsung", "LG", "Altech"));
+        spinnersData.put("regulationClimatisation", List.of("Régulateur thermostatique", "Régulateur séquentiel", "Capteurs", "Actionneurs", "Régulateur", "Domotique"));
 
     }
 

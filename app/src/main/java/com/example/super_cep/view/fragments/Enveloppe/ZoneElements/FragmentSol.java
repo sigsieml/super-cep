@@ -34,6 +34,7 @@ import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBindin
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.model.Enveloppe.Sol;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.view.Mode;
 
 import java.util.ArrayList;
 import java.util.List;

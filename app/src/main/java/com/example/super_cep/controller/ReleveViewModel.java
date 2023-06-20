@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.super_cep.model.Calendrier.Calendrier;
+import com.example.super_cep.model.Chauffage;
+import com.example.super_cep.model.Climatisation;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
@@ -104,16 +106,62 @@ public class ReleveViewModel extends ViewModel {
 
     public void updateCalendrier(String oldName, Calendrier calendrier) {
         Releve releve = this.releve.getValue();
-        if(!calendrier.nom.equals(oldName) && Arrays.stream(releve.getCalendriersValues()).filter(cldr -> cldr.nom.equals(calendrier.nom)).findAny().isPresent()){
-            throw new IllegalArgumentException("Un calendrier porte déjà ce nom");
+        if(!calendrier.nom.equals(oldName) && releve.calendriers.containsKey(calendrier.nom)){
+            throw new IllegalArgumentException("Un calendrier porte déjà ce nom : " + calendrier.nom);
         }
         releve.calendriers.remove(oldName);
         releve.addCalendrier(calendrier);
         forceUpdateReleve();
     }
 
+
     public void supprimerCalendrier(String nomCalendrier) {
         releve.getValue().calendriers.remove(nomCalendrier);
+        forceUpdateReleve();
+    }
+
+    public void removeChauffage(String nomChauffage) {
+        releve.getValue().chauffages.remove(nomChauffage);
+        forceUpdateReleve();
+    }
+
+    public void addChauffage(Chauffage chauffage) {
+        if(releve.getValue().chauffages.containsKey(chauffage.nom)){
+            throw new IllegalArgumentException("Un chauffage porte déjà ce nom : " + chauffage.nom);
+        }
+        releve.getValue().chauffages.put(chauffage.nom, chauffage);
+        forceUpdateReleve();
+    }
+
+    public void editChauffage(String oldName, Chauffage chauffage) {
+
+        if(!chauffage.nom.equals(oldName) && releve.getValue().chauffages.containsKey(chauffage.nom)){
+            throw new IllegalArgumentException("Un calendrier porte déjà ce nom : " + chauffage.nom);
+        }
+        releve.getValue().chauffages.remove(oldName);
+        releve.getValue().chauffages.put(chauffage.nom, chauffage);
+        forceUpdateReleve();
+    }
+
+    public void removeClimatisation(String nomClimatisation) {
+        releve.getValue().climatisations.remove(nomClimatisation);
+        forceUpdateReleve();
+    }
+
+    public void addClimatisation(Climatisation climatisationFromViews) {
+        if(releve.getValue().climatisations.containsKey(climatisationFromViews.nom)){
+            throw new IllegalArgumentException("Une climatisation porte déjà ce nom : " + climatisationFromViews.nom);
+        }
+        releve.getValue().climatisations.put(climatisationFromViews.nom, climatisationFromViews);
+        forceUpdateReleve();
+    }
+
+    public void editClimatisation(String oldName, Climatisation climatisation) {
+        if(!climatisation.nom.equals(oldName) && releve.getValue().climatisations.containsKey(climatisation.nom)){
+            throw new IllegalArgumentException("Un calendrier porte déjà ce nom : " + climatisation.nom);
+        }
+        releve.getValue().climatisations.remove(oldName);
+        releve.getValue().climatisations.put(climatisation.nom, climatisation);
         forceUpdateReleve();
     }
 }
