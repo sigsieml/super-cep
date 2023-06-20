@@ -58,47 +58,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView"
+                <include
+                    android:id="@+id/includeViewPhoto"
+                    layout="@layout/view_photo"
                     android:layout_width="0dp"
-                    android:layout_height="135dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="200dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNomClimatisation">
-
-                    <LinearLayout
-                        android:id="@+id/linearLayoutImageViewsZoneElement"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <Button
-                                android:id="@+id/buttonAjouterImage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:layout_marginBottom="8dp"
-                                android:text="Ajouter une image"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.5" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
-                </HorizontalScrollView>
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNomClimatisation" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -272,7 +240,7 @@
                     android:layout_marginTop="12dp"
                     android:text="À Vérifier"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ScroolViewZones" />
+                    app:layout_constraintTop_toBottomOf="@+id/includeZoneSelection" />
 
                 <TextView
                     android:id="@+id/textView33"
@@ -325,24 +293,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
-                <ScrollView
-                    android:id="@+id/ScroolViewZones"
+                <include
+                    android:id="@+id/includeZoneSelection"
+                    layout="@layout/view_zones_selection"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/border_black"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView34">
+                    app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayoutZones"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" />
-                </ScrollView>
 
                 <TextView
                     android:id="@+id/textView34"

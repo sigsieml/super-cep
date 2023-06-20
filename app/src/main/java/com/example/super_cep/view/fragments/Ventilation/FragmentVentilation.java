@@ -15,9 +15,10 @@ import android.view.ViewGroup;
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentVentilationBinding;
-import com.example.super_cep.model.Climatisation;
+import com.example.super_cep.model.Ventilation;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.view.fragments.Climatisation.ClimatisationAdapter;
+import com.example.super_cep.model.Ventilation;
+import com.example.super_cep.view.fragments.Ventilation.VentilationAdapter;
 
 public class FragmentVentilation extends Fragment {
 
@@ -36,7 +37,7 @@ public class FragmentVentilation extends Fragment {
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         Releve releve = releveViewModel.getReleve().getValue();
 
-        setupRecyclerView(releve.climatisations.values().toArray(new Climatisation[0]));
+        setupRecyclerView(releve.ventilations.values().toArray(new Ventilation[0]));
 
         binding.floatingActionButton2.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
@@ -51,23 +52,24 @@ public class FragmentVentilation extends Fragment {
     }
 
 
-    private void setupRecyclerView(Climatisation[] climatisation) {
-        ClimatisationAdapter adapter = new ClimatisationAdapter(climatisation, new ClimatisationViewHolderListener() {
+    private void setupRecyclerView(Ventilation[] ventilation) {
+        VentilationAdapter adapter = new VentilationAdapter(ventilation, new VentilationViewHolderListener() {
+
             @Override
-            public void onClick(Climatisation climatisation) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = FragmentVentilationAjout.newInstance(climatisation.nom);
-                fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.commit();
+            public void onClick(Ventilation ventilation) {
+                    FragmentManager fragmentManager = getParentFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    Fragment fragment = FragmentVentilationAjout.newInstance(ventilation.nom);
+                    fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.setReorderingAllowed(true);
+                    fragmentTransaction.commit();
             }
         });
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {
-            adapter.update(releve.climatisations.values().toArray(new Climatisation[0]));
+            adapter.update(releve.ventilations.values().toArray(new Ventilation[0]));
         });
-        binding.recyclerViewClimatisation.setAdapter(adapter);
-        binding.recyclerViewClimatisation.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewVentilation.setAdapter(adapter);
+        binding.recyclerViewVentilation.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 }

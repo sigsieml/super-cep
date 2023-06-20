@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel;
 import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Chauffage;
 import com.example.super_cep.model.Climatisation;
+import com.example.super_cep.model.ECS;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Ventilation;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,8 +39,21 @@ public class ReleveViewModel extends ViewModel {
     }
 
     public void deleteZone(Zone zone) {
-        releve.getValue().removeZone(zone);
-        forceUpdateReleve();
+        if(!releve.getValue().zones.containsKey(zone.nom)){
+            throw new IllegalArgumentException("La zone n'existe pas");
+        }
+        Releve releve = this.releve.getValue();
+        releve.zones.remove(zone.nom);
+        for (Ventilation ventilation : releve.ventilations.values()) {
+            ventilation.zones.remove(zone.nom);
+        }
+        for (Climatisation climatisation : releve.climatisations.values()) {
+            climatisation.zones.remove(zone.nom);
+        }
+        for (Chauffage chauffage : releve.chauffages.values()) {
+            chauffage.zones.remove(zone.nom);
+        }
+        setReleve(releve);
     }
 
     public void setNomBatiment(String nomBatiment){
@@ -71,8 +86,8 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
-    public void editZoneElement(String oldNomZoneElement,String nomZone, ZoneElement zoneElement){
-        getReleve().getValue().getZone(nomZone).removeZoneElement(oldNomZoneElement);
+    public void editZoneElement(String oldNameZoneElement,String nomZone, ZoneElement zoneElement){
+        getReleve().getValue().getZone(nomZone).removeZoneElement(oldNameZoneElement);
         getReleve().getValue().getZone(nomZone).addZoneElement(zoneElement);
         forceUpdateReleve();
     }
@@ -162,6 +177,50 @@ public class ReleveViewModel extends ViewModel {
         }
         releve.getValue().climatisations.remove(oldName);
         releve.getValue().climatisations.put(climatisation.nom, climatisation);
+        forceUpdateReleve();
+    }
+
+    public void removeVentilation(String ventilation) {
+        releve.getValue().ventilations.remove(ventilation);
+        forceUpdateReleve();
+    }
+
+    public void addVentilation(Ventilation ventilationFromViews) {
+        if(releve.getValue().ventilations.containsKey(ventilationFromViews.nom)){
+            throw new IllegalArgumentException("Une ventilation porte déjà ce nom : " + ventilationFromViews.nom);
+        }
+        releve.getValue().ventilations.put(ventilationFromViews.nom, ventilationFromViews);
+        forceUpdateReleve();
+    }
+
+    public void editVentilation(String oldName, Ventilation ventilation) {
+        if(!ventilation.nom.equals(oldName) && releve.getValue().ventilations.containsKey(ventilation.nom)){
+            throw new IllegalArgumentException("Une ventilation porte déjà ce nom : " + ventilation.nom);
+        }
+        releve.getValue().ventilations.remove(oldName);
+        releve.getValue().ventilations.put(ventilation.nom, ventilation);
+        forceUpdateReleve();
+    }
+
+    public void removeECS(String nomECS) {
+        releve.getValue().ecs.remove(nomECS);
+        forceUpdateReleve();
+    }
+
+    public void addECS(ECS ecsFromViews) {
+        if(releve.getValue().ecs.containsKey(ecsFromViews.nom)){
+            throw new IllegalArgumentException("Un ECS porte déjà ce nom : " + ecsFromViews.nom);
+        }
+        releve.getValue().ecs.put(ecsFromViews.nom, ecsFromViews);
+        forceUpdateReleve();
+    }
+
+    public void editECS(String nomECS, ECS ecsFromViews) {
+        if(!ecsFromViews.nom.equals(nomECS) && releve.getValue().ecs.containsKey(ecsFromViews.nom)){
+            throw new IllegalArgumentException("Un ECS porte déjà ce nom : " + ecsFromViews.nom);
+        }
+        releve.getValue().ecs.remove(nomECS);
+        releve.getValue().ecs.put(ecsFromViews.nom, ecsFromViews);
         forceUpdateReleve();
     }
 }

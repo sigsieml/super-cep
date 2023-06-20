@@ -1,4 +1,4 @@
-package com.example.super_cep.view.fragments.Climatisation;
+package com.example.super_cep.view.fragments.Ventilation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,7 +21,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -30,11 +29,11 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
-import com.example.super_cep.databinding.FragmentClimatisationAjoutBinding;
+import com.example.super_cep.databinding.FragmentVentilationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Climatisation;
+import com.example.super_cep.model.Ventilation;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -44,28 +43,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FragmentClimatisationAjout extends Fragment {
+public class FragmentVentilationAjout extends Fragment {
 
+    private static final String ARG_NOM_VENTILATION = "param2";
 
-    private static final String ARG_NOM_CLIMATISATION = "param2";
-
-    private String nomClimatisation;
+    private String nomVentilation;
 
 
     private Mode mode = Mode.Ajout;
-    public FragmentClimatisationAjout() {
+    public FragmentVentilationAjout() {
         // Required empty public constructor
     }
 
-    public static FragmentClimatisationAjout newInstance() {
+    public static FragmentVentilationAjout newInstance() {
         return newInstance(null);
     }
 
 
-    public static FragmentClimatisationAjout newInstance(String nomClimatisation) {
-        FragmentClimatisationAjout fragment = new FragmentClimatisationAjout();
+    public static FragmentVentilationAjout newInstance(String nomVentilation) {
+        FragmentVentilationAjout fragment = new FragmentVentilationAjout();
         Bundle args = new Bundle();
-        args.putString(ARG_NOM_CLIMATISATION, nomClimatisation);
+        args.putString(ARG_NOM_VENTILATION, nomVentilation);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,32 +73,33 @@ public class FragmentClimatisationAjout extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments().getString(ARG_NOM_CLIMATISATION) != null){
+        if(getArguments().getString(ARG_NOM_VENTILATION) != null){
             mode = Mode.Edition;
-            nomClimatisation = getArguments().getString(ARG_NOM_CLIMATISATION);
+            nomVentilation = getArguments().getString(ARG_NOM_VENTILATION);
         }
 
     }
 
-    private FragmentClimatisationAjoutBinding binding;
+    private FragmentVentilationAjoutBinding binding;
 
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
-    private ViewPhoto viewPhoto;
+
     private ViewZoneSelector viewZoneSelector;
+    private ViewPhoto viewPhoto;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentClimatisationAjoutBinding.inflate(inflater, container, false);
+        binding = FragmentVentilationAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
-        viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
         updateSpinner();
+        viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
 
         if(mode == Mode.Ajout){
             addFooterAjout();
@@ -108,12 +107,12 @@ public class FragmentClimatisationAjout extends Fragment {
 
         try {
             if(mode == Mode.Edition){
-                Climatisation climatisation = releveViewModel.getReleve().getValue().climatisations.get(nomClimatisation);
-                setModeEdition(climatisation);
-                addDataToView(climatisation);
+                Ventilation ventilation = releveViewModel.getReleve().getValue().ventilations.get(nomVentilation);
+                setModeEdition(ventilation);
+                addDataToView(ventilation);
             }
         }catch (Exception e){
-            Log.e("Ajout climatisation", "onCreateView: ", e);
+            Log.e("Ajout ventilation", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
             getParentFragmentManager().popBackStack();
         }
@@ -134,15 +133,15 @@ public class FragmentClimatisationAjout extends Fragment {
         viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addClimatisationToReleve();
+                addVentilationToReleve();
             }
         });
 
-        binding.linearLayoutAjoutClimatisation.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutVentilation.addView(viewFooter.getRoot());
     }
 
-    private void setModeEdition(Climatisation climatisation) {
-        binding.textViewTitleClimatisation.setText(climatisation.nom);
+    private void setModeEdition(Ventilation ventilation) {
+        binding.textViewTitleVentilation.setText(ventilation.nom);
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,88 +153,70 @@ public class FragmentClimatisationAjout extends Fragment {
         viewFooter.buttonValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editClimatisation();
+                editVentilation();
             }
         });
 
         viewFooter.buttonSupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                releveViewModel.removeClimatisation(nomClimatisation);
+                releveViewModel.removeVentilation(nomVentilation);
                 getParentFragmentManager().popBackStack();
             }
         });
 
-        binding.linearLayoutAjoutClimatisation.addView(viewFooter.getRoot());
+        binding.linearLayoutAjoutVentilation.addView(viewFooter.getRoot());
     }
 
 
-
-
-
-
-    private void addClimatisationToReleve() {
+    private void addVentilationToReleve() {
         try {
-            releveViewModel.addClimatisation(getClimatisationFromViews());
+            releveViewModel.addVentilation(getVentilationFromViews());
             getParentFragmentManager().popBackStack();
 
         }catch (Exception e){
-            Log.e("Climatisation", "addClimatisationToReleve: ", e);
+            Log.e("Ventilation", "addVentilationToReleve: ", e);
             Toast.makeText(getContext(), e.getMessage() , Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void editClimatisation(){
+    private void editVentilation(){
         try {
-            releveViewModel.editClimatisation(nomClimatisation, getClimatisationFromViews());
+            releveViewModel.editVentilation(nomVentilation, getVentilationFromViews());
             getParentFragmentManager().popBackStack();
         } catch (Exception e) {
-            Log.e("Climatisation", "addClimatisationToReleve: ", e);
+            Log.e("Ventilation", "addVentilationToReleve: ", e);
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-
-
-
     private void updateSpinner() {
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerRegulations, "regulationClimatisation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeClimatisation, "typeClimatisation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueClimatisation");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeRegulation, "regulationVentilation");
+        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeVentilation, "typeVentilation");
     }
 
-    private Climatisation getClimatisationFromViews(){
-        Climatisation climatisation = new Climatisation(
-                binding.editTextNomClimatisation.getText().toString(),
-                binding.spinnerTypeClimatisation.getSelectedItem().toString(),
-                binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
-                binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
-                binding.spinnerMarque.getSelectedItem().toString(),
-                binding.editTextModele.getText().toString(),
-                binding.spinnerRegulations.getSelectedItem().toString(),
+    private Ventilation getVentilationFromViews(){
+        Ventilation ventilation = new Ventilation(
+                binding.editTextNomVentilation.getText().toString(),
+                binding.spinnerTypeVentilation.getSelectedItem().toString(),
+                binding.spinnerTypeRegulation.getSelectedItem().toString(),
                 viewZoneSelector.getSelectedZones(),
                 viewPhoto.getUriImages(),
-                binding.checkBoxAVerifierClimatisation.isChecked(),
-                binding.editTextMultilineNoteClimatisation.getText().toString()
+                binding.checkBoxAVerifierVentilation.isChecked(),
+                binding.editTextMultilineNoteVentilation.getText().toString()
         );
 
-        return climatisation;
+        return ventilation;
     }
 
-    private void addDataToView(Climatisation climatisation){
-        binding.editTextNomClimatisation.setText(climatisation.nom);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeClimatisation, climatisation.type);
-        binding.editTextNumberPuissance.setText(String.valueOf(climatisation.puissance));
-        binding.editTextNumberQuantite.setText(String.valueOf(climatisation.quantite));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMarque, climatisation.marque);
-        binding.editTextModele.setText(climatisation.modele);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerRegulations, climatisation.regulation);
-        binding.checkBoxAVerifierClimatisation.setChecked(climatisation.aVerifier);
-        binding.editTextMultilineNoteClimatisation.setText(climatisation.note);
-        viewZoneSelector.setSelectedZones(climatisation.zones);
-
-
-        for (Uri uri : climatisation.uriImages) {
+    private void addDataToView(Ventilation ventilation){
+        binding.editTextNomVentilation.setText(ventilation.nom);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeVentilation, ventilation.type);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeRegulation, ventilation.regulation);
+        binding.checkBoxAVerifierVentilation.setChecked(ventilation.aVerifier);
+        binding.editTextMultilineNoteVentilation.setText(ventilation.note);
+        viewZoneSelector.setSelectedZones(ventilation.zones);
+        for (Uri uri : ventilation.uriImages) {
             viewPhoto.addPhotoToView(uri);
         }
     }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.Chauffages.FragmentChauffageAjout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.fragments.ECS.FragmentECSAjout">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayoutAjoutChauffage"
+            android:id="@+id/linearLayoutAjoutECS"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -21,14 +21,14 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textViewTitleChauffage"
+                    android:id="@+id/textViewTitleECS"
                     android:layout_width="395dp"
                     android:layout_height="64dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:autoSizeTextType="uniform"
-                    android:text="Ajouter un chauffage"
+                    android:text="Ajouter un ECS"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -40,19 +40,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Nom du chauffage"
+                    android:text="Nom du ECS"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewTitleChauffage" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTitleECS" />
 
                 <EditText
-                    android:id="@+id/editTextNomChauffage"
+                    android:id="@+id/editTextNomECS"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:hint="Entrez le nom du chauffage"
+                    android:hint="Entrez le nom du ECS"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNomChauffage" />
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNomECS" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,14 +91,14 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
-                            android:text="Type de chauffage"
+                            android:text="Type de ECS"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.045"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Spinner
-                            android:id="@+id/spinnerTypeChauffage"
+                            android:id="@+id/spinnerTypeECS"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -116,18 +116,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
-                        <TextView
-                            android:id="@+id/textView28"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Puissance( kw ) :"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
                         <EditText
-                            android:id="@+id/editTextNumberPuissance"
+                            android:id="@+id/editTextVolume"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -138,6 +128,16 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+                        <TextView
+                            android:id="@+id/textView28"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="Volume : "
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
@@ -157,12 +157,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="Régulation :"
+                            android:text="Marque  :"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Spinner
-                            android:id="@+id/spinnerRegulations"
+                            android:id="@+id/spinnerMarque"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -222,18 +222,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/textView32"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Marque :"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <CheckBox
-                    android:id="@+id/checkBoxAVerifierChauffage"
+                    android:id="@+id/checkBoxAVerifierECS"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -250,10 +240,10 @@
                     android:layout_marginTop="12dp"
                     android:text="Note"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/checkBoxAVerifierChauffage" />
+                    app:layout_constraintTop_toBottomOf="@+id/checkBoxAVerifierECS" />
 
                 <EditText
-                    android:id="@+id/editTextMultilineNoteChauffage"
+                    android:id="@+id/editTextMultilineNoteECS"
                     android:layout_width="0dp"
                     android:layout_height="86dp"
                     android:layout_marginStart="16dp"
@@ -276,7 +266,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Modèle"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerMarque" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <EditText
@@ -304,6 +294,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
+
                 <TextView
                     android:id="@+id/textView34"
                     android:layout_width="wrap_content"
@@ -314,19 +305,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextModele" />
 
-                <Spinner
-                    android:id="@+id/spinnerMarque"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

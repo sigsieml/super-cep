@@ -37,6 +37,8 @@ import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.model.Chauffage;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.view.Mode;
+import com.example.super_cep.view.includeView.ViewPhoto;
+import com.example.super_cep.view.includeView.ViewZoneSelector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,6 @@ public class FragmentChauffageAjout extends Fragment {
 
 
     private Mode mode = Mode.Ajout;
-    private PhotoManager photoManager;
     public FragmentChauffageAjout() {
         // Required empty public constructor
     }
@@ -86,20 +87,19 @@ public class FragmentChauffageAjout extends Fragment {
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
-    private ActivityResultLauncher<Intent> launcherGetPhoto;
-    private ActivityResultLauncher<Intent> launcherCapturePhoto;
 
-    List<Uri> uriImages = new ArrayList<>();
 
     List<String> typeChauffageProducteur = new ArrayList<>();
     List<String> typeChauffageEmetteur = new ArrayList<>();
+
+    private ViewPhoto viewPhoto;
+    private ViewZoneSelector viewZoneSelector;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentChauffageAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        photoManager = new PhotoManager(getContext());
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
         Map<String, List<String>> spinnerLiveData = spinnerDataViewModel.getSpinnerData().getValue();
         if(!spinnerLiveData.containsKey("typeChauffageEmetteur") || !spinnerLiveData.containsKey("typeChauffageProducteur")){
@@ -109,10 +109,11 @@ public class FragmentChauffageAjout extends Fragment {
         }
         typeChauffageEmetteur = spinnerLiveData.get("typeChauffageEmetteur");
         typeChauffageProducteur = spinnerLiveData.get("typeChauffageProducteur");
-        setupPhotoLaunchers();
+        viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
+        viewPhoto.setupPhotoLaunchers();
+        viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
+
         updateSpinner();
-        addZonesToZonesList();
-        setupButtons();
 
         if(mode == Mode.Ajout){
             addFooterAjout();
@@ -182,125 +183,6 @@ public class FragmentChauffageAjout extends Fragment {
     }
 
 
-
-    private void setupButtons() {
-        binding.buttonAjouterImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Créer une boîte de dialogue pour choisir entre sélectionner une photo ou prendre une photo
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Choisir une option");
-                builder.setItems(new CharSequence[]{"Sélectionner une photo", "Prendre une photo"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:// Lancer l'activité de sélection de photo
-                                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                intent.setType("image/*");
-                                launcherGetPhoto.launch(intent);
-                                break;
-                            case 1:
-                                // Lancer l'activité de capture d'image
-                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent2);
-                                break;
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-    }
-
-
-
-    private void setupPhotoLaunchers() {
-
-        launcherGetPhoto = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        Uri uri = data.getData();
-                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        getContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
-                        // Faites ce que vous devez faire avec l'URI ici
-                        addPhotoToView(uri);
-
-                    }
-                });
-
-
-        launcherCapturePhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                addPhotoToView(photo);
-            }
-        });
-    }
-
-    private void addPhotoToView(Uri selectedPhotoUri) {
-        try {
-            uriImages.add(selectedPhotoUri);
-
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
-            int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthInDp, ViewGroup.LayoutParams.WRAP_CONTENT);
-            view.setLayoutParams(layoutParams);
-            binding.linearLayoutImageViewsZoneElement.addView(view, 0);
-            ViewImageZoneElementBinding viewImageZoneElementBinding = ViewImageZoneElementBinding.bind(view);
-            viewImageZoneElementBinding.imageViewZoneElement.setImageURI(selectedPhotoUri);
-            viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Obtenez l'URI de FileProvider
-                    Uri contentUri = null;
-                    if (selectedPhotoUri.getScheme().equals("content")) {
-                        contentUri = selectedPhotoUri;
-                    } else if (selectedPhotoUri.getScheme().equals("file")) {
-                        contentUri = photoManager.getFileProviderUri(selectedPhotoUri);
-                    }
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(contentUri, "image/*");
-                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    startActivity(intent);
-                }
-            });
-
-            viewImageZoneElementBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    // show a dialog to confirm the deletion
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Supprimer l'image ?");
-                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            binding.linearLayoutImageViewsZoneElement.removeView(view);
-                            uriImages.remove(selectedPhotoUri);
-                        }
-                    });
-                    builder.setNegativeButton("Non", null);
-                    builder.show();
-                    return true;
-                }
-            });
-
-        }catch (Exception e){
-            Log.e("Ajout image", "addPhotoToView: ", e);
-            Toast.makeText(getContext(), "Erreur avec l'image elle est donc supprimer", Toast.LENGTH_SHORT).show();
-            uriImages.remove(selectedPhotoUri);
-            releveViewModel.getReleve().getValue().chauffages.get(nomChauffage).uriImages = uriImages;
-            releveViewModel.forceUpdateReleve();
-        }
-
-    }
-
     private void addChauffageToReleve() {
         try {
             releveViewModel.addChauffage(getChauffageFromViews());
@@ -322,34 +204,6 @@ public class FragmentChauffageAjout extends Fragment {
         }
     }
 
-    private List<String> getSelectedZones(){
-        List<String> selectedZones = new ArrayList<>();
-        for (int i = 0; i < binding.linearLayoutZones.getChildCount(); i++) {
-            CheckBox checkBox = (CheckBox) binding.linearLayoutZones.getChildAt(i);
-            if (checkBox.isChecked()){
-                selectedZones.add(checkBox.getText().toString());
-            }
-        }
-        return selectedZones;
-    }
-
-    private void addZonesToZonesList(){
-        Zone[] zones = releveViewModel.getReleve().getValue().getZonesValues();
-        for (int i = 0; i < zones.length; i++) {
-            CheckBox checkBox = new CheckBox(getContext());
-            checkBox.setText(zones[i].nom);
-            binding.linearLayoutZones.addView(checkBox);
-        }
-    }
-
-    private void setSelectedZones(List<String> selectedZones){
-        for (int i = 0; i < binding.linearLayoutZones.getChildCount(); i++) {
-            CheckBox checkBox = (CheckBox) binding.linearLayoutZones.getChildAt(i);
-            if (selectedZones.contains(checkBox.getText())){
-                checkBox.setChecked(true);
-            }
-        }
-    }
 
     private void updateSpinner() {
         List<String> customList = new ArrayList<>();
@@ -388,10 +242,10 @@ public class FragmentChauffageAjout extends Fragment {
                     binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
                     binding.spinnerMarque.getSelectedItem().toString(),
                     binding.editTextModele.getText().toString(),
-                    getSelectedZones(),
+                    viewZoneSelector.getSelectedZones(),
                     estProducteur(),
                     binding.spinnerRegulations.getSelectedItem().toString(),
-                    uriImages,
+                    viewPhoto.getUriImages(),
                     binding.checkBoxAVerifierChauffage.isChecked(),
                     binding.editTextMultilineNoteChauffage.getText().toString()
             );
@@ -410,9 +264,9 @@ public class FragmentChauffageAjout extends Fragment {
         binding.checkBoxAVerifierChauffage.setChecked(chauffage.aVerifier);
         binding.editTextMultilineNoteChauffage.setText(chauffage.note);
 
-        setSelectedZones(chauffage.zones);
+        viewZoneSelector.setSelectedZones(chauffage.zones);
         for (Uri uri : chauffage.uriImages) {
-            addPhotoToView(uri);
+            viewPhoto.addPhotoToView(uri);
         }
     }
 

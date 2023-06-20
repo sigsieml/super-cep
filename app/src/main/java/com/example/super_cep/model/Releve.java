@@ -12,11 +12,12 @@ import java.util.Map;
 
 public class Releve {
 
-    private Map<String, Zone> zones;
+    public Map<String, Zone> zones;
 
     public Map<String, Calendrier> calendriers;
     public Map<String, Chauffage> chauffages;
     public Map<String, Climatisation> climatisations;
+    public Map<String, Ventilation> ventilations;
 
     public String nomBatiment = "";
     public Calendar dateDeConstruction = Calendar.getInstance();
@@ -24,6 +25,7 @@ public class Releve {
     public float surfaceTotaleChauffe = 0;
     public String description = "";
     public String adresse = "";
+    public Map<String, ECS> ecs;
 
 
     public Releve(){
@@ -31,17 +33,14 @@ public class Releve {
         this.calendriers = new HashMap<>();
         this.chauffages = new HashMap<>();
         this.climatisations = new HashMap<>();
+        this.ventilations = new HashMap<>();
+        this.ecs = new HashMap<>();
     }
 
     public void addZone(Zone zone){
         if(zones.containsKey(zone.nom))
             throw new IllegalArgumentException("La zone existe déjà");
         zones.put(zone.nom, zone);
-    }
-
-
-    public Map<String, Zone> getZones(){
-        return zones;
     }
 
     @JsonIgnore

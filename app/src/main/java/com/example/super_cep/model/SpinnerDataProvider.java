@@ -30,7 +30,10 @@ public class SpinnerDataProvider {
         spinnersData.put("typeClimatisation", List.of("Climatisation réversible", "Climatisation non réversible", "PAC air/air", "PAC air/eau", "PAC géothermique"));
         spinnersData.put("marqueClimatisation", List.of("Daikin", "Mitsubishi", "Hitachi", "Panasonic", "Toshiba", "Fujitsu General", "Technibel", "Samsung", "LG", "Altech"));
         spinnersData.put("regulationClimatisation", List.of("Régulateur thermostatique", "Régulateur séquentiel", "Capteurs", "Actionneurs", "Régulateur", "Domotique"));
-
+        spinnersData.put("regulationVentilation", List.of("Absence de régulation", "Horloge", "Programmation horaire", "Sonde CO2", "Interrupteur", "relance temporisée"));
+        spinnersData.put("typeVentilation", List.of("Ventilation naturelle", "VMC simple flux", "VMC double flux"));
+        spinnersData.put("marqueECS", List.of("Atlantic", "Thermor", "De Dietrich", "Chaffoteaux", "Styx"));
+        spinnersData.put("typeECS", List.of("Cumulus électrique", "Cumulus propane", "Cumulus fioul", "Micro accumulation", "Instantané", "Ballon intégré chaudière"));
     }
 
     public Map<String, List<String>> getSpinnersData(){
