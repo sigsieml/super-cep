@@ -1,13 +1,12 @@
 package com.example.super_cep.model;
 
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.io.ObjectInputStream;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Releve {
@@ -26,6 +25,7 @@ public class Releve {
     public String description = "";
     public String adresse = "";
     public Map<String, ECS> ecs;
+    public Map<String, ApprovisionnementEnergetique> approvisionnementEnergetiques;
 
 
     public Releve(){
@@ -35,6 +35,7 @@ public class Releve {
         this.climatisations = new HashMap<>();
         this.ventilations = new HashMap<>();
         this.ecs = new HashMap<>();
+        this.approvisionnementEnergetiques = new HashMap<>();
     }
 
     public void addZone(Zone zone){
@@ -80,6 +81,13 @@ public class Releve {
                 ", surfaceTotaleChauffe=" + surfaceTotaleChauffe +
                 ", description='" + description + '\'' +
                 ", adresse='" + adresse + '\'' +
-                '}';
+                '}'+ "\n" +
+                "calendriers=" + calendriers + "\n" +
+                "chauffages=" + chauffages + "\n" +
+                "climatisations=" + climatisations + "\n" +
+                "ventilations=" + ventilations + "\n" +
+                "ecs=" + ecs + "\n" +
+                "approvisonnementEnergetique=" + approvisionnementEnergetiques + "}";
+
     }
 }

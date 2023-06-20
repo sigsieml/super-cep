@@ -34,6 +34,10 @@ public class SpinnerDataProvider {
         spinnersData.put("typeVentilation", List.of("Ventilation naturelle", "VMC simple flux", "VMC double flux"));
         spinnersData.put("marqueECS", List.of("Atlantic", "Thermor", "De Dietrich", "Chaffoteaux", "Styx"));
         spinnersData.put("typeECS", List.of("Cumulus électrique", "Cumulus propane", "Cumulus fioul", "Micro accumulation", "Instantané", "Ballon intégré chaudière"));
+        spinnersData.put("energieElectrique", List.of("Electricité"));
+        spinnersData.put("energieGaz", List.of("Gaz Naturel", "Propane Réseau", "Propane Cuve"));
+        spinnersData.put("energieAutre",  List.of("Bois Granulés", "Bois Déchiqueté", "Bois Bûches", "Fioul"));
+        spinnersData.put("formuleTarifaire", List.of("Base", "HP/HC", "4HS", "4HP"));
     }
 
     public Map<String, List<String>> getSpinnersData(){

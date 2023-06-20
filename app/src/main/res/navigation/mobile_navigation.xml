@@ -45,9 +45,9 @@
         tools:layout="@layout/fragment_e_c_s"></fragment>
     <fragment
         android:id="@+id/nav_approvisionnement_energetique"
-        android:name="com.example.super_cep.view.fragments.ApprovisonnementEnergetique"
+        android:name="com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetique"
         android:label="Approvisionnement énergétique"
-        tools:layout="@layout/fragment_approvisonnement_energetique"></fragment>
+        tools:layout="@layout/fragment_approvisionnement_energetique"></fragment>
     <fragment
         android:id="@+id/nav_remarques"
         android:name="com.example.super_cep.view.fragments.Remarques"

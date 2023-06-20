@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Chauffage;
 import com.example.super_cep.model.Climatisation;
@@ -221,6 +222,28 @@ public class ReleveViewModel extends ViewModel {
         }
         releve.getValue().ecs.remove(nomECS);
         releve.getValue().ecs.put(ecsFromViews.nom, ecsFromViews);
+        forceUpdateReleve();
+    }
+
+    public void removeApprovisionnementEnergetique(String nomApprovisionnementEnergetique) {
+        releve.getValue().approvisionnementEnergetiques.remove(nomApprovisionnementEnergetique);
+        forceUpdateReleve();
+    }
+
+    public void addApprovisionnementEnergetique(ApprovisionnementEnergetique approvisionnementEnergetiqueFromViews) {
+        if(releve.getValue().approvisionnementEnergetiques.containsKey(approvisionnementEnergetiqueFromViews.nom)){
+            throw new IllegalArgumentException("Un approvisionnement énergétique porte déjà ce nom : " + approvisionnementEnergetiqueFromViews.nom);
+        }
+        releve.getValue().approvisionnementEnergetiques.put(approvisionnementEnergetiqueFromViews.nom, approvisionnementEnergetiqueFromViews);
+        forceUpdateReleve();
+    }
+
+    public void editApprovisionnementEnergetique(String nomApprovisionnementEnergetique, ApprovisionnementEnergetique approvisionnementEnergetiqueFromViews) {
+        if(!approvisionnementEnergetiqueFromViews.nom.equals(nomApprovisionnementEnergetique) && releve.getValue().approvisionnementEnergetiques.containsKey(approvisionnementEnergetiqueFromViews.nom)){
+            throw new IllegalArgumentException("Un approvisionnement énergétique porte déjà ce nom : " + approvisionnementEnergetiqueFromViews.nom);
+        }
+        releve.getValue().approvisionnementEnergetiques.remove(nomApprovisionnementEnergetique);
+        releve.getValue().approvisionnementEnergetiques.put(approvisionnementEnergetiqueFromViews.nom, approvisionnementEnergetiqueFromViews);
         forceUpdateReleve();
     }
 }
