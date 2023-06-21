@@ -1,0 +1,208 @@
+{
+  "adresse":"adresse du bâtiment ",
+  "approvisionnementEnergetiques":{
+    "borne électrique ":{
+      "type":"electrique",
+      "nom":"borne électrique ",
+      "energie":"Electricité",
+      "puissance":109.0,
+      "formuleTarifaire":"HP/HC",
+      "numeroPDL":"XXX_NUMEROPDL_XXX",
+      "zones":[
+        "salle de classe",
+        "dortoir "
+      ],
+      "aVerifier":true,
+      "note":"dhbd"
+    },
+    "gaz":{
+      "type":"gaz",
+      "nom":"gaz",
+      "energie":"gaz",
+      "numeroRAE":"XXX_NUMERORAE_XXX",
+      "zones":[
+        "salle de classe",
+        "dortoir "
+      ],
+      "aVerifier":true,
+      "note":"dhbd"
+    }
+  },
+  "calendriers":{
+    "super calendrier ":{
+      "nom":"super calendrier ",
+      "zones":[
+
+      ],
+      "calendrierDateChaufferOccuperMap":{
+
+      }
+    }
+  },
+  "chauffages":{
+    "super chauffage ":{
+      "nom":"super chauffage ",
+      "type":"Chaudière gaz à condensation",
+      "puissance":100.0,
+      "quantite":100,
+      "marque":"Acova",
+      "modele":"dje",
+      "zones":[
+        "salle de classe",
+        "cour",
+        "dortoir "
+      ],
+      "estProducteur":true,
+      "regulation":"Interrupteur",
+      "aVerifier":true,
+      "note":"djjf"
+    }
+  },
+  "climatisations":{
+    "xclim":{
+      "nom":"xclim",
+      "type":"PAC air/air",
+      "puissance":108.0,
+      "quantite":10,
+      "marque":"Panasonic",
+      "modele":"super modèle ",
+      "regulation":"Actionneurs",
+      "zones":[
+        "salle de classe",
+        "dortoir "
+      ],
+      "aVerifier":true,
+      "note":"sjdk"
+    }
+  },
+  "dateDeConstruction":1687337381567,
+  "dateDeDerniereRenovation":1687682981567,
+  "description":"super description du bâtiment Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+  "ecs":{
+    "exs":{
+      "nom":"exs",
+      "type":"Cumulus électrique",
+      "modele":"super modèle ",
+      "marque":"Atlantic",
+      "volume":10.0,
+      "quantite":10,
+      "zones":[
+        "salle de classe"
+      ],
+      "aVerifier":false,
+      "note":""
+    }
+  },
+  "nomBatiment":"super bâtiment ",
+  "preconisations":[
+    "Remplacer les tubes fluo par des LEDS",
+    "Remplacer le système de chauffage 2"
+  ],
+  "remarques":{
+    "Elements de contexte sur le bâtiment": {
+        "nom": "Elements de contexte sur le bâtiment",
+        "description": "Element de contexte sur le bâtiment  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+        "personalise": false
+    },
+    "Remarques enveloppe thermique":{
+      "nom":"Remarques enveloppe thermique",
+      "description":"brhrh",
+      "personalise":false
+    },
+    "Remarque diverse":{
+      "nom":"Remarque diverse",
+      "description":"vfhgjj",
+      "personalise":false
+    },
+    "Remarque conso, facture et appro énergétique": {
+        "nom": "Remarque conso, facture et appro énergétique",
+        "description": "Remarque conso, facture et appro énergétique  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+        "personalise": false
+    },
+    "wow":{
+      "nom":"wow",
+      "description":"fhfhfh",
+      "personalise":true
+    }
+  },
+  "surfaceTotaleChauffe":16.0,
+  "ventilations":{
+    "super ventilation ":{
+      "nom":"super ventilation ",
+      "type":"Ventilation naturelle",
+      "regulation":"Absence de régulation",
+      "zones":[
+        "dortoir "
+      ],
+      "aVerifier":true,
+      "note":"djdj"
+    }
+  },
+  "zones":{
+    "salle de classe":{
+      "nom":"salle de classe",
+      "zoneElements":{
+        "mur":{
+          "type":"mur",
+          "nom":"mur",
+          "typeMur":"Parpaing",
+          "typeMiseEnOeuvre":"Bardage",
+          "typeIsolant":"Laine de roche",
+          "niveauIsolation":"Faiblement isolé",
+          "epaisseurIsolant":107.0,
+          "aVerifier":true,
+          "note":"djdj"
+        },
+        "toiture ":{
+          "type":"toiture",
+          "nom":"toiture ",
+          "typeToiture":"Rampants",
+          "typeMiseEnOeuvre":"Autre",
+          "typeIsolant":"Polystyrène",
+          "niveauIsolation":"Bien isolé",
+          "epaisseurIsolant":106.0,
+          "aVerifier":true,
+          "note":"ejje"
+        }
+      }
+    },
+    "cour":{
+      "nom":"cour",
+      "zoneElements":{
+        "sol":{
+          "type":"sol",
+          "nom":"sol",
+          "typeSol":"Cave",
+          "niveauIsolation":"Moyennement isolé",
+          "typeIsolant":"Polystyrène",
+          "epaisseurIsolant":556.0,
+          "aVerifier":true,
+          "note":"dif"
+        },
+        "menuiserie ":{
+          "type":"menuiserie",
+          "nom":"menuiserie ",
+          "typeMenuiserie":"Fenêtre de toiture",
+          "materiau":"Aluminium",
+          "protectionsSolaires":"Grille ou grillage extérieur",
+          "typeVitrage":"DV 4-8-4 ou éq",
+          "aVerifier":true,
+          "note":"dodo"
+        }
+      }
+    },
+    "dortoir ":{
+      "nom":"dortoir ",
+      "zoneElements":{
+        "éclairage ":{
+          "type":"eclairage",
+          "nom":"éclairage ",
+          "typeEclairage":"Fluocompact",
+          "typeDeRegulation":"détection de présence",
+          "aVerifier":true,
+          "note":"kejrj"
+        }
+      }
+    }
+  }
+}
