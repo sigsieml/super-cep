@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
@@ -12,6 +15,8 @@ import com.example.super_cep.model.Releve;
 import com.example.super_cep.model.Remarque;
 
 import org.apache.poi.common.usermodel.fonts.FontGroup;
+import org.apache.poi.sl.usermodel.PaintStyle;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
@@ -24,6 +29,7 @@ import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
@@ -108,8 +114,49 @@ public class PowerpointExporter {
     }
 
     private void slideEnergieEtConsomations(XSLFSlide slide) {
+        for (XSLFShape shape : slide) {
+            if(shape instanceof XSLFTextShape){
+                replaceTextInTextShape((XSLFTextShape) shape);
+            }
 
+            if(shape.getShapeName().equals("tableauApprovisionnementEnergetique")){
+
+                XSLFTable table = (XSLFTable) shape;
+                XSLFTableRow tableName = table.getRows().get(0);
+                XSLFTableRow tableHeader = table.getRows().get(1);
+
+                XSLFTableRow rowExemple = table.getRows().get(2);
+
+
+                for (ApprovisionnementEnergetique approvisionnementEnergetique : releve.approvisionnementEnergetiques.values()) {
+                    XSLFTableRow rowAppro = table.addRow();
+                    rowAppro.setHeight(rowExemple.getHeight());
+
+                    for (int i = 0; i < rowExemple.getCells().size(); i++) {
+                        rowAppro.addCell();
+                    }
+                    List<XSLFTableCell> cells = rowAppro.getCells();
+                    cells.get(0).setText(approvisionnementEnergetique.energie);
+
+                    if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueGaz){
+                        cells.get(1).setText(((ApprovisionnementEnergetiqueGaz) approvisionnementEnergetique).numeroRAE);
+                    }
+
+                    if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique){
+                        cells.get(1).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).numeroPDL);
+                        cells.get(2).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance + " kVA");
+                        cells.get(3).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).formuleTarifaire);
+                    }
+                    PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
+                }
+                table.removeRow(2);
+            }
+        }
     }
+
+
+
+
 
 
     private void slideUsageEtOccupationDuBatiment(XSLFSlide slide) {
