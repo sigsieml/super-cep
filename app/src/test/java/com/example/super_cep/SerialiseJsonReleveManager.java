@@ -1,26 +1,22 @@
 package com.example.super_cep;
 
-import android.net.Uri;
-
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Export.JsonExporter;
+import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Releve;
 
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.List;
 
-public class SerialiseJsonReleve {
+public class SerialiseJsonReleveManager {
 
 
     @Test
     public void serialiseJsonReleve() {
         Releve releve = createTestReleve();
-        String jsonReleve = JsonExporter.serialize(releve);
-        Releve deserializedReleve = JsonExporter.deserialize(jsonReleve);
+        String jsonReleve = JsonReleveManager.serialize(releve);
+        Releve deserializedReleve = JsonReleveManager.deserialize(jsonReleve);
         System.out.println("deserializedReleve = " + deserializedReleve);
 
     }

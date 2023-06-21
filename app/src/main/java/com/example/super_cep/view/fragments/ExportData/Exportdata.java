@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentExportdataBinding;
-import com.example.super_cep.model.Export.JsonExporter;
+import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.model.Releve;
@@ -59,7 +59,7 @@ public class Exportdata extends Fragment {
             public void onClick(View v) {
                 //save releve as json to application file
                 Releve releve = releveViewModel.getReleve().getValue();
-                String releveJson = JsonExporter.serialize(releve);
+                String releveJson = JsonReleveManager.serialize(releve);
 
                 try (FileOutputStream fos = v.getContext().openFileOutput(releve.nomBatiment + ".json", Context.MODE_PRIVATE)) {
                     fos.write(releveJson.getBytes());

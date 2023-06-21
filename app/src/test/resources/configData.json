@@ -1,0 +1,248 @@
+{
+  "configData":{
+    "energieElectrique":[
+      "Electricité"
+    ],
+    "typeChauffageEmetteur":[
+      "Convecteur électrique simple",
+      "Panneau rayonnant électrique",
+      "Radiateur à inertie électrique",
+      "Emetteur à infrarouges",
+      "Plancher chauffant",
+      "Ventilo-convecteur",
+      "Aérotherme",
+      "Radiateur acier avec rob thermo",
+      "Radiateur acier sans rob thermo",
+      "Radiateur fonte avec rob thermo",
+      "Radiateur fonte sans rob thermo"
+    ],
+    "marqueClimatisation":[
+      "Daikin",
+      "Mitsubishi",
+      "Hitachi",
+      "Panasonic",
+      "Toshiba",
+      "Fujitsu General",
+      "Technibel",
+      "Samsung",
+      "LG",
+      "Altech"
+    ],
+    "energieGaz":[
+      "Gaz Naturel",
+      "Propane Réseau",
+      "Propane Cuve"
+    ],
+    "preconisations":[
+      "Remplacer les tubes fluo par des LEDS",
+      "Réaliser une isolation thermique extérieur",
+      "Remplacer les menuiseries",
+      "Remplacer le système de chauffage",
+      "Remplacer le système de régulation ancien"
+    ],
+    "typeMenuiserie":[
+      "Fenêtre",
+      "Porte-fenêtre",
+      "Fenêtre de toiture",
+      "Porte Pleine"
+    ],
+    "typeSol":[
+      "Terre plein",
+      "Vide sanitaire",
+      "Cave",
+      "Sous-sol"
+    ],
+    "typeRegulation":[
+      "interrupteur",
+      "détection de présence",
+      "relance temporisée"
+    ],
+    "typeMur":[
+      "Pierre",
+      "Brique",
+      "Parpaing",
+      "Bois",
+      "Autre"
+    ],
+    "typeClimatisation":[
+      "Climatisation réversible",
+      "Climatisation non réversible",
+      "PAC air/air",
+      "PAC air/eau",
+      "PAC géothermique"
+    ],
+    "niveauIsolation":[
+      "Inconnu",
+      "Non isolé",
+      "Faiblement isolé",
+      "Moyennement isolé",
+      "Assez bien isolé",
+      "Bien isolé"
+    ],
+    "marqueECS":[
+      "Atlantic",
+      "Thermor",
+      "De Dietrich",
+      "Chaffoteaux",
+      "Styx"
+    ],
+    "typeECS":[
+      "Cumulus électrique",
+      "Cumulus propane",
+      "Cumulus fioul",
+      "Micro accumulation",
+      "Instantané",
+      "Ballon intégré chaudière"
+    ],
+    "typeEclairage":[
+      "LED",
+      "Tube fluorescent",
+      "Fluocompact",
+      "Ampoule basse consommation",
+      "Halogène"
+    ],
+    "materiau":[
+      "Bois",
+      "PVC",
+      "Aluminium",
+      "Acier",
+      "Mixte",
+      "Autre"
+    ],
+    "marqueProducteur":[
+      "Acova",
+      "Airelec",
+      "Ariston",
+      "Atlantic",
+      "Chappee",
+      "Daikin",
+      "De Dietrich",
+      "Frisquet",
+      "Froling",
+      "Noirot",
+      "Oertli",
+      "Okofen",
+      "Sauter",
+      "Thermor",
+      "Unical",
+      "Vaillant",
+      "Viessmann",
+      "Weishaupt"
+    ],
+    "formuleTarifaire":[
+      "Base",
+      "HP/HC",
+      "4HS",
+      "4HP"
+    ],
+    "typeVentilation":[
+      "Ventilation naturelle",
+      "VMC simple flux",
+      "VMC double flux"
+    ],
+    "regulationChauffage":[
+      "Thermostat simple sur émetteur",
+      "Thermostat programmable centralisé",
+      "Régulation programmable à distance",
+      "GTC",
+      "Horloge",
+      "Sonde d'ambiance intérieure",
+      "Interrupteur",
+      "T° constante",
+      "Loi d'eau et vanne(s) 3 voies",
+      "Loi d'eau + programmation hebdo confort / réduit / HG",
+      "Sonde d'ambiance + programmation hebdo confort / réduit / HG",
+      "Télécommande"
+    ],
+    "typeVitrage":[
+      "Simple vitrage",
+      "Double vitrage ancien",
+      "Double vitrage assez récent",
+      "Double vitrage récent",
+      "DV 4-6-4 ou éq",
+      "DV 4-8-4 ou éq",
+      "DV 4-10-4 ou éq",
+      "DV 4-12-4 ou éq",
+      "DV 4-14-4 ou éq",
+      "DV 4-16-4 ou éq",
+      "DV 4-20-4 ou éq",
+      "Triple vitrage"
+    ],
+    "typeDeMiseEnOeuvre":[
+      "Enduit",
+      "Bardage",
+      "Autre"
+    ],
+    "protectionsSolaires":[
+      "Volets roulants électriques extérieurs",
+      "Persiennes",
+      "Volets extérieurs simples",
+      "Grille ou grillage extérieur",
+      "Rideau intérieur"
+    ],
+    "typeChauffageProducteur":[
+      "Chaudière gaz simple",
+      "Chaudière gaz à condensation",
+      "Chaudière fioul simple",
+      "Chaudière fioul à condensation",
+      "Chaudière bois granulés",
+      "Chaudière bois plaquettes",
+      "PAC air/air",
+      "PAC air/eau",
+      "PAC géothermique",
+      "Chaudière électrique"
+    ],
+    "marqueEmetteur":[
+      "Acova",
+      "Airelec",
+      "Atlantic",
+      "Sauter",
+      "Thermor"
+    ],
+    "typeIsolant":[
+      "Laine de verre",
+      "Laine de roche",
+      "Polystyrène",
+      "Autre"
+    ],
+    "typeToiture":[
+      "Faux plafond en dalles",
+      "Plafond en platre",
+      "Plafond autres",
+      "Toiture terrasse",
+      "Rampants",
+      "Combles perdues"
+    ],
+    "regulationClimatisation":[
+      "Régulateur thermostatique",
+      "Régulateur séquentiel",
+      "Capteurs",
+      "Actionneurs",
+      "Régulateur",
+      "Domotique"
+    ],
+    "regulationVentilation":[
+      "Absence de régulation",
+      "Horloge",
+      "Programmation horaire",
+      "Sonde CO2",
+      "Interrupteur",
+      "relance temporisée"
+    ],
+    "energieAutre":[
+      "Bois Granulés",
+      "Bois Déchiqueté",
+      "Bois Bûches",
+      "Fioul"
+    ],
+    "nomRemarques":[
+      "Remarques enveloppe thermique",
+      "Remarque systèmes",
+      "Remarques occupation et régulation",
+      "Elements de contexte sur le bâtiment",
+      "Remarque production et distribution du chauffage",
+      "Remarque conso, facture et appro énergétique",
+      "Remarque diverse"
+    ]
+  }
+}

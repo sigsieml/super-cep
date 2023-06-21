@@ -2,9 +2,7 @@ package com.example.super_cep;
 
 import static org.junit.Assert.assertTrue;
 
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Export.JsonExporter;
+import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve;
 
@@ -24,8 +22,6 @@ public class CreateSlideShowReleveTest {
     public static final String PATH_POWERPOINT = "powerpointvierge.pptx";
     @Test
     public void testOpenFile(){
-
-
         try {
             // On ouvre le fichier
             InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
@@ -72,7 +68,7 @@ public class CreateSlideShowReleveTest {
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_RELEVE);
             String text = new String(is.readAllBytes());
-            releve = JsonExporter.deserialize(text);
+            releve = JsonReleveManager.deserialize(text);
             is.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

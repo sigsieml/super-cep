@@ -1,6 +1,5 @@
 package com.example.super_cep.view;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,15 +10,9 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.ActivityReleveBinding;
-import com.example.super_cep.model.Enveloppe.Eclairage;
-import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.Sol;
-import com.example.super_cep.model.Enveloppe.Toiture;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Export.JsonExporter;
+import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Releve;
-import com.example.super_cep.model.SpinnerDataProvider;
+import com.example.super_cep.model.SpinnerData.ConfigDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.app.ActivityCompat;
@@ -32,11 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReleveActivity extends AppCompatActivity {
 
@@ -70,9 +59,9 @@ public class ReleveActivity extends AppCompatActivity {
     }
 
     private void setupSpinnerData() {
-        SpinnerDataProvider spinnerDataProvider = new SpinnerDataProvider();
+        ConfigDataProvider configDataProvider = new ConfigDataProvider();
         spinnerDataViewModel = new ViewModelProvider(this).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setSpinnerData(spinnerDataProvider.getSpinnersData());
+        spinnerDataViewModel.setSpinnerData(configDataProvider.configData);
     }
 
 
@@ -84,7 +73,7 @@ public class ReleveActivity extends AppCompatActivity {
             try {
                 byte[] bytes = Files.readAllBytes(releveFile.toPath());
                 String json = new String(bytes);
-                releve =  JsonExporter.deserialize(json);
+                releve =  JsonReleveManager.deserialize(json);
                 if(releve == null)
                     throw new Exception("Impossible de récupérer le relevé");
             } catch (Exception e) {

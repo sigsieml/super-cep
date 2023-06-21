@@ -5,18 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.super_cep.databinding.ActivityMainBinding;
-import com.example.super_cep.model.Export.JsonExporter;
-import com.example.super_cep.model.Releve;
 import com.example.super_cep.view.ReleveActivity;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
 
 
 public class MainActivity extends AppCompatActivity implements ReleveRecentViewHolderListener {
