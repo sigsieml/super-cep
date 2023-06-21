@@ -38,7 +38,28 @@
     "super calendrier ":{
       "nom":"super calendrier ",
       "zones":[
+        "salle de classe",
+        "dortoir "
+      ],
+      "calendrierDateChaufferOccuperMap":{
 
+      }
+    },
+    "calendrier 2":{
+      "nom":"calendrier 2",
+      "zones":[
+        "salle 2",
+        "dortoir 2"
+      ],
+      "calendrierDateChaufferOccuperMap":{
+
+      }
+    },
+    "calendrier 3":{
+      "nom":"calendrier 3",
+      "zones":[
+        "salle 3",
+        "dortoir 3"
       ],
       "calendrierDateChaufferOccuperMap":{
 

@@ -32,7 +32,28 @@
     "super calendrier ":{
       "nom":"super calendrier ",
       "zones":[
+        "salle de classe",
+        "dortoir "
+      ],
+      "calendrierDateChaufferOccuperMap":{
 
+      }
+    },
+    "calendrier 2":{
+      "nom":"calendrier 2",
+      "zones":[
+        "salle 2",
+        "dortoir 2"
+      ],
+      "calendrierDateChaufferOccuperMap":{
+
+      }
+    },
+    "calendrier 3":{
+      "nom":"calendrier 3",
+      "zones":[
+        "salle 3",
+        "dortoir 3"
       ],
       "calendrierDateChaufferOccuperMap":{
 
@@ -117,6 +138,11 @@
     "Remarque conso, facture et appro énergétique": {
         "nom": "Remarque conso, facture et appro énergétique",
         "description": "Remarque conso, facture et appro énergétique  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+        "personalise": false
+    },
+    "Remarques occupation et régulation": {
+        "nom": "Remarques occupation et régulation",
+        "description": "Remarques occupation et régulation  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
         "personalise": false
     },
     "wow":{

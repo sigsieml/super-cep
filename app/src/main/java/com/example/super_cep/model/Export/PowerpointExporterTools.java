@@ -2,6 +2,11 @@ package com.example.super_cep.model.Export;
 
 import org.apache.poi.sl.usermodel.PaintStyle;
 import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFShape;
+import org.apache.poi.xslf.usermodel.XSLFSheet;
+import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
@@ -49,4 +54,16 @@ public class PowerpointExporterTools {
         }
     }
 
+    public static XSLFSlide  duplicateSlide(XMLSlideShow ppt, XSLFSlide slide) {
+        // Get the slide that you want to duplicate
+        XSLFSlide oldSlide = slide;
+
+        // Get the layout of the old slide
+        XSLFSlideLayout layout = oldSlide.getSlideLayout();
+
+        // Create a new slide with the layout of the old slide
+        XSLFSlide newSlide = ppt.createSlide(layout);
+        newSlide.importContent(slide);
+        return newSlide;
+    }
 }

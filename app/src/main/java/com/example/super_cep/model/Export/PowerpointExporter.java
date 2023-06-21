@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
+import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
@@ -73,7 +74,7 @@ public class PowerpointExporter {
             List<XSLFSlide> slides = ppt.getSlides();
             slideBatiment(slides.get(0));
             slideEnergieEtConsomations(slides.get(1));
-            slideUsageEtOccupationDuBatiment(slides.get(2));
+            slideUsageEtOccupationDuBatiment(ppt, slides.get(2));
             slideDescriptifEnveloppeThermique(ppt,slides.get(3));
 
             try (FileOutputStream out = new FileOutputStream(file)) {
@@ -159,7 +160,38 @@ public class PowerpointExporter {
 
 
 
-    private void slideUsageEtOccupationDuBatiment(XSLFSlide slide) {
+    private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
+        Calendrier[] calendriers = releve.getCalendriersValues();
+        XSLFSlide[] slidesCalendrier = new XSLFSlide[calendriers.length];
+        slidesCalendrier[0] = slide;
+        for (int i = 1; i < calendriers.length; i++) {
+            slidesCalendrier[i] = PowerpointExporterTools.duplicateSlide(ppt, slide);
+            ppt.setSlideOrder(slidesCalendrier[i], slidesCalendrier[i - 1].getSlideNumber());
+        }
+        for (int i = 0; i < calendriers.length; i++) {
+            XSLFSlide slideCalendrier = slidesCalendrier[i];
+            Calendrier calendrier = calendriers[i];
+
+            for (XSLFShape shape : slideCalendrier) {
+                if(shape instanceof XSLFTextShape){
+                    replaceTextInTextShape((XSLFTextShape) shape);
+                }
+                if(shape.getShapeName().equals("nomCalendrier")){
+                    XSLFTextShape textShape = (XSLFTextShape) shape;
+                    textShape.getTextBody().setText(calendrier.nom);
+                }
+                if(shape.getShapeName().equals("nomZones")){
+                    XSLFTextShape textShape = (XSLFTextShape) shape;
+                    StringBuilder builder = new StringBuilder("zones : ");
+                    for (String zone : calendrier.zones) {
+                        builder.append(zone).append(", ");
+                    }
+                    builder.delete(builder.length() - 2, builder.length());
+                    textShape.getTextBody().setText(builder.toString());
+                }
+            }
+
+        }
     }
 
 
