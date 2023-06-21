@@ -12,6 +12,7 @@ import com.example.super_cep.model.ECS;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Remarque;
 import com.example.super_cep.model.Ventilation;
 
 import java.util.Arrays;
@@ -244,6 +245,28 @@ public class ReleveViewModel extends ViewModel {
         }
         releve.getValue().approvisionnementEnergetiques.remove(nomApprovisionnementEnergetique);
         releve.getValue().approvisionnementEnergetiques.put(approvisionnementEnergetiqueFromViews.nom, approvisionnementEnergetiqueFromViews);
+        forceUpdateReleve();
+    }
+
+    public void removeRemarque(Remarque remarque) {
+        releve.getValue().remarques.remove(remarque.nom);
+        forceUpdateReleve();
+    }
+
+    public void addRemarque(Remarque remarque) {
+        if(releve.getValue().remarques.containsKey(remarque)){
+            throw new IllegalArgumentException("Une remarque identique existe déjà");
+        }
+        releve.getValue().remarques.put(remarque.nom, remarque);
+        forceUpdateReleve();
+    }
+
+    public void editRemarque(String oldName, Remarque remarque) {
+        if(!remarque.nom.equals(oldName) && releve.getValue().remarques.containsKey(remarque.nom)){
+            throw new IllegalArgumentException("Une remarque porte déjà ce nom : " + remarque.nom);
+        }
+        releve.getValue().remarques.remove(oldName);
+        releve.getValue().remarques.put(remarque.nom, remarque);
         forceUpdateReleve();
     }
 }

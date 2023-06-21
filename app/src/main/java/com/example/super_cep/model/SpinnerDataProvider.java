@@ -38,6 +38,7 @@ public class SpinnerDataProvider {
         spinnersData.put("energieGaz", List.of("Gaz Naturel", "Propane Réseau", "Propane Cuve"));
         spinnersData.put("energieAutre",  List.of("Bois Granulés", "Bois Déchiqueté", "Bois Bûches", "Fioul"));
         spinnersData.put("formuleTarifaire", List.of("Base", "HP/HC", "4HS", "4HP"));
+        spinnersData.put("nomRemarques", List.of("Remarques enveloppe thermique", "Remarque systèmes", "Remarques occupation et régulation", "Elements de contexte sur le bâtiment", "Remarque production et distribution du chauffage", "Remarque conso, facture et appro énergétique", "Remarque diverse"));
     }
 
     public Map<String, List<String>> getSpinnersData(){

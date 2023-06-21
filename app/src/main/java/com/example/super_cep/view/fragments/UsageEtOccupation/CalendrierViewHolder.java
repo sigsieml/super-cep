@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.super_cep.controller.Animation;
 import com.example.super_cep.databinding.ViewholderCalendrierBinding;
 import com.example.super_cep.model.Calendrier.Calendrier;
 import com.example.super_cep.model.Enveloppe.Zone;
@@ -29,6 +30,7 @@ public class CalendrierViewHolder extends RecyclerView.ViewHolder {
     public CalendrierViewHolder(@NonNull View itemView) {
         super(itemView);
         binding = ViewholderCalendrierBinding.bind(itemView);
+        Animation.pulseViewOnLongPress(binding.getRoot());
     }
 
     public void bind(Calendrier calendrier, Zone[] zones, CalendrierViewHolderListener listener){

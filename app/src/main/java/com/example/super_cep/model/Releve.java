@@ -26,6 +26,7 @@ public class Releve {
     public String adresse = "";
     public Map<String, ECS> ecs;
     public Map<String, ApprovisionnementEnergetique> approvisionnementEnergetiques;
+    public Map<String, Remarque> remarques;
 
 
     public Releve(){
@@ -36,6 +37,7 @@ public class Releve {
         this.ventilations = new HashMap<>();
         this.ecs = new HashMap<>();
         this.approvisionnementEnergetiques = new HashMap<>();
+        this.remarques = new HashMap<>();
     }
 
     public void addZone(Zone zone){

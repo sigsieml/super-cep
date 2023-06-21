@@ -50,7 +50,7 @@
         tools:layout="@layout/fragment_approvisionnement_energetique"></fragment>
     <fragment
         android:id="@+id/nav_remarques"
-        android:name="com.example.super_cep.view.fragments.Remarques"
+        android:name="com.example.super_cep.view.fragments.Remarques.FragmentRemarques"
         android:label="Remarques"
         tools:layout="@layout/fragment_remarques"></fragment>
     <fragment

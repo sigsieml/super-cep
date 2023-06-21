@@ -28,7 +28,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:autoSizeTextType="uniform"
-                    android:text="Ajouter un ApprovisionnementEnergetique"
+                    android:text="Ajouter un Approvisionnement Energetique"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Nom du ApprovisionnementEnergetique"
+                    android:text="Nom de l'approvisionnement"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewTitleApprovisionnementEnergetique" />
 
@@ -52,7 +52,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:hint="Entrez le nom du ApprovisionnementEnergetique"
+                    android:hint="Entrez le nom de l'approvisionnement"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
