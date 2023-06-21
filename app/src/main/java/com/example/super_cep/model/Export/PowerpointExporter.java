@@ -9,7 +9,9 @@ import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Remarque;
 
+import org.apache.poi.common.usermodel.fonts.FontGroup;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
@@ -22,6 +24,10 @@ import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -43,9 +49,12 @@ public class PowerpointExporter {
     private Map<String, String> remplacements;
 
     private Context context;
+    private BufferedImage img;
 
     public PowerpointExporter(Context context) {
         this.context = context;
+        img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+
     }
 
     public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve) {
@@ -71,30 +80,26 @@ public class PowerpointExporter {
     }
     private void setupReleve() {
         remplacements = new HashMap<>();
-        if(releve.nomBatiment != null) remplacements.put("{{ nomBatiment }}", releve.nomBatiment);
-        if(releve.dateDeConstruction != null) remplacements.put("{{ dateDeConstruction }}",  formateDate(releve.dateDeConstruction)); // pretty print date
-        if(releve.dateDeDerniereRenovation != null) remplacements.put("{{ dateDeDerniereRenovation }}", formateDate(releve.dateDeDerniereRenovation));
-        if(releve.surfaceTotaleChauffe != 0) remplacements.put("{{ surfaceTotaleChauffe }}", releve.surfaceTotaleChauffe + "");
-        if(releve.description != null) remplacements.put("{{ description }}", releve.description);
-        if(releve.adresse != null) remplacements.put("{{ adresse }}", releve.adresse);
+        if(releve.nomBatiment != null) remplacements.put("nomBatiment", releve.nomBatiment);
+        if(releve.dateDeConstruction != null) remplacements.put("dateDeConstruction",  formateDate(releve.dateDeConstruction));
+        if(releve.dateDeDerniereRenovation != null) remplacements.put("dateDeDerniereRenovation", formateDate(releve.dateDeDerniereRenovation));
+        if(releve.surfaceTotaleChauffe != 0) remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + "");
+        if(releve.description != null) remplacements.put("description", releve.description);
+        if(releve.adresse != null) remplacements.put("adresse", releve.adresse);
+
+
+        //remarques :
+        if(releve.remarques != null){
+            for (Map.Entry<String, Remarque> entry : releve.remarques.entrySet()) {
+                remplacements.put("remarque" + entry.getKey(), entry.getValue().description);
+            }
+        }
     }
 
 
 
     private void slideBatiment(XSLFSlide slide) {
         for (XSLFShape shape : slide) {
-            if(shape instanceof XSLFTable){
-                XSLFTable table = (XSLFTable) shape;
-                // iterate over rows
-                for (XSLFTableRow row : table) {
-                    // iterate over cells
-                    for (XSLFTableCell cell : row.getCells()) {
-                        if(remplacements.containsKey(cell.getText())){
-                            cell.setText(remplacements.get(cell.getText()));
-                        }
-                    }
-                }
-            }
             if (shape instanceof XSLFTextShape) {
                 replaceTextInTextShape((XSLFTextShape) shape);
             }
@@ -158,32 +163,32 @@ public class PowerpointExporter {
     }
 
     private void replaceTextInTextShape(XSLFTextShape shape) {
-        XSLFTextShape textShape = (XSLFTextShape) shape;
-        StringBuilder totalText = new StringBuilder();
-        List<XSLFTextRun> runs = new ArrayList<>();
+        if(!remplacements.containsKey(shape.getShapeName()))
+            return;
 
-        // Concatenate all the text and save the text runs
-        for (XSLFTextParagraph paragraph : textShape) {
-            for (XSLFTextRun run : paragraph) {
-                totalText.append(run.getRawText());
-                runs.add(run);
-            }
-        }
+        XSLFTextRun run = shape.getTextParagraphs().get(0).getTextRuns().get(0);
+        String fontFamily = run.getFontFamily();
+        double fontSize = run.getFontSize();
+        boolean bold = run.isBold();
+        boolean italic = run.isItalic();
 
-        // Perform the replacement using map keys
-        String replacedText = totalText.toString();
-        for (String key : remplacements.keySet()) {
-            replacedText = replacedText.replace(key, remplacements.get(key));
-        }
+        // Création d'une police Java avec les informations de police de la shape
+        int style = (bold ? Font.BOLD : 0) | (italic ? Font.ITALIC : 0);
+        Font font = new Font(fontFamily, style, (int) fontSize);
+
+        FontMetrics fm = img.getGraphics().getFontMetrics(font);
+        int width = fm.stringWidth(remplacements.get(shape.getShapeName()));
+
+        double actualHeight = shape.getAnchor().getHeight();
+        double actualWidth = shape.getAnchor().getWidth();
+
+        int ratioWidth = (int)Math.ceil(width / actualWidth) ;
 
 
 
-        // Split the replaced text into the original number of runs
-        int start = 0;
-        for (XSLFTextRun run : runs) {
-            int end = Math.min(start + run.getRawText().length(), replacedText.length());
-            run.setText(replacedText.substring(start, end));
-            start = end;
-        }
+        Rectangle rectangle = new Rectangle((int)shape.getAnchor().getX(), (int)shape.getAnchor().getY(),
+                (int) actualWidth, (int) (actualHeight * ratioWidth));
+        shape.setAnchor(rectangle);
+        shape.getTextBody().setText(remplacements.get(shape.getShapeName()));
     }
 }

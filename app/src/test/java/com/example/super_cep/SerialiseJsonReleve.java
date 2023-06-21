@@ -51,17 +51,9 @@ public class SerialiseJsonReleve {
         releve.addZone(superZone);
 
         Zone zone1 = new Zone("Zone 1");
-        ZoneElement zoneElement1 = new ZoneElement("Mur Est");
-        ZoneElement zoneElement2 = new ZoneElement("Mur Ouest");
-        zone1.addZoneElement(zoneElement1);
-        zone1.addZoneElement(zoneElement2);
         releve.addZone(zone1);
 
         Zone zone2 = new Zone("Zone 2");
-        ZoneElement zoneElement3 = new ZoneElement("Mur Nord");
-        ZoneElement zoneElement4 = new ZoneElement("Mur Sud");
-        zone2.addZoneElement(zoneElement3);
-        zone2.addZoneElement(zoneElement4);
         releve.addZone(zone2);
 
         // Ajoutez autant de zones et d'éléments de zone que nécessaire

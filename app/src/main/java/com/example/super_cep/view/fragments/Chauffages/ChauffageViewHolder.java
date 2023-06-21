@@ -33,6 +33,7 @@ public class ChauffageViewHolder extends RecyclerView.ViewHolder {
         binding.textViewTypeChauffage.setText("type : " + chauffage.type);
         binding.textViewPuissance.setText(String.valueOf("puissance : " + chauffage.puissance));
         binding.textViewQuantite.setText("quantité : " + String.valueOf(chauffage.quantite));
+        binding.textViewMarque.setText("marque : " + chauffage.marque);
         binding.textViewModele.setText("modèle : " + chauffage.modele);
         StringBuilder builderZones = new StringBuilder("zones : ");
         for (String zone: chauffage.zones) {

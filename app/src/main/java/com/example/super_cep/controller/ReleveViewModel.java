@@ -18,6 +18,7 @@ import com.example.super_cep.model.Ventilation;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ReleveViewModel extends ViewModel {
 
@@ -267,6 +268,30 @@ public class ReleveViewModel extends ViewModel {
         }
         releve.getValue().remarques.remove(oldName);
         releve.getValue().remarques.put(remarque.nom, remarque);
+        forceUpdateReleve();
+    }
+
+    public void deletePreconisation(String preconisation) {
+        releve.getValue().preconisations.remove(preconisation);
+        forceUpdateReleve();
+    }
+
+    public void editPreconisation(String last, String preconisation) {
+        if(!preconisation.equals(last) && releve.getValue().preconisations.contains(preconisation)){
+            throw new IllegalArgumentException("La préconisation (\"" + preconisation + "\") existe déjà");
+        }
+        releve.getValue().preconisations.remove(last);
+        releve.getValue().preconisations.add(preconisation);
+        forceUpdateReleve();
+    }
+
+    public void addPreconisations(List<String> preconisation) {
+        for(String p : preconisation){
+            if(releve.getValue().preconisations.contains(p)){
+                throw new IllegalArgumentException("La préconisation (\"" + p + "\") existe déjà");
+            }
+        }
+        releve.getValue().preconisations.addAll(preconisation);
         forceUpdateReleve();
     }
 }

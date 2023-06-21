@@ -1,0 +1,91 @@
+package com.example.super_cep.view.fragments.Preconisation;
+
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.PopupWindow;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.example.super_cep.R;
+import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.databinding.PopupPreconisationsBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+
+interface PopUpNouvellePreconisationListener{
+    void onValidate(List<String> preconisation);
+}
+public class PopUpNouvellePreconisation extends View {
+
+    public static void create(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopUpNouvellePreconisationListener popupNouvelleRemarqueListener) {
+        new PopUpNouvellePreconisation(context, releveViewModel, spinnerDataViewModel, popupNouvelleRemarqueListener);
+    }
+
+    private PopupPreconisationsBinding binding;
+    private PopUpNouvellePreconisationListener listener;
+    private PopupWindow pw;
+    private SpinnerDataViewModel spinnerDataViewModel;
+    private ReleveViewModel releveViewModel;
+    private List<CheckBox> checkBoxesPreconisations = new ArrayList<>();
+
+    public PopUpNouvellePreconisation(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopUpNouvellePreconisationListener listener) {
+        super(context);
+        this.releveViewModel = releveViewModel;
+        this.spinnerDataViewModel = spinnerDataViewModel;
+        this.listener = listener;
+        this.binding = PopupPreconisationsBinding.inflate((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        setupSpinner();
+        pw = new PopupWindow(binding.getRoot(), ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT, true);
+        pw.setAnimationStyle(R.style.Animation);
+        pw.showAtLocation(binding.getRoot(), Gravity.CENTER, 0, 0);
+
+        binding.buttonAnnuler.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pw.dismiss();
+            }
+        });
+
+        binding.buttonPreconisationPersonalise.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onValidate(List.of(""));
+            }
+        });
+
+        binding.buttonValider.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> nouvellePreconisations = new ArrayList<>();
+                for (CheckBox checkBox : checkBoxesPreconisations) {
+                    if(checkBox.isChecked()){
+                        nouvellePreconisations.add(checkBox.getText().toString());
+                    }
+                }
+                listener.onValidate(nouvellePreconisations);
+                pw.dismiss();
+            }
+        });
+    }
+
+
+    private void setupSpinner() {
+        List<String> preconisationsNom = releveViewModel.getReleve().getValue().preconisations;
+        List<String> spinnerDataRemarque = spinnerDataViewModel.getSpinnerData().getValue().get("preconisations");
+        for (String s :spinnerDataRemarque) {
+            if(!preconisationsNom.contains(s)){
+                CheckBox checkBox = new CheckBox(getContext());
+                checkBox.setText(s);
+                checkBoxesPreconisations.add(checkBox);
+                binding.linearLayoutPreconisations.addView(checkBox);
+            }
+        }
+    }
+}

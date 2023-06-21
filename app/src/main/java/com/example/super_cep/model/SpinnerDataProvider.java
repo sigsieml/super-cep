@@ -39,6 +39,7 @@ public class SpinnerDataProvider {
         spinnersData.put("energieAutre",  List.of("Bois Granulés", "Bois Déchiqueté", "Bois Bûches", "Fioul"));
         spinnersData.put("formuleTarifaire", List.of("Base", "HP/HC", "4HS", "4HP"));
         spinnersData.put("nomRemarques", List.of("Remarques enveloppe thermique", "Remarque systèmes", "Remarques occupation et régulation", "Elements de contexte sur le bâtiment", "Remarque production et distribution du chauffage", "Remarque conso, facture et appro énergétique", "Remarque diverse"));
+        spinnersData.put("preconisations", List.of("Remplacer les tubes fluo par des LEDS", "Réaliser une isolation thermique extérieur", "Remplacer les menuiseries", "Remplacer le système de chauffage", "Remplacer le système de régulation ancien"));
     }
 
     public Map<String, List<String>> getSpinnersData(){

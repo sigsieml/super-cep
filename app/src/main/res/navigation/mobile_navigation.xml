@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_remarques"></fragment>
     <fragment
         android:id="@+id/nav_preconisations"
-        android:name="com.example.super_cep.view.fragments.Preconisation"
+        android:name="com.example.super_cep.view.fragments.Preconisation.FragmentPreconisation"
         android:label="Préconisations"
         tools:layout="@layout/fragment_preconisation" />
     <fragment

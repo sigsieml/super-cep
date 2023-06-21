@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Export.JsonExporter;
 import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve;
 
@@ -19,20 +20,23 @@ import java.util.Calendar;
 
 public class CreateSlideShowReleveTest {
 
+    public static final String PATH_RELEVE = "super bâtiment  sans uri.json";
+    public static final String PATH_POWERPOINT = "powerpointvierge.pptx";
     @Test
     public void testOpenFile(){
 
 
         try {
             // On ouvre le fichier
-            InputStream is = getClass().getClassLoader().getResourceAsStream("powerpointvierge.pptx");
-
+            InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
             // On vérifie que le fichier existe
             if (is == null) throw new AssertionError("Fichier non trouvé");
-
-
-
             is.close();
+
+            InputStream is2 = getClass().getClassLoader().getResourceAsStream(PATH_RELEVE);
+            // On vérifie que le fichier existe
+            if (is2 == null) throw new AssertionError("Fichier non trouvé");
+            is2.close();
         } catch (IOException e) {
             assertTrue(false);
         }
@@ -41,10 +45,10 @@ public class CreateSlideShowReleveTest {
 
     @Test
     public void createSlideShowReleveTest(){
-        Releve releve = createTestReleve();
+        Releve releve = getReleve();
         // open file in assets
         PowerpointExporter exporter = new PowerpointExporter(null);
-        InputStream is = getClass().getClassLoader().getResourceAsStream("powerpointvierge.pptx");
+        InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
             exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);
 
@@ -60,32 +64,21 @@ public class CreateSlideShowReleveTest {
 
     }
 
-    public  Releve createTestReleve() {
-        Releve releve = new Releve();
+    private Releve getReleve() {
+        Releve releve;
+        //get text from file
 
-        releve.nomBatiment = "Batiment Test";
-        releve.dateDeConstruction.set(2000, Calendar.JANUARY, 1);
-        releve.dateDeDerniereRenovation.set(2015, Calendar.JANUARY, 1);
-        releve.surfaceTotaleChauffe = 5000.0f;
-        releve.description = "Batiment de test pour l'application Super CEP";
-        releve.adresse = "123 Rue de Test, Ville Test, 10000";
 
-        Zone zone1 = new Zone("Zone 1");
-        ZoneElement zoneElement1 = new ZoneElement("Mur Est");
-        ZoneElement zoneElement2 = new ZoneElement("Mur Ouest");
-        zone1.addZoneElement(zoneElement1);
-        zone1.addZoneElement(zoneElement2);
-        releve.addZone(zone1);
-
-        Zone zone2 = new Zone("Zone 2");
-        ZoneElement zoneElement3 = new ZoneElement("Mur Nord");
-        ZoneElement zoneElement4 = new ZoneElement("Mur Sud");
-        zone2.addZoneElement(zoneElement3);
-        zone2.addZoneElement(zoneElement4);
-        releve.addZone(zone2);
-
-        // Ajoutez autant de zones et d'éléments de zone que nécessaire
-
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_RELEVE);
+            String text = new String(is.readAllBytes());
+            releve = JsonExporter.deserialize(text);
+            is.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return releve;
     }
+
+
 }

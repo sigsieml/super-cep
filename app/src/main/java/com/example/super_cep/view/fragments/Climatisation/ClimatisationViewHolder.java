@@ -31,6 +31,7 @@ public class ClimatisationViewHolder extends RecyclerView.ViewHolder {
         binding.textViewTypeClimatisation.setText("type : " + climatisation.type);
         binding.textViewPuissance.setText(String.valueOf("puissance : " + climatisation.puissance));
         binding.textViewQuantite.setText("quantité : " + String.valueOf(climatisation.quantite));
+        binding.textViewMarque.setText("marque : " + climatisation.marque);
         binding.textViewModele.setText("modèle : " + climatisation.modele);
         StringBuilder builderZones = new StringBuilder("zones : ");
         for (String zone: climatisation.zones) {
