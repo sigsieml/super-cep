@@ -219,8 +219,6 @@ public class PowerpointExporterTools {
 
         int ratioWidth = (int)Math.ceil(widthText / actualWidth) ;
 
-
-
         Rectangle rectangle = new Rectangle((int)shape.getAnchor().getX(), (int)shape.getAnchor().getY(),
                 (int) actualWidth, (int) (actualHeight * ratioWidth));
         shape.setAnchor(rectangle);
@@ -228,49 +226,5 @@ public class PowerpointExporterTools {
 
     }
 
-    private static Paint getPaintofTextShape(XSLFTextRun run){
-        String fontFamily = run.getFontFamily();
-        double fontSize = run.getFontSize();
-        boolean bold = run.isBold();
-        boolean italic = run.isItalic();
 
-        // Création d'une police Java avec les informations de police de la shape
-        int style = Typeface.NORMAL;
-        if (bold && italic) {
-            style = Typeface.BOLD_ITALIC;
-        } else if (bold) {
-            style = Typeface.BOLD;
-        } else if (italic) {
-            style = Typeface.ITALIC;
-        }
-
-
-
-        Typeface typeface;
-        try {
-            typeface = Typeface.create(fontFamily, style);
-            Paint paint = new Paint();
-            paint.setTypeface(typeface);
-            paint.setTextSize((float) fontSize);
-            return paint;
-
-        } catch (Exception e) {
-            // Fallback to default font if the custom font is not found
-            return null;
-        }
-
-    }
-
-    private static double getTextHeight(XSLFTableCell tc) {
-        double height = 0;
-        for (XSLFTextParagraph p : tc.getTextParagraphs()) {
-            if(p.getTextRuns().isEmpty())
-                continue;
-            Paint paint = getPaintofTextShape(p.getTextRuns().get(0));
-            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-            float textHeight = fontMetrics.bottom - fontMetrics.top;
-            height += textHeight;
-        }
-        return height;
-    }
 }
