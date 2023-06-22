@@ -9,7 +9,10 @@ import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementE
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.example.super_cep.model.Calendrier.Calendrier;
+import com.example.super_cep.model.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Enveloppe.Mur;
+import com.example.super_cep.model.Enveloppe.Sol;
+import com.example.super_cep.model.Enveloppe.Toiture;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve;
@@ -17,6 +20,7 @@ import com.example.super_cep.model.Remarque;
 
 import org.apache.poi.common.usermodel.fonts.FontGroup;
 import org.apache.poi.sl.usermodel.PaintStyle;
+import org.apache.poi.sl.usermodel.TextParagraph;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
@@ -34,6 +38,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
@@ -72,10 +77,12 @@ public class PowerpointExporter {
             XMLSlideShow ppt = new XMLSlideShow(is);
 
             List<XSLFSlide> slides = ppt.getSlides();
+            XSLFSlide slideDescriptifEnveloppeThermique = slides.get(3);
             slideBatiment(slides.get(0));
             slideEnergieEtConsomations(slides.get(1));
             slideUsageEtOccupationDuBatiment(ppt, slides.get(2));
-            slideDescriptifEnveloppeThermique(ppt,slides.get(3));
+            slideDescriptifEnveloppeThermique(ppt,slideDescriptifEnveloppeThermique);
+
 
             try (FileOutputStream out = new FileOutputStream(file)) {
                 ppt.write(out);
@@ -197,42 +204,148 @@ public class PowerpointExporter {
 
 
     private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide) {
-        if(context == null) return;
+        List<String> tablesNames = List.of("tableauMur", "tableauToiture", "tableauSols", "tableauMenuiseries");
+        Map<String, XSLFTable> tables = new HashMap<>();
+        for (XSLFShape shape : slide.getShapes()){
+
+            if(tablesNames.contains(shape.getShapeName())){
+                tables.put(shape.getShapeName(), (XSLFTable) shape);
+            }
+        }
+        XSLFTable tableauMur = tables.get("tableauMur");
+        XSLFTable tableauToiture = tables.get("tableauToiture");
+        XSLFTable tableauSols = tables.get("tableauSols");
+        XSLFTable tableauMenuiseries = tables.get("tableauMenuiseries");
+
+
+        int indexColorZone = 0;
+
+        ZoneElementTableauData zoneElementTableauMur = new ZoneElementTableauData(3, 2, "");
+        ZoneElementTableauData zoneElementTableauToiture = new ZoneElementTableauData(3, 2, "");
+        ZoneElementTableauData zoneElementTableauSols = new ZoneElementTableauData(3, 2, "");
+        ZoneElementTableauData zoneElementTableauMenuiseries = new ZoneElementTableauData(3, 2, "");
+
+
+
+        final Color[] colors = new Color[]{new Color(191, 143,0), new Color(31, 78,120), new Color(255, 43, 43)};
         for (Zone zone : releve.getZonesValues()){
+            Color colorZoneName = colors[indexColorZone % colors.length];
+            indexColorZone++;
+
             for (ZoneElement zoneElement : zone.getZoneElementsValues()){
+                //get a random color based on the zone name :
                 if(zoneElement instanceof Mur){
                     Mur mur = (Mur) zoneElement;
-                    for (Uri uri : mur.uriImages){
+                    XSLFTableRow row = tableauMur.addRow();
+                    PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
 
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-                            // Convertir le bitmap en array d'octets
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                            byte[] imageBytes = stream.toByteArray();
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),"Mur");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),mur.typeMur);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),mur.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4),"(" + mur.typeIsolant  + ";" + mur.epaisseurIsolant +" cm)");
 
-                            // Ajouter les octets de l'image en tant que image à la présentation
-                            XSLFPictureData pictureData = ppt.addPicture(imageBytes, XSLFPictureData.PictureType.PNG);
+                    PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
+                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
-                            // Créer une forme d'image sur le slide
-                            XSLFPictureShape pictureShape = slide.createPicture(pictureData);
+                    mergeCellsIfSameZone(zoneElementTableauMur, zone.nom, tableauMur);
+                }
 
-                            // Définir la position et la taille de l'image (ajuster selon les besoins)
-                            pictureShape.setAnchor(new java.awt.Rectangle(100, 100, 300, 300));
+                if(zoneElement instanceof Toiture){
+                    Toiture toiture = (Toiture) zoneElement;
+                    XSLFTableRow row = tableauToiture.addRow();
+                    PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),toiture.typeToiture);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),toiture.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + toiture.typeIsolant  + ";" + toiture.epaisseurIsolant +" cm)");
+                    PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
+                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
-                        } catch (FileNotFoundException e) {
+                    mergeCellsIfSameZone(zoneElementTableauToiture, zone.nom, tableauToiture);
+                }
 
-                        } catch (IOException e) {
-                        }
-
-
+                if(zoneElement instanceof Menuiserie){
+                    Menuiserie menuiserie = (Menuiserie) zoneElement;
+                    XSLFTableRow row = tableauMenuiseries.addRow();
+                    PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),menuiserie.typeMenuiserie);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),menuiserie.materiau);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),menuiserie.typeVitrage);
+                    if(!menuiserie.protectionsSolaires.equals("aucune")){
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4),"Avec");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(5),menuiserie.protectionsSolaires);
                     }
+                    PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
+                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
+
+                    mergeCellsIfSameZone(zoneElementTableauMenuiseries, zone.nom, tableauMenuiseries);
+                }
+
+                if(zoneElement instanceof Sol){
+                    Sol sol = (Sol) zoneElement;
+                    XSLFTableRow row = tableauSols.addRow();
+                    PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),sol.typeSol);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),sol.typeIsolant);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),sol.niveauIsolation);
+
+                    PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
+                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
+
+                    mergeCellsIfSameZone(zoneElementTableauSols, zone.nom, tableauSols);
                 }
 
             }
         }
+
+        tableauMur.updateCellAnchor();
+        tableauMenuiseries.updateCellAnchor();
+        tableauSols.updateCellAnchor();
+        tableauToiture.updateCellAnchor();
+
+        //set tableauToiture below tableauMur
+        tableauToiture.setAnchor(new Rectangle2D.Double(tableauMur.getAnchor().getX(),
+                tableauMur.getAnchor().getY() + tableauMur.getAnchor().getHeight() + 2,
+                tableauToiture.getAnchor().getWidth(),
+                tableauToiture.getAnchor().getHeight())
+        );
+
+        //set tableauMenuiseries below tableauToiture
+        tableauMenuiseries.setAnchor(new Rectangle2D.Double(tableauToiture.getAnchor().getX(),
+                tableauToiture.getAnchor().getY() + tableauToiture.getAnchor().getHeight(),
+                tableauMenuiseries.getAnchor().getWidth(),
+                tableauMenuiseries.getAnchor().getHeight())
+        );
+
+        //set tableauSols below tableauMenuiseries
+        tableauSols.setAnchor(new Rectangle2D.Double(tableauMenuiseries.getAnchor().getX(),
+                tableauMenuiseries.getAnchor().getY() + tableauMenuiseries.getAnchor().getHeight(),
+                tableauSols.getAnchor().getWidth(),
+                tableauSols.getAnchor().getHeight())
+        );
+
+
+        tableauMur.removeRow(2);
+        tableauToiture.removeRow(2);
+        tableauMenuiseries.removeRow(2);
+        tableauSols.removeRow(2);
     }
 
+
+    private void mergeCellsIfSameZone(ZoneElementTableauData zoneElementTableauData, String nomZone, XSLFTable tableauMur){
+        //if the cell above have the same zone name merge the cell zone name
+        if(zoneElementTableauData.lastZoneName.equals(nomZone)){
+            tableauMur.mergeCells(zoneElementTableauData.indexRowSameZone, zoneElementTableauData.indexRow, 0, 0);
+            PowerpointExporterTools.addLineToCell(tableauMur.getRows().get(zoneElementTableauData.indexRowSameZone).getCells().get(0));
+        }else{
+            zoneElementTableauData.indexRowSameZone++;
+        }
+        zoneElementTableauData.indexRow++;
+        zoneElementTableauData.lastZoneName = nomZone;
+    }
 
 
     private String formateDate(Calendar calendar){
@@ -270,4 +383,18 @@ public class PowerpointExporter {
         shape.setAnchor(rectangle);
         shape.getTextBody().setText(remplacements.get(shape.getShapeName()));
     }
+
+
+    private class ZoneElementTableauData{
+        public int indexRow;
+        public int indexRowSameZone;
+        public String lastZoneName;
+
+        public ZoneElementTableauData(int indexRow, int indexRowSameZone, String lastZoneName) {
+            this.indexRow = indexRow;
+            this.indexRowSameZone = indexRowSameZone;
+            this.lastZoneName = lastZoneName;
+        }
+    }
+
 }

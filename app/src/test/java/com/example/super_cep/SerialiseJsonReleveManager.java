@@ -1,5 +1,6 @@
 package com.example.super_cep;
 
+import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Export.JsonReleveManager;
@@ -7,7 +8,9 @@ import com.example.super_cep.model.Releve;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class SerialiseJsonReleveManager {
 
@@ -16,6 +19,7 @@ public class SerialiseJsonReleveManager {
     public void serialiseJsonReleve() {
         Releve releve = createTestReleve();
         String jsonReleve = JsonReleveManager.serialize(releve);
+        System.out.println("jsonReleve = " + jsonReleve);
         Releve deserializedReleve = JsonReleveManager.deserialize(jsonReleve);
         System.out.println("deserializedReleve = " + deserializedReleve);
 
@@ -51,6 +55,9 @@ public class SerialiseJsonReleveManager {
 
         Zone zone2 = new Zone("Zone 2");
         releve.addZone(zone2);
+
+
+        releve.approvisionnementEnergetiques.put("fioul", new ApprovisionnementEnergetique("fioul", "fioul", new ArrayList<>(), new ArrayList<>(), false, ""));
 
         // Ajoutez autant de zones et d'éléments de zone que nécessaire
 

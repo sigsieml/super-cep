@@ -26,6 +26,17 @@
       ],
       "aVerifier":true,
       "note":"dhbd"
+    },
+    "fioul": {
+      "type": "ApprovisionnementEnergetique",
+      "nom": "fioul",
+      "energie": "fioul",
+      "zones": [
+        "salle de classe",
+        "dortoir "
+      ],
+      "aVerifier": true,
+      "note": "dhbd"
     }
   },
   "calendriers":{
@@ -121,9 +132,9 @@
   ],
   "remarques":{
     "Elements de contexte sur le bâtiment": {
-        "nom": "Elements de contexte sur le bâtiment",
-        "description": "Element de contexte sur le bâtiment  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
-        "personalise": false
+      "nom": "Elements de contexte sur le bâtiment",
+      "description": "Element de contexte sur le bâtiment  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+      "personalise": false
     },
     "Remarques enveloppe thermique":{
       "nom":"Remarques enveloppe thermique",
@@ -136,14 +147,14 @@
       "personalise":false
     },
     "Remarque conso, facture et appro énergétique": {
-        "nom": "Remarque conso, facture et appro énergétique",
-        "description": "Remarque conso, facture et appro énergétique  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
-        "personalise": false
+      "nom": "Remarque conso, facture et appro énergétique",
+      "description": "Remarque conso, facture et appro énergétique  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+      "personalise": false
     },
     "Remarques occupation et régulation": {
-        "nom": "Remarques occupation et régulation",
-        "description": "Remarques occupation et régulation  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
-        "personalise": false
+      "nom": "Remarques occupation et régulation",
+      "description": "Remarques occupation et régulation  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+      "personalise": false
     },
     "wow":{
       "nom":"wow",
@@ -205,6 +216,39 @@
           "aVerifier":true,
           "note":"dif"
         },
+        "mur":{
+          "type":"mur",
+          "nom":"mur",
+          "typeMur":"Parpaing",
+          "typeMiseEnOeuvre":"Bardage",
+          "typeIsolant":"Laine de roche",
+          "niveauIsolation":"Faiblement isolé",
+          "epaisseurIsolant":107.0,
+          "aVerifier":true,
+          "note":"djdj"
+        },
+        "mur2":{
+          "type":"mur",
+          "nom":"mur2",
+          "typeMur":"Parpaing",
+          "typeMiseEnOeuvre":"Bardage",
+          "typeIsolant":"Laine de roche",
+          "niveauIsolation":"Faiblement isolé",
+          "epaisseurIsolant":107.0,
+          "aVerifier":true,
+          "note":"djdj"
+        },
+        "mur3":{
+          "type":"mur",
+          "nom":"mur3",
+          "typeMur":"Parpaing",
+          "typeMiseEnOeuvre":"Bardage",
+          "typeIsolant":"Laine de roche",
+          "niveauIsolation":"Faiblement isolé",
+          "epaisseurIsolant":107.0,
+          "aVerifier":true,
+          "note":"djdj"
+        },
         "menuiserie ":{
           "type":"menuiserie",
           "nom":"menuiserie ",
@@ -220,6 +264,17 @@
     "dortoir ":{
       "nom":"dortoir ",
       "zoneElements":{
+        "mur":{
+          "type":"mur",
+          "nom":"mur",
+          "typeMur":"Parpaing",
+          "typeMiseEnOeuvre":"Bardage",
+          "typeIsolant":"Laine de roche",
+          "niveauIsolation":"Faiblement isolé",
+          "epaisseurIsolant":107.0,
+          "aVerifier":true,
+          "note":"djdj"
+        },
         "éclairage ":{
           "type":"eclairage",
           "nom":"éclairage ",
