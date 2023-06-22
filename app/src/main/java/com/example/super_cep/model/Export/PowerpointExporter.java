@@ -115,7 +115,7 @@ public class PowerpointExporter {
     private void slideBatiment(XSLFSlide slide) {
         for (XSLFShape shape : slide) {
             if (shape instanceof XSLFTextShape) {
-                replaceTextInTextShape((XSLFTextShape) shape);
+                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
             }
         }
 
@@ -124,7 +124,7 @@ public class PowerpointExporter {
     private void slideEnergieEtConsomations(XSLFSlide slide) {
         for (XSLFShape shape : slide) {
             if(shape instanceof XSLFTextShape){
-                replaceTextInTextShape((XSLFTextShape) shape);
+                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
             }
 
             if(shape.getShapeName().equals("tableauApprovisionnementEnergetique")){
@@ -181,7 +181,7 @@ public class PowerpointExporter {
 
             for (XSLFShape shape : slideCalendrier) {
                 if(shape instanceof XSLFTextShape){
-                    replaceTextInTextShape((XSLFTextShape) shape);
+                    PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
                 }
                 if(shape.getShapeName().equals("nomCalendrier")){
                     XSLFTextShape textShape = (XSLFTextShape) shape;
@@ -301,10 +301,10 @@ public class PowerpointExporter {
             }
         }
 
-        tableauMur.updateCellAnchor();
-        tableauMenuiseries.updateCellAnchor();
-        tableauSols.updateCellAnchor();
-        tableauToiture.updateCellAnchor();
+        PowerpointExporterTools.updateCellAnchor(tableauMur, 20);
+        PowerpointExporterTools.updateCellAnchor(tableauMenuiseries, 20);
+        PowerpointExporterTools.updateCellAnchor(tableauSols, 20);
+        PowerpointExporterTools.updateCellAnchor(tableauToiture, 20);
 
         //set tableauToiture below tableauMur
         tableauToiture.setAnchor(new Rectangle2D.Double(tableauMur.getAnchor().getX(),
@@ -354,35 +354,7 @@ public class PowerpointExporter {
         return simpleDateFormat.format(calendar.getTime());
     }
 
-    private void replaceTextInTextShape(XSLFTextShape shape) {
-        if(!remplacements.containsKey(shape.getShapeName()))
-            return;
 
-        XSLFTextRun run = shape.getTextParagraphs().get(0).getTextRuns().get(0);
-        String fontFamily = run.getFontFamily();
-        double fontSize = run.getFontSize();
-        boolean bold = run.isBold();
-        boolean italic = run.isItalic();
-
-        // Création d'une police Java avec les informations de police de la shape
-        int style = (bold ? Font.BOLD : 0) | (italic ? Font.ITALIC : 0);
-        Font font = new Font(fontFamily, style, (int) fontSize);
-
-        FontMetrics fm = img.getGraphics().getFontMetrics(font);
-        int width = fm.stringWidth(remplacements.get(shape.getShapeName()));
-
-        double actualHeight = shape.getAnchor().getHeight();
-        double actualWidth = shape.getAnchor().getWidth();
-
-        int ratioWidth = (int)Math.ceil(width / actualWidth) ;
-
-
-
-        Rectangle rectangle = new Rectangle((int)shape.getAnchor().getX(), (int)shape.getAnchor().getY(),
-                (int) actualWidth, (int) (actualHeight * ratioWidth));
-        shape.setAnchor(rectangle);
-        shape.getTextBody().setText(remplacements.get(shape.getShapeName()));
-    }
 
 
     private class ZoneElementTableauData{
