@@ -176,6 +176,8 @@ public class Batiment extends Fragment {
                         releve.imageBatiment = uri.toString();
                         releveViewModel.setReleve(releve);
 
+                        binding.imageView2.setImageURI(uri);
+                        binding.buttonAjouterImage.setVisibility(View.GONE);
                     }
                 });
 
@@ -188,9 +190,11 @@ public class Batiment extends Fragment {
                 Releve releve = releveViewModel.getReleve().getValue();
                 releve.imageBatiment = photo.toString();
                 releveViewModel.setReleve(releve);
+                binding.imageView2.setImageURI(photo);
+                binding.buttonAjouterImage.setVisibility(View.GONE);
             }
         });
-        binding.buttonAjouterImage.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener newPhotoOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Créer une boîte de dialogue pour choisir entre sélectionner une photo ou prendre une photo
@@ -216,7 +220,10 @@ public class Batiment extends Fragment {
                 });
                 builder.show();
             }
-        });
+        };
+
+        binding.buttonAjouterImage.setOnClickListener(newPhotoOnClick);
+        binding.imageView2.setOnClickListener(newPhotoOnClick);
 
     }
 

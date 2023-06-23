@@ -2,6 +2,7 @@ package com.example.super_cep.view;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
@@ -40,6 +41,11 @@ public class ReleveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .build());
+
         binding = ActivityReleveBinding.inflate(getLayoutInflater());
         askForPermissions();
         setupReleve();

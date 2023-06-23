@@ -71,9 +71,9 @@ public class PowerpointExporter {
     public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve) {
         this.releve = releve;
         setupReleve();
-        try {
-            InputStream is = powerpointVierge;
-            XMLSlideShow ppt = new XMLSlideShow(is);
+
+        try (InputStream is = powerpointVierge;
+             XMLSlideShow ppt = new XMLSlideShow(is)){
 
             List<XSLFSlide> slides = ppt.getSlides();
             XSLFSlide slideDescriptifEnveloppeThermique = slides.get(3);
@@ -95,7 +95,6 @@ public class PowerpointExporter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -132,7 +131,9 @@ public class PowerpointExporter {
         if(rectangle2DImageBatiment == null){
             return;
         }
-        addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
+        if(releve.imageBatiment != null){
+            addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
+        }
 
 
     }
@@ -180,7 +181,10 @@ public class PowerpointExporter {
 
 
     private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
+
         Calendrier[] calendriers = releve.getCalendriersValues();
+        if(calendriers.length == 0)
+            return;
         XSLFSlide[] slidesCalendrier = new XSLFSlide[calendriers.length];
         slidesCalendrier[0] = slide;
         for (int i = 1; i < calendriers.length; i++) {
@@ -604,6 +608,11 @@ public class PowerpointExporter {
 
 
     private void slidePreconisations(XMLSlideShow ppt, XSLFSlide slide) {
+        if(releve.preconisations.size() == 0){
+            slide.getShapes().clear();
+            return;
+        }
+
         XSLFTable tableauPreconisations = null;
         Rectangle2D rectangle2DPhoto = null;
         for(XSLFShape shape : slide){
@@ -642,6 +651,11 @@ public class PowerpointExporter {
 
         PowerpointExporterTools.updateCellAnchor(tableauPreconisations, 20);
 
+
+        if(tableauPreconisations.getNumberOfRows() == 0){
+            slide.removeShape(tableauPreconisations);
+            return;
+        }
 
         tableauPreconisations.getCell(0, 0).setBorderColor(TableCell.BorderEdge.top, colors[1]);
         tableauPreconisations.getCell(tableauPreconisations.getNumberOfRows() - 1, 0).setBorderColor(TableCell.BorderEdge.bottom, colors[1]);
@@ -694,8 +708,10 @@ public class PowerpointExporter {
                 continue;
             }
             // Add the image to the slideshow
-            XSLFPictureData pictureData = ppt.addPicture(pictureBytes, PictureData.PictureType.PNG);
+            //get pictureType from the extension of the file
+            XSLFPictureData pictureData = ppt.addPicture(pictureBytes, PowerpointExporterTools.getPictureTypeFromFileExtension(imagePaths.get(i)));
             XSLFPictureShape picture = slide.createPicture(pictureData);
+
 
             // Calculate the appropriate dimensions for the image
             double originalWidth = picture.getPictureData().getImageDimension().getWidth();

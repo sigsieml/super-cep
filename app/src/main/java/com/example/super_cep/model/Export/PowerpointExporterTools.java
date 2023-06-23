@@ -9,6 +9,7 @@ import org.apache.poi.sl.draw.DrawFactory;
 import org.apache.poi.sl.draw.DrawTableShape;
 import org.apache.poi.sl.draw.DrawTextShape;
 import org.apache.poi.sl.usermodel.PaintStyle;
+import org.apache.poi.sl.usermodel.PictureData;
 import org.apache.poi.sl.usermodel.TextParagraph;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
@@ -226,5 +227,35 @@ public class PowerpointExporterTools {
 
     }
 
+
+    public static PictureData.PictureType getPictureTypeFromFileExtension(String path){
+        String extension = path.substring(path.lastIndexOf(".") + 1);
+        switch (extension){
+            case "jpg":
+                return PictureData.PictureType.JPEG;
+            case "png":
+                return PictureData.PictureType.PNG;
+            case "gif":
+                return PictureData.PictureType.GIF;
+            case "bmp":
+                return PictureData.PictureType.BMP;
+            case "emf":
+                return PictureData.PictureType.EMF;
+            case "wmf":
+                return PictureData.PictureType.WMF;
+            case "pict":
+                return PictureData.PictureType.PICT;
+            case "dib":
+                return PictureData.PictureType.DIB;
+            case "tiff":
+                return PictureData.PictureType.TIFF;
+            case "eps":
+                return PictureData.PictureType.EPS;
+            case "wpg":
+                return PictureData.PictureType.WPG;
+            default:
+                return PictureData.PictureType.JPEG;
+        }
+    }
 
 }

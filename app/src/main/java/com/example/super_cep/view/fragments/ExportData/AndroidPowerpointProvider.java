@@ -33,6 +33,7 @@ public class AndroidPowerpointProvider implements PowerpointPlatformProvider {
                 baos.write(buffer, 0, read);
             }
 
+
             return baos.toByteArray();
 
         } catch (Exception e) {
