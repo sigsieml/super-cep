@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments.Climatisation;
 
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,8 @@ public class ClimatisationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Climatisation climatisation, ClimatisationViewHolderListener listener) {
-        if(climatisation.uriImages.size() > 0) {
-            binding.imageViewClimatisation.setImageURI(climatisation.uriImages.get(0));
+        if(climatisation.images.size() > 0) {
+            binding.imageViewClimatisation.setImageURI(Uri.parse(climatisation.images.get(0)));
         }
         else {
             binding.getRoot().removeView(binding.imageViewClimatisation);

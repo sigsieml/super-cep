@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments.ApprovisionnementEnergetique;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,8 +25,8 @@ public class ApprovisionnementEnergetiqueViewHolder extends RecyclerView.ViewHol
     }
 
     public void bind(ApprovisionnementEnergetique approviosionnementEnergetique, ApprovisionnementEnergetiqueViewHolderListener listener) {
-        if(approviosionnementEnergetique.uriImages.size() > 0) {
-            binding.imageViewApprovisionnementEnergetique.setImageURI(approviosionnementEnergetique.uriImages.get(0));
+        if(approviosionnementEnergetique.images.size() > 0) {
+            binding.imageViewApprovisionnementEnergetique.setImageURI(Uri.parse(approviosionnementEnergetique.images.get(0)));
         }
         else {
             binding.getRoot().removeView(binding.imageViewApprovisionnementEnergetique);

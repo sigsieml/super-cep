@@ -1,18 +1,13 @@
 package com.example.super_cep.model.Enveloppe;
 
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.example.super_cep.model.Export.UriDeserializer;
-import com.example.super_cep.model.Export.UriSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -33,16 +28,14 @@ public class ZoneElement {
     public boolean aVerifier;
 
     public String note;
-    @JsonSerialize(using = UriSerializer.class)
-    @JsonDeserialize(using = UriDeserializer.class)
-    public List<Uri> uriImages;
+    public List<String> images;
 
 
     @JsonCreator
-    public ZoneElement(@JsonProperty("nom") String nom, @JsonProperty("aVerifier") boolean aVerifier, @JsonProperty("note") String note, @JsonProperty("uriImages") List<Uri> uriImages) {
+    public ZoneElement(@JsonProperty("nom") String nom, @JsonProperty("aVerifier") boolean aVerifier, @JsonProperty("note") String note, @JsonProperty("uriImages") List<String> images) {
         this.nom = nom;
         this.aVerifier = aVerifier;
-        this.uriImages = uriImages;
+        this.images = images;
         this.note = note;
     }
 

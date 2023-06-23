@@ -1,41 +1,25 @@
 package com.example.super_cep.view.fragments.Chauffages;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.provider.MediaStore;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.super_cep.R;
-import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentChauffageAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Chauffage;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Chauffage.CategorieChauffage;
+import com.example.super_cep.model.Chauffage.Chauffage;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
@@ -88,9 +72,10 @@ public class FragmentChauffageAjout extends Fragment {
     private SpinnerDataViewModel spinnerDataViewModel;
 
 
-
     List<String> typeChauffageProducteur = new ArrayList<>();
     List<String> typeChauffageEmetteur = new ArrayList<>();
+
+    List<String> typeChauffageProducteurEmetteur = new ArrayList<>();
 
     private ViewPhoto viewPhoto;
     private ViewZoneSelector viewZoneSelector;
@@ -109,6 +94,7 @@ public class FragmentChauffageAjout extends Fragment {
         }
         typeChauffageEmetteur = spinnerLiveData.get("typeChauffageEmetteur");
         typeChauffageProducteur = spinnerLiveData.get("typeChauffageProducteur");
+        typeChauffageProducteurEmetteur = spinnerLiveData.get("typeChauffageProducteurEmetteur");
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
         viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
@@ -209,17 +195,25 @@ public class FragmentChauffageAjout extends Fragment {
         List<String> customList = new ArrayList<>();
         customList.addAll(typeChauffageProducteur);
         customList.addAll(typeChauffageEmetteur);
-
+        customList.addAll(typeChauffageProducteurEmetteur);
         SpinnerDataViewModel.updateSpinnerData(binding.spinnerTypeChauffage, customList);
         spinnerDataViewModel.updateSpinnerData(binding.spinnerRegulations, "regulationChauffage");
 
         binding.spinnerTypeChauffage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(estProducteur()){
-                    spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueProducteur");
-                }else{
-                    spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueEmetteur");
+                switch (getCategorieChauffage()){
+                    case Emetteur:
+                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueEmetteur");
+                        break;
+                    case Producteur:
+                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueProducteur");
+                        break;
+                    case ProducteurEmetteur:
+                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueProducteurEmetteur");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Categorie de chauffage inconnue");
                 }
             }
 
@@ -230,11 +224,21 @@ public class FragmentChauffageAjout extends Fragment {
     }
 
 
-    private boolean estProducteur(){
-        return typeChauffageProducteur.contains(binding.spinnerTypeChauffage.getSelectedItem().toString());
+    private CategorieChauffage getCategorieChauffage(){
+        if(typeChauffageProducteur.contains(binding.spinnerTypeChauffage.getSelectedItem().toString())){
+            return CategorieChauffage.Producteur;
+        }else if(typeChauffageEmetteur.contains(binding.spinnerTypeChauffage.getSelectedItem().toString())){
+            return CategorieChauffage.Emetteur;
+        }else{
+            return CategorieChauffage.ProducteurEmetteur;
+        }
     }
 
     private Chauffage getChauffageFromViews(){
+        List<String> images = new ArrayList<>();
+        for(Uri uri : viewPhoto.getUriImages()){
+            images.add(uri.toString());
+        }
             Chauffage chauffage = new Chauffage(
                     binding.editTextNomChauffage.getText().toString(),
                     binding.spinnerTypeChauffage.getSelectedItem().toString(),
@@ -243,9 +247,9 @@ public class FragmentChauffageAjout extends Fragment {
                     binding.spinnerMarque.getSelectedItem().toString(),
                     binding.editTextModele.getText().toString(),
                     viewZoneSelector.getSelectedZones(),
-                    estProducteur(),
+                    getCategorieChauffage(),
                     binding.spinnerRegulations.getSelectedItem().toString(),
-                    viewPhoto.getUriImages(),
+                    images,
                     binding.checkBoxAVerifierChauffage.isChecked(),
                     binding.editTextMultilineNoteChauffage.getText().toString()
             );
@@ -265,8 +269,8 @@ public class FragmentChauffageAjout extends Fragment {
         binding.editTextMultilineNoteChauffage.setText(chauffage.note);
 
         viewZoneSelector.setSelectedZones(chauffage.zones);
-        for (Uri uri : chauffage.uriImages) {
-            viewPhoto.addPhotoToView(uri);
+        for (String uri : chauffage.images) {
+            viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
 

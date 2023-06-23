@@ -1,7 +1,5 @@
 package com.example.super_cep.model.Enveloppe;
 
-import android.net.Uri;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,8 +23,8 @@ public class Toiture extends ZoneElement{
                @JsonProperty("epaisseurIsolant") float epaisseurIsolant,
                @JsonProperty("aVerifier") boolean aVerifier,
                @JsonProperty("note") String note,
-               @JsonProperty("uriImages") List<Uri> uriImages) {
-        super(nom, aVerifier,note, uriImages);
+               @JsonProperty("images") List<String> images) {
+        super(nom, aVerifier,note, images);
         this.typeToiture = typeToiture;
         this.typeMiseEnOeuvre = typeMiseEnOeuvre;
         this.typeIsolant = typeIsolant;
@@ -49,7 +47,7 @@ public class Toiture extends ZoneElement{
                 ", epaisseurIsolant=" + epaisseurIsolant +
                 ", note='" + note + '\'' +
                 ", aVerifier=" + aVerifier +
-                ", uriImages=" + uriImages +
+                ", uriImages=" + images +
                 '}';
     }
 }

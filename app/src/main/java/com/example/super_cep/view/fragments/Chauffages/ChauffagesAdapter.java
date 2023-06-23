@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Chauffage;
+import com.example.super_cep.model.Chauffage.Chauffage;
 
 public class ChauffagesAdapter extends RecyclerView.Adapter<ChauffageViewHolder> {
 

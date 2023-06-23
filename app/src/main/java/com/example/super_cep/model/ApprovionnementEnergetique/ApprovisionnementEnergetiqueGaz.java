@@ -1,7 +1,5 @@
 package com.example.super_cep.model.ApprovionnementEnergetique;
 
-import android.net.Uri;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,10 +16,10 @@ public class ApprovisionnementEnergetiqueGaz extends ApprovisionnementEnergetiqu
                                            @JsonProperty("energie") String energie,
                                            @JsonProperty("numeroRAE") String numeroRAE,
                                            @JsonProperty("zones") List<String> zones,
-                                           @JsonProperty("uriImages") List<Uri> uriImages,
+                                           @JsonProperty("images") List<String> images,
                                            @JsonProperty("aVerifier") boolean aVerifier,
                                            @JsonProperty("note") String note) {
-        super(nom, energie, zones, uriImages, aVerifier, note);
+        super(nom, energie, zones, images, aVerifier, note);
         this.numeroRAE = numeroRAE;
     }
 }

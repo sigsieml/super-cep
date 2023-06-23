@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentChauffagesBinding;
-import com.example.super_cep.model.Chauffage;
+import com.example.super_cep.model.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve;
 
 public class FragmentChauffage extends Fragment {

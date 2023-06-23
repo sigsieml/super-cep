@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments.ECS;
 
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,8 @@ public class ECSViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ECS ecs, ECSViewHolderListener listener) {
-        if(ecs.uriImages.size() > 0) {
-            binding.imageViewECS.setImageURI(ecs.uriImages.get(0));
+        if(ecs.images.size() > 0) {
+            binding.imageViewECS.setImageURI(Uri.parse(ecs.images.get(0)));
         }
         else {
             binding.getRoot().removeView(binding.imageViewECS);

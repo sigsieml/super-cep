@@ -43,7 +43,7 @@ public class CreateSlideShowReleveTest {
     public void createSlideShowReleveTest(){
         Releve releve = getReleve();
         // open file in assets
-        PowerpointExporter exporter = new PowerpointExporter(null);
+        PowerpointExporter exporter = new PowerpointExporter(new pcPowerpointProvider());
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
             exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);

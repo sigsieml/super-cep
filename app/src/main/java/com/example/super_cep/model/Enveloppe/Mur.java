@@ -1,14 +1,8 @@
 package com.example.super_cep.model.Enveloppe;
 
-import android.net.Uri;
-
-import com.example.super_cep.model.Export.UriDeserializer;
-import com.example.super_cep.model.Export.UriSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -30,8 +24,8 @@ public class Mur extends ZoneElement{
                @JsonProperty("epaisseurIsolant") float epaisseurIsolant,
                @JsonProperty("aVerifier") boolean aVerifier,
                @JsonProperty("note") String note,
-               @JsonProperty("uriImages") List<Uri> uriImages) {
-        super(nom, aVerifier, note, uriImages);
+               @JsonProperty("images") List<String> images) {
+        super(nom, aVerifier, note, images);
         this.typeMur = typeMur;
         this.typeMiseEnOeuvre = typeMiseEnOeuvre;
         this.typeIsolant = typeIsolant;
@@ -56,7 +50,7 @@ public class Mur extends ZoneElement{
                 ", epaisseurIsolant=" + epaisseurIsolant +
                 ", note='" + note + '\'' +
                 ", aVerifier=" + aVerifier +
-                ", uriImages=" + uriImages +
+                ", uriImages=" + images +
                 '}';
     }
 }

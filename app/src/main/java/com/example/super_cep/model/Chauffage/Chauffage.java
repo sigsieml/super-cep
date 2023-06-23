@@ -1,14 +1,8 @@
-package com.example.super_cep.model;
+package com.example.super_cep.model.Chauffage;
 
-import android.net.Uri;
 
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Export.UriDeserializer;
-import com.example.super_cep.model.Export.UriSerializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
@@ -26,11 +20,10 @@ public class Chauffage {
     public List<String> zones;
     public String regulation;
 
-    public boolean estProducteur;
+    public CategorieChauffage categorie;
 
-    @JsonSerialize(using = UriSerializer.class)
-    @JsonDeserialize(using = UriDeserializer.class)
-    public List<Uri> uriImages;
+
+    public List<String> images;
     public boolean aVerifier;
 
     public String note;
@@ -43,9 +36,9 @@ public class Chauffage {
                         @JsonProperty("marque") String marque,
                      @JsonProperty("modele") String modele,
                      @JsonProperty("zones") List<String> zones,
-                        @JsonProperty("estProducteur") boolean estProducteur,
+                        @JsonProperty("categorie") CategorieChauffage categorie,
                         @JsonProperty("regulation") String regulation,
-    @JsonProperty("uriImages") List<Uri> uriImages,
+    @JsonProperty("images") List<String> images,
     @JsonProperty("aVerifier") boolean aVerifier,
     @JsonProperty("note") String note
 
@@ -57,9 +50,9 @@ public class Chauffage {
         this.marque = marque;
         this.modele = modele;
         this.zones = zones;
-        this.estProducteur = estProducteur;
+        this.categorie = categorie;
         this.regulation = regulation;
-        this.uriImages = uriImages;
+        this.images = images;
         this.aVerifier = aVerifier;
         this.note = note;
 

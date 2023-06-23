@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Chauffage;
+import com.example.super_cep.model.Chauffage.Chauffage;
 import com.example.super_cep.model.Climatisation;
 import com.example.super_cep.model.ECS;
 import com.example.super_cep.model.Enveloppe.Zone;
@@ -15,9 +15,7 @@ import com.example.super_cep.model.Releve;
 import com.example.super_cep.model.Remarque;
 import com.example.super_cep.model.Ventilation;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ReleveViewModel extends ViewModel {

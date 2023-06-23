@@ -102,7 +102,7 @@ public class Exportdata extends Fragment {
                 try {
                     ParcelFileDescriptor pfd = requireActivity().getContentResolver().
                             openFileDescriptor(uri, "w");
-                    PowerpointExporter powerpointExporter = new PowerpointExporter(getContext());
+                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidPowerpointProvider(getContext()));
                     powerpointExporter.export(getContext().getAssets().open(POWERPOINT_VIERGE_NAME), pfd.getFileDescriptor(), releveViewModel.getReleve().getValue());
                     pfd.close();
 

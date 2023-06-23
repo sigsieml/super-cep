@@ -84,10 +84,44 @@
         "cour",
         "dortoir "
       ],
-      "estProducteur":true,
+      "categorie":"ProducteurEmetteur",
       "regulation":"Interrupteur",
       "aVerifier":true,
       "note":"djjf"
+    },
+    "chauffage emetteur": {
+        "nom": "chauffage emetteur",
+        "type": "Radiateur",
+        "puissance": 100.0,
+        "quantite": 100,
+        "marque": "Acova",
+        "modele": "dje",
+        "zones": [
+            "salle de classe",
+            "cour",
+            "dortoir "
+        ],
+        "categorie": "Emetteur",
+        "regulation": "Interrupteur",
+        "aVerifier": true,
+        "note": "djjf"
+    },
+    "chauffage producteur": {
+        "nom": "chauffage producteur",
+        "type": "Chaudière gaz à condensation",
+        "puissance": 100.0,
+        "quantite": 100,
+        "marque": "Acova",
+        "modele": "dje",
+        "zones": [
+            "salle de classe",
+            "cour",
+            "dortoir "
+        ],
+        "categorie": "Producteur",
+        "regulation": "Interrupteur",
+        "aVerifier": true,
+        "note": "djjf"
     }
   },
   "climatisations":{
@@ -130,6 +164,7 @@
     "Remplacer les tubes fluo par des LEDS",
     "Remplacer le système de chauffage 2"
   ],
+  "imageBatiment":"C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png",
   "remarques":{
     "Elements de contexte sur le bâtiment": {
       "nom": "Elements de contexte sur le bâtiment",

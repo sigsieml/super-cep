@@ -296,7 +296,11 @@ public class FragmentMenuiserie extends Fragment {
             Log.e("AjoutZoneElement", "addPhotoToView: ", e);
             Toast.makeText(getContext(), "Erreur avec les images elles sont donc supprimer", Toast.LENGTH_SHORT).show();
             uriImages.remove(selectedPhotoUri);
-            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).uriImages = uriImages;
+            List<String> images = new ArrayList<>();
+            for(Uri uri : uriImages){
+                images.add(uri.toString());
+            }
+            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).images = images;
             releveViewModel.forceUpdateReleve();
         }
 
@@ -333,6 +337,10 @@ public class FragmentMenuiserie extends Fragment {
 
 
     private ZoneElement getZoneElementFromViews() {
+        List<String> images = new ArrayList<>();
+        for(Uri uri : uriImages){
+            images.add(uri.toString());
+        }
         Menuiserie menuiserie = new Menuiserie(
                 binding.editTextNomMenuiserie.getText().toString(),
                 binding.spinnerTypeMenuiserie.getSelectedItem().toString(),
@@ -341,7 +349,7 @@ public class FragmentMenuiserie extends Fragment {
                 binding.spinnerTypeVitrage.getSelectedItem().toString(),
                 binding.checkBoxAVerifierMenuiserie.isChecked(),
                 binding.editTextMultilineNoteMenuiserie.getText().toString(),
-                uriImages
+                images
         );
         return menuiserie;
     }
@@ -355,8 +363,8 @@ public class FragmentMenuiserie extends Fragment {
         spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeVitrage, menuiserie.typeVitrage);
         binding.checkBoxAVerifierMenuiserie.setChecked(menuiserie.aVerifier);
         binding.editTextMultilineNoteMenuiserie.setText(menuiserie.note);
-        for (Uri uri : menuiserie.uriImages) {
-            addPhotoToView(uri);
+        for (String uri : menuiserie.images) {
+            addPhotoToView(Uri.parse(uri));
         }
     }
 }

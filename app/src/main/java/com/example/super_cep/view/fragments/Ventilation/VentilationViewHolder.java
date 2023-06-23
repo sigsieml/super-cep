@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments.Ventilation;
 
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,8 @@ public class VentilationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Ventilation ventilation, VentilationViewHolderListener listener) {
-        if(ventilation.uriImages.size() > 0) {
-            binding.imageViewVentilation.setImageURI(ventilation.uriImages.get(0));
+        if(ventilation.images.size() > 0) {
+            binding.imageViewVentilation.setImageURI(Uri.parse(ventilation.images.get(0)));
         }
         else {
             binding.getRoot().removeView(binding.imageViewVentilation);

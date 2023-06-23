@@ -296,7 +296,11 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             Log.e("AjoutZoneElement", "addPhotoToView: ", e);
             Toast.makeText(getContext(), "Erreur avec les images elles sont donc supprimer", Toast.LENGTH_SHORT).show();
             uriImages.remove(selectedPhotoUri);
-            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).uriImages = uriImages;
+            List<String> images = new ArrayList<>();
+            for (Uri uri : uriImages) {
+                images.add(uri.toString());
+            }
+            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).images = images;
             releveViewModel.forceUpdateReleve();
         }
 
@@ -333,6 +337,10 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
 
     private ZoneElement getZoneElementFromViews() {
+        List<String> images = new ArrayList<>();
+        for (Uri uri : uriImages) {
+            images.add(uri.toString());
+        }
         Toiture toiture = new Toiture(
                 binding.editTextNomToiture.getText().toString(),
                 binding.spinnerTypeToiture.getSelectedItem().toString(),
@@ -342,7 +350,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
                 Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierToiture.isChecked(),
                 binding.editTextMultilineNoteToiture.getText().toString(),
-                uriImages
+                images
         );
         return toiture;
     }
@@ -358,8 +366,8 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         binding.checkBoxAVerifierToiture.setChecked(toiture.aVerifier);
         binding.editTextMultilineNoteToiture.setText(toiture.note);
 
-        for (Uri uri : toiture.uriImages) {
-            addPhotoToView(uri);
+        for (String uri : toiture.images) {
+            addPhotoToView(Uri.parse(uri));
         }
     }
 

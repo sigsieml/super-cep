@@ -196,12 +196,16 @@ public class FragmentVentilationAjout extends Fragment {
     }
 
     private Ventilation getVentilationFromViews(){
+        List<String> images = new ArrayList<>();
+        for (Uri uri : viewPhoto.getUriImages()){
+            images.add(uri.toString());
+        }
         Ventilation ventilation = new Ventilation(
                 binding.editTextNomVentilation.getText().toString(),
                 binding.spinnerTypeVentilation.getSelectedItem().toString(),
                 binding.spinnerTypeRegulation.getSelectedItem().toString(),
                 viewZoneSelector.getSelectedZones(),
-                viewPhoto.getUriImages(),
+                images,
                 binding.checkBoxAVerifierVentilation.isChecked(),
                 binding.editTextMultilineNoteVentilation.getText().toString()
         );
@@ -216,8 +220,8 @@ public class FragmentVentilationAjout extends Fragment {
         binding.checkBoxAVerifierVentilation.setChecked(ventilation.aVerifier);
         binding.editTextMultilineNoteVentilation.setText(ventilation.note);
         viewZoneSelector.setSelectedZones(ventilation.zones);
-        for (Uri uri : ventilation.uriImages) {
-            viewPhoto.addPhotoToView(uri);
+        for (String uri : ventilation.images) {
+            viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
 }

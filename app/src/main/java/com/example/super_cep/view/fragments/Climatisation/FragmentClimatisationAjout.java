@@ -205,6 +205,10 @@ public class FragmentClimatisationAjout extends Fragment {
     }
 
     private Climatisation getClimatisationFromViews(){
+        List<String> images = new ArrayList<>();
+        for(Uri uri : viewPhoto.getUriImages()){
+            images.add(uri.toString());
+        }
         Climatisation climatisation = new Climatisation(
                 binding.editTextNomClimatisation.getText().toString(),
                 binding.spinnerTypeClimatisation.getSelectedItem().toString(),
@@ -214,7 +218,7 @@ public class FragmentClimatisationAjout extends Fragment {
                 binding.editTextModele.getText().toString(),
                 binding.spinnerRegulations.getSelectedItem().toString(),
                 viewZoneSelector.getSelectedZones(),
-                viewPhoto.getUriImages(),
+                images,
                 binding.checkBoxAVerifierClimatisation.isChecked(),
                 binding.editTextMultilineNoteClimatisation.getText().toString()
         );
@@ -235,8 +239,8 @@ public class FragmentClimatisationAjout extends Fragment {
         viewZoneSelector.setSelectedZones(climatisation.zones);
 
 
-        for (Uri uri : climatisation.uriImages) {
-            viewPhoto.addPhotoToView(uri);
+        for (String uri : climatisation.images) {
+            viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
 }

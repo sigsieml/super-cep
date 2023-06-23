@@ -297,7 +297,11 @@ public class FragmentSol extends Fragment {
             Log.e("AjoutZoneElement", "addPhotoToView: ", e);
             Toast.makeText(getContext(), "Erreur avec les images elles sont donc supprimer", Toast.LENGTH_SHORT).show();
             uriImages.remove(selectedPhotoUri);
-            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).uriImages = uriImages;
+            List<String> images = new ArrayList<>();
+            for (Uri uri : uriImages) {
+                images.add(uri.toString());
+            }
+            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).images = images;
             releveViewModel.forceUpdateReleve();
         }
 
@@ -333,6 +337,10 @@ public class FragmentSol extends Fragment {
 
 
     private ZoneElement getZoneElementFromViews() {
+        List<String> images = new ArrayList<>();
+        for (Uri uri : uriImages) {
+            images.add(uri.toString());
+        }
         Sol sol = new Sol(
                 binding.editTextNomSol.getText().toString(),
                 binding.spinnerTypeSol.getSelectedItem().toString(),
@@ -341,7 +349,7 @@ public class FragmentSol extends Fragment {
                 Float.parseFloat(binding.editTextNumberSignedEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierSol.isChecked(),
                 binding.editTextMultilineNoteSol.getText().toString(),
-                uriImages
+                images
         );
         return sol;
     }
@@ -356,8 +364,8 @@ public class FragmentSol extends Fragment {
         binding.checkBoxAVerifierSol.setChecked(sol.aVerifier);
         binding.editTextMultilineNoteSol.setText(sol.note);
 
-        for (Uri uri : sol.uriImages) {
-            addPhotoToView(uri);
+        for (String uri : sol.images) {
+            addPhotoToView(Uri.parse(uri));
         }
     }
 

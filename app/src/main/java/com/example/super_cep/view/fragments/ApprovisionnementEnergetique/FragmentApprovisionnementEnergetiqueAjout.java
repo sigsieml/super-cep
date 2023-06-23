@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -25,7 +24,6 @@ import com.example.super_cep.databinding.ViewApprovisionnementEnergetiqueElectri
 import com.example.super_cep.databinding.ViewApprovisionnementEnergetiqueGazBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewholderApprovisionnementEnergetiqueBinding;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
@@ -248,6 +246,10 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     }
 
     private ApprovisionnementEnergetique getApprovisionnementEnergetiqueFromViews(){
+        List<String> images = new ArrayList<>();
+        for(Uri uri : viewPhoto.getUriImages()){
+            images.add(uri.toString());
+        }
         switch (getTypeApprovisionnement()){
             case GAZ:
                 return new ApprovisionnementEnergetiqueGaz(
@@ -255,7 +257,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                         binding.spinnerEnergie.getSelectedItem().toString(),
                         ((EditText)binding.getRoot().findViewById(R.id.editTextRAE)).getText().toString(),
                         viewZoneSelector.getSelectedZones(),
-                        viewPhoto.getUriImages(),
+                        images,
                         binding.checkBoxAVerifierApprovisionnementEnergetique.isChecked(),
                         binding.editTextMultilineNoteApprovisionnementEnergetique.getText().toString()
                 );
@@ -268,7 +270,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                             ((Spinner) binding.getRoot().findViewById(R.id.spinnerFormule)).getSelectedItem().toString(),
                             ((EditText) binding.getRoot().findViewById(R.id.editTextNumeroPDL)).getText().toString(),
                             viewZoneSelector.getSelectedZones(),
-                            viewPhoto.getUriImages(),
+                            images,
                             binding.checkBoxAVerifierApprovisionnementEnergetique.isChecked(),
                             binding.editTextMultilineNoteApprovisionnementEnergetique.getText().toString()
                     );
@@ -277,7 +279,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                         binding.editTextNomApprovisionnementEnergetique.getText().toString(),
                         binding.spinnerEnergie.getSelectedItem().toString(),
                         viewZoneSelector.getSelectedZones(),
-                        viewPhoto.getUriImages(),
+                        images,
                         binding.checkBoxAVerifierApprovisionnementEnergetique.isChecked(),
                         binding.editTextMultilineNoteApprovisionnementEnergetique.getText().toString()
                 );
@@ -291,8 +293,8 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         binding.checkBoxAVerifierApprovisionnementEnergetique.setChecked(approvisionnementEnergetique.aVerifier);
         binding.editTextMultilineNoteApprovisionnementEnergetique.setText(approvisionnementEnergetique.note);
 
-        for (Uri uri : approvisionnementEnergetique.uriImages) {
-            viewPhoto.addPhotoToView(uri);
+        for (String path : approvisionnementEnergetique.images) {
+            viewPhoto.addPhotoToView(Uri.parse(path));
         }
     }
 }

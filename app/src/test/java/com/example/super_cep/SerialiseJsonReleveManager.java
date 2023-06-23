@@ -1,6 +1,8 @@
 package com.example.super_cep;
 
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Chauffage.CategorieChauffage;
+import com.example.super_cep.model.Chauffage.Chauffage;
 import com.example.super_cep.model.Enveloppe.Mur;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Export.JsonReleveManager;
@@ -56,6 +58,22 @@ public class SerialiseJsonReleveManager {
         Zone zone2 = new Zone("Zone 2");
         releve.addZone(zone2);
 
+        releve.chauffages.put("chauffage 1", new Chauffage(
+                "chauffage 1",
+                "type de chauffage",
+                12.0f,
+                12,
+                "Mitachi",
+                "X14",
+                List.of("zone 1", "zone 2"),
+                CategorieChauffage.ProducteurEmetteur,
+                "regulation",
+                new ArrayList<>(),
+                false,
+                ""
+        ));
+
+        releve.imageBatiment = "C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png";
 
         releve.approvisionnementEnergetiques.put("fioul", new ApprovisionnementEnergetique("fioul", "fioul", new ArrayList<>(), new ArrayList<>(), false, ""));
 

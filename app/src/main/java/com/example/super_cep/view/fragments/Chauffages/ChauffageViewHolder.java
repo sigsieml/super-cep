@@ -1,15 +1,13 @@
 package com.example.super_cep.view.fragments.Chauffages;
 
+import android.net.Uri;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderChauffageBinding;
-import com.example.super_cep.model.Chauffage;
-
-import java.util.Arrays;
+import com.example.super_cep.model.Chauffage.Chauffage;
 
 interface ChauffageViewHolderListener {
     void onClick(Chauffage chauffage);
@@ -23,8 +21,8 @@ public class ChauffageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Chauffage chauffage, ChauffageViewHolderListener listener) {
-        if(chauffage.uriImages.size() > 0) {
-            binding.imageViewChauffage.setImageURI(chauffage.uriImages.get(0));
+        if(chauffage.images.size() > 0) {
+            binding.imageViewChauffage.setImageURI(Uri.parse(chauffage.images.get(0)));
         }
         else {
             binding.getRoot().removeView(binding.imageViewChauffage);

@@ -2,6 +2,7 @@ package com.example.super_cep.model;
 
 import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Calendrier.Calendrier;
+import com.example.super_cep.model.Chauffage.Chauffage;
 import com.example.super_cep.model.Enveloppe.Zone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,6 +31,8 @@ public class Releve {
     public Map<String, ApprovisionnementEnergetique> approvisionnementEnergetiques;
     public Map<String, Remarque> remarques;
     public List<String> preconisations;
+
+    public String imageBatiment;
 
 
     public Releve(){

@@ -23,6 +23,9 @@ import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FragmentECSAjout extends Fragment {
 
     private static final String ARG_NOM_ECS = "param2";
@@ -176,6 +179,10 @@ public class FragmentECSAjout extends Fragment {
     }
 
     private ECS getECSFromViews(){
+        List<String> images = new ArrayList<>();
+        for(Uri uri : viewPhoto.getUriImages()){
+            images.add(uri.toString());
+        }
         ECS ecs = new ECS(
                 binding.editTextNomECS.getText().toString(),
                 binding.spinnerTypeECS.getSelectedItem().toString(),
@@ -184,7 +191,7 @@ public class FragmentECSAjout extends Fragment {
                 binding.editTextVolume.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextVolume.getText().toString()),
                 binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
                 viewZoneSelector.getSelectedZones(),
-                viewPhoto.getUriImages(),
+                images,
                 binding.checkBoxAVerifierECS.isChecked(),
                 binding.editTextMultilineNoteECS.getText().toString()
         );
@@ -204,8 +211,8 @@ public class FragmentECSAjout extends Fragment {
         binding.checkBoxAVerifierECS.setChecked(ecs.aVerifier);
         binding.editTextMultilineNoteECS.setText(ecs.note);
 
-        for (Uri uri : ecs.uriImages) {
-            viewPhoto.addPhotoToView(uri);
+        for (String uri : ecs.images) {
+            viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
 }

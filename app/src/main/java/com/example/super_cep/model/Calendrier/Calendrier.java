@@ -1,6 +1,5 @@
 package com.example.super_cep.model.Calendrier;
 
-import com.example.super_cep.model.Enveloppe.Zone;
 import com.example.super_cep.model.Export.CalendrierDateKeyDeserializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
