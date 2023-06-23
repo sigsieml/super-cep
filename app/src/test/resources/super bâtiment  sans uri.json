@@ -121,7 +121,16 @@
         "categorie": "Producteur",
         "regulation": "Interrupteur",
         "aVerifier": true,
-        "note": "djjf"
+        "note": "djjf",
+        "images": [
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image1.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image2.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image3.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image4.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image5.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image6.jpg",
+          "C:\\Users\\TLB\\Pictures\\chauffage\\Image7.jpg"
+        ]
     }
   },
   "climatisations":{
@@ -162,7 +171,9 @@
   "nomBatiment":"super bâtiment ",
   "preconisations":[
     "Remplacer les tubes fluo par des LEDS",
-    "Remplacer le système de chauffage 2"
+    "Remplacer le système de chauffage 2",
+    "C:\\Users\\TLB\\Pictures\\préconisations\\Image8.jpg",
+    "C:\\Users\\TLB\\Pictures\\préconisations\\Image9.jpg"
   ],
   "imageBatiment":"C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png",
   "remarques":{
@@ -194,6 +205,11 @@
     "Remarque systèmes": {
         "nom": "Remarque systèmes",
         "description": "Remarque systèmes  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+        "personalise": false
+    },
+    "Remarque production et distribution du chauffage": {
+        "nom": "Remarque production et distribution du chauffage",
+        "description": "Remarque production et distribution du chauffage  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
         "personalise": false
     },
     "wow":{
@@ -228,7 +244,12 @@
           "niveauIsolation":"Faiblement isolé",
           "epaisseurIsolant":107.0,
           "aVerifier":true,
-          "note":"djdj"
+          "note":"djdj",
+          "images": [
+            "C:\\Users\\TLB\\Pictures\\FB_IMG_1605350270358.jpg",
+            "C:\\Users\\TLB\\Pictures\\k6nu4ab1g.png",
+            "C:\\Users\\TLB\\Pictures\\Screenshot_20201210-121952_Facebook.jpg"
+          ]
         },
         "toiture ":{
           "type":"toiture",
@@ -321,7 +342,14 @@
           "typeEclairage":"Fluocompact",
           "typeDeRegulation":"détection de présence",
           "aVerifier":true,
-          "note":"kejrj"
+          "note":"kejrj",
+          "images": [
+            "C:\\Users\\TLB\\Pictures\\FvTpvJMWYAATYTH.jpg",
+            "C:\\Users\\TLB\\Pictures\\image.png",
+            "C:\\Users\\TLB\\Pictures\\IMG_3491.jpg",
+            "C:\\Users\\TLB\\Pictures\\Fw1hKaYWwA8MeyF.jpg",
+            "C:\\Users\\TLB\\Pictures\\1684786499493.jpg"
+          ]
         }
       }
     }

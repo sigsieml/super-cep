@@ -21,4 +21,13 @@ public class pcPowerpointProvider implements PowerpointPlatformProvider {
             return null;
         }
     }
+
+    @Override
+    public boolean isStringAPath(String path) {
+        return path.startsWith("C:") && (
+                path.endsWith(".jpg") ||
+                path.endsWith(".jpeg") ||
+                path.endsWith(".png")
+        );
+    }
 }

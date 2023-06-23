@@ -4,5 +4,7 @@ public interface PowerpointPlatformProvider {
 
     public byte[] getImagesByteFromPath(String path);
 
+    public boolean isStringAPath(String path);
+
     
 }

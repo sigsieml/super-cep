@@ -212,10 +212,13 @@ public class PowerpointExporter {
     private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide) {
 
 
-
+        Rectangle2D rectangle2DImage = null;
         List<String> tablesNames = List.of("tableauMur", "tableauToiture", "tableauSols", "tableauMenuiseries");
         Map<String, XSLFTable> tables = new HashMap<>();
         for (XSLFShape shape : slide.getShapes()){
+            if(shape.getShapeName().equals("photo")){
+                rectangle2DImage = shape.getAnchor();
+            }
 
             if(tablesNames.contains(shape.getShapeName())){
                 tables.put(shape.getShapeName(), (XSLFTable) shape);
@@ -240,14 +243,18 @@ public class PowerpointExporter {
         ZoneElementTableauData zoneElementTableauMenuiseries = new ZoneElementTableauData(3, 2, "");
 
 
-
+        List<String> images = new ArrayList<>();
         for (Zone zone : releve.getZonesValues()){
             Color colorZoneName = colors[indexColorZone % colors.length];
             indexColorZone++;
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()){
+
                 //get a random color based on the zone name :
                 if(zoneElement instanceof Mur){
+                    if(zoneElement.images != null)
+                        images.addAll(zoneElement.images);
+
                     Mur mur = (Mur) zoneElement;
                     XSLFTableRow row = tableauMur.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
@@ -265,6 +272,9 @@ public class PowerpointExporter {
                 }
 
                 if(zoneElement instanceof Toiture){
+                    if(zoneElement.images != null)
+                        images.addAll(zoneElement.images);
+
                     Toiture toiture = (Toiture) zoneElement;
                     XSLFTableRow row = tableauToiture.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
@@ -279,6 +289,9 @@ public class PowerpointExporter {
                 }
 
                 if(zoneElement instanceof Menuiserie){
+                    if(zoneElement.images != null)
+                        images.addAll(zoneElement.images);
+
                     Menuiserie menuiserie = (Menuiserie) zoneElement;
                     XSLFTableRow row = tableauMenuiseries.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
@@ -297,6 +310,9 @@ public class PowerpointExporter {
                 }
 
                 if(zoneElement instanceof Sol){
+                    if(zoneElement.images != null)
+                        images.addAll(zoneElement.images);
+
                     Sol sol = (Sol) zoneElement;
                     XSLFTableRow row = tableauSols.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
@@ -313,6 +329,8 @@ public class PowerpointExporter {
 
             }
         }
+        addImagesToSlide(ppt, slide, images, rectangle2DImage);
+
 
         PowerpointExporterTools.updateCellAnchor(tableauMur, 20);
         PowerpointExporterTools.updateCellAnchor(tableauMenuiseries, 20);
@@ -350,9 +368,13 @@ public class PowerpointExporter {
 
     private void slideDescriptifDesSystem(XMLSlideShow ppt, XSLFSlide slide) {
 
+        Rectangle2D rectangle2DImages = null;
         List<String> tablesNames = List.of("tableauEclairage", "tableauVentilation", "tableauECS", "tableauMenuiseries");
         Map<String, XSLFTable> tables = new HashMap<>();
         for (XSLFShape shape : slide.getShapes()){
+            if(shape.getShapeName().equals("photo")){
+                rectangle2DImages = shape.getAnchor();
+            }
 
             if(tablesNames.contains(shape.getShapeName())){
                 tables.put(shape.getShapeName(), (XSLFTable) shape);
@@ -373,7 +395,7 @@ public class PowerpointExporter {
         ZoneElementTableauData zoneElementTableauVentilation = new ZoneElementTableauData(3, 2, "");
         ZoneElementTableauData zoneElementTableauECS = new ZoneElementTableauData(3, 2, "");
 
-
+        List<String> images = new ArrayList<>();
 
         for (Zone zone : releve.getZonesValues()){
             Color colorZoneName = colors[indexColorZone % colors.length];
@@ -382,6 +404,9 @@ public class PowerpointExporter {
             for (ZoneElement zoneElement : zone.getZoneElementsValues()){
                 //get a random color based on the zone name :
                 if(zoneElement instanceof Eclairage){
+                    if(zoneElement.images != null)
+                        images.addAll(zoneElement.images);
+
                     Eclairage eclairage = (Eclairage) zoneElement;
                     XSLFTableRow row = tableauEclairage.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauEclairage.getRows().get(2), row);
@@ -400,6 +425,8 @@ public class PowerpointExporter {
         }
 
         for(Ventilation ventilation : releve.ventilations.values()){
+            if(ventilation.images != null)
+                images.addAll(ventilation.images);
 
             XSLFTableRow row = tableauVentilation.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauVentilation.getRows().get(2), row);
@@ -417,6 +444,8 @@ public class PowerpointExporter {
         }
 
         for(ECS ecs : releve.ecs.values()){
+            if(ecs.images != null)
+                images.addAll(ecs.images);
             XSLFTableRow row = tableauECS.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauECS.getRows().get(2), row);
 
@@ -428,6 +457,8 @@ public class PowerpointExporter {
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
 
         }
+        addImagesToSlide(ppt, slide, images, rectangle2DImages);
+
 
         PowerpointExporterTools.updateCellAnchor(tableauEclairage, 20);
         PowerpointExporterTools.updateCellAnchor(tableauECS, 20);
@@ -455,9 +486,14 @@ public class PowerpointExporter {
 
 
     private void slideDescriptifDuChauffage(XMLSlideShow ppt, XSLFSlide slide) {
+        Rectangle2D rectangle2DPhoto = null;
+
         XSLFTable tableauEmetteurs = null;
         XSLFTable tableauProduction = null;
         for (XSLFShape shape : slide.getShapes()){
+            if(shape.getShapeName().equals("photo")){
+                rectangle2DPhoto = shape.getAnchor();
+            }
 
             if(shape.getShapeName().equals("tableauEmetteurs")){
                 tableauEmetteurs = (XSLFTable) shape;
@@ -475,10 +511,14 @@ public class PowerpointExporter {
             return;
         }
 
+        List<String> photo = new ArrayList<>();
+
         List<Chauffage> producteurs = new ArrayList<>();
         List<Chauffage> emetteur = new ArrayList<>();
         List<Chauffage> producteursEmetteurs = new ArrayList<>();
         for(Chauffage chauffage : releve.chauffages.values()){
+            if(chauffage.images != null)
+                photo.addAll(chauffage.images);
             switch (chauffage.categorie){
                 case Producteur:
                     producteurs.add(chauffage);
@@ -527,6 +567,8 @@ public class PowerpointExporter {
         }
 
         for(Climatisation climatisation : releve.climatisations.values()){
+            if(climatisation.images != null)
+                photo.addAll(climatisation.images);
             XSLFTableRow row = tableauEmetteurs.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
@@ -538,6 +580,7 @@ public class PowerpointExporter {
             PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
         }
+        addImagesToSlide(ppt, slide, photo, rectangle2DPhoto);
 
         PowerpointExporterTools.updateCellAnchor(tableauEmetteurs, 20);
         PowerpointExporterTools.updateCellAnchor(tableauProduction, 20);
@@ -562,27 +605,38 @@ public class PowerpointExporter {
 
     private void slidePreconisations(XMLSlideShow ppt, XSLFSlide slide) {
         XSLFTable tableauPreconisations = null;
+        Rectangle2D rectangle2DPhoto = null;
         for(XSLFShape shape : slide){
             if(shape.getShapeName().equals("tableauPreconisations")){
                 tableauPreconisations = (XSLFTable) shape;
+            }
+            if(shape.getShapeName().equals("photo")){
+                rectangle2DPhoto = shape.getAnchor();
             }
         }
         if(tableauPreconisations == null){
             return;
         }
 
-
+        List<String> images = new ArrayList<>();
         for(String preconisation : releve.preconisations){
-            XSLFTableRow row = tableauPreconisations.addRow();
+            if(platformProvider.isStringAPath(preconisation)) {
+                images.add(preconisation);
+                continue;
+            }
+                XSLFTableRow row = tableauPreconisations.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauPreconisations.getRows().get(0), row);
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), preconisation);
-
             PowerpointExporterTools.copyRowStyle(tableauPreconisations.getRows().get(0), row);
             row.getCells().get(0).setFillColor( new Color(0,0,0,0) );
             row.getCells().get(0).setBorderColor(TableCell.BorderEdge.left, colors[1]);
             row.getCells().get(0).setBorderColor(TableCell.BorderEdge.right, colors[1]);
+
         }
+
+        addImagesToSlide(ppt, slide, images, rectangle2DPhoto);
+
 
         tableauPreconisations.removeRow(0);
 

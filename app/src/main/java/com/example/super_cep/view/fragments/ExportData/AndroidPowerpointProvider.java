@@ -51,4 +51,9 @@ public class AndroidPowerpointProvider implements PowerpointPlatformProvider {
             }
         }
     }
+
+    @Override
+    public boolean isStringAPath(String path) {
+        return path.startsWith("content://") || path.startsWith("file://");
+    }
 }
