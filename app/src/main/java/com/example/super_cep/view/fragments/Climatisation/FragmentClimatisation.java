@@ -12,11 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentClimatisationBinding;
-import com.example.super_cep.model.Climatisation;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Climatisation;
+import com.example.super_cep.model.Releve.Releve;
 
 public class FragmentClimatisation extends Fragment {
 

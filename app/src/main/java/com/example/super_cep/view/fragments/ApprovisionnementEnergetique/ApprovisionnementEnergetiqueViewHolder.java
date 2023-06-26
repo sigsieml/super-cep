@@ -8,9 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderApprovisionnementEnergetiqueBinding;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 
 interface ApprovisionnementEnergetiqueViewHolderListener{
     void onClick(ApprovisionnementEnergetique approvisionnementEnergetique);

@@ -8,10 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Releve;
-
-import java.util.List;
-
 
 
 public class ReleveRecentAdapter extends RecyclerView.Adapter<ReleveRecentViewHolder> {

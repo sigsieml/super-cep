@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Remarque;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneViewHolder;
+import com.example.super_cep.model.Releve.Remarque;
 
 public class RemarqueAdapter  extends RecyclerView.Adapter<RemarqueViewHolder>{
 

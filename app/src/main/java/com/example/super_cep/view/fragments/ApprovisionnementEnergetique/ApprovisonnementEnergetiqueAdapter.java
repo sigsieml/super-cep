@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 
 public class ApprovisonnementEnergetiqueAdapter extends RecyclerView.Adapter<ApprovisionnementEnergetiqueViewHolder> {
 

@@ -18,7 +18,14 @@ public class pcPowerpointProvider implements PowerpointPlatformProvider {
             return pictureData;
         } catch (IOException e) {
             System.err.println("Error while reading image file");
-            return null;
+            try {
+                byte[] pictureData = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("712347014456672438.webp"));
+                return pictureData;
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         }
     }
 

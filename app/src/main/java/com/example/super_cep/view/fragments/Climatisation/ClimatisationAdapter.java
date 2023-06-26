@@ -8,8 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Climatisation;
-import com.example.super_cep.view.fragments.Chauffages.ChauffageViewHolder;
+import com.example.super_cep.model.Releve.Climatisation;
 
 public class ClimatisationAdapter extends RecyclerView.Adapter<ClimatisationViewHolder> {
 

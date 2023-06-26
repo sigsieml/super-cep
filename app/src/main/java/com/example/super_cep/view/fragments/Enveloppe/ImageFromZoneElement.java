@@ -1,7 +1,7 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 
 import java.util.HashMap;
 import java.util.Map;

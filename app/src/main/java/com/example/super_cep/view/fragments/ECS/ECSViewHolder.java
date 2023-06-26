@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderEcsBinding;
-import com.example.super_cep.model.ECS;
+import com.example.super_cep.model.Releve.ECS;
 
 
 interface ECSViewHolderListener {

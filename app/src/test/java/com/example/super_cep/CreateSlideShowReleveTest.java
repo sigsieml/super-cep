@@ -4,17 +4,15 @@ import static org.junit.Assert.assertTrue;
 
 import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointExporter;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 
 public class CreateSlideShowReleveTest {
 

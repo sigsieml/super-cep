@@ -1,9 +1,9 @@
-package com.example.super_cep.model;
+package com.example.super_cep.model.Releve;
 
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Chauffage.Chauffage;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ public class Releve {
     public Map<String, Ventilation> ventilations;
 
     public String nomBatiment = "";
-    public Calendar dateDeConstruction = Calendar.getInstance();
-    public Calendar dateDeDerniereRenovation = Calendar.getInstance();
+    public Calendar dateDeConstruction;
+    public Calendar dateDeDerniereRenovation;
     public float surfaceTotaleChauffe = 0;
     public String description = "";
     public String adresse = "";

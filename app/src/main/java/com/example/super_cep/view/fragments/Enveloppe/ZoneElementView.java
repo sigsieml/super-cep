@@ -1,7 +1,5 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,8 +7,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.super_cep.databinding.ViewZoneElementBinding;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 
 public class ZoneElementView extends View {
 

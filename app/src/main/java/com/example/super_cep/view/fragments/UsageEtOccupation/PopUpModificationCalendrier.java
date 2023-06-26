@@ -10,8 +10,8 @@ import android.widget.PopupWindow;
 
 import com.example.super_cep.R;
 import com.example.super_cep.databinding.PopupCalendrierModificationBinding;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 
 import java.util.ArrayList;
 import java.util.List;

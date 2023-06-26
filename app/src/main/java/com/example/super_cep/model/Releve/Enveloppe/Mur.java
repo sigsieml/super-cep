@@ -1,22 +1,23 @@
-package com.example.super_cep.model.Enveloppe;
+package com.example.super_cep.model.Releve.Enveloppe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Toiture extends ZoneElement{
+public class Mur extends ZoneElement{
 
-    public String typeToiture;
+
+    public String typeMur;
     public String typeMiseEnOeuvre;
     public String typeIsolant;
     public String niveauIsolation;
     public float epaisseurIsolant;
 
-
     @JsonCreator
-    public Toiture(@JsonProperty("nom") String nom,
-               @JsonProperty("typeToiture") String typeToiture,
+    public Mur(@JsonProperty("nom") String nom,
+               @JsonProperty("typeMur") String typeMur,
                @JsonProperty("typeMiseEnOeuvre") String typeMiseEnOeuvre,
                @JsonProperty("typeIsolant") String typeIsolant,
                @JsonProperty("niveauIsolation") String niveauIsolation,
@@ -24,23 +25,25 @@ public class Toiture extends ZoneElement{
                @JsonProperty("aVerifier") boolean aVerifier,
                @JsonProperty("note") String note,
                @JsonProperty("images") List<String> images) {
-        super(nom, aVerifier,note, images);
-        this.typeToiture = typeToiture;
+        super(nom, aVerifier, note, images);
+        this.typeMur = typeMur;
         this.typeMiseEnOeuvre = typeMiseEnOeuvre;
         this.typeIsolant = typeIsolant;
         this.niveauIsolation = niveauIsolation;
         this.epaisseurIsolant = epaisseurIsolant;
     }
 
+    @JsonIgnore
     @Override
     public String logo() {
-        return "toiture";
+        return "mur";
     }
 
     @Override
     public String toString() {
-        return "Toiture{" +
-                "typeToiture='" + typeToiture + '\'' +
+        return "Mur{" +
+                "nom='" + super.getNom() + '\'' +
+                "typeMur='" + typeMur + '\'' +
                 ", typeMiseEnOeuvre='" + typeMiseEnOeuvre + '\'' +
                 ", typeIsolant='" + typeIsolant + '\'' +
                 ", niveauIsolation='" + niveauIsolation + '\'' +

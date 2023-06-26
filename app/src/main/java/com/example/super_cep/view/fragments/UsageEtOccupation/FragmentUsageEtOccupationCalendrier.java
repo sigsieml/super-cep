@@ -13,11 +13,9 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentUeoCalendrierBinding;
 import com.example.super_cep.databinding.ViewUsageEtOccupationJourBinding;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Releve;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class FragmentUsageEtOccupationCalendrier extends Fragment {

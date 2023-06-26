@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentApprovisionnementEnergetiqueBinding;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.Releve;
 public class FragmentApprovisionnementEnergetique extends Fragment {
     public FragmentApprovisionnementEnergetique() {
         // Required empty public constructor

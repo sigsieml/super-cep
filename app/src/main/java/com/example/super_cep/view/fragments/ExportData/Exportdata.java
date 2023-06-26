@@ -23,7 +23,7 @@ import com.example.super_cep.databinding.FragmentExportdataBinding;
 import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

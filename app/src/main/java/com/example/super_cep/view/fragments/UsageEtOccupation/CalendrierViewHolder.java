@@ -1,21 +1,14 @@
 package com.example.super_cep.view.fragments.UsageEtOccupation;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.controller.Animation;
 import com.example.super_cep.databinding.ViewholderCalendrierBinding;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Enveloppe.Zone;
-
-import java.util.Arrays;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 
 
 interface CalendrierViewHolderListener{

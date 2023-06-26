@@ -1,4 +1,4 @@
-package com.example.super_cep.model.Enveloppe;
+package com.example.super_cep.model.Releve.Enveloppe;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

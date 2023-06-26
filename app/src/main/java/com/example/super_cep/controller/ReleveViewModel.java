@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Chauffage.Chauffage;
-import com.example.super_cep.model.Climatisation;
-import com.example.super_cep.model.ECS;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Releve;
-import com.example.super_cep.model.Remarque;
-import com.example.super_cep.model.Ventilation;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Climatisation;
+import com.example.super_cep.model.Releve.ECS;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.model.Releve.Remarque;
+import com.example.super_cep.model.Releve.Ventilation;
 
 import java.util.Calendar;
 import java.util.List;

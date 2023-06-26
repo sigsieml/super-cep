@@ -1,4 +1,4 @@
-package com.example.super_cep.model;
+package com.example.super_cep.model.Releve;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

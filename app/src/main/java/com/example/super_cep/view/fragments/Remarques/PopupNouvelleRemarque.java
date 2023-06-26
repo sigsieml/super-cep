@@ -4,19 +4,15 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.PopupNouvelleRemarqueBinding;
-import com.example.super_cep.model.Remarque;
+import com.example.super_cep.model.Releve.Remarque;
 
 import java.util.ArrayList;
 import java.util.List;

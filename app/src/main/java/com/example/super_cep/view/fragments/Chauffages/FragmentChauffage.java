@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentChauffagesBinding;
-import com.example.super_cep.model.Chauffage.Chauffage;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Releve;
 
 public class FragmentChauffage extends Fragment {
 

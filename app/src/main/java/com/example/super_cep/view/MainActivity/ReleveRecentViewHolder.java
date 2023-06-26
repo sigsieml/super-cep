@@ -27,7 +27,7 @@ public class ReleveRecentViewHolder extends RecyclerView.ViewHolder {
     public void setFileName(String relevePath) {
 
         viewholderReleveFileBinding.textViewReleveFile.setText(relevePath.replace(".json", ""));
-        viewholderReleveFileBinding.textViewReleveFile.setOnClickListener(new View.OnClickListener() {
+        viewholderReleveFileBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //read file relevePath
@@ -35,7 +35,7 @@ public class ReleveRecentViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        viewholderReleveFileBinding.textViewReleveFile.setOnLongClickListener(new View.OnLongClickListener() {
+        viewholderReleveFileBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 //delete file with Dialog

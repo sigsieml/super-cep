@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderChauffageBinding;
-import com.example.super_cep.model.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 
 interface ChauffageViewHolderListener {
     void onClick(Chauffage chauffage);

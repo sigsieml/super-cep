@@ -23,14 +23,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentPreconisationBinding;
-import com.example.super_cep.model.Enveloppe.Toiture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentPreconisation extends Fragment {

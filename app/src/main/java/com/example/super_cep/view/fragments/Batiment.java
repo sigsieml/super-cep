@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,9 @@ import android.widget.EditText;
 
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.MonthYearPicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,8 +61,8 @@ public class Batiment extends Fragment {
         releve.observe(getViewLifecycleOwner(), new Observer<Releve>() {
             @Override
             public void onChanged(Releve rlv) {
-                binding.editTextDateDeRenovation.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(rlv.dateDeDerniereRenovation.getTime()));
-                binding.editTextDateDeConstruction.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(rlv.dateDeConstruction.getTime()));
+                updateTextBox(binding.editTextDateDeConstruction, rlv.dateDeConstruction);
+                updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
                 binding.editTextNomBatiment.setText(rlv.nomBatiment);
                 binding.editTextNumberDecimalSurfaceTotalChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe));
                 binding.editTextMultiLineDescriptionBatiment.setText(rlv.description);
@@ -87,24 +89,29 @@ public class Batiment extends Fragment {
     }
 
 
+
     private void setupCalendar() {
         binding.editTextDateDeConstruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveData();
 
+
                 final Calendar calendar = releve.getValue().dateDeConstruction;
-                new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
 
+                MonthYearPicker pd = MonthYearPicker.newInstance(calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.YEAR));
 
+                pd.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH,month);
-                        calendar.set(Calendar.DAY_OF_MONTH,day);
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        calendar.set(Calendar.YEAR, selectedYear);
+                        calendar.set(Calendar.MONTH, selectedMonth - 1);
+                        calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
                         updateTextBox(binding.editTextDateDeConstruction, calendar);
                     }
-                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+                });
+                pd.show(getParentFragmentManager(), "MonthYearPicker");
             }
         });
 
@@ -114,21 +121,31 @@ public class Batiment extends Fragment {
                 saveData();
 
                 final Calendar calendar = releve.getValue().dateDeDerniereRenovation;
-                new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
+
+                MonthYearPicker pd = MonthYearPicker.newInstance(calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.YEAR));
+
+                pd.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH,month);
-                        calendar.set(Calendar.DAY_OF_MONTH,day);
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        calendar.set(Calendar.YEAR, selectedYear);
+                        calendar.set(Calendar.MONTH, selectedMonth - 1);
+                        calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
                         updateTextBox(binding.editTextDateDeRenovation, calendar);
                     }
-                },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+                });
+                pd.show(getParentFragmentManager(), "MonthYearPicker");
+
             }
         });
     }
 
-    private void updateTextBox(EditText editTextDateDeConstruction, Calendar calendar) {
-        editTextDateDeConstruction.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(calendar.getTime()));
+    private void updateTextBox(EditText editText, Calendar calendar) {
+        if(calendar != null){
+            editText.setText(new SimpleDateFormat("MMMM yyyy", Locale.FRANCE).format(calendar.getTime()));
+        }else{
+            editText.setText("Inconnu");
+        }
     }
 
 

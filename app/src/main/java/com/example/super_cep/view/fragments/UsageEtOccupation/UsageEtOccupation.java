@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.databinding.FragmentUeoCalendrierBinding;
 import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 
 public class UsageEtOccupation extends Fragment {
 

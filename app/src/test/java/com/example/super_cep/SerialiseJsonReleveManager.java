@@ -1,12 +1,12 @@
 package com.example.super_cep;
 
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.Chauffage.CategorieChauffage;
-import com.example.super_cep.model.Chauffage.Chauffage;
-import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Enveloppe.Mur;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 import com.example.super_cep.model.Export.JsonReleveManager;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 
 import org.junit.Test;
 

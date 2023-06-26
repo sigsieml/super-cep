@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderClimatisationBinding;
-import com.example.super_cep.model.Climatisation;
+import com.example.super_cep.model.Releve.Climatisation;
 
 
 interface ClimatisationViewHolderListener {

@@ -32,8 +32,8 @@ import com.example.super_cep.databinding.FragmentSolBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Enveloppe.Sol;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Enveloppe.Sol;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 import com.example.super_cep.view.Mode;
 
 import java.util.ArrayList;

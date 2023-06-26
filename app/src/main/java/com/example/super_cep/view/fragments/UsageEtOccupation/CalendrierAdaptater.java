@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
 
 public class CalendrierAdaptater extends RecyclerView.Adapter<CalendrierViewHolder> {
 

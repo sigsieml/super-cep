@@ -12,13 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentVentilationBinding;
-import com.example.super_cep.model.Ventilation;
-import com.example.super_cep.model.Releve;
-import com.example.super_cep.model.Ventilation;
-import com.example.super_cep.view.fragments.Ventilation.VentilationAdapter;
+import com.example.super_cep.model.Releve.Ventilation;
+import com.example.super_cep.model.Releve.Releve;
 
 public class FragmentVentilation extends Fragment {
 

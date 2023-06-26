@@ -1,4 +1,4 @@
-package com.example.super_cep.model.Calendrier;
+package com.example.super_cep.model.Releve.Calendrier;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

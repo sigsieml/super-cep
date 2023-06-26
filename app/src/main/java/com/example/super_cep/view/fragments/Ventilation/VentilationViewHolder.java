@@ -7,8 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.databinding.ViewholderVentilationBinding;
-import com.example.super_cep.model.Ventilation;
-import com.example.super_cep.view.fragments.Ventilation.VentilationViewHolderListener;
+import com.example.super_cep.model.Releve.Ventilation;
 
 
 interface VentilationViewHolderListener {

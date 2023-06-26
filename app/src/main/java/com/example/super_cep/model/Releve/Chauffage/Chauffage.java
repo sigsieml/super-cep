@@ -1,4 +1,4 @@
-package com.example.super_cep.model.Chauffage;
+package com.example.super_cep.model.Releve.Chauffage;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

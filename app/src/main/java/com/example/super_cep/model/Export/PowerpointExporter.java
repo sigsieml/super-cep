@@ -2,34 +2,30 @@ package com.example.super_cep.model.Export;
 
 import android.content.Context;
 
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetique;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
-import com.example.super_cep.model.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
-import com.example.super_cep.model.Calendrier.Calendrier;
-import com.example.super_cep.model.Chauffage.CategorieChauffage;
-import com.example.super_cep.model.Chauffage.Chauffage;
-import com.example.super_cep.model.Climatisation;
-import com.example.super_cep.model.ECS;
-import com.example.super_cep.model.Enveloppe.Eclairage;
-import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.model.Enveloppe.Sol;
-import com.example.super_cep.model.Enveloppe.Toiture;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Releve;
-import com.example.super_cep.model.Remarque;
-import com.example.super_cep.model.Ventilation;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Climatisation;
+import com.example.super_cep.model.Releve.ECS;
+import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
+import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
+import com.example.super_cep.model.Releve.Enveloppe.Mur;
+import com.example.super_cep.model.Releve.Enveloppe.Sol;
+import com.example.super_cep.model.Releve.Enveloppe.Toiture;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.model.Releve.Remarque;
+import com.example.super_cep.model.Releve.Ventilation;
 
-import org.apache.poi.sl.usermodel.PictureData;
 import org.apache.poi.sl.usermodel.TableCell;
-import org.apache.poi.util.IOUtils;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
@@ -37,10 +33,7 @@ import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,9 +95,21 @@ public class PowerpointExporter {
     private void setupReleve() {
         remplacements = new HashMap<>();
         if(releve.nomBatiment != null) remplacements.put("nomBatiment", releve.nomBatiment);
-        if(releve.dateDeConstruction != null) remplacements.put("dateDeConstruction",  formateDate(releve.dateDeConstruction));
-        if(releve.dateDeDerniereRenovation != null) remplacements.put("dateDeDerniereRenovation", formateDate(releve.dateDeDerniereRenovation));
-        if(releve.surfaceTotaleChauffe != 0) remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + "");
+        if(releve.dateDeConstruction != null) {
+            remplacements.put("dateDeConstruction",  formateDate(releve.dateDeConstruction));
+        }else{
+            remplacements.put("dateDeConstruction",  "Inconnue");
+        }
+        if(releve.dateDeDerniereRenovation != null){
+            remplacements.put("dateDeDerniereRenovation", formateDate(releve.dateDeDerniereRenovation));
+        }else{
+            remplacements.put("dateDeDerniereRenovation", "Inconnue");
+        }
+        if(releve.surfaceTotaleChauffe != 0){
+            remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + "");
+        }else{
+            remplacements.put("surfaceTotaleChauffe", "Inconnue");
+        }
         if(releve.description != null) remplacements.put("description", releve.description);
         if(releve.adresse != null) remplacements.put("adresse", releve.adresse);
 

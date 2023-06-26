@@ -1,6 +1,6 @@
 package com.example.super_cep.model.Export;
 
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

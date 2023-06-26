@@ -17,14 +17,14 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
-import com.example.super_cep.model.Enveloppe.Eclairage;
-import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.Mur;
-import com.example.super_cep.model.Enveloppe.Sol;
-import com.example.super_cep.model.Enveloppe.Toiture;
-import com.example.super_cep.model.Enveloppe.Zone;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
+import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
+import com.example.super_cep.model.Releve.Enveloppe.Mur;
+import com.example.super_cep.model.Releve.Enveloppe.Sol;
+import com.example.super_cep.model.Releve.Enveloppe.Toiture;
+import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
@@ -98,8 +98,8 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment fragment = getFragmentFromZoneElement(zone, zoneElement);
         fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.addToBackStack(fragment.toString());
         fragmentTransaction.commit();
 
     }

@@ -12,7 +12,7 @@ import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.ActivityReleveBinding;
 import com.example.super_cep.model.Export.JsonReleveManager;
-import com.example.super_cep.model.Releve;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.SpinnerData.ConfigDataProvider;
 import com.google.android.material.navigation.NavigationView;
 

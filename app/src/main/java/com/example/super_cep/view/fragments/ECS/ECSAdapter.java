@@ -8,9 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.ECS;
-import com.example.super_cep.view.fragments.ECS.ECSViewHolder;
-import com.example.super_cep.view.fragments.ECS.ECSViewHolderListener;
+import com.example.super_cep.model.Releve.ECS;
 
 public class ECSAdapter extends RecyclerView.Adapter<ECSViewHolder> {
     private ECS[] ecs;

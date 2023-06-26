@@ -32,8 +32,8 @@ import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
-import com.example.super_cep.model.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
+import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 import com.example.super_cep.view.Mode;
 
 import java.util.ArrayList;
