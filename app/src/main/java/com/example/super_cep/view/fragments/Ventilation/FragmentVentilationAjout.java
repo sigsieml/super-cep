@@ -173,8 +173,8 @@ public class FragmentVentilationAjout extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeRegulation, "regulationVentilation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeVentilation, "typeVentilation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "regulationVentilation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeVentilation, "typeVentilation");
     }
 
     private Ventilation getVentilationFromViews(){
@@ -184,8 +184,8 @@ public class FragmentVentilationAjout extends Fragment {
         }
         Ventilation ventilation = new Ventilation(
                 binding.editTextNomVentilation.getText().toString(),
-                binding.spinnerTypeVentilation.getSelectedItem().toString(),
-                binding.spinnerTypeRegulation.getSelectedItem().toString(),
+                binding.autoCompleteTypeVentilation.getText().toString(),
+                binding.autoCompleteTypeRegulation.getText().toString(),
                 viewZoneSelector.getSelectedZones(),
                 images,
                 binding.checkBoxAVerifierVentilation.isChecked(),
@@ -197,8 +197,8 @@ public class FragmentVentilationAjout extends Fragment {
 
     private void addDataToView(Ventilation ventilation){
         binding.editTextNomVentilation.setText(ventilation.nom);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeVentilation, ventilation.type);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeRegulation, ventilation.regulation);
+        binding.autoCompleteTypeVentilation.setText(ventilation.type);
+        binding.autoCompleteTypeRegulation.setText(ventilation.regulation);
         binding.checkBoxAVerifierVentilation.setChecked(ventilation.aVerifier);
         binding.editTextMultilineNoteVentilation.setText(ventilation.note);
         viewZoneSelector.setSelectedZones(ventilation.zones);

@@ -114,10 +114,11 @@
                     android:layout_marginTop="16dp"
                     android:text="Type de régulation"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeEclairage" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTypeEclairage" />
 
-                <Spinner
-                    android:id="@+id/spinnerTypeRegulation"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteTypeRegulation"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -135,7 +136,7 @@
                     android:layout_marginTop="20dp"
                     android:text="À Vérifier"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeRegulation" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTypeRegulation" />
 
                 <TextView
                     android:id="@+id/textView33"
@@ -173,8 +174,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spinnerTypeEclairage"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteTypeEclairage"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"

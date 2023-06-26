@@ -330,10 +330,10 @@ public class FragmentMur extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeMur, "typeMur");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeIsolant, "typeIsolant");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeMur, "typeMur");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeIsolant, "typeIsolant");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
     }
 
 
@@ -344,10 +344,10 @@ public class FragmentMur extends Fragment {
         }
         Mur mur = new Mur(
                 binding.editTextNomMur.getText().toString(),
-                binding.spinnerTypeMur.getSelectedItem().toString(),
-                binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
-                binding.spinnerTypeIsolant.getSelectedItem().toString(),
-                binding.spinnerNiveauIsolation.getSelectedItem().toString(),
+                binding.autoCompleteTypeMur.getText().toString(),
+                binding.autoCompleteTypeDeMiseEnOeuvre.getText().toString(),
+                binding.autoCompleteTypeIsolant.getText().toString(),
+                binding.autoCompleteNiveauIsolation.getText().toString(),
                 Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierMur.isChecked(),
                 binding.editTextMultilineNoteMur.getText().toString(),
@@ -360,10 +360,10 @@ public class FragmentMur extends Fragment {
         Mur mur = (Mur) zoneElement;
         binding.editTextNomMur.setText(mur.getNom());
         binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMur, mur.typeMur);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, mur.typeMiseEnOeuvre);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, mur.typeIsolant);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, mur.niveauIsolation);
+        binding.autoCompleteTypeMur.setText(mur.typeMur);
+        binding.autoCompleteTypeDeMiseEnOeuvre.setText(mur.typeMiseEnOeuvre);
+        binding.autoCompleteTypeIsolant.setText(mur.typeIsolant);
+        binding.autoCompleteNiveauIsolation.setText(mur.niveauIsolation);
         binding.checkBoxAVerifierMur.setChecked(mur.aVerifier);
         binding.editTextMultilineNoteMur.setText(mur.note);
 

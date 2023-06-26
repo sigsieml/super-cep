@@ -129,11 +129,12 @@
                     android:layout_marginTop="16dp"
                     android:text="type de régulation"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeVentilation" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTypeVentilation" />
 
 
-                <Spinner
-                    android:id="@+id/spinnerTypeRegulation"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteTypeRegulation"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -161,10 +162,11 @@
                     android:layout_marginTop="24dp"
                     android:text="zones concernées"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeRegulation" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTypeRegulation" />
 
-                <Spinner
-                    android:id="@+id/spinnerTypeVentilation"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteTypeVentilation"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"

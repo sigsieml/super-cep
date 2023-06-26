@@ -329,10 +329,10 @@ public class FragmentMenuiserie extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeMenuiserie, "typeMenuiserie");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerMatRiau, "materiau");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerProtectionsSolaires, "protectionsSolaires");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeVitrage, "typeVitrage");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeMenuiserie, "typeMenuiserie");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMatRiau, "materiau");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, "protectionsSolaires");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeVitrage, "typeVitrage");
     }
 
 
@@ -343,10 +343,10 @@ public class FragmentMenuiserie extends Fragment {
         }
         Menuiserie menuiserie = new Menuiserie(
                 binding.editTextNomMenuiserie.getText().toString(),
-                binding.spinnerTypeMenuiserie.getSelectedItem().toString(),
-                binding.spinnerMatRiau.getSelectedItem().toString(),
-                binding.spinnerProtectionsSolaires.getSelectedItem().toString(),
-                binding.spinnerTypeVitrage.getSelectedItem().toString(),
+                binding.autoCompleteTypeMenuiserie.getText().toString(),
+                binding.autoCompleteMatRiau.getText().toString(),
+                binding.autoCompleteProtectionsSolaires.getText().toString(),
+                binding.autoCompleteTypeVitrage.getText().toString(),
                 binding.checkBoxAVerifierMenuiserie.isChecked(),
                 binding.editTextMultilineNoteMenuiserie.getText().toString(),
                 images
@@ -357,10 +357,10 @@ public class FragmentMenuiserie extends Fragment {
     private void addDataToView(ZoneElement zoneElement){
         Menuiserie menuiserie = (Menuiserie) zoneElement;
         binding.editTextNomMenuiserie.setText(menuiserie.getNom());
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeMenuiserie, menuiserie.typeMenuiserie);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMatRiau, menuiserie.materiau);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerProtectionsSolaires, menuiserie.protectionsSolaires);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeVitrage, menuiserie.typeVitrage);
+        binding.autoCompleteTypeMenuiserie.setText(menuiserie.typeMenuiserie);
+        binding.autoCompleteMatRiau.setText(menuiserie.materiau);
+        binding.autoCompleteProtectionsSolaires.setText(menuiserie.protectionsSolaires);
+        binding.autoCompleteTypeVitrage.setText(menuiserie.typeVitrage);
         binding.checkBoxAVerifierMenuiserie.setChecked(menuiserie.aVerifier);
         binding.editTextMultilineNoteMenuiserie.setText(menuiserie.note);
         for (String uri : menuiserie.images) {

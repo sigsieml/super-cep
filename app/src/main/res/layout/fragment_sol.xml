@@ -129,8 +129,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeSol"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeSol"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -158,8 +159,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerNiveauIsolation"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteNiveauIsolation"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -189,8 +191,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spinnerIsolant"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteIsolant"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -244,7 +247,7 @@
                     android:layout_marginTop="32dp"
                     android:text="Epaisseur de l'isolant en cm"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerIsolant" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteIsolant" />
 
                 <EditText
                     android:id="@+id/editTextNumberSignedEpaisseurIsolant"

@@ -129,13 +129,15 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeMenuiserie"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeMenuiserie"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -158,8 +160,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerMatériau"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteMatériau"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -189,8 +192,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spinnerProtectionsSolaires"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteProtectionsSolaires"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -208,7 +212,7 @@
                     android:layout_marginTop="16dp"
                     android:text="À Vérifier"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerTypeVitrage" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTypeVitrage" />
 
                 <TextView
                     android:id="@+id/textView33"
@@ -244,10 +248,11 @@
                     android:layout_marginTop="32dp"
                     android:text="Type de vitrage :"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerProtectionsSolaires" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteProtectionsSolaires" />
 
-                <Spinner
-                    android:id="@+id/spinnerTypeVitrage"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteTypeVitrage"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"

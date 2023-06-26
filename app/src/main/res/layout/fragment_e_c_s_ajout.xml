@@ -97,8 +97,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeECS"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeECS"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -161,8 +162,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerMarque"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteMarque"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"

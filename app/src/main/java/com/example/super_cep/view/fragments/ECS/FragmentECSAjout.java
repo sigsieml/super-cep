@@ -173,8 +173,8 @@ public class FragmentECSAjout extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeECS, "typeECS");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueECS");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeECS, "typeECS");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueECS");
     }
 
     private ECS getECSFromViews(){
@@ -184,9 +184,9 @@ public class FragmentECSAjout extends Fragment {
         }
         ECS ecs = new ECS(
                 binding.editTextNomECS.getText().toString(),
-                binding.spinnerTypeECS.getSelectedItem().toString(),
+                binding.autoCompleteTypeECS.getText().toString(),
                 binding.editTextModele.getText().toString(),
-                binding.spinnerMarque.getSelectedItem().toString(),
+                binding.autoCompleteMarque.getText().toString(),
                 binding.editTextVolume.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextVolume.getText().toString()),
                 binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
                 viewZoneSelector.getSelectedZones(),
@@ -200,9 +200,9 @@ public class FragmentECSAjout extends Fragment {
 
     private void addDataToView(ECS ecs){
         binding.editTextNomECS.setText(ecs.nom);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeECS, ecs.type);
+        binding.autoCompleteTypeECS.setText(ecs.type);
         binding.editTextModele.setText(ecs.modele);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMarque, ecs.marque);
+        binding.autoCompleteMarque.setText(ecs.marque);
         binding.editTextVolume.setText(String.valueOf(ecs.volume));
         binding.editTextNumberQuantite.setText(String.valueOf(ecs.quantite));
 

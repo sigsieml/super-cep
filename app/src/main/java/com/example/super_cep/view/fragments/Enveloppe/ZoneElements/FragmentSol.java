@@ -330,9 +330,9 @@ public class FragmentSol extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeSol, "typeSol");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerIsolant, "typeIsolant");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteIsolant, "typeIsolant");
     }
 
 
@@ -343,9 +343,9 @@ public class FragmentSol extends Fragment {
         }
         Sol sol = new Sol(
                 binding.editTextNomSol.getText().toString(),
-                binding.spinnerTypeSol.getSelectedItem().toString(),
-                binding.spinnerNiveauIsolation.getSelectedItem().toString(),
-                binding.spinnerIsolant.getSelectedItem().toString(),
+                binding.autoCompleteTypeSol.getText().toString(),
+                binding.autoCompleteNiveauIsolation.getText().toString(),
+                binding.autoCompleteIsolant.getText().toString(),
                 Float.parseFloat(binding.editTextNumberSignedEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierSol.isChecked(),
                 binding.editTextMultilineNoteSol.getText().toString(),
@@ -358,9 +358,9 @@ public class FragmentSol extends Fragment {
         Sol sol = (Sol) zoneElement;
         binding.editTextNomSol.setText(sol.getNom());
         binding.editTextNumberSignedEpaisseurIsolant.setText(String.valueOf(sol.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeSol, sol.typeSol);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, sol.niveauIsolation);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerIsolant, sol.typeIsolant);
+        binding.autoCompleteTypeSol.setText(sol.typeSol);
+        binding.autoCompleteNiveauIsolation.setText(sol.niveauIsolation);
+        binding.autoCompleteIsolant.setText(sol.typeIsolant);
         binding.checkBoxAVerifierSol.setChecked(sol.aVerifier);
         binding.editTextMultilineNoteSol.setText(sol.note);
 

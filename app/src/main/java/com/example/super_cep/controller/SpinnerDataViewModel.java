@@ -1,7 +1,8 @@
 package com.example.super_cep.controller;
 
-import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 
 import androidx.lifecycle.MutableLiveData;
@@ -37,6 +38,26 @@ public class SpinnerDataViewModel extends ViewModel {
             return;
         }
         updateSpinnerData(spinner, spinnerData.getValue().get(key));
+    }
+
+    public void setAutoComplete(AutoCompleteTextView multiLineAutoCompleteTextView, String key){
+        if(!spinnerData.getValue().containsKey(key)){
+            Snackbar.make(multiLineAutoCompleteTextView, "Erreur lors de la récupération des données de " + key, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        setAutoComplete(multiLineAutoCompleteTextView, spinnerData.getValue().get(key));
+    }
+
+    private void setAutoComplete(AutoCompleteTextView autoCompleteTextView, List<String> strings) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(autoCompleteTextView.getContext(), android.R.layout.simple_dropdown_item_1line, strings);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setOnTouchListener((v, event) -> {
+            //only if it's a click
+            if(event.getAction() != android.view.MotionEvent.ACTION_UP)
+                return false;
+            autoCompleteTextView.showDropDown();
+            return false;
+        });
     }
 
     public static void updateSpinnerData(Spinner spinner, List<String> values ){

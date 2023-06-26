@@ -129,18 +129,23 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeMur"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeMur"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
+                            android:completionThreshold="0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView27"
+                            app:layout_constraintVertical_bias="0.5" />
+
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -158,18 +163,23 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeDeMiseEnOeuvre"
-                            android:layout_width="match_parent"
+
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeDeMiseEnOeuvre"
+                            android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:completionThreshold="0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView28"
-                            app:layout_constraintVertical_bias="0.0" />
+                            app:layout_constraintVertical_bias="0.5" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
 
@@ -192,18 +202,22 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeIsolant"
+                        <AutoCompleteTextView
+                            android:singleLine="true"
+                            android:id="@+id/autoCompleteTypeIsolant"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:completionThreshold="0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView29"
-                            app:layout_constraintVertical_bias="0.0" />
+                            app:layout_constraintVertical_bias="0.5" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -263,8 +277,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spinnerNiveauIsolation"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteNiveauIsolation"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -272,7 +287,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView32" />
+                    android:completionThreshold="0"
+                    app:layout_constraintTop_toBottomOf="@+id/textView32"
+                    app:layout_constraintVertical_bias="0.5" />
 
                 <CheckBox
                     android:id="@+id/checkBoxAVerifierMur"
@@ -282,7 +299,7 @@
                     android:layout_marginTop="20dp"
                     android:text="À Vérifier"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerNiveauIsolation" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteNiveauIsolation" />
 
                 <TextView
                     android:id="@+id/textView33"

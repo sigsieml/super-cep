@@ -329,10 +329,10 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeToiture, "typeToiture");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeIsolant, "typeIsolant");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerNiveauIsolation, "niveauIsolation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeToiture, "typeToiture");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeIsolant, "typeIsolant");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
     }
 
 
@@ -343,10 +343,10 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         }
         Toiture toiture = new Toiture(
                 binding.editTextNomToiture.getText().toString(),
-                binding.spinnerTypeToiture.getSelectedItem().toString(),
-                binding.spinnerTypeDeMiseEnOeuvre.getSelectedItem().toString(),
-                binding.spinnerTypeIsolant.getSelectedItem().toString(),
-                binding.spinnerNiveauIsolation.getSelectedItem().toString(),
+                binding.autoCompleteTypeToiture.getText().toString(),
+                binding.autoCompleteTypeDeMiseEnOeuvre.getText().toString(),
+                binding.autoCompleteTypeIsolant.getText().toString(),
+                binding.autoCompleteNiveauIsolation.getText().toString(),
                 Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierToiture.isChecked(),
                 binding.editTextMultilineNoteToiture.getText().toString(),
@@ -359,10 +359,10 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         Toiture toiture = (Toiture) zoneElement;
         binding.editTextNomToiture.setText(toiture.getNom());
         binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(toiture.epaisseurIsolant));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeToiture, toiture.typeToiture);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeDeMiseEnOeuvre, toiture.typeMiseEnOeuvre);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeIsolant, toiture.typeIsolant);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerNiveauIsolation, toiture.niveauIsolation);
+        binding.autoCompleteTypeToiture.setText(toiture.typeToiture);
+        binding.autoCompleteTypeDeMiseEnOeuvre.setText(toiture.typeMiseEnOeuvre);
+        binding.autoCompleteTypeIsolant.setText(toiture.typeIsolant);
+        binding.autoCompleteNiveauIsolation.setText(toiture.niveauIsolation);
         binding.checkBoxAVerifierToiture.setChecked(toiture.aVerifier);
         binding.editTextMultilineNoteToiture.setText(toiture.note);
 

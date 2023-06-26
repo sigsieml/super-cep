@@ -180,9 +180,9 @@ public class FragmentClimatisationAjout extends Fragment {
 
 
     private void updateSpinner() {
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerRegulations, "regulationClimatisation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeClimatisation, "typeClimatisation");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueClimatisation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationClimatisation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeClimatisation, "typeClimatisation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueClimatisation");
     }
 
     private Climatisation getClimatisationFromViews(){
@@ -192,12 +192,12 @@ public class FragmentClimatisationAjout extends Fragment {
         }
         Climatisation climatisation = new Climatisation(
                 binding.editTextNomClimatisation.getText().toString(),
-                binding.spinnerTypeClimatisation.getSelectedItem().toString(),
+                binding.autoCompleteTypeClimatisation.getText().toString(),
                 binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
                 binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
-                binding.spinnerMarque.getSelectedItem().toString(),
+                binding.autoCompleteMarque.getText().toString(),
                 binding.editTextModele.getText().toString(),
-                binding.spinnerRegulations.getSelectedItem().toString(),
+                binding.autoCompleteRegulations.getText().toString(),
                 viewZoneSelector.getSelectedZones(),
                 images,
                 binding.checkBoxAVerifierClimatisation.isChecked(),
@@ -209,12 +209,12 @@ public class FragmentClimatisationAjout extends Fragment {
 
     private void addDataToView(Climatisation climatisation){
         binding.editTextNomClimatisation.setText(climatisation.nom);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeClimatisation, climatisation.type);
+        binding.autoCompleteTypeClimatisation.setText(climatisation.type);
         binding.editTextNumberPuissance.setText(String.valueOf(climatisation.puissance));
         binding.editTextNumberQuantite.setText(String.valueOf(climatisation.quantite));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMarque, climatisation.marque);
+        binding.autoCompleteMarque.setText(climatisation.marque);
         binding.editTextModele.setText(climatisation.modele);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerRegulations, climatisation.regulation);
+        binding.autoCompleteRegulations.setText(climatisation.regulation);
         binding.checkBoxAVerifierClimatisation.setChecked(climatisation.aVerifier);
         binding.editTextMultilineNoteClimatisation.setText(climatisation.note);
         viewZoneSelector.setSelectedZones(climatisation.zones);

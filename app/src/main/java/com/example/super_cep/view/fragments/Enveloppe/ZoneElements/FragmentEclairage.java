@@ -330,8 +330,8 @@ public class FragmentEclairage extends Fragment {
 
     private void updateSpinner() {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeEclairage, "typeEclairage");
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerTypeRegulation, "typeRegulation");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeEclairage, "typeEclairage");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "typeRegulation");
     }
 
 
@@ -342,8 +342,8 @@ public class FragmentEclairage extends Fragment {
         }
         Eclairage eclairage = new Eclairage(
                 binding.editTextNomEclairage.getText().toString(),
-                binding.spinnerTypeEclairage.getSelectedItem().toString(),
-                binding.spinnerTypeRegulation.getSelectedItem().toString(),
+                binding.autoCompleteTypeEclairage.getText().toString(),
+                binding.autoCompleteTypeRegulation.getText().toString(),
                 binding.checkBoxAVerifierEclairage.isChecked(),
                 binding.editTextMultilineNoteEclairage.getText().toString(),
                 images
@@ -354,8 +354,8 @@ public class FragmentEclairage extends Fragment {
     private void addDataToView(ZoneElement zoneElement){
         Eclairage eclairage = (Eclairage) zoneElement;
         binding.editTextNomEclairage.setText(eclairage.getNom());
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeEclairage, eclairage.typeEclairage);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeRegulation, eclairage.typeDeRegulation);
+        binding.autoCompleteTypeEclairage.setText(eclairage.typeEclairage);
+        binding.autoCompleteTypeRegulation.setText(eclairage.typeDeRegulation);
         binding.checkBoxAVerifierEclairage.setChecked(eclairage.aVerifier);
         binding.editTextMultilineNoteEclairage.setText(eclairage.note);
 
