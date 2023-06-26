@@ -140,9 +140,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-                <AutoCompleteTextView
-                    android:singleLine="true"
-                    android:id="@+id/autoCompleteEnergie"
+                <Spinner
+                    android:id="@+id/spinnerEnergie"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -179,7 +178,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteEnergie">
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerEnergie">
 
                     <ViewStub
                         android:id="@+id/viewStubElectricite"
