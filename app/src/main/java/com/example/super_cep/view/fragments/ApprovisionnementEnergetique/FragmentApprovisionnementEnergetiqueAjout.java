@@ -27,6 +27,7 @@ import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBindin
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
@@ -98,6 +99,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         setupViewStub();
 
         if(mode == Mode.Ajout){
+            prefillApprovisionnementEnergetiqueName();
             addFooterAjout();
         }
 
@@ -296,5 +298,16 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         for (String path : approvisionnementEnergetique.images) {
             viewPhoto.addPhotoToView(Uri.parse(path));
         }
+    }
+
+    private void prefillApprovisionnementEnergetiqueName() {
+        int index = 1;
+        String element  = "ApprovisionnementEnergetique ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.approvisionnementEnergetiques.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomApprovisionnementEnergetique.setText(element + index);
+
     }
 }

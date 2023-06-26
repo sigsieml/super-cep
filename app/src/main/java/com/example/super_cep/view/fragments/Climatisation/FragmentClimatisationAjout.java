@@ -18,6 +18,7 @@ import com.example.super_cep.databinding.FragmentClimatisationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.model.Releve.Climatisation;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
@@ -84,6 +85,7 @@ public class FragmentClimatisationAjout extends Fragment {
         updateSpinner();
 
         if(mode == Mode.Ajout){
+            prefillClimatisationName();
             addFooterAjout();
         }
 
@@ -224,4 +226,15 @@ public class FragmentClimatisationAjout extends Fragment {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
+    private void prefillClimatisationName() {
+        int index = 1;
+        String element  = "Climatisation ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.climatisations.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomClimatisation.setText(element + index);
+
+    }
+
 }

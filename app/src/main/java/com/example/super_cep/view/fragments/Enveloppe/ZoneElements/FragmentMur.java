@@ -37,6 +37,7 @@ import com.example.super_cep.model.Releve.Enveloppe.Mur;
 import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 
 import java.util.ArrayList;
@@ -115,6 +116,10 @@ public class FragmentMur extends Fragment {
         updateSpinner();
         setupButtons();
 
+        if(mode == Mode.Ajout){
+            prefillZoneElementName();
+        }
+
         if(mode == Mode.Ajout || mode == Mode.Edition){
             addFooterAjout();
         }
@@ -138,6 +143,7 @@ public class FragmentMur extends Fragment {
         return binding.getRoot();
 
     }
+
 
     private void addFooterAjout() {
         ViewFooterZoneElementBinding viewFooter = ViewFooterZoneElementBinding.inflate(getLayoutInflater());
@@ -394,5 +400,15 @@ public class FragmentMur extends Fragment {
     }
 
 
+    private void prefillZoneElementName() {
+        int index = 1;
+        String element  = "Mur ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
+            index++;
+        }
+        binding.editTextNomMur.setText(element + index);
+
+    }
 
 }

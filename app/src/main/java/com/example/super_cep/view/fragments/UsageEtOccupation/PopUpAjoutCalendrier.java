@@ -40,6 +40,8 @@ public class PopUpAjoutCalendrier extends View {
 
         setupZones();
 
+
+
         binding.buttonAnnuler.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -34,6 +34,7 @@ import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBindin
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
 import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 
 import java.util.ArrayList;
@@ -112,6 +113,10 @@ public class FragmentEclairage extends Fragment {
         updateSpinner();
         setupButtons();
 
+        if(mode == Mode.Ajout){
+            prefillZoneElementName();
+        }
+
         if(mode == Mode.Ajout || mode == Mode.Edition){
             addFooterAjout();
         }
@@ -135,6 +140,7 @@ public class FragmentEclairage extends Fragment {
         return binding.getRoot();
 
     }
+
 
     private void addFooterAjout() {
         ViewFooterZoneElementBinding viewFooter = ViewFooterZoneElementBinding.inflate(getLayoutInflater());
@@ -364,4 +370,13 @@ public class FragmentEclairage extends Fragment {
         }
     }
 
+    private void prefillZoneElementName() {
+        int index = 1;
+        String element  = "Eclairage ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
+            index++;
+        }
+        binding.editTextNomEclairage.setText(element + index);
+    }
 }

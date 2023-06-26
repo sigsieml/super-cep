@@ -18,6 +18,7 @@ import com.example.super_cep.databinding.FragmentECSAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.model.Releve.ECS;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
@@ -84,6 +85,7 @@ public class FragmentECSAjout extends Fragment {
         viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
 
         if(mode == Mode.Ajout){
+            prefillECSName();
             addFooterAjout();
         }
 
@@ -214,4 +216,16 @@ public class FragmentECSAjout extends Fragment {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
+
+    private void prefillECSName() {
+        int index = 1;
+        String element  = "ECS ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.ecs.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomECS.setText(element + index);
+
+    }
+
 }

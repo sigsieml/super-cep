@@ -17,6 +17,7 @@ import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentVentilationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Ventilation;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -84,6 +85,7 @@ public class FragmentVentilationAjout extends Fragment {
         viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
 
         if(mode == Mode.Ajout){
+            prefillVentilationName();
             addFooterAjout();
         }
 
@@ -205,5 +207,16 @@ public class FragmentVentilationAjout extends Fragment {
         for (String uri : ventilation.images) {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }
+    }
+
+    private void prefillVentilationName() {
+        int index = 1;
+        String element  = "Ventilation ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.ventilations.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomVentilation.setText(element + index);
+
     }
 }

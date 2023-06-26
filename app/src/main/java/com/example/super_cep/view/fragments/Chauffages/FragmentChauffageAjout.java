@@ -20,6 +20,7 @@ import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 import com.example.super_cep.view.includeView.ViewZoneSelector;
@@ -102,6 +103,7 @@ public class FragmentChauffageAjout extends Fragment {
         updateSpinner();
 
         if(mode == Mode.Ajout){
+            prefillChauffageName();
             addFooterAjout();
         }
 
@@ -273,5 +275,14 @@ public class FragmentChauffageAjout extends Fragment {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
+    private void prefillChauffageName() {
+        int index = 1;
+        String element  = "Chauffage ";
+        Releve releve =releveViewModel.getReleve().getValue();
+        while(releve.chauffages.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomChauffage.setText(element + index);
 
+    }
 }
