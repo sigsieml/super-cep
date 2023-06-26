@@ -20,7 +20,7 @@ public class ConfigDataProvider {
     public ConfigDataProvider(){
         configData = new HashMap<>();
         configData.put("typeMur", List.of("Pierre", "Brique", "Parpaing", "Bois", "Autre"));
-        configData.put("typeDeMiseEnOeuvre", List.of("Enduit", "Bardage", "Autre"));
+        configData.put("typeDeMiseEnOeuvre", List.of("Enduit", "Bardage", "Autre", "Aucun", "Inconnu"));
         configData.put("typeIsolant", List.of("Laine de verre", "Laine de roche", "Polystyrène", "Autre"));
         configData.put("niveauIsolation", List.of("Inconnu", "Non isolé", "Faiblement isolé", "Moyennement isolé", "Assez bien isolé", "Bien isolé"));
         configData.put("typeToiture", List.of("Faux plafond en dalles", "Plafond en platre", "Plafond autres", "Toiture terrasse", "Rampants", "Combles perdues"));

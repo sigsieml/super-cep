@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -332,6 +334,20 @@ public class FragmentSol extends Fragment {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
+        binding.autoCompleteNiveauIsolation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals("Non isolé")){
+                    binding.constraintLayoutNiveauIsolant.setVisibility(View.GONE);
+                }else{
+                    binding.constraintLayoutNiveauIsolant.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteIsolant, "typeIsolant");
     }
 

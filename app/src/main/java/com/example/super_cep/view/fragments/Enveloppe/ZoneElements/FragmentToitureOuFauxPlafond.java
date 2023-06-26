@@ -16,8 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -331,6 +334,24 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeToiture, "typeToiture");
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+        binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals("Aucun")){
+                    binding.tableRowIsolation.setVisibility(View.GONE);
+                    binding.constraintLayoutIsolation.setVisibility(View.GONE);
+                }else{
+                    binding.tableRowIsolation.setVisibility(View.VISIBLE);
+                    binding.constraintLayoutIsolation.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeIsolant, "typeIsolant");
         spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
     }
