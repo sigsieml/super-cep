@@ -12,7 +12,7 @@
         "salle de classe",
         "dortoir "
       ],
-      "aVerifier":true,
+      "aVerifier":false,
       "note":"dhbd"
     },
     "gaz":{
@@ -86,7 +86,7 @@
       ],
       "categorie":"ProducteurEmetteur",
       "regulation":"Interrupteur",
-      "aVerifier":true,
+      "aVerifier":false,
       "note":"djjf"
     },
     "chauffage emetteur": {
@@ -120,7 +120,7 @@
         ],
         "categorie": "Producteur",
         "regulation": "Interrupteur",
-        "aVerifier": true,
+        "aVerifier": false,
         "note": "djjf",
         "images": [
           "C:\\Users\\TLB\\Pictures\\chauffage\\Image1.jpg",
@@ -227,7 +227,7 @@
       "zones":[
         "dortoir "
       ],
-      "aVerifier":true,
+      "aVerifier":false,
       "note":"djdj"
     }
   },
@@ -243,7 +243,7 @@
           "typeIsolant":"Laine de roche",
           "niveauIsolation":"Faiblement isolé",
           "epaisseurIsolant":107.0,
-          "aVerifier":true,
+          "aVerifier":false,
           "note":"djdj",
           "images": [
             "C:\\Users\\TLB\\Pictures\\FB_IMG_1605350270358.jpg",
@@ -274,7 +274,7 @@
           "niveauIsolation":"Moyennement isolé",
           "typeIsolant":"Polystyrène",
           "epaisseurIsolant":556.0,
-          "aVerifier":true,
+          "aVerifier":false,
           "note":"dif"
         },
         "mur":{
@@ -296,7 +296,7 @@
           "typeIsolant":"Laine de roche",
           "niveauIsolation":"Faiblement isolé",
           "epaisseurIsolant":107.0,
-          "aVerifier":true,
+          "aVerifier":false,
           "note":"djdj"
         },
         "mur3":{
@@ -307,7 +307,7 @@
           "typeIsolant":"Laine de roche",
           "niveauIsolation":"Faiblement isolé",
           "epaisseurIsolant":107.0,
-          "aVerifier":true,
+          "aVerifier":false,
           "note":"djdj"
         },
         "menuiserie ":{
@@ -317,7 +317,7 @@
           "materiau":"Aluminium",
           "protectionsSolaires":"Grille ou grillage extérieur",
           "typeVitrage":"DV 4-8-4 ou éq",
-          "aVerifier":true,
+          "aVerifier":false,
           "note":"dodo"
         }
       }

@@ -10,7 +10,9 @@ import org.apache.poi.sl.draw.DrawTableShape;
 import org.apache.poi.sl.draw.DrawTextShape;
 import org.apache.poi.sl.usermodel.PaintStyle;
 import org.apache.poi.sl.usermodel.PictureData;
+import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.VerticalAlignment;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSheet;
@@ -255,6 +257,16 @@ public class PowerpointExporterTools {
                 return PictureData.PictureType.WPG;
             default:
                 return PictureData.PictureType.JPEG;
+        }
+    }
+
+    public static void setAverfierStyleToRow(XSLFTableRow row){
+        for(XSLFTableCell cell : row.getCells()){
+            for(XSLFTextParagraph paragraph : cell.getTextParagraphs()){
+                for(XSLFTextRun run : paragraph.getTextRuns()){
+                    run.setUnderlined(true);
+                }
+            }
         }
     }
 

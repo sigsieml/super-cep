@@ -178,6 +178,11 @@ public class PowerpointExporter {
                         cells.get(3).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).formuleTarifaire);
                     }
                     PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
+
+                    if(approvisionnementEnergetique.aVerifier)
+                        PowerpointExporterTools.setAverfierStyleToRow(rowAppro);
+
+
                 }
                 table.removeRow(2);
             }
@@ -259,13 +264,14 @@ public class PowerpointExporter {
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()){
 
+                XSLFTableRow row = null;
                 //get a random color based on the zone name :
                 if(zoneElement instanceof Mur){
                     if(zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Mur mur = (Mur) zoneElement;
-                    XSLFTableRow row = tableauMur.addRow();
+                    row = tableauMur.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
@@ -278,6 +284,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
                     mergeCellsIfSameZone(zoneElementTableauMur, zone.nom, tableauMur);
+
                 }
 
                 if(zoneElement instanceof Toiture){
@@ -285,7 +292,7 @@ public class PowerpointExporter {
                         images.addAll(zoneElement.images);
 
                     Toiture toiture = (Toiture) zoneElement;
-                    XSLFTableRow row = tableauToiture.addRow();
+                    row = tableauToiture.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),toiture.typeToiture);
@@ -302,7 +309,7 @@ public class PowerpointExporter {
                         images.addAll(zoneElement.images);
 
                     Menuiserie menuiserie = (Menuiserie) zoneElement;
-                    XSLFTableRow row = tableauMenuiseries.addRow();
+                    row = tableauMenuiseries.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),menuiserie.typeMenuiserie);
@@ -323,7 +330,7 @@ public class PowerpointExporter {
                         images.addAll(zoneElement.images);
 
                     Sol sol = (Sol) zoneElement;
-                    XSLFTableRow row = tableauSols.addRow();
+                    row = tableauSols.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),sol.typeSol);
@@ -334,7 +341,12 @@ public class PowerpointExporter {
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
                     mergeCellsIfSameZone(zoneElementTableauSols, zone.nom, tableauSols);
+
                 }
+
+
+                if(row != null && zoneElement.aVerifier)
+                    PowerpointExporterTools.setAverfierStyleToRow(row);
 
             }
         }
@@ -429,6 +441,10 @@ public class PowerpointExporter {
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
                     mergeCellsIfSameZone(zoneElementTableauEclairage, zone.nom, tableauEclairage);
+
+                    if(zoneElement.aVerifier)
+                        PowerpointExporterTools.setAverfierStyleToRow(row);
+
                 }
             }
         }
@@ -450,6 +466,10 @@ public class PowerpointExporter {
             }
             PowerpointExporterTools.copyRowStyle(tableauVentilation.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
+
+            if(ventilation.aVerifier)
+                PowerpointExporterTools.setAverfierStyleToRow(row);
+
         }
 
         for(ECS ecs : releve.ecs.values()){
@@ -464,6 +484,9 @@ public class PowerpointExporter {
 
             PowerpointExporterTools.copyRowStyle(tableauECS.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
+
+            if(ecs.aVerifier)
+                PowerpointExporterTools.setAverfierStyleToRow(row);
 
         }
         addImagesToSlide(ppt, slide, images, rectangle2DImages);
@@ -528,10 +551,11 @@ public class PowerpointExporter {
         for(Chauffage chauffage : releve.chauffages.values()){
             if(chauffage.images != null)
                 photo.addAll(chauffage.images);
+            XSLFTableRow row = null;
             switch (chauffage.categorie){
                 case Producteur:
                     producteurs.add(chauffage);
-                    XSLFTableRow row = tableauProduction.addRow();
+                    row = tableauProduction.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauProduction.getRows().get(2), row);
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(chauffage.zones));
@@ -573,6 +597,9 @@ public class PowerpointExporter {
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
                     break;
             }
+            if(row != null && chauffage.aVerifier)
+                PowerpointExporterTools.setAverfierStyleToRow(row);
+
         }
 
         for(Climatisation climatisation : releve.climatisations.values()){
@@ -588,6 +615,10 @@ public class PowerpointExporter {
 
             PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
+
+            if(climatisation.aVerifier)
+                PowerpointExporterTools.setAverfierStyleToRow(row);
+
         }
         addImagesToSlide(ppt, slide, photo, rectangle2DPhoto);
 
@@ -638,7 +669,7 @@ public class PowerpointExporter {
                 images.add(preconisation);
                 continue;
             }
-                XSLFTableRow row = tableauPreconisations.addRow();
+            XSLFTableRow row = tableauPreconisations.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauPreconisations.getRows().get(0), row);
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), preconisation);
