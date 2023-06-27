@@ -197,10 +197,11 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
             releveViewModel.forceUpdateReleve();
             back();
-            back();
-
+            if(mode == Mode.Ajout){
+                back();
+            }
         }catch (Exception e){
-            Toast.makeText(getContext(), "Impossible d'ajouter l'élément : " + e.getMessage() , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

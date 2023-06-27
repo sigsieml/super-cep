@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,7 +24,6 @@ import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentApprovisionnementEnergetiqueAjoutBinding;
 import com.example.super_cep.databinding.ViewApprovisionnementEnergetiqueElectriqueBinding;
-import com.example.super_cep.databinding.ViewApprovisionnementEnergetiqueGazBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
@@ -84,7 +84,6 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     private LiveData<Map<String, List<String>>> spinnerLiveData;
 
     private ViewApprovisionnementEnergetiqueElectriqueBinding viewApprovisionnementEnergetiqueElectriqueBinding;
-    private ViewApprovisionnementEnergetiqueGazBinding viewApprovisionnementEnergetiqueGazBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,21 +203,10 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                         viewApprovisionnementEnergetiqueElectriqueBinding = ViewApprovisionnementEnergetiqueElectriqueBinding.bind(inflated);
                     }
                     viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.VISIBLE);
-                    spinnerDataViewModel.updateSpinnerData(viewApprovisionnementEnergetiqueElectriqueBinding.spinnerFormule, "formuleTarifaire");
+                    spinnerDataViewModel.setAutoComplete(viewApprovisionnementEnergetiqueElectriqueBinding.autoCompleteFormule, "formuleTarifaire");
                 }else{
                     if(viewApprovisionnementEnergetiqueElectriqueBinding != null)
                         viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.GONE);
-                }
-
-                if(typeApprovisionnement == TypeApprovisionnement.GAZ){
-                    if(viewApprovisionnementEnergetiqueGazBinding == null){
-                        View inflated = binding.viewStubGaz.inflate(); // inflate the layout resource
-                        viewApprovisionnementEnergetiqueGazBinding = ViewApprovisionnementEnergetiqueGazBinding.bind(inflated);
-                    }
-                    viewApprovisionnementEnergetiqueGazBinding.getRoot().setVisibility(View.VISIBLE);
-                }else{
-                    if(viewApprovisionnementEnergetiqueGazBinding != null)
-                        viewApprovisionnementEnergetiqueGazBinding.getRoot().setVisibility(View.GONE);
                 }
 
             }
@@ -259,7 +247,6 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                 return new ApprovisionnementEnergetiqueGaz(
                         binding.editTextNomApprovisionnementEnergetique.getText().toString(),
                         binding.spinnerEnergie.getSelectedItem().toString(),
-                        ((EditText)binding.getRoot().findViewById(R.id.editTextRAE)).getText().toString(),
                         viewZoneSelector.getSelectedZones(),
                         images,
                         binding.checkBoxAVerifierApprovisionnementEnergetique.isChecked(),
@@ -271,8 +258,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                             binding.editTextNomApprovisionnementEnergetique.getText().toString(),
                             binding.spinnerEnergie.getSelectedItem().toString(),
                             textPuissance.isEmpty() ? 0 : Float.parseFloat(textPuissance),
-                            ((Spinner) binding.getRoot().findViewById(R.id.spinnerFormule)).getSelectedItem().toString(),
-                            ((EditText) binding.getRoot().findViewById(R.id.editTextNumeroPDL)).getText().toString(),
+                            ((AutoCompleteTextView) binding.getRoot().findViewById(R.id.autoCompleteFormule)).getText().toString(),
                             viewZoneSelector.getSelectedZones(),
                             images,
                             binding.checkBoxAVerifierApprovisionnementEnergetique.isChecked(),

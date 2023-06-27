@@ -100,24 +100,28 @@ public class PowerpointExporter {
         }else{
             remplacements.put("dateDeConstruction",  "Inconnue");
         }
-        if(releve.dateDeDerniereRenovation != null){
-            remplacements.put("dateDeDerniereRenovation", formateDate(releve.dateDeDerniereRenovation));
-        }else{
-            remplacements.put("dateDeDerniereRenovation", "Inconnue");
-        }
         if(releve.surfaceTotaleChauffe != 0){
-            remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + "");
+            remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + " m²");
         }else{
             remplacements.put("surfaceTotaleChauffe", "Inconnue");
         }
-        if(releve.description != null) remplacements.put("description", releve.description);
-        if(releve.adresse != null) remplacements.put("adresse", releve.adresse);
+        if(releve.dateDeDerniereRenovation != null) {
+            remplacements.put("dateDeRenovation", formateDate(releve.dateDeDerniereRenovation));
+        }else{
+            remplacements.put("dateDeRenovation", "Inconnue");
+        }
+        if(releve.description != null){
+            remplacements.put("description", releve.description);
+        }
+        if(releve.adresse != null){
+            remplacements.put("adresse", releve.adresse);
+        }
 
 
         //remarques :
         if(releve.remarques != null){
             for (Map.Entry<String, Remarque> entry : releve.remarques.entrySet()) {
-                remplacements.put("remarque" + entry.getKey(), entry.getValue().description);
+                remplacements.put(entry.getKey(), entry.getValue().description);
             }
         }
     }
@@ -168,12 +172,8 @@ public class PowerpointExporter {
                     List<XSLFTableCell> cells = rowAppro.getCells();
                     cells.get(0).setText(approvisionnementEnergetique.energie);
 
-                    if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueGaz){
-                        cells.get(1).setText(((ApprovisionnementEnergetiqueGaz) approvisionnementEnergetique).numeroRAE);
-                    }
-
+                    cells.get(1).setText(approvisionnementEnergetique.nom);
                     if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique){
-                        cells.get(1).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).numeroPDL);
                         cells.get(2).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance + " kVA");
                         cells.get(3).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).formuleTarifaire);
                     }
@@ -434,7 +434,7 @@ public class PowerpointExporter {
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),eclairage.typeEclairage);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),"réguler par");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),"Régulé par :");
                     PowerpointExporterTools.addTextToCell(row.getCells().get(3),eclairage.typeDeRegulation);
 
                     PowerpointExporterTools.copyRowStyle(tableauEclairage.getRows().get(2), row);
@@ -716,7 +716,7 @@ public class PowerpointExporter {
 
 
     private String formateDate(Calendar calendar){
-        String pattern = "dd MMMMM yyyy";
+        String pattern = "yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
         return simpleDateFormat.format(calendar.getTime());
     }

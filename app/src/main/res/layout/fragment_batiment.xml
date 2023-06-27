@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Date de construction"
+                    android:text="Année de construction"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextNomBatiment" />
 
@@ -113,7 +113,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Date de dernière rénovation"
+                    android:text="Année de dernière rénovation"
                     app:layout_constraintEnd_toStartOf="@+id/textView10"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -144,7 +144,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:text="surface total chauffée"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,7 +156,7 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
                     android:ems="10"
-                    android:hint="100"
+                    android:hint="100,0"
                     android:inputType="numberDecimal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textView11"

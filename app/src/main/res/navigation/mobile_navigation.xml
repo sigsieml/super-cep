@@ -46,8 +46,8 @@
     <fragment
         android:id="@+id/nav_chauffages"
         android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffage"
-        android:label="Chauffages"
-        tools:layout="@layout/fragment_chauffages" >
+        android:label="Chauffage"
+        tools:layout="@layout/fragment_chauffages">
         <action
             android:id="@+id/action_nav_chauffages_to_nav_chauffage_ajout"
             app:destination="@id/nav_chauffage_ajout" />
@@ -73,7 +73,7 @@
     <fragment
         android:id="@+id/nav_ecs"
         android:name="com.example.super_cep.view.fragments.ECS.FragmentECS"
-        android:label="Eau Chaude"
+        android:label="Eau chaude sanitaire"
         tools:layout="@layout/fragment_e_c_s">
         <action
             android:id="@+id/action_nav_ecs_to_nav_ecs_ajout"
@@ -106,7 +106,7 @@
     <fragment
         android:id="@+id/nav_ecs_ajout"
         android:name="com.example.super_cep.view.fragments.ECS.FragmentECSAjout"
-        android:label="Eau Chaude"
+        android:label="@string/menu_ecs"
         tools:layout="@layout/fragment_e_c_s_ajout">
         <argument
             android:name="NOM_ECS"

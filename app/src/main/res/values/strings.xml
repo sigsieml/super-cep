@@ -9,10 +9,10 @@
     <string name="menu_batiment">Batiment</string>
     <string name="menu_enveloppes">Enveloppe</string>
     <string name="menu_usageEtOccupation">Usage et occupation</string>
-    <string name="menu_chauffages">Chauffages</string>
+    <string name="menu_chauffages">Chauffage</string>
     <string name="menu_climatisation">Climatisation</string>
     <string name="menu_ventilation">Ventilation</string>
-    <string name="menu_ecs">Eau Chaude</string>
+    <string name="menu_ecs">Eau chaude sanitaire</string>
     <string name="menu_approvisionnementEnergetique">Approvisionnement énergétique</string>
     <string name="menu_remarques">Remarques</string>
     <string name="menu_preconisations">Préconisations</string>

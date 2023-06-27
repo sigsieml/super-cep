@@ -19,13 +19,13 @@ public class ConfigDataProvider {
 
     public ConfigDataProvider(){
         configData = new HashMap<>();
-        configData.put("typeMur", List.of("Pierre", "Brique", "Parpaing", "Bois", "Autre", "Inconnu"));
-        configData.put("typeDeMiseEnOeuvre", List.of("Enduit", "Bardage", "Autre", "Aucun", "Inconnu"));
-        configData.put("typeIsolant", List.of("Laine de verre", "Laine de roche", "Polystyrène", "Autre", "Inconnu"));
+        configData.put("typeMur", List.of("Béton", "Bois", "Brique", "Parpain","Métal", "Inconnu"));
+        configData.put("typeDeMiseEnOeuvre", List.of("Extérieur", "Intérieur", "de façon répartie", "Aucun", "Inconnu"));
+        configData.put("typeIsolant", List.of("Laine de verre", "Laine minérale", "Laine de roche", "Polystyrène", "Fibre de bois", "Laine de bois", "Ouate de celllulose", "Laine minérale soufflée", "Polyurethane", "Verre cellulaire", "Isolant biosourcé", "Inconnu"));
         configData.put("niveauIsolation", List.of("Non isolé", "Faiblement isolé", "Moyennement isolé", "Assez bien isolé", "Bien isolé", "Inconnu"));
         configData.put("typeToiture", List.of("Faux plafond en dalles", "Plafond en platre", "Plafond autres", "Toiture terrasse", "Rampants", "Combles perdues", "Inconnu"));
         configData.put("typeMenuiserie", List.of("Fenêtre", "Porte-fenêtre", "Fenêtre de toiture", "Porte Pleine", "Inconnu"));
-        configData.put("materiau", List.of("Bois", "PVC", "Aluminium", "Acier", "Mixte", "Autre", "Inconnu"));
+        configData.put("materiau", List.of("Aluminium", "Bois", "PVC", "Mixte","Polycarbonate", "Inconnu"));
         configData.put("protectionsSolaires", List.of("Volets roulants électriques extérieurs", "Persiennes", "Volets extérieurs simples", "Grille ou grillage extérieur", "Rideau intérieur", "Inconnu"));
         configData.put("typeVitrage", List.of("Simple vitrage", "Double vitrage ancien", "Double vitrage assez récent", "Double vitrage récent", "DV 4-6-4 ou éq", "DV 4-8-4 ou éq", "DV 4-10-4 ou éq", "DV 4-12-4 ou éq", "DV 4-14-4 ou éq", "DV 4-16-4 ou éq", "DV 4-20-4 ou éq", "Triple vitrage", "Inconnu"));
         configData.put("typeSol", List.of("Terre plein", "Vide sanitaire", "Cave", "Sous-sol", "Inconnu"));
@@ -49,7 +49,7 @@ public class ConfigDataProvider {
         configData.put("energieGaz", List.of("Gaz Naturel", "Propane Réseau", "Propane Cuve"));
         configData.put("energieAutre",  List.of("Bois Granulés", "Bois Déchiqueté", "Bois Bûches", "Fioul", "Inconnue"));
         configData.put("formuleTarifaire", List.of("Base", "HP/HC", "4HS", "4HP", "Inconnu"));
-        configData.put("nomRemarques", List.of("Remarques enveloppe thermique", "Remarque systèmes", "Remarques occupation et régulation", "Elements de contexte sur le bâtiment", "Remarque production et distribution du chauffage", "Remarque conso, facture et appro énergétique", "Remarque diverse"));
+        configData.put("nomRemarques", List.of("Descriptif de l'enveloppe thermique", "Descriptif des systèmes", "Usage et occupation du bâtiment", "Elements de contexte sur le bâtiment", "Descriptif du chauffage", "Energie et consommations", "Remarque diverse"));
         configData.put("preconisations", List.of("Remplacer les tubes fluo par des LEDS", "Réaliser une isolation thermique extérieur", "Remplacer les menuiseries", "Remplacer le système de chauffage", "Remplacer le système de régulation ancien"));
     }
 

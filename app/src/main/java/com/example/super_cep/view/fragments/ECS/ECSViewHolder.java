@@ -30,7 +30,7 @@ public class ECSViewHolder extends RecyclerView.ViewHolder {
         }
         binding.textViewNomECS.setText(ecs.nom);
         binding.textViewTypeECS.setText("type : " + ecs.type);
-        binding.textViewVolume.setText("volume : " + ecs.volume + " m3");
+        binding.textViewVolume.setText("volume : " + ecs.volume + " L");
         binding.textViewQuantite.setText("quantité : " + ecs.quantite);
         binding.textViewMarque.setText("marque : " + ecs.marque);
         binding.textViewModele.setText("modèle : " + ecs.modele);

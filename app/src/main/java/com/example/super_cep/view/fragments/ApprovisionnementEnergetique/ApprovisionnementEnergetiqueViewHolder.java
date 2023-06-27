@@ -42,16 +42,10 @@ public class ApprovisionnementEnergetiqueViewHolder extends RecyclerView.ViewHol
             TextView textViewFormule = new TextView(binding.getRoot().getContext());
             textViewFormule.setText("Formule : " + approvisionnementEnergetiqueElectrique.formuleTarifaire);
             binding.linearLayout.addView(textViewFormule);
-            TextView textViewNumeroPDL = new TextView(binding.getRoot().getContext());
-            textViewNumeroPDL.setText("Numéro PDL : " + approvisionnementEnergetiqueElectrique.numeroPDL);
-            binding.linearLayout.addView(textViewNumeroPDL);
         }
 
         if(approviosionnementEnergetique instanceof ApprovisionnementEnergetiqueGaz){
             ApprovisionnementEnergetiqueGaz approvisionnementEnergetiqueGaz = (ApprovisionnementEnergetiqueGaz) approviosionnementEnergetique;
-            TextView textViewNumeroRAE = new TextView(binding.getRoot().getContext());
-            textViewNumeroRAE.setText("Numéro RAE : " + approvisionnementEnergetiqueGaz.numeroRAE);
-            binding.linearLayout.addView(textViewNumeroRAE);
         }
 
 

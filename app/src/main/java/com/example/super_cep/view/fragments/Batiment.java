@@ -19,6 +19,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +35,7 @@ import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.MonthYearPicker;
 
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -64,7 +68,7 @@ public class Batiment extends Fragment {
                 updateTextBox(binding.editTextDateDeConstruction, rlv.dateDeConstruction);
                 updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
                 binding.editTextNomBatiment.setText(rlv.nomBatiment);
-                binding.editTextNumberDecimalSurfaceTotalChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe));
+                binding.editTextNumberDecimalSurfaceTotalChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe).replace(".", ","));
                 binding.editTextMultiLineDescriptionBatiment.setText(rlv.description);
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
@@ -81,6 +85,10 @@ public class Batiment extends Fragment {
                 releve.removeObserver(this);
             }
         });
+
+        char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+        binding.editTextNumberDecimalSurfaceTotalChauffe.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
+
         setupCalendar();
         setupButtonPhoto();
 
@@ -142,7 +150,7 @@ public class Batiment extends Fragment {
 
     private void updateTextBox(EditText editText, Calendar calendar) {
         if(calendar != null){
-            editText.setText(new SimpleDateFormat("MMMM yyyy", Locale.FRANCE).format(calendar.getTime()));
+            editText.setText(new SimpleDateFormat("yyyy", Locale.FRANCE).format(calendar.getTime()));
         }else{
             editText.setText("Inconnu");
         }
@@ -164,7 +172,7 @@ public class Batiment extends Fragment {
 
         newText = binding.editTextNumberDecimalSurfaceTotalChauffe.getText().toString();
         if (!newText.equals(Float.toString(releve.getValue().surfaceTotaleChauffe)) && !newText.equals("")) {
-            releveViewModel.setSurfaceTotaleChauffe(Float.parseFloat(newText));
+            releveViewModel.setSurfaceTotaleChauffe(Float.parseFloat(newText.replace(",", ".")));
         }
 
         newText = binding.editTextNomBatiment.getText().toString();

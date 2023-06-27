@@ -24,15 +24,13 @@ import java.util.Locale;
 public class MonthYearPicker extends DialogFragment {
 
     private DatePickerDialog.OnDateSetListener listener;
-    private NumberPicker monthPicker;
     private NumberPicker yearPicker;
 
     private Calendar cal = Calendar.getInstance();
 
-    public static final String MONTH_KEY = "monthValue";
     public static final String YEAR_KEY = "yearValue";
 
-    int monthVal = -1  , yearVal =-1 ;
+    int  yearVal =-1 ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +38,6 @@ public class MonthYearPicker extends DialogFragment {
 
         Bundle extras = getArguments();
         if(extras != null){
-            monthVal = extras.getInt(MONTH_KEY , -1);
             yearVal = extras.getInt(YEAR_KEY , -1);
         }
     }
@@ -50,7 +47,6 @@ public class MonthYearPicker extends DialogFragment {
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
-        args.putInt(MONTH_KEY, monthIndex);
         args.putInt(YEAR_KEY, yearIndex);
         f.setArguments(args);
 
@@ -69,20 +65,7 @@ public class MonthYearPicker extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View dialog = inflater.inflate(R.layout.popup_month_year_dialog, null);
-        monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-
-        monthPicker.setMinValue(1);
-        monthPicker.setMaxValue(12);
-
-
-        if(monthVal != -1)// && (monthVal > 0 && monthVal < 13))
-            monthPicker.setValue(monthVal);
-        else
-            monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
-
-        monthPicker.setDisplayedValues(new DateFormatSymbols().getMonths());
-
 
         int maxYear = cal.get(Calendar.YEAR) + 1;
         final int minYear = 1916;
@@ -118,7 +101,7 @@ public class MonthYearPicker extends DialogFragment {
                         if(year == (minYear+1)){
                             year = 1904;
                         }
-                        listener.onDateSet(null, year, monthPicker.getValue(), 1);
+                        listener.onDateSet(null, year, 1, 1);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

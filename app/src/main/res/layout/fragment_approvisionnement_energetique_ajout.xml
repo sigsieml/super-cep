@@ -36,11 +36,15 @@
 
                 <TextView
                     android:id="@+id/textView17"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Nom de l'approvisionnement"
+                    android:layout_marginEnd="16dp"
+                    android:autoSizeTextType="uniform"
+                    android:singleLine="true"
+                    android:text="Numéro PDL / Numéro RAE / Nom"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewTitleApprovisionnementEnergetique" />
 
@@ -52,7 +56,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:ems="10"
-                    android:hint="Entrez le nom de l'approvisionnement"
+                    android:hint="Numéro PDL / Numéro RAE / Nom"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +131,7 @@
                     android:layout_marginStart="16dp"
                     android:text="zones concernées"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
                 <include
                     android:id="@+id/includeZoneSelection"
@@ -150,25 +154,6 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView26" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-                    <ViewStub
-                        android:id="@+id/viewStubGaz"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout="@layout/view_approvisionnement_energetique_gaz"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
