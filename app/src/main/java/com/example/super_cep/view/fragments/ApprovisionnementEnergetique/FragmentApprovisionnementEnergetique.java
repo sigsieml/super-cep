@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentApprovisionnementEnergetiqueBinding;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
@@ -35,30 +38,24 @@ public class FragmentApprovisionnementEnergetique extends Fragment {
         setupRecyclerView(releve.approvisionnementEnergetiques.values().toArray(new ApprovisionnementEnergetique[0]));
 
         binding.floatingActionButton2.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment fragment = FragmentApprovisionnementEnergetiqueAjout.newInstance();
-            fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setReorderingAllowed(true);
-            fragmentTransaction.commit();
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetiqueDirections.ActionNavApprovisionnementEnergetiqueToFragmentApprovisionnementEnergetiqueAjout action =
+                    FragmentApprovisionnementEnergetiqueDirections.actionNavApprovisionnementEnergetiqueToFragmentApprovisionnementEnergetiqueAjout(null);
+            navController.navigate(action);
         });
         return binding.getRoot();
     }
 
 
-    private void setupRecyclerView(ApprovisionnementEnergetique[] approvisionnementEnergetique) {
-        ApprovisonnementEnergetiqueAdapter adapter = new ApprovisonnementEnergetiqueAdapter(approvisionnementEnergetique, new ApprovisionnementEnergetiqueViewHolderListener() {
+    private void setupRecyclerView(ApprovisionnementEnergetique[] approvisionnementsEnergetique) {
+        ApprovisonnementEnergetiqueAdapter adapter = new ApprovisonnementEnergetiqueAdapter(approvisionnementsEnergetique, new ApprovisionnementEnergetiqueViewHolderListener() {
 
             @Override
-            public void onClick(ApprovisionnementEnergetique approvisonnementEnergetique) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = FragmentApprovisionnementEnergetiqueAjout.newInstance(approvisonnementEnergetique.nom);
-                fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.commit();
+            public void onClick(ApprovisionnementEnergetique approvisionnementEnergetique) {
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetiqueDirections.ActionNavApprovisionnementEnergetiqueToFragmentApprovisionnementEnergetiqueAjout action =
+                        FragmentApprovisionnementEnergetiqueDirections.actionNavApprovisionnementEnergetiqueToFragmentApprovisionnementEnergetiqueAjout(approvisionnementEnergetique.nom);
+                navController.navigate(action);
             }
         });
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {

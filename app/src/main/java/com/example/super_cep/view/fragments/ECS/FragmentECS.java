@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentECSBinding;
 import com.example.super_cep.model.Releve.ECS;
@@ -37,13 +41,10 @@ public class FragmentECS extends Fragment {
         setupRecyclerView(releve.ecs.values().toArray(new ECS[0]));
 
         binding.floatingActionButton2.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment fragment = FragmentECSAjout.newInstance();
-            fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setReorderingAllowed(true);
-            fragmentTransaction.commit();
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            FragmentECSDirections.ActionNavEcsToNavEcsAjout action =
+                    FragmentECSDirections.actionNavEcsToNavEcsAjout(null);
+            navController.navigate(action);
         });
         return binding.getRoot();
     }
@@ -54,13 +55,10 @@ public class FragmentECS extends Fragment {
 
             @Override
             public void onClick(ECS ecs) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = FragmentECSAjout.newInstance(ecs.nom);
-                fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.commit();
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                FragmentECSDirections.ActionNavEcsToNavEcsAjout action =
+                        FragmentECSDirections.actionNavEcsToNavEcsAjout(ecs.nom);
+                navController.navigate(action);
             }
         });
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {
@@ -69,5 +67,7 @@ public class FragmentECS extends Fragment {
         binding.recyclerViewECS.setAdapter(adapter);
         binding.recyclerViewECS.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
+
+
 
 }

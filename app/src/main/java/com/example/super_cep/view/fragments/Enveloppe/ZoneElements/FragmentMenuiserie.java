@@ -14,6 +14,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -41,9 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentMenuiserie extends Fragment {
-    private static final String NOM_ZONE = "param1";
-    private static final String NOM_ELEMENT = "param2";
-    private static final String NOM_ANCIENNE_ZONE = "param3";
+    private static final String NOM_ZONE = "nomZone";
+    private static final String NOM_ELEMENT = "nomElement";
+    private static final String NOM_ANCIENNE_ZONE = "nomAncienneZone";
     private String nomZone;
     private String nomElement;
     private String nomAncienneZone;
@@ -130,7 +132,7 @@ public class FragmentMenuiserie extends Fragment {
         }catch (Exception e){
             Log.e("AjoutZoneElement", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
-            getParentFragmentManager().popBackStack();
+            back();
         }
 
         return binding.getRoot();
@@ -142,7 +144,7 @@ public class FragmentMenuiserie extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -162,7 +164,7 @@ public class FragmentMenuiserie extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -177,7 +179,7 @@ public class FragmentMenuiserie extends Fragment {
             @Override
             public void onClick(View v) {
                 releveViewModel.removeZoneElement(nomZone, nomElement);
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -312,8 +314,8 @@ public class FragmentMenuiserie extends Fragment {
         try {
             releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
             releveViewModel.forceUpdateReleve();
-            getParentFragmentManager().popBackStack();
-            getParentFragmentManager().popBackStack();
+            back();
+            back();
 
         }catch (Exception e){
             Toast.makeText(getContext(), "Impossible d'ajouter l'élément", Toast.LENGTH_SHORT).show();
@@ -323,10 +325,15 @@ public class FragmentMenuiserie extends Fragment {
     private void editZoneElement(){
         try {
             releveViewModel.editZoneElement(nomElement, nomZone, getZoneElementFromViews());
-            getParentFragmentManager().popBackStack();
+            back();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void back(){
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.popBackStack();
     }
 
     private void updateSpinner() {

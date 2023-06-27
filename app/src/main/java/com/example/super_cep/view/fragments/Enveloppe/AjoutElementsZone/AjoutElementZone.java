@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
@@ -73,42 +77,42 @@ public class AjoutElementZone extends Fragment {
         binding.buttonAnnulerAjoutElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
         binding.layoutMur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(FragmentMur.newInstance(nomZone));
+                OuvrirFragmentAjout(AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMur(nomZone, null, null));
             }
         });
 
         binding.layoutToitureEtFauxPlafond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(FragmentToitureOuFauxPlafond.newInstance(nomZone));
+                OuvrirFragmentAjout(AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentToitureOuFauxPlafond(nomZone, null, null));
             }
         });
 
         binding.layoutMenuiserie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(FragmentMenuiserie.newInstance(nomZone));
+                OuvrirFragmentAjout(AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMenuiserie(nomZone, null, null));
             }
         });
 
         binding.layoutSols.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(FragmentSol.newInstance(nomZone));
+                OuvrirFragmentAjout(AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentSol(nomZone, null, null));
             }
         });
 
         binding.layoutEclairage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OuvrirFragmentAjout(FragmentEclairage.newInstance(nomZone));
+                OuvrirFragmentAjout(AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentEclairage(nomZone, null, null));
             }
         });
 
@@ -148,41 +152,38 @@ public class AjoutElementZone extends Fragment {
     }
 
     private void OuvrirFragmentCopie(Zone ancienneZone, ZoneElement zoneElement){
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = getFragmentFromZoneElement(ancienneZone, zoneElement);
-        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commit();
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.navigate(getNavDirectionFromZoneElement(ancienneZone, zoneElement));
     }
 
-    private void OuvrirFragmentAjout(Fragment fragment){
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commit();
+    private void OuvrirFragmentAjout(NavDirections navDirections){
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.navigate(navDirections);
     }
 
-    private Fragment getFragmentFromZoneElement(Zone ancienneZone, ZoneElement zoneElement){
+    private NavDirections getNavDirectionFromZoneElement(Zone ancienneZone, ZoneElement zoneElement){
         if(zoneElement instanceof Mur){
-            return FragmentMur.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMur(nomZone,ancienneZone.nom, zoneElement.getNom());
         }
         if(zoneElement instanceof Toiture){
-            return FragmentToitureOuFauxPlafond.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentToitureOuFauxPlafond(nomZone,ancienneZone.nom, zoneElement.getNom());
         }
         if(zoneElement instanceof Menuiserie){
-            return FragmentMenuiserie.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMenuiserie(nomZone,ancienneZone.nom, zoneElement.getNom());
         }
         if(zoneElement instanceof Sol){
-            return FragmentSol.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentSol(nomZone,ancienneZone.nom, zoneElement.getNom());
         }
         if(zoneElement instanceof Eclairage){
-            return FragmentEclairage.newInstance(nomZone, ancienneZone.nom,  zoneElement.getNom());
+            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentEclairage(nomZone,ancienneZone.nom, zoneElement.getNom());
         }
         throw new IllegalArgumentException("ZoneElement non reconnu");
 
     }
+
+    private void back(){
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.popBackStack();
+    }
+
 }

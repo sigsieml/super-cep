@@ -17,9 +17,13 @@ import com.example.super_cep.model.SpinnerData.ConfigDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -27,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 
 public class ReleveActivity extends AppCompatActivity {
 
@@ -128,4 +133,9 @@ public class ReleveActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    public void onBackPressed() {
+        
+        super.onBackPressed();
+    }
 }

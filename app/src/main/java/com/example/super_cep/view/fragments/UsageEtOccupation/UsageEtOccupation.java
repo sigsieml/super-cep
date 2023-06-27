@@ -6,16 +6,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.view.fragments.Enveloppe.EnveloppeDirections;
+import com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupationDirections;
 
 public class UsageEtOccupation extends Fragment {
 
@@ -49,14 +54,10 @@ public class UsageEtOccupation extends Fragment {
         CalendrierAdaptater calendrierAdaptater = new CalendrierAdaptater(calendriersValues, zones, new CalendrierViewHolderListener() {
             @Override
             public void onClick(Calendrier calendrier) {
-
-                FragmentManager fragmentManager =  getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), FragmentUsageEtOccupationCalendrier.create(calendrier.nom), "fragment usage et occupation calendrier");
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.commit();
-
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupationDirections.ActionNavUsageEtOccupationToFragmentUsageEtOccupationCalendrier action =
+                        UsageEtOccupationDirections.actionNavUsageEtOccupationToFragmentUsageEtOccupationCalendrier(calendrier.nom);
+                navController.navigate(action);
             }
 
             @Override

@@ -4,49 +4,60 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-         <item
+        <item
             android:id="@+id/nav_batiment"
             android:icon="@drawable/ic_menu_batiment"
+            android:menuCategory="secondary"
             android:title="@string/menu_batiment" />
         <item
             android:id="@+id/nav_enveloppes"
             android:icon="@drawable/ic_menu_enveloppes"
+            android:menuCategory="secondary"
             android:title="@string/menu_enveloppes" />
         <item
             android:id="@+id/nav_usage_et_occupation"
             android:icon="@drawable/ic_menu_usage_et_occupation"
+            android:menuCategory="secondary"
             android:title="@string/menu_usageEtOccupation" />
         <item
             android:id="@+id/nav_chauffages"
             android:icon="@drawable/ic_menu_chauffages"
+            android:menuCategory="secondary"
             android:title="@string/menu_chauffages" />
         <item
             android:id="@+id/nav_climatisation"
             android:icon="@drawable/ic_menu_climatisation"
+            android:menuCategory="secondary"
             android:title="@string/menu_climatisation" />
         <item
             android:id="@+id/nav_ventilation"
             android:icon="@drawable/ic_menu_ventilation"
+            android:menuCategory="secondary"
             android:title="@string/menu_ventilation" />
         <item
             android:id="@+id/nav_ecs"
             android:icon="@drawable/ic_menu_ecs"
+            android:menuCategory="secondary"
             android:title="@string/menu_ecs" />
         <item
             android:id="@+id/nav_approvisionnement_energetique"
             android:icon="@drawable/ic_menu_approvisionnement_energetique"
+            android:menuCategory="secondary"
             android:title="@string/menu_approvisionnementEnergetique" />
         <item
             android:id="@+id/nav_remarques"
             android:icon="@drawable/ic_menu_remarques"
+            android:menuCategory="secondary"
             android:title="@string/menu_remarques" />
         <item
             android:id="@+id/nav_preconisations"
             android:icon="@drawable/ic_menu_preconisations"
+            android:menuCategory="secondary"
             android:title="@string/menu_preconisations" />
         <item
             android:id="@+id/nav_export_data"
             android:icon="@drawable/ic_enveloppe_window"
-            android:title="Export" />
+            android:menuCategory="secondary"
+            android:title="@string/menu_export" />
     </group>
 </menu>

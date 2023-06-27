@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentEnveloppeBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
@@ -26,6 +29,7 @@ import com.example.super_cep.model.Releve.Enveloppe.Zone;
 import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.fragments.Chauffages.FragmentChauffageDirections;
 import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
@@ -94,14 +98,25 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void voirZoneElement(Zone zone, ZoneElement zoneElement) {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = getFragmentFromZoneElement(zone, zoneElement);
-        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.addToBackStack(fragment.toString());
-        fragmentTransaction.commit();
-
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        if(zoneElement instanceof Mur){
+            EnveloppeDirections.ActionNavEnveloppesToFragmentMur action = EnveloppeDirections.actionNavEnveloppesToFragmentMur(zone.nom, zoneElement.getNom(), null);
+            navController.navigate(action);
+        }else if(zoneElement instanceof Toiture){
+            EnveloppeDirections.ActionNavEnveloppesToFragmentToitureOuFauxPlafond action = EnveloppeDirections.actionNavEnveloppesToFragmentToitureOuFauxPlafond(zone.nom, zoneElement.getNom(), null);
+            navController.navigate(action);
+        }else if(zoneElement instanceof Menuiserie){
+            EnveloppeDirections.ActionNavEnveloppesToFragmentMenuiserie action = EnveloppeDirections.actionNavEnveloppesToFragmentMenuiserie(zone.nom, zoneElement.getNom(), null);
+            navController.navigate(action);
+        }else if(zoneElement instanceof Sol){
+            EnveloppeDirections.ActionNavEnveloppesToFragmentSol action = EnveloppeDirections.actionNavEnveloppesToFragmentSol(zone.nom, zoneElement.getNom(), null);
+            navController.navigate(action);
+        }else if(zoneElement instanceof Eclairage){
+            EnveloppeDirections.ActionNavEnveloppesToFragmentEclairage action = EnveloppeDirections.actionNavEnveloppesToFragmentEclairage(zone.nom, zoneElement.getNom(), null);
+            navController.navigate(action);
+        }else {
+            throw new IllegalArgumentException("ZoneElement non reconnu");
+        }
     }
 
     @Override
@@ -121,33 +136,12 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void nouvelleElementZone(Zone zone) {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), AjoutElementZone.newInstance(zone.nom), "ajoutZoneElement");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commit();
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        EnveloppeDirections.ActionNavEnveloppesToNavAjoutElementZone action =
+                EnveloppeDirections.actionNavEnveloppesToNavAjoutElementZone(zone.nom);
+        navController.navigate(action);
     }
 
-    private Fragment getFragmentFromZoneElement(Zone zone, ZoneElement zoneElement){
-        if(zoneElement instanceof Mur){
-            return FragmentMur.newInstance(zone.nom,   zoneElement.getNom());
-        }
-        if(zoneElement instanceof Toiture){
-            return FragmentToitureOuFauxPlafond.newInstance(zone.nom,   zoneElement.getNom());
-        }
-        if(zoneElement instanceof Menuiserie){
-            return FragmentMenuiserie.newInstance(zone.nom,   zoneElement.getNom());
-        }
-        if(zoneElement instanceof Sol){
-            return FragmentSol.newInstance(zone.nom,   zoneElement.getNom());
-        }
-        if(zoneElement instanceof Eclairage){
-            return FragmentEclairage.newInstance(zone.nom,   zoneElement.getNom());
-        }
-        throw new IllegalArgumentException("ZoneElement non reconnu");
-
-    }
 
 
     public void nouvelleZone(String toString) {

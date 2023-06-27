@@ -14,40 +14,80 @@
         android:id="@+id/nav_enveloppes"
         android:name="com.example.super_cep.view.fragments.Enveloppe.Enveloppe"
         android:label="Enveloppe"
-        tools:layout="@layout/fragment_enveloppe" />
+        tools:layout="@layout/fragment_enveloppe" >
+        <action
+            android:id="@+id/action_nav_enveloppes_to_nav_ajout_element_zone"
+            app:destination="@id/nav_ajout_element_zone" />
+        <action
+            android:id="@+id/action_nav_enveloppes_to_fragmentMenuiserie"
+            app:destination="@id/fragmentMenuiserie" />
+        <action
+            android:id="@+id/action_nav_enveloppes_to_fragmentSol"
+            app:destination="@id/fragmentSol" />
+        <action
+            android:id="@+id/action_nav_enveloppes_to_fragmentToitureOuFauxPlafond"
+            app:destination="@id/fragmentToitureOuFauxPlafond" />
+        <action
+            android:id="@+id/action_nav_enveloppes_to_fragmentMur"
+            app:destination="@id/fragmentMur" />
+        <action
+            android:id="@+id/action_nav_enveloppes_to_fragmentEclairage"
+            app:destination="@id/fragmentEclairage" />
+    </fragment>
     <fragment
         android:id="@+id/nav_usage_et_occupation"
         android:name="com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupation"
         android:label="Usage et occupation"
         tools:layout="@layout/fragment_usage_et_occupation" >
+        <action
+            android:id="@+id/action_nav_usage_et_occupation_to_fragmentUsageEtOccupationCalendrier"
+            app:destination="@id/fragmentUsageEtOccupationCalendrier" />
     </fragment>
     <fragment
         android:id="@+id/nav_chauffages"
         android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffage"
         android:label="Chauffages"
         tools:layout="@layout/fragment_chauffages" >
+        <action
+            android:id="@+id/action_nav_chauffages_to_nav_chauffage_ajout"
+            app:destination="@id/nav_chauffage_ajout" />
     </fragment>
     <fragment
         android:id="@+id/nav_climatisation"
         android:name="com.example.super_cep.view.fragments.Climatisation.FragmentClimatisation"
         android:label="Climatisation"
         tools:layout="@layout/fragment_climatisation" >
+        <action
+            android:id="@+id/action_nav_climatisation_to_fragmentClimatisationAjout"
+            app:destination="@id/fragmentClimatisationAjout" />
     </fragment>
     <fragment
         android:id="@+id/nav_ventilation"
         android:name="com.example.super_cep.view.fragments.Ventilation.FragmentVentilation"
         android:label="Ventilation"
-        tools:layout="@layout/fragment_ventilation"></fragment>
+        tools:layout="@layout/fragment_ventilation">
+        <action
+            android:id="@+id/action_nav_ventilation_to_fragmentVentilationAjout"
+            app:destination="@id/fragmentVentilationAjout" />
+    </fragment>
     <fragment
         android:id="@+id/nav_ecs"
         android:name="com.example.super_cep.view.fragments.ECS.FragmentECS"
         android:label="Système de production d'ECS"
-        tools:layout="@layout/fragment_e_c_s"></fragment>
+        tools:layout="@layout/fragment_e_c_s">
+        <action
+            android:id="@+id/action_nav_ecs_to_nav_ecs_ajout"
+            app:destination="@id/nav_ecs_ajout" />
+    </fragment>
     <fragment
         android:id="@+id/nav_approvisionnement_energetique"
         android:name="com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetique"
         android:label="Approvisionnement énergétique"
-        tools:layout="@layout/fragment_approvisionnement_energetique"></fragment>
+        tools:layout="@layout/fragment_approvisionnement_energetique">
+        <action
+            android:id="@+id/action_nav_approvisionnement_energetique_to_fragmentApprovisionnementEnergetiqueAjout"
+            app:destination="@id/fragmentApprovisionnementEnergetiqueAjout" />
+    </fragment>
     <fragment
         android:id="@+id/nav_remarques"
         android:name="com.example.super_cep.view.fragments.Remarques.FragmentRemarques"
@@ -63,4 +103,179 @@
         android:name="com.example.super_cep.view.fragments.ExportData.Exportdata"
         android:label="Exporter les données"
         tools:layout="@layout/fragment_exportdata" />
+    <fragment
+        android:id="@+id/nav_ecs_ajout"
+        android:name="com.example.super_cep.view.fragments.ECS.FragmentECSAjout"
+        android:label="Système de production d'ECS"
+        tools:layout="@layout/fragment_e_c_s_ajout" >
+        <argument
+            android:name="NOM_ECS"
+            app:nullable="true"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_chauffage_ajout"
+        android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffageAjout"
+        android:label="Chauffage"
+        tools:layout="@layout/fragment_chauffage_ajout" >
+        <argument
+            android:name="NOM_CHAUFFAGE"
+            app:nullable="true"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_ajout_element_zone"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone"
+        android:label="Enveloppe"
+        tools:layout="@layout/fragment_ajout_element_zone" >
+        <argument
+            android:name="nomZone"
+            app:nullable="true"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_ajout_element_zone_to_fragmentMur"
+            app:destination="@id/fragmentMur" />
+        <action
+            android:id="@+id/action_nav_ajout_element_zone_to_fragmentEclairage"
+            app:destination="@id/fragmentEclairage" />
+        <action
+            android:id="@+id/action_nav_ajout_element_zone_to_fragmentMenuiserie"
+            app:destination="@id/fragmentMenuiserie" />
+        <action
+            android:id="@+id/action_nav_ajout_element_zone_to_fragmentSol"
+            app:destination="@id/fragmentSol" />
+        <action
+            android:id="@+id/action_nav_ajout_element_zone_to_fragmentToitureOuFauxPlafond"
+            app:destination="@id/fragmentToitureOuFauxPlafond" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMur"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur"
+        android:label="Mur"
+        tools:layout="@layout/fragment_mur">
+        <argument
+            android:name="nomZone"
+            app:argType="string" />
+        <argument
+            android:name="nomElement"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nomAncienneZone"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentApprovisionnementEnergetiqueAjout"
+        android:name="com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetiqueAjout"
+        android:label="Approvisionnement Energetique"
+        tools:layout="@layout/fragment_approvisionnement_energetique_ajout" >
+        <argument
+            android:name="nomApprovisionnementEnergetique"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentClimatisationAjout"
+        android:name="com.example.super_cep.view.fragments.Climatisation.FragmentClimatisationAjout"
+        android:label="Climatisation"
+        tools:layout="@layout/fragment_climatisation_ajout">
+        <argument
+            android:name="nomClimatisation"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentEclairage"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage"
+        android:label="Eclairage"
+        tools:layout="@layout/fragment_eclairage">
+        <argument
+            android:name="nomZone"
+            app:argType="string" />
+        <argument
+            android:name="nomElement"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nomAncienneZone"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentMenuiserie"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie"
+        android:label="Menuiserie"
+        tools:layout="@layout/fragment_menuiserie">
+        <argument
+            android:name="nomZone"
+            app:argType="string" />
+        <argument
+            android:name="nomElement"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nomAncienneZone"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentSol"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol"
+        android:label="Sol"
+        tools:layout="@layout/fragment_sol">
+        <argument
+            android:name="nomZone"
+            app:argType="string" />
+        <argument
+            android:name="nomElement"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nomAncienneZone"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentToitureOuFauxPlafond"
+        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond"
+        android:label="Toiture"
+        tools:layout="@layout/fragment_toiture_ou_faux_plafond">
+        <argument
+            android:name="nomZone"
+            app:argType="string" />
+        <argument
+            android:name="nomElement"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nomAncienneZone"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentVentilationAjout"
+        android:name="com.example.super_cep.view.fragments.Ventilation.FragmentVentilationAjout"
+        android:label="Ventilation"
+        tools:layout="@layout/fragment_ventilation_ajout" >
+        <argument
+            android:name="nomVentilation"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentUsageEtOccupationCalendrier"
+        android:name="com.example.super_cep.view.fragments.UsageEtOccupation.FragmentUsageEtOccupationCalendrier"
+        android:label="Calendrier"
+        tools:layout="@layout/fragment_ueo_calendrier">
+        <argument android:name="nomCalendrier"
+            app:argType="string" />
+    </fragment>
+
+
 </navigation>

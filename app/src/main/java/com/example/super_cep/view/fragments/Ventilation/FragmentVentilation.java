@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentVentilationBinding;
 import com.example.super_cep.model.Releve.Ventilation;
 import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.view.fragments.Ventilation.FragmentVentilationDirections;
 
 public class FragmentVentilation extends Fragment {
 
@@ -37,13 +41,11 @@ public class FragmentVentilation extends Fragment {
         setupRecyclerView(releve.ventilations.values().toArray(new Ventilation[0]));
 
         binding.floatingActionButton2.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment fragment = FragmentVentilationAjout.newInstance();
-            fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setReorderingAllowed(true);
-            fragmentTransaction.commit();
+
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            com.example.super_cep.view.fragments.Ventilation.FragmentVentilationDirections.ActionNavVentilationToFragmentVentilationAjout action =
+                    FragmentVentilationDirections.actionNavVentilationToFragmentVentilationAjout(null);
+            navController.navigate(action);
         });
         return binding.getRoot();
     }
@@ -54,13 +56,10 @@ public class FragmentVentilation extends Fragment {
 
             @Override
             public void onClick(Ventilation ventilation) {
-                    FragmentManager fragmentManager = getParentFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    Fragment fragment = FragmentVentilationAjout.newInstance(ventilation.nom);
-                    fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.setReorderingAllowed(true);
-                    fragmentTransaction.commit();
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                com.example.super_cep.view.fragments.Ventilation.FragmentVentilationDirections.ActionNavVentilationToFragmentVentilationAjout action =
+                        FragmentVentilationDirections.actionNavVentilationToFragmentVentilationAjout(ventilation.nom);
+                navController.navigate(action);
             }
         });
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {

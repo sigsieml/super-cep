@@ -20,7 +20,7 @@ import java.util.List;
 
 public class FragmentUsageEtOccupationCalendrier extends Fragment {
 
-    private static final String ARG_CALENDRIER = "param1";
+    private static final String ARG_CALENDRIER = "nomCalendrier";
     private String nomCalendrier;
 
     public FragmentUsageEtOccupationCalendrier() {

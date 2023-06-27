@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
-    private static final String ARG_NOM_APPROVISIONNEMENT_ENERGETIQUE = "param2";
+    private static final String ARG_NOM_APPROVISIONNEMENT_ENERGETIQUE = "nomApprovisionnementEnergetique";
 
     private String nomApprovisionnementEnergetique;
 
@@ -112,7 +114,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         }catch (Exception e){
             Log.e("Ajout approvisionnementEnergetique", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
-            getParentFragmentManager().popBackStack();
+            back();
         }
 
         return binding.getRoot();
@@ -127,7 +129,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -147,7 +149,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -162,7 +164,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
             @Override
             public void onClick(View v) {
                 releveViewModel.removeApprovisionnementEnergetique(nomApprovisionnementEnergetique);
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -173,7 +175,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     private void addApprovisionnementEnergetiqueToReleve() {
         try {
             releveViewModel.addApprovisionnementEnergetique(getApprovisionnementEnergetiqueFromViews());
-            getParentFragmentManager().popBackStack();
+            back();
 
         }catch (Exception e){
             Log.e("ApprovisionnementEnergetique", "addApprovisionnementEnergetiqueToReleve: ", e);
@@ -184,7 +186,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     private void editApprovisionnementEnergetique(){
         try {
             releveViewModel.editApprovisionnementEnergetique(nomApprovisionnementEnergetique, getApprovisionnementEnergetiqueFromViews());
-            getParentFragmentManager().popBackStack();
+            back();
         } catch (Exception e) {
             Log.e("ApprovisionnementEnergetique", "addApprovisionnementEnergetiqueToReleve: ", e);
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -294,6 +296,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         viewZoneSelector.setSelectedZones(approvisionnementEnergetique.zones);
         binding.checkBoxAVerifierApprovisionnementEnergetique.setChecked(approvisionnementEnergetique.aVerifier);
         binding.editTextMultilineNoteApprovisionnementEnergetique.setText(approvisionnementEnergetique.note);
+        spinnerDataViewModel.setSpinnerSelection(binding.spinnerEnergie, approvisionnementEnergetique.energie);
 
         for (String path : approvisionnementEnergetique.images) {
             viewPhoto.addPhotoToView(Uri.parse(path));
@@ -309,5 +312,10 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         }
         binding.editTextNomApprovisionnementEnergetique.setText(element + index);
 
+    }
+
+    private void back(){
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.popBackStack();
     }
 }

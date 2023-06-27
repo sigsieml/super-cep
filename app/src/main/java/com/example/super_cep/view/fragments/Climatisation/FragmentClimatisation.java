@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentClimatisationBinding;
 import com.example.super_cep.model.Releve.Climatisation;
 import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupationDirections;
 
 public class FragmentClimatisation extends Fragment {
 
@@ -37,13 +41,8 @@ public class FragmentClimatisation extends Fragment {
         setupRecyclerView(releve.climatisations.values().toArray(new Climatisation[0]));
 
         binding.floatingActionButton2.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Fragment fragment = FragmentClimatisationAjout.newInstance();
-            fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setReorderingAllowed(true);
-            fragmentTransaction.commit();
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(FragmentClimatisationDirections.actionNavClimatisationToFragmentClimatisationAjout(null));
         });
         return binding.getRoot();
     }
@@ -53,13 +52,10 @@ public class FragmentClimatisation extends Fragment {
         ClimatisationAdapter adapter = new ClimatisationAdapter(climatisation, new ClimatisationViewHolderListener() {
             @Override
             public void onClick(Climatisation climatisation) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                Fragment fragment = FragmentClimatisationAjout.newInstance(climatisation.nom);
-                fragmentTransaction.replace(((View)binding.getRoot().getParent()).getId(), fragment, fragment.toString());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setReorderingAllowed(true);
-                fragmentTransaction.commit();
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                com.example.super_cep.view.fragments.Climatisation.FragmentClimatisationDirections.ActionNavClimatisationToFragmentClimatisationAjout action =
+                        FragmentClimatisationDirections.actionNavClimatisationToFragmentClimatisationAjout(climatisation.nom);
+                navController.navigate(action);
             }
         });
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {

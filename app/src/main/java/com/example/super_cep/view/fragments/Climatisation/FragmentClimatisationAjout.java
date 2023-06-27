@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentClimatisationAjoutBinding;
@@ -29,7 +32,7 @@ import java.util.List;
 public class FragmentClimatisationAjout extends Fragment {
 
 
-    private static final String ARG_NOM_CLIMATISATION = "param2";
+    private static final String ARG_NOM_CLIMATISATION = "nomClimatisation";
 
     private String nomClimatisation;
 
@@ -98,7 +101,7 @@ public class FragmentClimatisationAjout extends Fragment {
         }catch (Exception e){
             Log.e("Ajout climatisation", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
-            getParentFragmentManager().popBackStack();
+            back();
         }
 
         return binding.getRoot();
@@ -110,7 +113,7 @@ public class FragmentClimatisationAjout extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -130,7 +133,7 @@ public class FragmentClimatisationAjout extends Fragment {
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -145,7 +148,7 @@ public class FragmentClimatisationAjout extends Fragment {
             @Override
             public void onClick(View v) {
                 releveViewModel.removeClimatisation(nomClimatisation);
-                getParentFragmentManager().popBackStack();
+                back();
             }
         });
 
@@ -160,7 +163,7 @@ public class FragmentClimatisationAjout extends Fragment {
     private void addClimatisationToReleve() {
         try {
             releveViewModel.addClimatisation(getClimatisationFromViews());
-            getParentFragmentManager().popBackStack();
+            back();
 
         }catch (Exception e){
             Log.e("Climatisation", "addClimatisationToReleve: ", e);
@@ -171,7 +174,7 @@ public class FragmentClimatisationAjout extends Fragment {
     private void editClimatisation(){
         try {
             releveViewModel.editClimatisation(nomClimatisation, getClimatisationFromViews());
-            getParentFragmentManager().popBackStack();
+            back();
         } catch (Exception e) {
             Log.e("Climatisation", "addClimatisationToReleve: ", e);
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -235,6 +238,11 @@ public class FragmentClimatisationAjout extends Fragment {
         }
         binding.editTextNomClimatisation.setText(element + index);
 
+    }
+
+    private void back(){
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+        navController.popBackStack();
     }
 
 }
