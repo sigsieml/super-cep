@@ -12,7 +12,7 @@
     <string name="menu_chauffages">Chauffages</string>
     <string name="menu_climatisation">Climatisation</string>
     <string name="menu_ventilation">Ventilation</string>
-    <string name="menu_ecs">Système de production d\'ECS</string>
+    <string name="menu_ecs">Eau Chaude</string>
     <string name="menu_approvisionnementEnergetique">Approvisionnement énergétique</string>
     <string name="menu_remarques">Remarques</string>
     <string name="menu_preconisations">Préconisations</string>

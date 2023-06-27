@@ -73,7 +73,7 @@
     <fragment
         android:id="@+id/nav_ecs"
         android:name="com.example.super_cep.view.fragments.ECS.FragmentECS"
-        android:label="Système de production d'ECS"
+        android:label="Eau Chaude"
         tools:layout="@layout/fragment_e_c_s">
         <action
             android:id="@+id/action_nav_ecs_to_nav_ecs_ajout"
@@ -106,12 +106,12 @@
     <fragment
         android:id="@+id/nav_ecs_ajout"
         android:name="com.example.super_cep.view.fragments.ECS.FragmentECSAjout"
-        android:label="Système de production d'ECS"
-        tools:layout="@layout/fragment_e_c_s_ajout" >
+        android:label="Eau Chaude"
+        tools:layout="@layout/fragment_e_c_s_ajout">
         <argument
             android:name="NOM_ECS"
-            app:nullable="true"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_chauffage_ajout"
