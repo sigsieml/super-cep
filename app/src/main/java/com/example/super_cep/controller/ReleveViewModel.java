@@ -88,8 +88,12 @@ public class ReleveViewModel extends ViewModel {
     }
 
     public void editZoneElement(String oldNameZoneElement,String nomZone, ZoneElement zoneElement){
-        getReleve().getValue().getZone(nomZone).removeZoneElement(oldNameZoneElement);
-        getReleve().getValue().getZone(nomZone).addZoneElement(zoneElement);
+        Releve releve = this.releve.getValue();
+        if(!oldNameZoneElement.equals(zoneElement.getNom()) && releve.getZone(nomZone).getZoneElement(zoneElement.getNom()) != null){
+            throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
+        }
+        releve.getZone(nomZone).removeZoneElement(oldNameZoneElement);
+        releve.getZone(nomZone).addZoneElement(zoneElement);
         forceUpdateReleve();
     }
     public void removeZoneElement(String nomZone, String nomZoneElement){

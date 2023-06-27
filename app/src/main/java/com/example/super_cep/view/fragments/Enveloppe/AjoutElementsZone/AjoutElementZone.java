@@ -59,7 +59,6 @@ public class AjoutElementZone extends Fragment {
     private LiveData<Releve> releve;
     public Zone[] zones;
 
-    private ZonesCopieAdaptater zonesCopieAdaptater;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,12 +66,6 @@ public class AjoutElementZone extends Fragment {
         binding.textViewNomZone.setText("nouvel élément dans la zone " + nomZone);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         releve = releveViewModel.getReleve();
-        setupRecyclerView(releve.getValue().getZonesValues());
-        releve.observe(getViewLifecycleOwner(), releve -> {
-            zones = releve.getZonesValues();
-            updateRecyclerView(zones);
-        });
-
 
         binding.buttonAnnulerAjoutElement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,66 +113,11 @@ public class AjoutElementZone extends Fragment {
     }
 
 
-    private void setupRecyclerView(Zone[] zones) {
-        RecyclerView recyclerView = binding.recyclerViewCopieZoneElement;
-        zonesCopieAdaptater = new ZonesCopieAdaptater(zones, new ElementZoneCopieHandler() {
-            @Override
-            public void onClick(Zone zone, ZoneElement zoneElement) {
-                OuvrirFragmentCopie( zone,  zoneElement);
-            }
-        });
-
-
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                zonesCopieAdaptater.getFilter().filter(newText);
-                return true;
-            }
-        });
-
-        recyclerView.setAdapter(zonesCopieAdaptater);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    private void updateRecyclerView(Zone[] zones){
-        zonesCopieAdaptater.updateZones(zones);
-    }
-
-    private void OuvrirFragmentCopie(Zone ancienneZone, ZoneElement zoneElement){
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
-        navController.navigate(getNavDirectionFromZoneElement(ancienneZone, zoneElement));
-    }
-
     private void OuvrirFragmentAjout(NavDirections navDirections){
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
         navController.navigate(navDirections);
     }
 
-    private NavDirections getNavDirectionFromZoneElement(Zone ancienneZone, ZoneElement zoneElement){
-        if(zoneElement instanceof Mur){
-            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMur(nomZone,ancienneZone.nom, zoneElement.getNom());
-        }
-        if(zoneElement instanceof Toiture){
-            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentToitureOuFauxPlafond(nomZone,ancienneZone.nom, zoneElement.getNom());
-        }
-        if(zoneElement instanceof Menuiserie){
-            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentMenuiserie(nomZone,ancienneZone.nom, zoneElement.getNom());
-        }
-        if(zoneElement instanceof Sol){
-            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentSol(nomZone,ancienneZone.nom, zoneElement.getNom());
-        }
-        if(zoneElement instanceof Eclairage){
-            return AjoutElementZoneDirections.actionNavAjoutElementZoneToFragmentEclairage(nomZone,ancienneZone.nom, zoneElement.getNom());
-        }
-        throw new IllegalArgumentException("ZoneElement non reconnu");
-
-    }
 
     private void back(){
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);

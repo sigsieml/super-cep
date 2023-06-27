@@ -1,7 +1,9 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -90,7 +92,7 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), enveloppe);
+                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), enveloppe, releveViewModel);
             }
         });
     }
@@ -126,11 +128,48 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
-        try {
-            releveViewModel.moveZoneElement(nomZoneElement, nomPreviousZone, nomNewZone);
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+            //ask if the user want a copy or a move
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Déplacer ou copier ?");
+            builder.setMessage("Voulez vous déplacer ou copier l'élément ?");
+            builder.setPositiveButton("Déplacer", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+
+                    releveViewModel.moveZoneElement(nomZoneElement, nomPreviousZone, nomNewZone);
+                    } catch (IllegalArgumentException e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setNegativeButton("Copier", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
+                    ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomPreviousZone).getZoneElement(nomZoneElement);
+                    if(zoneElement instanceof Mur){
+                        EnveloppeDirections.ActionNavEnveloppesToFragmentMur action = EnveloppeDirections.actionNavEnveloppesToFragmentMur(nomNewZone, nomZoneElement, nomPreviousZone);
+                        navController.navigate(action);
+                    }else if(zoneElement instanceof Toiture){
+                        EnveloppeDirections.ActionNavEnveloppesToFragmentToitureOuFauxPlafond action = EnveloppeDirections.actionNavEnveloppesToFragmentToitureOuFauxPlafond(nomNewZone, nomZoneElement, nomPreviousZone);
+                        navController.navigate(action);
+                    }else if(zoneElement instanceof Menuiserie){
+                        EnveloppeDirections.ActionNavEnveloppesToFragmentMenuiserie action = EnveloppeDirections.actionNavEnveloppesToFragmentMenuiserie(nomNewZone, nomZoneElement, nomPreviousZone);
+                        navController.navigate(action);
+                    }else if(zoneElement instanceof Sol){
+                        EnveloppeDirections.ActionNavEnveloppesToFragmentSol action = EnveloppeDirections.actionNavEnveloppesToFragmentSol(nomNewZone, nomZoneElement, nomPreviousZone);
+                        navController.navigate(action);
+                    }else if(zoneElement instanceof Eclairage){
+                        EnveloppeDirections.ActionNavEnveloppesToFragmentEclairage action = EnveloppeDirections.actionNavEnveloppesToFragmentEclairage(nomNewZone, nomZoneElement, nomPreviousZone);
+                        navController.navigate(action);
+                    }else {
+                        Toast.makeText(getContext(), "ZoneElement non reconnu", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.show();
+
     }
 
 

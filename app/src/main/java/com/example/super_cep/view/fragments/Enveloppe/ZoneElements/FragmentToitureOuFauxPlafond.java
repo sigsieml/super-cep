@@ -324,7 +324,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             back();
 
         }catch (Exception e){
-            Toast.makeText(getContext(), "Impossible d'ajouter l'élément", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Impossible d'ajouter l'élément : " + e.getMessage() , Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -333,7 +333,8 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
             releveViewModel.editZoneElement(nomElement, nomZone, getZoneElementFromViews());
             back();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Log.e("AjoutZoneElement", "editZoneElement: ", e);
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     private void back(){

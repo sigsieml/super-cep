@@ -335,7 +335,8 @@ public class FragmentMur extends Fragment {
             releveViewModel.editZoneElement(nomElement, nomZone, getZoneElementFromViews());
             back();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Log.e("AjoutZoneElement", "editZoneElement: ", e);
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

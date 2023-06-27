@@ -9,13 +9,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.super_cep.R;
+import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.PopupNouvelleZoneBinding;
+import com.example.super_cep.model.Releve.Releve;
 
 public class PopUpNouvelleZone extends View {
     PopupNouvelleZoneBinding binding;
-    public PopUpNouvelleZone(Context context, Enveloppe enveloppe) {
+    private ReleveViewModel releveViewModel;
+    public PopUpNouvelleZone(Context context, Enveloppe enveloppe, ReleveViewModel releveViewModel) {
         super(context);
+        this.releveViewModel = releveViewModel;
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -35,6 +41,8 @@ public class PopUpNouvelleZone extends View {
         pw.setAnimationStyle(R.style.Animation);
         pw.update();
 
+        setupNomZone();
+
         binding.buttonAnnuler.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,5 +57,15 @@ public class PopUpNouvelleZone extends View {
                 enveloppe.nouvelleZone(binding.editTextNomNouvelleZone.getText().toString());
             }
         });
+    }
+
+    private void setupNomZone() {
+        int index = 1;
+        String element  = "Zone ";
+        Releve releve = releveViewModel.getReleve().getValue();
+        while(releve.zones.containsKey(element + index)){
+            index++;
+        }
+        binding.editTextNomNouvelleZone.setText(element + index);
     }
 }

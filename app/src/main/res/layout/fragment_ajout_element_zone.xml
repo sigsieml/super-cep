@@ -245,37 +245,6 @@
 
                 </TableLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/border_black">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Copie d'un élément existant"
-                    android:textAlignment="center" />
-
-                <SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:iconifiedByDefault="false"
-                    android:orientation="horizontal" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewCopieZoneElement"
-                    android:layout_width="match_parent"
-                    android:layout_height="472dp"
-                    android:layout_marginTop="8dp" />
-
             </LinearLayout>
         </ScrollView>
 
