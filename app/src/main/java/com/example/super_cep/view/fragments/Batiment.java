@@ -202,6 +202,9 @@ public class Batiment extends Fragment {
         launcherCapturePhoto =  registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() != Activity.RESULT_OK){
+                    return;
+                }
                 Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
                 Uri photo = photoManager.savePhotoToStorage(photoBitmap);
                 Releve releve = releveViewModel.getReleve().getValue();

@@ -103,7 +103,11 @@ public class ViewPhoto extends View {
         launcherCapturePhoto =  fragment.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() != Activity.RESULT_OK){
+                    return;
+                }
                 Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
+
                 Uri photo = photoManager.savePhotoToStorage(photoBitmap);
                 addPhotoToView(photo);
             }
@@ -112,7 +116,6 @@ public class ViewPhoto extends View {
 
     public void addPhotoToView(Uri selectedPhotoUri) {
         try {
-            uriImages.add(selectedPhotoUri);
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
             int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
@@ -158,10 +161,12 @@ public class ViewPhoto extends View {
                 }
             });
 
+            uriImages.add(selectedPhotoUri);
+
+
         }catch (Exception e){
             Log.e("Ajout image", "addPhotoToView: ", e);
             Toast.makeText(getContext(), "Erreur avec l'image elle est donc supprimer", Toast.LENGTH_SHORT).show();
-            uriImages.remove(selectedPhotoUri);
         }
 
     }

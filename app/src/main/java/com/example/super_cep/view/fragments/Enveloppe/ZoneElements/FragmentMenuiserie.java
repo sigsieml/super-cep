@@ -34,10 +34,12 @@ import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
+import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
+import com.example.super_cep.view.includeView.ViewPhoto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,16 +92,11 @@ public class FragmentMenuiserie extends Fragment {
         }
 
     }
-
     private FragmentMenuiserieBinding binding;
-
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
 
-    private ActivityResultLauncher<Intent> launcherGetPhoto;
-    private ActivityResultLauncher<Intent> launcherCapturePhoto;
-
-    List<Uri> uriImages = new ArrayList<>();
+    private ViewPhoto viewPhoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,9 +104,10 @@ public class FragmentMenuiserie extends Fragment {
         binding = FragmentMenuiserieBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         photoManager = new PhotoManager(getContext());
-        setupPhotoLaunchers();
         updateSpinner();
-        setupButtons();
+        viewPhoto = new ViewPhoto(ViewPhotoBinding.bind(binding.includeViewPhoto.getRoot()), this);
+        viewPhoto.setupPhotoLaunchers();
+
 
         if(mode  == Mode.Ajout){
             prefillZoneElementName();
@@ -188,127 +186,6 @@ public class FragmentMenuiserie extends Fragment {
 
 
 
-    private void setupButtons() {
-        binding.buttonAjouterImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Créer une boîte de dialogue pour choisir entre sélectionner une photo ou prendre une photo
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Choisir une option");
-                builder.setItems(new CharSequence[]{"Sélectionner une photo", "Prendre une photo"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:// Lancer l'activité de sélection de photo
-                                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                intent.setType("image/*");
-                                launcherGetPhoto.launch(intent);
-                                break;
-                            case 1:
-                                // Lancer l'activité de capture d'image
-                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent2);
-                                break;
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-    }
-
-
-
-    private void setupPhotoLaunchers() {
-
-        launcherGetPhoto = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        Intent data = result.getData();
-                        Uri uri = data.getData();
-                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        getContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
-                        // Faites ce que vous devez faire avec l'URI ici
-                        addPhotoToView(uri);
-
-                    }
-                });
-
-
-        launcherCapturePhoto = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                addPhotoToView(photo);
-            }
-        });
-    }
-
-    private void addPhotoToView(Uri selectedPhotoUri) {
-        try {
-            uriImages.add(selectedPhotoUri);
-
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
-            int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthInDp, ViewGroup.LayoutParams.WRAP_CONTENT);
-            view.setLayoutParams(layoutParams);
-            binding.linearLayoutImageViewsZoneElement.addView(view, 0);
-            ViewImageZoneElementBinding viewImageZoneElementBinding = ViewImageZoneElementBinding.bind(view);
-            viewImageZoneElementBinding.imageViewZoneElement.setImageURI(selectedPhotoUri);
-            viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Obtenez l'URI de FileProvider
-                    Uri contentUri = null;
-                    if (selectedPhotoUri.getScheme().equals("content")) {
-                        contentUri = selectedPhotoUri;
-                    } else if (selectedPhotoUri.getScheme().equals("file")) {
-                        contentUri = photoManager.getFileProviderUri(selectedPhotoUri);
-                    }
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(contentUri, "image/*");
-                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    startActivity(intent);
-                }
-            });
-
-            viewImageZoneElementBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    // show a dialog to confirm the deletion
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Supprimer l'image ?");
-                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            binding.linearLayoutImageViewsZoneElement.removeView(view);
-                            uriImages.remove(selectedPhotoUri);
-                        }
-                    });
-                    builder.setNegativeButton("Non", null);
-                    builder.show();
-                    return true;
-                }
-            });
-
-        }catch (Exception e){
-            Log.e("AjoutZoneElement", "addPhotoToView: ", e);
-            Toast.makeText(getContext(), "Erreur avec les images elles sont donc supprimer", Toast.LENGTH_SHORT).show();
-            uriImages.remove(selectedPhotoUri);
-            List<String> images = new ArrayList<>();
-            for(Uri uri : uriImages){
-                images.add(uri.toString());
-            }
-            releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement).images = images;
-            releveViewModel.forceUpdateReleve();
-        }
-
-    }
 
     private void addZoneElementToReleve() {
         try {
@@ -348,7 +225,7 @@ public class FragmentMenuiserie extends Fragment {
 
     private ZoneElement getZoneElementFromViews() {
         List<String> images = new ArrayList<>();
-        for(Uri uri : uriImages){
+        for(Uri uri : viewPhoto.getUriImages()){
             images.add(uri.toString());
         }
         Menuiserie menuiserie = new Menuiserie(
@@ -374,7 +251,7 @@ public class FragmentMenuiserie extends Fragment {
         binding.checkBoxAVerifierMenuiserie.setChecked(menuiserie.aVerifier);
         binding.editTextMultilineNoteMenuiserie.setText(menuiserie.note);
         for (String uri : menuiserie.images) {
-            addPhotoToView(Uri.parse(uri));
+            viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
 
