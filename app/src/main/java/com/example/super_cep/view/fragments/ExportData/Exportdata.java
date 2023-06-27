@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.databinding.FragmentExportdataBinding;
 import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointExporter;
@@ -58,16 +59,10 @@ public class Exportdata extends Fragment {
             @Override
             public void onClick(View v) {
                 //save releve as json to application file
-                Releve releve = releveViewModel.getReleve().getValue();
-                String releveJson = JsonReleveManager.serialize(releve);
+                ReleveSaver releveSaver = new ReleveSaver(getContext());
+                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                Toast.makeText(getContext(), "Relevé sauvegardé", Toast.LENGTH_SHORT).show();
 
-                try (FileOutputStream fos = v.getContext().openFileOutput(releve.nomBatiment + ".json", Context.MODE_PRIVATE)) {
-                    fos.write(releveJson.getBytes());
-                    Toast.makeText(v.getContext(), "Relevé sauvegardé", Toast.LENGTH_SHORT).show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
         return binding.getRoot();

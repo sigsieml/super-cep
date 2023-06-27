@@ -1,5 +1,7 @@
 package com.example.super_cep.view;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -8,6 +10,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
+import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.ActivityReleveBinding;
@@ -16,11 +19,15 @@ import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.SpinnerData.ConfigDataProvider;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
@@ -115,6 +122,14 @@ public class ReleveActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        final Context context = this;
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                ReleveSaver releveSaver = new ReleveSaver(context);
+                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+            }
+        });
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -135,7 +150,25 @@ public class ReleveActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        
-        super.onBackPressed();
+        Log.i("ReleveActivity", "onBackPressed: " + Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size());
+        if(Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size() <= 2){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Voulez-vous arrêter le releve ?")
+                    .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ReleveSaver releveSaver = new ReleveSaver(ReleveActivity.this);
+                            releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                            ReleveActivity.super.onBackPressed();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Non", null)
+                    .show();
+
+        }
+        else{
+            ReleveActivity.super.onBackPressed();
+        }
     }
 }
