@@ -57,6 +57,7 @@ public class PopUpNouvellePreconisation extends View {
             @Override
             public void onClick(View v) {
                 listener.onValidate(List.of(""));
+                pw.dismiss();
             }
         });
 
