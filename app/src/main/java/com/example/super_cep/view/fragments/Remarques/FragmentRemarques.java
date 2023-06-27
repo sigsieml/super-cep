@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentRemarquesBinding;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class FragmentRemarques extends Fragment {
     private FragmentRemarquesBinding binding;
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
+    Releve releve;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

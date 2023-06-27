@@ -56,7 +56,9 @@ public class RemarqueViewHolder extends RecyclerView.ViewHolder {
         binding.editTextTextMultiLine.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                saveRemarque(remarque, listener);
+                if(hasFocus){
+                    saveRemarque(remarque, listener);
+                }
             }
         });
 
@@ -64,7 +66,9 @@ public class RemarqueViewHolder extends RecyclerView.ViewHolder {
             editTextTitleRemarque.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    saveRemarque(remarque, listener);
+                    if(hasFocus){
+                        saveRemarque(remarque, listener);
+                    }
                 }
             });
 
