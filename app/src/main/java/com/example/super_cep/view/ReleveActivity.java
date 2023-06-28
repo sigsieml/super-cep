@@ -87,18 +87,7 @@ public class ReleveActivity extends AppCompatActivity {
         //get relevepath from intent
         String relevePath = getIntent().getStringExtra("relevePath");
         if(relevePath != null){
-            File releveFile = new File(getFilesDir(), relevePath);
-            try {
-                byte[] bytes = Files.readAllBytes(releveFile.toPath());
-                String json = new String(bytes);
-                releve =  JsonReleveManager.deserialize(json);
-                if(releve == null)
-                    throw new Exception("Impossible de récupérer le relevé");
-            } catch (Exception e) {
-                Log.e("ReleveActivity", "setupReleve: ", e);
-                Toast.makeText(this, "Erreur lors de la lecture du fichier", Toast.LENGTH_SHORT).show();
-                releve = new Releve();
-            }
+            releve = new ReleveSaver(this).readReleve(relevePath);
         }
         else{
             releve = new Releve();
@@ -127,7 +116,11 @@ public class ReleveActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 ReleveSaver releveSaver = new ReleveSaver(context);
-                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                try {
+                    releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                }catch (Exception e){
+                    Log.e("ReleveActivity", "onDestinationChanged: ", e);
+                }
             }
         });
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -158,9 +151,23 @@ public class ReleveActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ReleveSaver releveSaver = new ReleveSaver(ReleveActivity.this);
-                            releveSaver.saveReleve(releveViewModel.getReleve().getValue());
-                            ReleveActivity.super.onBackPressed();
-                            finish();
+                            if(releveViewModel.getReleve().getValue().nomBatiment == null || releveViewModel.getReleve().getValue().nomBatiment.isEmpty()){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ReleveActivity.this);
+                                builder.setMessage("Le Releve n'a pas de nom de batiment et donc ne sera pas sauvegarder continuer ?");
+                                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        ReleveActivity.super.onBackPressed();
+                                        finish();
+                                    }
+                                });
+                                builder.setNegativeButton("Non", null);
+                                builder.show();
+                            }else{
+                                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                                ReleveActivity.super.onBackPressed();
+                                finish();
+                            }
                         }
                     })
                     .setNegativeButton("Non", null)

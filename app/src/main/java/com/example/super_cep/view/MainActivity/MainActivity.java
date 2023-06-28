@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.databinding.ActivityMainBinding;
 import com.example.super_cep.view.ReleveActivity;
 
@@ -47,14 +48,14 @@ public class MainActivity extends AppCompatActivity implements ReleveRecentViewH
     }
 
     private void setupRecyclerView() {
-        String[] files = fileList();
+        String[] files = new ReleveSaver(this).getAllReleve();
         releveRecentAdapter = new ReleveRecentAdapter(files, this);
         activityMainBinding.releveRecentRecyclerView.setAdapter(releveRecentAdapter);
         activityMainBinding.releveRecentRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
     }
 
     private void updateRecyclerView(){
-        String[] files = fileList();
+        String[] files = new ReleveSaver(this).getAllReleve();
         releveRecentAdapter.updateReleves(files);
     }
 
@@ -71,9 +72,7 @@ public class MainActivity extends AppCompatActivity implements ReleveRecentViewH
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Supprimer le relevé ?");
         builder.setPositiveButton("Oui", (dialog, which) -> {
-            File releveFile = new File(getFilesDir(), relevePath);
-            releveFile.delete();
-            dialog.dismiss();
+            new ReleveSaver(this).deleteReleve(relevePath);
             updateRecyclerView();
         });
         builder.setNegativeButton("Non", (dialog, which) -> {
