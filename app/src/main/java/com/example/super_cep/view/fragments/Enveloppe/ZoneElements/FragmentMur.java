@@ -1,32 +1,21 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -34,10 +23,9 @@ import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentMurBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.model.Releve.Releve;
@@ -169,7 +157,7 @@ public class FragmentMur extends Fragment {
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleMur.setText(zoneElement.getNom());
+        binding.textViewTitleMur.setText(zoneElement.nom);
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,7 +253,7 @@ public class FragmentMur extends Fragment {
                 binding.autoCompleteTypeDeMiseEnOeuvre.getText().toString(),
                 binding.autoCompleteTypeIsolant.getText().toString(),
                 binding.autoCompleteNiveauIsolation.getText().toString(),
-                Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
+                binding.editTextNumberEpaisseurIsolant.getText().length() == 0 ? Float.NaN : Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierMur.isChecked(),
                 binding.editTextMultilineNoteMur.getText().toString(),
                 images
@@ -275,7 +263,7 @@ public class FragmentMur extends Fragment {
 
     private void addDataToView(ZoneElement zoneElement){
         Mur mur = (Mur) zoneElement;
-        binding.editTextNomMur.setText(mur.getNom());
+        binding.editTextNomMur.setText(mur.nom);
         binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(mur.epaisseurIsolant));
         binding.autoCompleteTypeMur.setText(mur.typeMur);
         binding.autoCompleteTypeDeMiseEnOeuvre.setText(mur.typeMiseEnOeuvre);

@@ -3,37 +3,21 @@ package com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import com.example.super_cep.R;
 import com.example.super_cep.databinding.FragmentAjoutElementZoneBinding;
-import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
-import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Releve.Enveloppe.Mur;
-import com.example.super_cep.model.Releve.Enveloppe.Sol;
-import com.example.super_cep.model.Releve.Enveloppe.Toiture;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class AjoutElementZone extends Fragment {
 

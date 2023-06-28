@@ -23,6 +23,8 @@ import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -37,8 +39,12 @@ public class FragmentChauffageAjout extends Fragment {
 
     private static final String ARG_NOM_CHAUFFAGE = "NOM_CHAUFFAGE";
 
+    private static final String ARG2_NOM_ZONE = "NOM_ZONE";
+
     private String nomChauffage;
 
+    private boolean isCentraliser = true;
+    private String nomZone;
 
     private Mode mode = Mode.Ajout;
     public FragmentChauffageAjout() {
@@ -46,14 +52,15 @@ public class FragmentChauffageAjout extends Fragment {
     }
 
     public static FragmentChauffageAjout newInstance() {
-        return newInstance(null);
+        return newInstance(null,null);
     }
 
 
-    public static FragmentChauffageAjout newInstance(String nomChauffage) {
+    public static FragmentChauffageAjout newInstance(String nomZone, String nomChauffage) {
         FragmentChauffageAjout fragment = new FragmentChauffageAjout();
         Bundle args = new Bundle();
         args.putString(ARG_NOM_CHAUFFAGE, nomChauffage);
+        args.putString(ARG2_NOM_ZONE, nomZone);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +73,12 @@ public class FragmentChauffageAjout extends Fragment {
         if(getArguments().getString(ARG_NOM_CHAUFFAGE) != null){
             mode = Mode.Edition;
             nomChauffage = getArguments().getString(ARG_NOM_CHAUFFAGE);
+        }else{
+            mode = Mode.Ajout;
+            if(getArguments().getString(ARG2_NOM_ZONE) != null){
+                nomZone = getArguments().getString(ARG2_NOM_ZONE);
+                isCentraliser = false;
+            }
         }
 
     }
@@ -113,6 +126,7 @@ public class FragmentChauffageAjout extends Fragment {
         try {
             if(mode == Mode.Edition){
                 Chauffage chauffage = releveViewModel.getReleve().getValue().chauffages.get(nomChauffage);
+                isCentraliser = chauffage instanceof ChauffageCentraliser;
                 setModeEdition(chauffage);
                 addDataToView(chauffage);
             }
@@ -120,6 +134,10 @@ public class FragmentChauffageAjout extends Fragment {
             Log.e("Ajout chauffage", "onCreateView: ", e);
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
             back();
+        }
+        if(!isCentraliser) {
+            binding.includeZoneSelection.getRoot().setVisibility(View.GONE);
+            binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + nomZone);
         }
 
         return binding.getRoot();
@@ -198,9 +216,12 @@ public class FragmentChauffageAjout extends Fragment {
 
     private void updateSpinner() {
         List<String> customList = new ArrayList<>();
-        customList.addAll(typeChauffageProducteur);
-        customList.addAll(typeChauffageEmetteur);
-        customList.addAll(typeChauffageProducteurEmetteur);
+        if(isCentraliser){
+            customList.addAll(typeChauffageProducteur);
+        }else{
+            customList.addAll(typeChauffageEmetteur);
+            customList.addAll(typeChauffageProducteurEmetteur);
+        }
         SpinnerDataViewModel.updateSpinnerData(binding.spinnerTypeChauffage, customList);
         spinnerDataViewModel.updateSpinnerData(binding.spinnerRegulations, "regulationChauffage");
 
@@ -244,7 +265,11 @@ public class FragmentChauffageAjout extends Fragment {
         for(Uri uri : viewPhoto.getUriImages()){
             images.add(uri.toString());
         }
-            Chauffage chauffage = new Chauffage(
+        if(isCentraliser){
+            if(viewZoneSelector.getSelectedZones().isEmpty()){
+                throw new IllegalArgumentException("Veuillez sélectionner au moins une zone");
+            }
+            Chauffage chauffage = new ChauffageCentraliser(
                     binding.editTextNomChauffage.getText().toString(),
                     binding.spinnerTypeChauffage.getSelectedItem().toString(),
                     binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
@@ -258,8 +283,26 @@ public class FragmentChauffageAjout extends Fragment {
                     binding.checkBoxAVerifierChauffage.isChecked(),
                     binding.editTextMultilineNoteChauffage.getText().toString()
             );
+            return chauffage;
+        }else{
+            Chauffage chauffage = new ChauffageDecentraliser(
+                    binding.editTextNomChauffage.getText().toString(),
+                    binding.spinnerTypeChauffage.getSelectedItem().toString(),
+                    binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
+                    binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
+                    binding.spinnerMarque.getSelectedItem().toString(),
+                    binding.editTextModele.getText().toString(),
+                    nomZone,
+                    getCategorieChauffage(),
+                    binding.spinnerRegulations.getSelectedItem().toString(),
+                    images,
+                    binding.checkBoxAVerifierChauffage.isChecked(),
+                    binding.editTextMultilineNoteChauffage.getText().toString()
+            );
+            return chauffage;
+        }
 
-        return chauffage;
+
     }
 
     private void addDataToView(Chauffage chauffage){
@@ -273,7 +316,12 @@ public class FragmentChauffageAjout extends Fragment {
         binding.checkBoxAVerifierChauffage.setChecked(chauffage.aVerifier);
         binding.editTextMultilineNoteChauffage.setText(chauffage.note);
 
-        viewZoneSelector.setSelectedZones(chauffage.zones);
+        if(isCentraliser){
+            if(chauffage instanceof ChauffageCentraliser){
+                viewZoneSelector.setSelectedZones(((ChauffageCentraliser) chauffage).zones);
+            }
+        }
+
         for (String uri : chauffage.images) {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }

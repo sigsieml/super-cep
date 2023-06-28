@@ -19,9 +19,11 @@ import com.example.super_cep.model.Releve.Releve;
 public class PopUpNouvelleZone extends View {
     PopupNouvelleZoneBinding binding;
     private ReleveViewModel releveViewModel;
-    public PopUpNouvelleZone(Context context, Enveloppe enveloppe, ReleveViewModel releveViewModel) {
+    private PopUpNouvelleZoneHandler handler;
+    public PopUpNouvelleZone(Context context, PopUpNouvelleZoneHandler handler, ReleveViewModel releveViewModel) {
         super(context);
         this.releveViewModel = releveViewModel;
+        this.handler = handler;
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -54,7 +56,7 @@ public class PopUpNouvelleZone extends View {
             @Override
             public void onClick(View v) {
                 pw.dismiss();
-                enveloppe.nouvelleZone(binding.editTextNomNouvelleZone.getText().toString());
+                handler.nouvelleZone(binding.editTextNomNouvelleZone.getText().toString());
             }
         });
     }

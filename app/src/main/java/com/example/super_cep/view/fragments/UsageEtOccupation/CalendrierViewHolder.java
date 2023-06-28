@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.super_cep.controller.Animation;
 import com.example.super_cep.databinding.ViewholderCalendrierBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Zone;
 
 
 interface CalendrierViewHolderListener{

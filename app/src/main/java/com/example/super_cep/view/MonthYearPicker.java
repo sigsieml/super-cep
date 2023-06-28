@@ -65,14 +65,14 @@ public class MonthYearPicker extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View dialog = inflater.inflate(R.layout.popup_month_year_dialog, null);
-        yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
+        yearPicker = dialog.findViewById(R.id.picker_year);
 
         int maxYear = cal.get(Calendar.YEAR) + 1;
         final int minYear = 1916;
         int arraySize = maxYear - minYear;
 
         String[] tempArray = new String[arraySize];
-        tempArray[0] = "---";
+        tempArray[0] = "Inconnu";
         int tempYear = minYear+1;
 
         for(int i=0 ; i < arraySize; i++){
@@ -86,10 +86,11 @@ public class MonthYearPicker extends DialogFragment {
         yearPicker.setMaxValue(maxYear);
         yearPicker.setDisplayedValues(tempArray);
 
+
         if(yearVal != -1)
             yearPicker.setValue(yearVal);
         else
-            yearPicker.setValue(tempYear -1);
+            yearPicker.setValue(0);
 
 
         builder.setView(dialog)
@@ -99,7 +100,7 @@ public class MonthYearPicker extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         int year = yearPicker.getValue();
                         if(year == (minYear+1)){
-                            year = 1904;
+                            year = -1;
                         }
                         listener.onDateSet(null, year, 1, 1);
                     }
@@ -107,6 +108,12 @@ public class MonthYearPicker extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         MonthYearPicker.this.getDialog().cancel();
+                    }
+                }).setNeutralButton("Inconnu", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onDateSet(null, -1, 1, 1);
                     }
                 });
 

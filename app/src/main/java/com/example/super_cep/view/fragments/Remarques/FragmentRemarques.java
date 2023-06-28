@@ -92,6 +92,8 @@ public class FragmentRemarques extends Fragment {
         binding.floatingActionButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(getActivity().getCurrentFocus() != null)
+                    getActivity().getCurrentFocus().clearFocus();
                 PopupNouvelleRemarque.create(getContext(),releveViewModel, spinnerDataViewModel , new PopupNouvelleRemarqueListener() {
                     @Override
                     public void onValidate(Remarque remarque) {

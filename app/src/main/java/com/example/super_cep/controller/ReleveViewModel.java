@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Climatisation;
 import com.example.super_cep.model.Releve.ECS;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Ventilation;
@@ -39,20 +41,27 @@ public class ReleveViewModel extends ViewModel {
         releve.setValue(releve.getValue());
     }
 
-    public void deleteZone(Zone zone) {
-        if(!releve.getValue().zones.containsKey(zone.nom)){
+    public void deleteZone(String nomZone) {
+        if(!releve.getValue().zones.containsKey(nomZone)){
             throw new IllegalArgumentException("La zone n'existe pas");
         }
         Releve releve = this.releve.getValue();
-        releve.zones.remove(zone.nom);
+        releve.zones.remove(nomZone);
         for (Ventilation ventilation : releve.ventilations.values()) {
-            ventilation.zones.remove(zone.nom);
+            ventilation.zones.remove(nomZone);
         }
         for (Climatisation climatisation : releve.climatisations.values()) {
-            climatisation.zones.remove(zone.nom);
+            climatisation.zones.remove(nomZone);
         }
-        for (Chauffage chauffage : releve.chauffages.values()) {
-            chauffage.zones.remove(zone.nom);
+        for (Chauffage chauffage : releve.chauffages.values().toArray(new Chauffage[0])) {
+            if(chauffage instanceof ChauffageCentraliser){
+                ((ChauffageCentraliser) chauffage).zones.remove(nomZone);
+            }
+            if(chauffage instanceof ChauffageDecentraliser){
+                if(((ChauffageDecentraliser) chauffage).zone.equals(nomZone)){
+                    releve.chauffages.remove(chauffage.nom);
+                }
+            }
         }
         setReleve(releve);
     }
@@ -89,7 +98,7 @@ public class ReleveViewModel extends ViewModel {
 
     public void editZoneElement(String oldNameZoneElement,String nomZone, ZoneElement zoneElement){
         Releve releve = this.releve.getValue();
-        if(!oldNameZoneElement.equals(zoneElement.getNom()) && releve.getZone(nomZone).getZoneElement(zoneElement.getNom()) != null){
+        if(!oldNameZoneElement.equals(zoneElement.nom) && releve.getZone(nomZone).getZoneElement(zoneElement.nom) != null){
             throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
         }
         releve.getZone(nomZone).removeZoneElement(oldNameZoneElement);

@@ -1,32 +1,19 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -36,10 +23,9 @@ import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentToitureOuFauxPlafondBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Toiture;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -164,7 +150,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleToiture.setText(zoneElement.getNom());
+        binding.textViewTitleToiture.setText(zoneElement.nom);
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,7 +243,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
                 binding.autoCompleteTypeDeMiseEnOeuvre.getText().toString(),
                 binding.autoCompleteTypeIsolant.getText().toString(),
                 binding.autoCompleteNiveauIsolation.getText().toString(),
-                Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
+                binding.editTextNumberEpaisseurIsolant.length() == 0 ?  Float.NaN : Float.parseFloat(binding.editTextNumberEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierToiture.isChecked(),
                 binding.editTextMultilineNoteToiture.getText().toString(),
                 images
@@ -267,7 +253,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private void addDataToView(ZoneElement zoneElement){
         Toiture toiture = (Toiture) zoneElement;
-        binding.editTextNomToiture.setText(toiture.getNom());
+        binding.editTextNomToiture.setText(toiture.nom);
         binding.editTextNumberEpaisseurIsolant.setText(String.valueOf(toiture.epaisseurIsolant));
         binding.autoCompleteTypeToiture.setText(toiture.typeToiture);
         binding.autoCompleteTypeDeMiseEnOeuvre.setText(toiture.typeMiseEnOeuvre);

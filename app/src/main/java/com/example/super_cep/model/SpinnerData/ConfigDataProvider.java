@@ -19,10 +19,10 @@ public class ConfigDataProvider {
 
     public ConfigDataProvider(){
         configData = new HashMap<>();
-        configData.put("typeMur", List.of("Béton", "Bois", "Brique", "Parpain","Métal", "Inconnu"));
+        configData.put("typeMur", List.of("Béton", "Bois", "Brique", "Parpaing","Métal", "Inconnu"));
         configData.put("typeDeMiseEnOeuvre", List.of("Extérieur", "Intérieur", "de façon répartie", "Aucun", "Inconnu"));
-        configData.put("typeIsolant", List.of("Laine de verre", "Laine minérale", "Laine de roche", "Polystyrène", "Fibre de bois", "Laine de bois", "Ouate de celllulose", "Laine minérale soufflée", "Polyurethane", "Verre cellulaire", "Isolant biosourcé", "Inconnu"));
-        configData.put("niveauIsolation", List.of("Non isolé", "Faiblement isolé", "Moyennement isolé", "Assez bien isolé", "Bien isolé", "Inconnu"));
+        configData.put("typeIsolant", List.of("Laine de verre", "Laine minérale", "Laine de roche", "Polystyrène", "Fibre de bois", "Laine de bois", "Ouate de celllulose", "Laine minérale soufflée", "Polyurethane", "Verre cellulaire", "Isolant biosourcé", "Isolant inconnu"));
+        configData.put("niveauIsolation", List.of("Non isolé", "Faiblement isolé", "Moyennement isolé", "Assez bien isolé", "Bien isolé", "Niveau d'isolation inconnu"));
         configData.put("typeToiture", List.of("Faux plafond en dalles", "Plafond en platre", "Plafond autres", "Toiture terrasse", "Rampants", "Combles perdues", "Inconnu"));
         configData.put("typeMenuiserie", List.of("Fenêtre", "Porte-fenêtre", "Fenêtre de toiture", "Porte Pleine", "Inconnu"));
         configData.put("materiau", List.of("Aluminium", "Bois", "PVC", "Mixte","Polycarbonate", "Inconnu"));
@@ -48,7 +48,7 @@ public class ConfigDataProvider {
         configData.put("energieElectrique", List.of("Electricité"));
         configData.put("energieGaz", List.of("Gaz Naturel", "Propane Réseau", "Propane Cuve"));
         configData.put("energieAutre",  List.of("Bois Granulés", "Bois Déchiqueté", "Bois Bûches", "Fioul", "Inconnue"));
-        configData.put("formuleTarifaire", List.of("Base", "HP/HC", "4HS", "4HP", "Inconnu"));
+        configData.put("formuleTarifaire",  List.of("C5 base", "C5 HP/HC", "C5 HPH HCH HPE HCE", "C4", "Inconnu"));
         configData.put("nomRemarques", List.of("Descriptif de l'enveloppe thermique", "Descriptif des systèmes", "Usage et occupation du bâtiment", "Elements de contexte sur le bâtiment", "Descriptif du chauffage", "Energie et consommations", "Remarque diverse"));
         configData.put("preconisations", List.of("Remplacer les tubes fluo par des LEDS", "Réaliser une isolation thermique extérieur", "Remplacer les menuiseries", "Remplacer le système de chauffage", "Remplacer le système de régulation ancien"));
     }

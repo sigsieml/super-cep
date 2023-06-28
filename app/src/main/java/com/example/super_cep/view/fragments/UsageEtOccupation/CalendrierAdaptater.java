@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Zone;
 
 public class CalendrierAdaptater extends RecyclerView.Adapter<CalendrierViewHolder> {
 

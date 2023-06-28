@@ -1,11 +1,12 @@
 package com.example.super_cep.model.Releve.Enveloppe;
 
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Sol extends ZoneElement{
+public class Sol extends ZoneElement {
 
     public String typeSol;
     public String niveauIsolation;

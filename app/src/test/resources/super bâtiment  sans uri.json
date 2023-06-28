@@ -71,6 +71,7 @@
   },
   "chauffages":{
     "super chauffage ":{
+      "centralisation":"centraliser",
       "nom":"super chauffage ",
       "type":"Chaudière gaz à condensation",
       "puissance":100.0,
@@ -88,23 +89,21 @@
       "note":"djjf"
     },
     "chauffage emetteur": {
+        "centralisation":"decentraliser",
         "nom": "chauffage emetteur",
         "type": "Radiateur",
         "puissance": 100.0,
         "quantite": 100,
         "marque": "Acova",
         "modele": "dje",
-        "zones": [
-            "salle de classe",
-            "cour",
-            "dortoir "
-        ],
+        "zone": "dortoir",
         "categorie": "Emetteur",
         "regulation": "Interrupteur",
         "aVerifier": true,
         "note": "djjf"
     },
     "chauffage producteur": {
+        "centralisation":"centraliser",
         "nom": "chauffage producteur",
         "type": "Chaudière gaz à condensation",
         "puissance": 100.0,

@@ -1,4 +1,4 @@
-package com.example.super_cep.model.Releve.Enveloppe;
+package com.example.super_cep.model.Releve;
 
 import androidx.annotation.NonNull;
 
@@ -26,7 +26,7 @@ public class Zone {
 
         this.zoneElements = new HashMap<>();
         for (ZoneElement zoneElement: zoneElements) {
-            this.zoneElements.put(zoneElement.getNom(), zoneElement);
+            this.zoneElements.put(zoneElement.nom, zoneElement);
         }
     }
 
@@ -41,11 +41,11 @@ public class Zone {
 
     public void addZoneElement(ZoneElement zoneElementToAdd){
         for (ZoneElement zoneElement: zoneElements.values()) {
-            if(zoneElement.getNom().equals(zoneElementToAdd.getNom())){
+            if(zoneElement.nom.equals(zoneElementToAdd.nom)){
                 throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
             }
         }
-        zoneElements.put(zoneElementToAdd.getNom(), zoneElementToAdd);
+        zoneElements.put(zoneElementToAdd.nom, zoneElementToAdd);
     }
 
     public void removeZoneElement(String nomZoneElement){

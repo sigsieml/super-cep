@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -27,17 +25,10 @@ import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
 import com.example.super_cep.model.Releve.Enveloppe.Sol;
 import com.example.super_cep.model.Releve.Enveloppe.Toiture;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.view.fragments.Chauffages.FragmentChauffageDirections;
-import com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol;
-import com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
 
@@ -88,11 +79,15 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
     }
 
     private void setupFab() {
-        final Enveloppe enveloppe = this;
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), enveloppe, releveViewModel);
+                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), new PopUpNouvelleZoneHandler() {
+                    @Override
+                    public void nouvelleZone(String nomZone) {
+                        Enveloppe.this.nouvelleZone(nomZone);
+                    }
+                }, releveViewModel);
             }
         });
     }
@@ -102,19 +97,19 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
     public void voirZoneElement(Zone zone, ZoneElement zoneElement) {
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
         if(zoneElement instanceof Mur){
-            EnveloppeDirections.ActionNavEnveloppesToFragmentMur action = EnveloppeDirections.actionNavEnveloppesToFragmentMur(zone.nom, zoneElement.getNom(), null);
+            EnveloppeDirections.ActionNavEnveloppesToFragmentMur action = EnveloppeDirections.actionNavEnveloppesToFragmentMur(zone.nom, zoneElement.nom, null);
             navController.navigate(action);
         }else if(zoneElement instanceof Toiture){
-            EnveloppeDirections.ActionNavEnveloppesToFragmentToitureOuFauxPlafond action = EnveloppeDirections.actionNavEnveloppesToFragmentToitureOuFauxPlafond(zone.nom, zoneElement.getNom(), null);
+            EnveloppeDirections.ActionNavEnveloppesToFragmentToitureOuFauxPlafond action = EnveloppeDirections.actionNavEnveloppesToFragmentToitureOuFauxPlafond(zone.nom, zoneElement.nom, null);
             navController.navigate(action);
         }else if(zoneElement instanceof Menuiserie){
-            EnveloppeDirections.ActionNavEnveloppesToFragmentMenuiserie action = EnveloppeDirections.actionNavEnveloppesToFragmentMenuiserie(zone.nom, zoneElement.getNom(), null);
+            EnveloppeDirections.ActionNavEnveloppesToFragmentMenuiserie action = EnveloppeDirections.actionNavEnveloppesToFragmentMenuiserie(zone.nom, zoneElement.nom, null);
             navController.navigate(action);
         }else if(zoneElement instanceof Sol){
-            EnveloppeDirections.ActionNavEnveloppesToFragmentSol action = EnveloppeDirections.actionNavEnveloppesToFragmentSol(zone.nom, zoneElement.getNom(), null);
+            EnveloppeDirections.ActionNavEnveloppesToFragmentSol action = EnveloppeDirections.actionNavEnveloppesToFragmentSol(zone.nom, zoneElement.nom, null);
             navController.navigate(action);
         }else if(zoneElement instanceof Eclairage){
-            EnveloppeDirections.ActionNavEnveloppesToFragmentEclairage action = EnveloppeDirections.actionNavEnveloppesToFragmentEclairage(zone.nom, zoneElement.getNom(), null);
+            EnveloppeDirections.ActionNavEnveloppesToFragmentEclairage action = EnveloppeDirections.actionNavEnveloppesToFragmentEclairage(zone.nom, zoneElement.nom, null);
             navController.navigate(action);
         }else {
             throw new IllegalArgumentException("ZoneElement non reconnu");
@@ -123,7 +118,7 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
 
     @Override
     public void deleteZone(Zone zone) {
-        releveViewModel.deleteZone(zone);
+        releveViewModel.deleteZone(zone.nom);
     }
 
     @Override

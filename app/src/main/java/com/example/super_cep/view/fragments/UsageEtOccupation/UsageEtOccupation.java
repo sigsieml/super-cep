@@ -3,8 +3,6 @@ package com.example.super_cep.view.fragments.UsageEtOccupation;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,9 +16,7 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.view.fragments.Enveloppe.EnveloppeDirections;
-import com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupationDirections;
+import com.example.super_cep.model.Releve.Zone;
 
 public class UsageEtOccupation extends Fragment {
 

@@ -119,6 +119,10 @@
         android:label="Chauffage"
         tools:layout="@layout/fragment_chauffage_ajout" >
         <argument
+            android:name="NOM_ZONE"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
             android:name="NOM_CHAUFFAGE"
             app:nullable="true"
             app:argType="string" />

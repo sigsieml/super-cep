@@ -1,7 +1,7 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 
 public interface ZoneUiHandler {
     void nouvelleElementZone(Zone zone);

@@ -1,29 +1,17 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.provider.MediaStore;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -33,10 +21,9 @@ import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -157,7 +144,7 @@ public class FragmentMenuiserie extends Fragment {
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleMenuiserie.setText(zoneElement.getNom());
+        binding.textViewTitleMenuiserie.setText(zoneElement.nom);
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,7 +231,7 @@ public class FragmentMenuiserie extends Fragment {
 
     private void addDataToView(ZoneElement zoneElement){
         Menuiserie menuiserie = (Menuiserie) zoneElement;
-        binding.editTextNomMenuiserie.setText(menuiserie.getNom());
+        binding.editTextNomMenuiserie.setText(menuiserie.nom);
         binding.autoCompleteTypeMenuiserie.setText(menuiserie.typeMenuiserie);
         binding.autoCompleteMatRiau.setText(menuiserie.materiau);
         binding.autoCompleteProtectionsSolaires.setText(menuiserie.protectionsSolaires);

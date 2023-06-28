@@ -2,9 +2,10 @@ package com.example.super_cep;
 
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
-import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Releve.Releve;
 
@@ -32,7 +33,9 @@ public class SerialiseJsonReleveManager {
         Releve releve = new Releve();
 
         releve.nomBatiment = "Batiment Test";
+        releve.dateDeConstruction = Calendar.getInstance();
         releve.dateDeConstruction.set(2000, Calendar.JANUARY, 1);
+        releve.dateDeDerniereRenovation = Calendar.getInstance();
         releve.dateDeDerniereRenovation.set(2015, Calendar.JANUARY, 1);
         releve.surfaceTotaleChauffe = 5000.0f;
         releve.description = "Batiment de test pour l'application Super CEP";
@@ -58,7 +61,7 @@ public class SerialiseJsonReleveManager {
         Zone zone2 = new Zone("Zone 2");
         releve.addZone(zone2);
 
-        releve.chauffages.put("chauffage 1", new Chauffage(
+        releve.chauffages.put("chauffage 1", new ChauffageCentraliser(
                 "chauffage 1",
                 "type de chauffage",
                 12.0f,
@@ -72,6 +75,22 @@ public class SerialiseJsonReleveManager {
                 false,
                 ""
         ));
+        releve.chauffages.put("chauffage 2", new ChauffageDecentraliser(
+                "chauffage 2",
+                "type de chauffage",
+                12.0f,
+                12,
+                "Mitachi",
+                "X14",
+                "zone 2",
+                CategorieChauffage.ProducteurEmetteur,
+                "regulation",
+                new ArrayList<>(),
+                false,
+                ""
+        ));
+
+
 
         releve.imageBatiment = "C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png";
 

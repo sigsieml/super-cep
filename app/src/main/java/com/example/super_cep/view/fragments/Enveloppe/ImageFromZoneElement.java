@@ -1,7 +1,7 @@
 package com.example.super_cep.view.fragments.Enveloppe;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,11 +19,13 @@ public class ImageFromZoneElement {
         images.put("menuiserie", R.drawable.ic_enveloppe_window);
         images.put("sol", R.drawable.ic_enveloppe_floor);
         images.put("éclairage", R.drawable.ic_enveloppe_light);
+        images.put("centraliser", R.drawable.ic_centralise);
+        images.put("decentraliser", R.drawable.ic_decentralise);
     }
 
-    public int getImage(ZoneElement zoneElement){
-        if(images.containsKey(zoneElement.logo())){
-            return images.get(zoneElement.logo());
+    public int getImage(String logo){
+        if(images.containsKey(logo)){
+            return images.get(logo);
         }else{
             return DEFAULT_IMAGE;
         }

@@ -56,8 +56,9 @@ public class RemarqueViewHolder extends RecyclerView.ViewHolder {
         binding.editTextTextMultiLine.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    saveRemarque(remarque, listener);
+                Log.i("RemarqueViewHolder", "onFocusChange: " + hasFocus);
+                if(!hasFocus){
+                    saveRemarque(remarque.nom,remarque, listener);
                 }
             }
         });
@@ -66,21 +67,21 @@ public class RemarqueViewHolder extends RecyclerView.ViewHolder {
             editTextTitleRemarque.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if(hasFocus){
-                        saveRemarque(remarque, listener);
+                    if(!hasFocus){
+                        saveRemarque(remarque.nom, remarque, listener);
                     }
                 }
             });
 
     }
 
-    private void saveRemarque(Remarque remarque, RemarqueViewHolderListener listener) {
+    private void saveRemarque(String nomRemarque, Remarque remarque, RemarqueViewHolderListener listener) {
         if(remarque.description.equals(binding.editTextTextMultiLine.getText().toString())&&
                 (!remarque.personalise || remarque.nom.equals(editTextTitleRemarque.getText().toString())))
             return;
 
         try {
-            listener.onRemarqueEdited(remarque.nom,
+            listener.onRemarqueEdited(nomRemarque,
                     new Remarque(remarque.personalise ? editTextTitleRemarque.getText().toString() : remarque.nom,
                             binding.editTextTextMultiLine.getText().toString(),
                             remarque.personalise));

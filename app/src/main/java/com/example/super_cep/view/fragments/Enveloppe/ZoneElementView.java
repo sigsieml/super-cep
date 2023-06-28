@@ -7,21 +7,21 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.super_cep.databinding.ViewZoneElementBinding;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 
 public class ZoneElementView extends View {
 
     ViewZoneElementBinding binding;
-    public ZoneElementView(TableRow tableRow, ZoneElement zoneElement, ZoneElementViewClickHandler zoneUiHandler) {
+    public ZoneElementView(TableRow tableRow,String nom,  String logo, ZoneElementViewClickHandler zoneUiHandler) {
         super(tableRow.getContext());
         binding = ViewZoneElementBinding.inflate(LayoutInflater.from(tableRow.getContext()), tableRow, true);
 
         TextView textViewZoneElement = binding.textViewZoneElement;
-        textViewZoneElement.setText(zoneElement.getNom());
+        textViewZoneElement.setText(nom);
 
         ImageView imageView = binding.imageViewZoneElement;
         ImageFromZoneElement imageFromZoneElement = new ImageFromZoneElement();
-        imageView.setImageResource(imageFromZoneElement.getImage(zoneElement));
+        imageView.setImageResource(imageFromZoneElement.getImage(logo));
 
         binding.layoutZoneElement.setOnClickListener(new OnClickListener() {
             @Override

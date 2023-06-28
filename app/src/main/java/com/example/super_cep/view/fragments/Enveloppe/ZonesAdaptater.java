@@ -3,6 +3,7 @@ package com.example.super_cep.view.fragments.Enveloppe;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -12,14 +13,16 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -65,7 +68,7 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
         tableLayout.addView(tableRow);
         ZoneElement[] zoneElements = zone.getZoneElementsValues();
         for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-            ZoneElementView zoneElementView = new ZoneElementView(tableRow,  zoneElement, new ZoneElementViewClickHandler() {
+            ZoneElementView zoneElementView = new ZoneElementView(tableRow,  zoneElement.nom, zoneElement.logo(), new ZoneElementViewClickHandler() {
                 @Override
                 public void onClick(View v) { zoneUiHandler.voirZoneElement(zone, zoneElement);}
                 @Override
@@ -93,8 +96,8 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
     }
 
     private void startDragAndDrop(Zone zone, ZoneElement zoneElement, View v) {
-        ClipData.Item item = new ClipData.Item(zoneElement.getNom());
-        ClipData dragData = new ClipData(zoneElement.getNom(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+        ClipData.Item item = new ClipData.Item(zoneElement.nom);
+        ClipData dragData = new ClipData(zoneElement.nom, new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
         ClipData.Item item2 = new ClipData.Item(zone.nom);
         dragData.addItem(item2);
         View.DragShadowBuilder myShadow = new View.DragShadowBuilder(v);
@@ -173,9 +176,21 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
         buttonSuprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Zone " + zone.nom + " supprimer", Snackbar.LENGTH_LONG)
-                        .setAction("Oui", null).show();
-                zoneUiHandler.deleteZone(zone);}
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Voulez vous supprimer la zone " + zone.nom + " ?" + "\n" + "Tous les éléments associés à la zone seront supprimés")
+                        .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                zoneUiHandler.deleteZone(zone);
+                                Toast.makeText(v.getContext(), "Zone " + zone.nom + " supprimer", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                builder.create().show();
+            }
         });
     }
 
@@ -217,7 +232,7 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
                 nlist[i] = new Zone(zoneToFilter.nom, new ArrayList<>());
                 for (ZoneElement zoneElement :
                         zoneToFilter.getZoneElementsValues()) {
-                    String[] zoneElementWord = zoneElement.getNom().split(" ");
+                    String[] zoneElementWord = zoneElement.nom.split(" ");
                     for (String s :
                             zoneElementWord) {
                         if (isStringSimilar(filterString, s.substring(0, Math.min(s.length(), filterString.length()) ) ) ) {

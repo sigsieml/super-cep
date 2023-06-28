@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
-import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Climatisation;
@@ -14,8 +13,8 @@ import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
 import com.example.super_cep.model.Releve.Enveloppe.Sol;
 import com.example.super_cep.model.Releve.Enveloppe.Toiture;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Ventilation;
@@ -37,6 +36,7 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -174,7 +174,7 @@ public class PowerpointExporter {
 
                     cells.get(1).setText(approvisionnementEnergetique.nom);
                     if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique){
-                        cells.get(2).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance + " kVA");
+                        cells.get(2).setText(new DecimalFormat("0.#").format(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance) + " kVA");
                         cells.get(3).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).formuleTarifaire);
                     }
                     PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
@@ -191,16 +191,23 @@ public class PowerpointExporter {
 
 
     private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
-
         Calendrier[] calendriers = releve.getCalendriersValues();
-        if(calendriers.length == 0)
+        if(calendriers.length == 0){
+            for(XSLFShape shape : slide){
+                if(shape instanceof XSLFTextShape){
+                    PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+                }
+            }
             return;
+        }
         XSLFSlide[] slidesCalendrier = new XSLFSlide[calendriers.length];
         slidesCalendrier[0] = slide;
         for (int i = 1; i < calendriers.length; i++) {
             slidesCalendrier[i] = PowerpointExporterTools.duplicateSlide(ppt, slide);
             ppt.setSlideOrder(slidesCalendrier[i], slidesCalendrier[i - 1].getSlideNumber());
         }
+
+
         for (int i = 0; i < calendriers.length; i++) {
             XSLFSlide slideCalendrier = slidesCalendrier[i];
             Calendrier calendrier = calendriers[i];
@@ -278,7 +285,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),"Mur");
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2),mur.typeMur);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(3),mur.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(4),"(" + mur.typeIsolant  + ";" + mur.epaisseurIsolant +" cm)");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4),"(" + mur.typeIsolant  + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) +" cm)");
 
                     PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -297,7 +304,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),toiture.typeToiture);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2),toiture.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + toiture.typeIsolant  + ";" + toiture.epaisseurIsolant +" cm)");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + toiture.typeIsolant  + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) +" cm)");
                     PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
@@ -480,7 +487,7 @@ public class PowerpointExporter {
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(ecs.zones));
             PowerpointExporterTools.addTextToCell(row.getCells().get(1),ecs.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(2),"( " + ecs.marque + " : " + ecs.volume + " L )");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2),"( " + ecs.marque + " : " + new DecimalFormat("0.#").format(ecs.volume) + " L )");
 
             PowerpointExporterTools.copyRowStyle(tableauECS.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
@@ -558,10 +565,10 @@ public class PowerpointExporter {
                     row = tableauProduction.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauProduction.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(chauffage.zones));
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + chauffage.puissance + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " +  new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauProduction.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[1]);
@@ -573,10 +580,10 @@ public class PowerpointExporter {
                     row = tableauEmetteurs.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(chauffage.zones));
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + chauffage.puissance + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
@@ -588,10 +595,10 @@ public class PowerpointExporter {
                     row = tableauEmetteurs.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(chauffage.zones));
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + chauffage.puissance + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);

@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.ViewZonesSelectionBinding;
-import com.example.super_cep.model.Releve.Enveloppe.Zone;
+import com.example.super_cep.model.Releve.Zone;
 
 import java.util.ArrayList;
 import java.util.List;

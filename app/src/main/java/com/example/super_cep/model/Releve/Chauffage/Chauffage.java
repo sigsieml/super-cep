@@ -1,12 +1,25 @@
 package com.example.super_cep.model.Releve.Chauffage;
 
 
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
 
-public class Chauffage {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "centralisation")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ChauffageCentraliser.class, name = "centraliser"),
+        @JsonSubTypes.Type(value = ChauffageDecentraliser.class, name = "decentraliser"),
+})
+public abstract class Chauffage {
 
 
 
@@ -17,11 +30,9 @@ public class Chauffage {
     public int quantite;
     public String marque;
     public String modele;
-    public List<String> zones;
     public String regulation;
 
     public CategorieChauffage categorie;
-
 
     public List<String> images;
     public boolean aVerifier;
@@ -31,13 +42,12 @@ public class Chauffage {
     @JsonCreator
     public Chauffage(@JsonProperty("nom") String nom,
                      @JsonProperty("type") String type,
-                        @JsonProperty("puissance") float puissance,
-                        @JsonProperty("quantite") int quantite,
-                        @JsonProperty("marque") String marque,
+                     @JsonProperty("puissance") float puissance,
+                     @JsonProperty("quantite") int quantite,
+                     @JsonProperty("marque") String marque,
                      @JsonProperty("modele") String modele,
-                     @JsonProperty("zones") List<String> zones,
-                        @JsonProperty("categorie") CategorieChauffage categorie,
-                        @JsonProperty("regulation") String regulation,
+                     @JsonProperty("categorie") CategorieChauffage categorie,
+                     @JsonProperty("regulation") String regulation,
     @JsonProperty("images") List<String> images,
     @JsonProperty("aVerifier") boolean aVerifier,
     @JsonProperty("note") String note
@@ -49,7 +59,6 @@ public class Chauffage {
         this.quantite = quantite;
         this.marque = marque;
         this.modele = modele;
-        this.zones = zones;
         this.categorie = categorie;
         this.regulation = regulation;
         this.images = images;
@@ -57,5 +66,8 @@ public class Chauffage {
         this.note = note;
 
     }
+
+    @JsonIgnore
+    public abstract String getZoneText();
 
 }

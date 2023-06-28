@@ -1,31 +1,19 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -35,10 +23,9 @@ import com.example.super_cep.controller.SpinnerDataViewModel;
 import com.example.super_cep.databinding.FragmentSolBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
-import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Sol;
-import com.example.super_cep.model.Releve.Enveloppe.ZoneElement;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
@@ -164,7 +151,7 @@ public class FragmentSol extends Fragment {
     }
 
     private void setMondeConsultation(ZoneElement zoneElement) {
-        binding.textViewTitleSol.setText(zoneElement.getNom());
+        binding.textViewTitleSol.setText(zoneElement.nom);
         ViewFooterZoneElementConsultationBinding viewFooter = ViewFooterZoneElementConsultationBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,7 +239,7 @@ public class FragmentSol extends Fragment {
                 binding.autoCompleteTypeSol.getText().toString(),
                 binding.autoCompleteNiveauIsolation.getText().toString(),
                 binding.autoCompleteIsolant.getText().toString(),
-                Float.parseFloat(binding.editTextNumberSignedEpaisseurIsolant.getText().toString()),
+                binding.editTextNumberSignedEpaisseurIsolant.length() == 0  ? Float.NaN : Float.parseFloat(binding.editTextNumberSignedEpaisseurIsolant.getText().toString()),
                 binding.checkBoxAVerifierSol.isChecked(),
                 binding.editTextMultilineNoteSol.getText().toString(),
                 images
@@ -262,7 +249,7 @@ public class FragmentSol extends Fragment {
 
     private void addDataToView(ZoneElement zoneElement){
         Sol sol = (Sol) zoneElement;
-        binding.editTextNomSol.setText(sol.getNom());
+        binding.editTextNomSol.setText(sol.nom);
         binding.editTextNumberSignedEpaisseurIsolant.setText(String.valueOf(sol.epaisseurIsolant));
         binding.autoCompleteTypeSol.setText(sol.typeSol);
         binding.autoCompleteNiveauIsolation.setText(sol.niveauIsolation);

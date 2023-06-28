@@ -105,17 +105,27 @@ public class Batiment extends Fragment {
                 saveData();
 
 
-                final Calendar calendar = releve.getValue().dateDeConstruction;
-
+                Calendar calendar = releve.getValue().dateDeConstruction;
+                if(calendar == null){
+                    calendar = Calendar.getInstance();
+                }
                 MonthYearPicker pd = MonthYearPicker.newInstance(calendar.get(Calendar.MONTH) + 1,
                         calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.YEAR));
+
 
                 pd.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        if(selectedYear == -1){
+                            releveViewModel.setDateDeConstruction(null);
+                            updateTextBox(binding.editTextDateDeConstruction, null);
+                            return;
+                        }
+                        Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, selectedYear);
                         calendar.set(Calendar.MONTH, selectedMonth - 1);
                         calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+                        releveViewModel.setDateDeConstruction(calendar);
                         updateTextBox(binding.editTextDateDeConstruction, calendar);
                     }
                 });
@@ -128,17 +138,26 @@ public class Batiment extends Fragment {
             public void onClick(View view) {
                 saveData();
 
-                final Calendar calendar = releve.getValue().dateDeDerniereRenovation;
-
+                Calendar calendar = releve.getValue().dateDeDerniereRenovation;
+                if(calendar == null){
+                    calendar = Calendar.getInstance();
+                }
                 MonthYearPicker pd = MonthYearPicker.newInstance(calendar.get(Calendar.MONTH) + 1,
                         calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.YEAR));
 
                 pd.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                        if(selectedYear == -1){
+                            releveViewModel.setDateDeDerniereRenovation(null);
+                            updateTextBox(binding.editTextDateDeRenovation, null);
+                            return;
+                        }
+                        Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, selectedYear);
                         calendar.set(Calendar.MONTH, selectedMonth - 1);
                         calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
+                        releveViewModel.setDateDeDerniereRenovation(calendar);
                         updateTextBox(binding.editTextDateDeRenovation, calendar);
                     }
                 });

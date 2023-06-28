@@ -1,11 +1,12 @@
 package com.example.super_cep.model.Releve.Enveloppe;
 
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Toiture extends ZoneElement{
+public class Toiture extends ZoneElement {
 
     public String typeToiture;
     public String typeMiseEnOeuvre;

@@ -1,8 +1,13 @@
-package com.example.super_cep.model.Releve.Enveloppe;
+package com.example.super_cep.model.Releve;
 
 
 import androidx.annotation.NonNull;
 
+import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
+import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
+import com.example.super_cep.model.Releve.Enveloppe.Mur;
+import com.example.super_cep.model.Releve.Enveloppe.Sol;
+import com.example.super_cep.model.Releve.Enveloppe.Toiture;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,7 +29,7 @@ import java.util.List;
 })
 public class ZoneElement {
 
-    private String nom;
+    public String nom;
     public boolean aVerifier;
 
     public String note;
@@ -37,10 +42,6 @@ public class ZoneElement {
         this.aVerifier = aVerifier;
         this.images = images;
         this.note = note;
-    }
-
-    public String getNom() {
-        return nom;
     }
 
     @JsonIgnore
