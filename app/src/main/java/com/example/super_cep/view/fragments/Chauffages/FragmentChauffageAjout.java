@@ -222,38 +222,35 @@ public class FragmentChauffageAjout extends Fragment {
             customList.addAll(typeChauffageEmetteur);
             customList.addAll(typeChauffageProducteurEmetteur);
         }
-        SpinnerDataViewModel.updateSpinnerData(binding.spinnerTypeChauffage, customList);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerRegulations, "regulationChauffage");
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage, customList);
+        spinnerDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationChauffage");
 
-        binding.spinnerTypeChauffage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.autoCompleteTypeChauffage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onFocusChange(View v, boolean hasFocus) {
                 switch (getCategorieChauffage()){
                     case Emetteur:
-                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueEmetteur");
+                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueEmetteur");
                         break;
                     case Producteur:
-                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueProducteur");
+                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteur");
                         break;
                     case ProducteurEmetteur:
-                        spinnerDataViewModel.updateSpinnerData(binding.spinnerMarque, "marqueProducteurEmetteur");
+                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteurEmetteur");
                         break;
                     default:
                         throw new IllegalArgumentException("Categorie de chauffage inconnue");
                 }
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
         });
     }
 
 
     private CategorieChauffage getCategorieChauffage(){
-        if(typeChauffageProducteur.contains(binding.spinnerTypeChauffage.getSelectedItem().toString())){
+        if(typeChauffageProducteur.contains(binding.autoCompleteTypeChauffage.getText().toString())){
             return CategorieChauffage.Producteur;
-        }else if(typeChauffageEmetteur.contains(binding.spinnerTypeChauffage.getSelectedItem().toString())){
+        }else if(typeChauffageEmetteur.contains(binding.autoCompleteTypeChauffage.getText().toString())){
             return CategorieChauffage.Emetteur;
         }else{
             return CategorieChauffage.ProducteurEmetteur;
@@ -271,14 +268,14 @@ public class FragmentChauffageAjout extends Fragment {
             }
             Chauffage chauffage = new ChauffageCentraliser(
                     binding.editTextNomChauffage.getText().toString(),
-                    binding.spinnerTypeChauffage.getSelectedItem().toString(),
+                    binding.autoCompleteTypeChauffage.getText().toString(),
                     binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
                     binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
-                    binding.spinnerMarque.getSelectedItem().toString(),
+                    binding.autoCompleteMarque.getText().toString(),
                     binding.editTextModele.getText().toString(),
                     viewZoneSelector.getSelectedZones(),
                     getCategorieChauffage(),
-                    binding.spinnerRegulations.getSelectedItem().toString(),
+                    binding.autoCompleteRegulations.getText().toString(),
                     images,
                     binding.checkBoxAVerifierChauffage.isChecked(),
                     binding.editTextMultilineNoteChauffage.getText().toString()
@@ -287,14 +284,14 @@ public class FragmentChauffageAjout extends Fragment {
         }else{
             Chauffage chauffage = new ChauffageDecentraliser(
                     binding.editTextNomChauffage.getText().toString(),
-                    binding.spinnerTypeChauffage.getSelectedItem().toString(),
+                    binding.autoCompleteTypeChauffage.getText().toString(),
                     binding.editTextNumberPuissance.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextNumberPuissance.getText().toString()),
                     binding.editTextNumberQuantite.getText().toString().isEmpty() ? 0 : Integer.parseInt(binding.editTextNumberQuantite.getText().toString()),
-                    binding.spinnerMarque.getSelectedItem().toString(),
+                    binding.autoCompleteMarque.getText().toString(),
                     binding.editTextModele.getText().toString(),
                     nomZone,
                     getCategorieChauffage(),
-                    binding.spinnerRegulations.getSelectedItem().toString(),
+                    binding.autoCompleteRegulations.getText().toString(),
                     images,
                     binding.checkBoxAVerifierChauffage.isChecked(),
                     binding.editTextMultilineNoteChauffage.getText().toString()
@@ -307,12 +304,12 @@ public class FragmentChauffageAjout extends Fragment {
 
     private void addDataToView(Chauffage chauffage){
         binding.editTextNomChauffage.setText(chauffage.nom);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerTypeChauffage, chauffage.type);
+        binding.autoCompleteTypeChauffage.setText(chauffage.type);
         binding.editTextNumberPuissance.setText(String.valueOf(chauffage.puissance));
         binding.editTextNumberQuantite.setText(String.valueOf(chauffage.quantite));
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerMarque, chauffage.marque);
+        binding.autoCompleteMarque.setText(chauffage.marque);
         binding.editTextModele.setText(chauffage.modele);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerRegulations, chauffage.regulation);
+        binding.autoCompleteRegulations.setText(chauffage.regulation);
         binding.checkBoxAVerifierChauffage.setChecked(chauffage.aVerifier);
         binding.editTextMultilineNoteChauffage.setText(chauffage.note);
 

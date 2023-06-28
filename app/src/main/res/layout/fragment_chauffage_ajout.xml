@@ -97,8 +97,10 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerTypeChauffage"
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTypeChauffage"
+                            android:singleLine="true"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -160,8 +162,9 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Spinner
-                            android:id="@+id/spinnerRegulations"
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteRegulations"
+                            android:singleLine="true"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
@@ -266,7 +269,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Modèle"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinnerMarque" />
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteMarque" />
 
 
                 <EditText
@@ -304,8 +307,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextModele" />
 
-                <Spinner
-                    android:id="@+id/spinnerMarque"
+                <AutoCompleteTextView
+                    android:singleLine="true"
+                    android:id="@+id/autoCompleteMarque"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"

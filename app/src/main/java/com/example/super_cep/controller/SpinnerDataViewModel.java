@@ -48,7 +48,7 @@ public class SpinnerDataViewModel extends ViewModel {
         setAutoComplete(multiLineAutoCompleteTextView, spinnerData.getValue().get(key));
     }
 
-    private void setAutoComplete(AutoCompleteTextView autoCompleteTextView, List<String> strings) {
+    public void setAutoComplete(AutoCompleteTextView autoCompleteTextView, List<String> strings) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(autoCompleteTextView.getContext(), android.R.layout.simple_dropdown_item_1line, strings);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setOnTouchListener((v, event) -> {
