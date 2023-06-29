@@ -38,34 +38,69 @@
     }
   },
   "calendriers":{
-    "super calendrier ":{
-      "nom":"super calendrier ",
-      "zones":[
+    "super calendrier ": {
+      "nom": "super calendrier ",
+      "zones": [
         "salle de classe",
         "dortoir "
       ],
       "calendrierDateChaufferOccuperMap":{
-
-      }
-    },
-    "calendrier 2":{
-      "nom":"calendrier 2",
-      "zones":[
-        "salle 2",
-        "dortoir 2"
-      ],
-      "calendrierDateChaufferOccuperMap":{
-
-      }
-    },
-    "calendrier 3":{
-      "nom":"calendrier 3",
-      "zones":[
-        "salle 3",
-        "dortoir 3"
-      ],
-      "calendrierDateChaufferOccuperMap":{
-
+        "TUESDAY-4-30":"CHAUFFER_OCCUPER",
+        "THURSDAY-10-30":"CHAUFFER",
+        "TUESDAY-5-0":"CHAUFFER_OCCUPER",
+        "THURSDAY-11-0":"CHAUFFER",
+        "SUNDAY-15-30":"CHAUFFER_OCCUPER",
+        "SUNDAY-16-0":"CHAUFFER_OCCUPER",
+        "SUNDAY-19-30":"OCCUPER",
+        "SATURDAY-21-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-20-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-16-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-17-0":"CHAUFFER_OCCUPER",
+        "WEDNESDAY-20-30":"CHAUFFER_OCCUPER",
+        "SATURDAY-5-0":"CHAUFFER_OCCUPER",
+        "WEDNESDAY-21-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-4-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-3-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-4-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-21-30":"OCCUPER",
+        "SUNDAY-19-0":"OCCUPER",
+        "SUNDAY-18-30":"OCCUPER",
+        "THURSDAY-21-30":"CHAUFFER_OCCUPER",
+        "THURSDAY-22-0":"CHAUFFER",
+        "SATURDAY-5-30":"CHAUFFER_OCCUPER",
+        "FRIDAY-21-0":"CHAUFFER",
+        "WEDNESDAY-20-0":"CHAUFFER_OCCUPER",
+        "WEDNESDAY-19-30":"CHAUFFER_OCCUPER",
+        "SATURDAY-6-0":"CHAUFFER_OCCUPER",
+        "TUESDAY-2-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-3-0":"CHAUFFER_OCCUPER",
+        "THURSDAY-12-30":"CHAUFFER",
+        "SUNDAY-17-30":"CHAUFFER_OCCUPER",
+        "THURSDAY-13-0":"CHAUFFER",
+        "SUNDAY-18-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-19-0":"CHAUFFER",
+        "SATURDAY-18-30":"CHAUFFER",
+        "THURSDAY-21-0":"CHAUFFER_OCCUPER",
+        "TUESDAY-18-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-19-0":"OCCUPER",
+        "SATURDAY-3-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-2-30":"CHAUFFER_OCCUPER",
+        "FRIDAY-22-0":"CHAUFFER_OCCUPER",
+        "FRIDAY-21-30":"CHAUFFER_OCCUPER",
+        "TUESDAY-2-0":"CHAUFFER_OCCUPER",
+        "WEDNESDAY-19-0":"CHAUFFER_OCCUPER",
+        "TUESDAY-6-0":"CHAUFFER_OCCUPER",
+        "THURSDAY-12-0":"CHAUFFER",
+        "SUNDAY-17-0":"CHAUFFER_OCCUPER",
+        "TUESDAY-5-30":"CHAUFFER_OCCUPER",
+        "THURSDAY-11-30":"CHAUFFER",
+        "SUNDAY-16-30":"CHAUFFER_OCCUPER",
+        "SATURDAY-20-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-19-30":"CHAUFFER",
+        "TUESDAY-18-0":"CHAUFFER_OCCUPER",
+        "TUESDAY-17-30":"CHAUFFER_OCCUPER",
+        "SATURDAY-4-0":"CHAUFFER_OCCUPER",
+        "SATURDAY-3-30":"CHAUFFER_OCCUPER"
       }
     }
   },
@@ -89,45 +124,45 @@
       "note":"djjf"
     },
     "chauffage emetteur": {
-        "centralisation":"decentraliser",
-        "nom": "chauffage emetteur",
-        "type": "Radiateur",
-        "puissance": 100.0,
-        "quantite": 100,
-        "marque": "Acova",
-        "modele": "dje",
-        "zone": "dortoir",
-        "categorie": "Emetteur",
-        "regulation": "Interrupteur",
-        "aVerifier": true,
-        "note": "djjf"
+      "centralisation":"decentraliser",
+      "nom": "chauffage emetteur",
+      "type": "Radiateur",
+      "puissance": 100.0,
+      "quantite": 100,
+      "marque": "Acova",
+      "modele": "dje",
+      "zone": "dortoir",
+      "categorie": "Emetteur",
+      "regulation": "Interrupteur",
+      "aVerifier": true,
+      "note": "djjf"
     },
     "chauffage producteur": {
-        "centralisation":"centraliser",
-        "nom": "chauffage producteur",
-        "type": "Chaudière gaz à condensation",
-        "puissance": 100.0,
-        "quantite": 100,
-        "marque": "Acova",
-        "modele": "dje",
-        "zones": [
-            "salle de classe",
-            "cour",
-            "dortoir "
-        ],
-        "categorie": "Producteur",
-        "regulation": "Interrupteur",
-        "aVerifier": false,
-        "note": "djjf",
-        "images": [
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image1.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image2.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image3.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image4.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image5.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image6.jpg",
-          "C:\\Users\\TLB\\Pictures\\chauffage\\Image7.jpg"
-        ]
+      "centralisation":"centraliser",
+      "nom": "chauffage producteur",
+      "type": "Chaudière gaz à condensation",
+      "puissance": 100.0,
+      "quantite": 100,
+      "marque": "Acova",
+      "modele": "dje",
+      "zones": [
+        "salle de classe",
+        "cour",
+        "dortoir "
+      ],
+      "categorie": "Producteur",
+      "regulation": "Interrupteur",
+      "aVerifier": false,
+      "note": "djjf",
+      "images": [
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image1.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image2.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image3.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image4.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image5.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image6.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image7.jpg"
+      ]
     }
   },
   "climatisations":{
@@ -200,14 +235,14 @@
       "personalise": false
     },
     "Descriptif des systèmes": {
-        "nom": "Descriptif des systèmes",
-        "description": "Descriptif des systèmes Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
-        "personalise": false
+      "nom": "Descriptif des systèmes",
+      "description": "Descriptif des systèmes Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+      "personalise": false
     },
     "Descriptif du chauffage": {
-        "nom": "Descriptif du chauffage",
-        "description": "Descriptif du chauffage  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
-        "personalise": false
+      "nom": "Descriptif du chauffage",
+      "description": "Descriptif du chauffage  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl quis tincidunt aliquam, nunc nisl ultricies nunc, quis aliqu",
+      "personalise": false
     },
     "wow":{
       "nom":"wow",

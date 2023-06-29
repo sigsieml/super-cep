@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Calendrier.CalendrierDate;
+import com.example.super_cep.model.Releve.Calendrier.ChaufferOccuper;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Climatisation;
 import com.example.super_cep.model.Releve.ECS;
@@ -20,6 +22,7 @@ import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Ventilation;
 
 import org.apache.poi.sl.usermodel.TableCell;
+import org.apache.poi.sl.usermodel.TextParagraph;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
@@ -28,6 +31,7 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
+import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
 import java.awt.Color;
@@ -38,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -216,6 +221,10 @@ public class PowerpointExporter {
                 if(shape instanceof XSLFTextShape){
                     PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
                 }
+                if(shape.getShapeName().equals("tableauUsageEtOccupation")){
+                    setupCalendrier((XSLFTable) shape, calendrier.calendrierDateChaufferOccuperMap);
+                }
+
                 if(shape.getShapeName().equals("nomCalendrier")){
                     XSLFTextShape textShape = (XSLFTextShape) shape;
                     textShape.getTextBody().setText(calendrier.nom);
@@ -228,6 +237,8 @@ public class PowerpointExporter {
 
         }
     }
+
+
 
 
     private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide) {
@@ -785,6 +796,67 @@ public class PowerpointExporter {
         return builder.toString();
     }
 
+    private void setupCalendrier(XSLFTable table, Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap) {
+        if(calendrierDateChaufferOccuperMap == null){
+            return;
+        }
+        XSLFTableRow tableName = table.getRows().get(0);
+        XSLFTableRow tableHeader = table.getRows().get(1);
+
+        XSLFTableRow rowExemple = table.getRows().get(2);
+
+
+        for (float i = 0; i < 24; i += 0.5) {
+            XSLFTableRow rowAppro = table.addRow();
+            rowAppro.setHeight(rowExemple.getHeight());
+
+            for (int j = 0; j < rowExemple.getCells().size(); j++) {
+                rowAppro.addCell();
+            }
+            List<XSLFTableCell> cells = rowAppro.getCells();
+            PowerpointExporterTools.addTextToCell(cells.get(0), ((int)i ) + "h" + (i % 1 == 0 ? "00" : "30"));
+            for (int j = 1; j < 15; j++) {
+                PowerpointExporterTools.addTextToCell(cells.get(j), ".");
+            }
+
+            PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
+        }
+
+        table.removeRow(2);
+
+
+        for(CalendrierDate calendrierDate : calendrierDateChaufferOccuperMap.keySet()){
+
+            List<DayOfWeek> dayOfWeeks = List.of( DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY );
+            int column = (dayOfWeeks.indexOf(calendrierDate.jour) * 2) + 1;
+            int row = (calendrierDate.heure * 2) + calendrierDate.minute / 30;
+
+            ChaufferOccuper chaufferOccuper = calendrierDateChaufferOccuperMap.get(calendrierDate);
+            if(chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER){
+                XSLFTableCell cell = table.getCell(row, column);
+                setCellOccuper(cell);
+                XSLFTableCell cell2 = table.getCell(row, column + 1);
+                setCellChauffer(cell2);
+            }else if(chaufferOccuper == ChaufferOccuper.CHAUFFER) {
+                XSLFTableCell cell = table.getCell(row, column + 1);
+                setCellChauffer(cell);
+            }else if(chaufferOccuper == ChaufferOccuper.OCCUPER) {
+                XSLFTableCell cell = table.getCell(row, column);
+                setCellOccuper(cell);
+            }
+
+        }
+    }
+
+    private void setCellChauffer(XSLFTableCell cell){
+
+        cell.setFillColor(new Color(237,125,49));
+    }
+
+    private void setCellOccuper(XSLFTableCell cell){
+        cell.setFillColor(new Color(255,255,0));
+    }
+
 
     private class ZoneElementTableauData{
         public int indexRow;
@@ -797,5 +869,7 @@ public class PowerpointExporter {
             this.lastZoneName = lastZoneName;
         }
     }
+
+
 
 }

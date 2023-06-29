@@ -1,6 +1,9 @@
 package com.example.super_cep;
 
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Calendrier.CalendrierDate;
+import com.example.super_cep.model.Releve.Calendrier.ChaufferOccuper;
 import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
@@ -11,9 +14,11 @@ import com.example.super_cep.model.Releve.Releve;
 
 import org.junit.Test;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class SerialiseJsonReleveManager {
 
@@ -90,6 +95,21 @@ public class SerialiseJsonReleveManager {
                 ""
         ));
 
+        releve.calendriers.put("calendrier", new Calendrier(
+                "calendrier",
+                List.of("zone 1", "zone 2"),
+                Map.of(new CalendrierDate(DayOfWeek.MONDAY,4,30) , ChaufferOccuper.CHAUFFER_OCCUPER,
+                        new CalendrierDate(DayOfWeek.TUESDAY,4,30) , ChaufferOccuper.CHAUFFER,
+                        new CalendrierDate(DayOfWeek.WEDNESDAY,4,30) , ChaufferOccuper.OCCUPER,
+                        new CalendrierDate(DayOfWeek.THURSDAY,4,30) , ChaufferOccuper.CHAUFFER_OCCUPER,
+                        new CalendrierDate(DayOfWeek.FRIDAY,4,30) , ChaufferOccuper.CHAUFFER_OCCUPER,
+                        new CalendrierDate(DayOfWeek.SATURDAY,4,30) , ChaufferOccuper.CHAUFFER_OCCUPER,
+                        new CalendrierDate(DayOfWeek.SUNDAY,4,30) , ChaufferOccuper.CHAUFFER_OCCUPER
+
+
+                )
+
+        ));
 
 
         releve.imageBatiment = "C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png";

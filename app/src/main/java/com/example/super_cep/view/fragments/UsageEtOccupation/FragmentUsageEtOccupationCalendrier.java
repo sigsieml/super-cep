@@ -291,8 +291,6 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
                 continue;
             }
             CalendrierDate calendrierDate = getCalendrierDateFromIndex(i);
-            Log.i("ajout de ", calendrierDate.toString() + " " + chaufferOccuper.toString());
-
             map.put(calendrierDate, chaufferOccuper);
         }
         releveViewModel.setReleve(releve);
