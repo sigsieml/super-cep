@@ -1,6 +1,5 @@
 package com.example.super_cep.model.Releve.Calendrier;
 
-import com.example.super_cep.model.Export.CalendrierDateKeyDeserializer;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -12,7 +11,6 @@ public class Calendrier {
 
     public String nom;
     public List<String> zones;
-    @JsonDeserialize(keyUsing = CalendrierDateKeyDeserializer.class)
     public Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap;
 
     @JsonCreator

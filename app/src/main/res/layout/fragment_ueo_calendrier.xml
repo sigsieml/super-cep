@@ -35,28 +35,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewNomCalendrier" />
 
-        <ToggleButton
+        <Button
             android:id="@+id/toggleButtonChauffage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="ToggleButton"
-            android:textOff="Chauffage"
-            android:textOn="Chauffage"
+            android:text="Chauffage"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewZoneCalendrier" />
 
-        <ToggleButton
+        <Button
             android:id="@+id/toggleButtonOccupation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="ToggleButton"
-            android:textOff="Occupation"
-            android:textOn="Occupation"
+            android:text="Occupation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/toggleButtonChauffage"
             app:layout_constraintTop_toBottomOf="@+id/textViewZoneCalendrier" />
@@ -83,30 +79,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lundi"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <HorizontalScrollView
+                    android:id="@+id/scroolViewHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutJours"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView25"></LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
             </LinearLayout>
         </ScrollView>
 

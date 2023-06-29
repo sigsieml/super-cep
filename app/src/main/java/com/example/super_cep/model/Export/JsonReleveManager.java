@@ -14,6 +14,7 @@ public class JsonReleveManager {
     static {
         // Pour la gestion des objets de type Calendar.
         mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new CalendrierDateModule());
     }
 
     public static String serialize(Releve releve) {
