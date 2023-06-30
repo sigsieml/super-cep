@@ -69,7 +69,6 @@ public class Batiment extends Fragment {
                 updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
                 binding.editTextNomBatiment.setText(rlv.nomBatiment);
                 binding.editTextNumberDecimalSurfaceTotalChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe).replace(".", ","));
-                binding.editTextMultiLineDescriptionBatiment.setText(rlv.description);
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
                 if(rlv.imageBatiment != null && !rlv.imageBatiment.isEmpty()){
@@ -184,10 +183,6 @@ public class Batiment extends Fragment {
             releveViewModel.setAdresse(newText);
         }
 
-        newText = binding.editTextMultiLineDescriptionBatiment.getText().toString();
-        if (!newText.equals(releve.getValue().description)) {
-            releveViewModel.setDescription(newText);
-        }
 
         newText = binding.editTextNumberDecimalSurfaceTotalChauffe.getText().toString();
         if (!newText.equals(Float.toString(releve.getValue().surfaceTotaleChauffe)) && !newText.equals("")) {

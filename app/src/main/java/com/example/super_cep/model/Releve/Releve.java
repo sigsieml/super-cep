@@ -24,7 +24,6 @@ public class Releve {
     public Calendar dateDeConstruction;
     public Calendar dateDeDerniereRenovation;
     public float surfaceTotaleChauffe = 0;
-    public String description = "";
     public String adresse = "";
     public Map<String, ECS> ecs;
     public Map<String, ApprovisionnementEnergetique> approvisionnementEnergetiques;
@@ -87,7 +86,6 @@ public class Releve {
                 ", dateDeConstruction=" + dateDeConstruction +
                 ", dateDeDerniereRenovation=" + dateDeDerniereRenovation +
                 ", surfaceTotaleChauffe=" + surfaceTotaleChauffe +
-                ", description='" + description + '\'' +
                 ", adresse='" + adresse + '\'' +
                 '}'+ "\n" +
                 "calendriers=" + calendriers + "\n" +

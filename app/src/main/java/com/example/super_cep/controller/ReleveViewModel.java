@@ -86,11 +86,6 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
-    public void setDescription(String description){
-        releve.getValue().description = description;
-        forceUpdateReleve();
-    }
-
     public void setAdresse(String adresse){
         releve.getValue().adresse = adresse;
         forceUpdateReleve();

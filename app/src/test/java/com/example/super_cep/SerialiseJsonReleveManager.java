@@ -43,7 +43,6 @@ public class SerialiseJsonReleveManager {
         releve.dateDeDerniereRenovation = Calendar.getInstance();
         releve.dateDeDerniereRenovation.set(2015, Calendar.JANUARY, 1);
         releve.surfaceTotaleChauffe = 5000.0f;
-        releve.description = "Batiment de test pour l'application Super CEP";
         releve.adresse = "123 Rue de Test, Ville Test, 10000";
 
         Zone superZone = new Zone("Super Zone");

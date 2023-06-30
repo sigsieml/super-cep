@@ -118,9 +118,6 @@ public class PowerpointExporter {
         }else{
             remplacements.put("dateDeRenovation", "Inconnue");
         }
-        if(releve.description != null){
-            remplacements.put("description", releve.description);
-        }
         if(releve.adresse != null){
             remplacements.put("adresse", releve.adresse);
         }
