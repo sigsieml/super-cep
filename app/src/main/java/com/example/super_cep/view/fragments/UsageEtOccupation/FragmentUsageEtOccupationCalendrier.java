@@ -1,6 +1,7 @@
 package com.example.super_cep.view.fragments.UsageEtOccupation;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -66,6 +67,12 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
 
     private boolean modeChauffage = true;
 
+
+    private Drawable chaufferOccuperDrawable;
+    private Drawable chaufferDrawable;
+    private Drawable occuperDrawable;
+    private Drawable videDrawable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,6 +82,12 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
         Calendrier calendrier = releve.calendriers.get(nomCalendrier);
         binding.textViewNomCalendrier.setText(calendrier.nom);
         binding.textViewZoneCalendrier.setText(zonesToString(calendrier.zones));
+
+        chaufferOccuperDrawable = getResources().getDrawable(R.drawable.border_green);
+        chaufferDrawable = getResources().getDrawable(R.drawable.shape_red_corners);
+        occuperDrawable = getContext().getResources().getDrawable(R.drawable.shape_yellow_corners);
+        videDrawable = getContext().getResources().getDrawable(R.drawable.border_black);
+
 
         setupToggleButton();
         setupCalendrier(calendrier);
@@ -150,12 +163,11 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
                 if(map.containsKey(calendrierDate)){
                     ChaufferOccuper chaufferOccuper = map.get(calendrierDate);
                     if(chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER){
-                        bindingViewHeure.imageViewLogoPeople.setVisibility(View.VISIBLE);
-                        bindingViewHeure.imageViewLogoChauffage.setVisibility(View.VISIBLE);
+                        bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
                     }else if(chaufferOccuper == ChaufferOccuper.CHAUFFER) {
-                        bindingViewHeure.imageViewLogoChauffage.setVisibility(View.VISIBLE);
+                        bindingViewHeure.getRoot().setBackground(chaufferDrawable);
                     }else if(chaufferOccuper == ChaufferOccuper.OCCUPER){
-                        bindingViewHeure.imageViewLogoPeople.setVisibility(View.VISIBLE);
+                        bindingViewHeure.getRoot().setBackground(occuperDrawable);
                     }
                 }
                 childsHeurs[(int)(i * 48 + j * 2)] = bindingViewHeure.getRoot();
@@ -167,6 +179,8 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
 
 
     }
+
+
 
     private View[] childsHeurs;
     private View[] childsJours;
@@ -184,16 +198,24 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
                         mapLastDoubleTap.put(childHeur, timeStampDoubleTap);
                         ViewUsageEtOccupationHeureBinding bindingViewHeure = ViewUsageEtOccupationHeureBinding.bind(childHeur);
                         if(modeChauffage){
-                            if(bindingViewHeure.imageViewLogoChauffage.getVisibility() == View.VISIBLE){
-                                bindingViewHeure.imageViewLogoChauffage.setVisibility(View.INVISIBLE);
-                            }else{
-                                bindingViewHeure.imageViewLogoChauffage.setVisibility(View.VISIBLE);
+                            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable){
+                                bindingViewHeure.getRoot().setBackground(occuperDrawable);
+                            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable){
+                                bindingViewHeure.getRoot().setBackground(videDrawable);
+                            }else if(bindingViewHeure.getRoot().getBackground() == occuperDrawable){
+                                bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
+                            }else {
+                                bindingViewHeure.getRoot().setBackground(chaufferDrawable);
                             }
                         }else{
-                            if(bindingViewHeure.imageViewLogoPeople.getVisibility() == View.VISIBLE){
-                                bindingViewHeure.imageViewLogoPeople.setVisibility(View.INVISIBLE);
-                            }else{
-                                bindingViewHeure.imageViewLogoPeople.setVisibility(View.VISIBLE);
+                            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable) {
+                                bindingViewHeure.getRoot().setBackground(chaufferDrawable);
+                            }else  if(bindingViewHeure.getRoot().getBackground() == occuperDrawable){
+                                bindingViewHeure.getRoot().setBackground(videDrawable);
+                            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable){
+                                bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
+                            }else {
+                                bindingViewHeure.getRoot().setBackground(occuperDrawable);
                             }
                         }
                     }
@@ -215,14 +237,13 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
     }
 
     private void setupToggleButton() {
-        final Drawable backgroundHighlit = getContext().getDrawable(R.drawable.border_black);
-        final Drawable defaultBackground = binding.toggleButtonChauffage.getBackground();
-        binding.toggleButtonChauffage.setBackground(backgroundHighlit);
+        binding.toggleButtonChauffage.setTextSize(20);
         binding.toggleButtonChauffage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.toggleButtonChauffage.setBackground(backgroundHighlit);
-                binding.toggleButtonOccupation.setBackground(defaultBackground);
+                binding.toggleButtonChauffage.setTextSize(20);
+                binding.toggleButtonOccupation.setTextSize(14);
+
                 modeChauffage = true;
 
             }
@@ -231,8 +252,8 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
         binding.toggleButtonOccupation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.toggleButtonOccupation.setBackground(backgroundHighlit);
-                binding.toggleButtonChauffage.setBackground(defaultBackground);
+                binding.toggleButtonChauffage.setTextSize(14);
+                binding.toggleButtonOccupation.setTextSize(20);
                 modeChauffage = false;
 
             }
@@ -280,12 +301,11 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
             View childHeur = childsHeurs[i];
             ViewUsageEtOccupationHeureBinding bindingViewHeure = ViewUsageEtOccupationHeureBinding.bind(childHeur);
             ChaufferOccuper chaufferOccuper;
-            if(bindingViewHeure.imageViewLogoChauffage.getVisibility() == View.VISIBLE
-                    && bindingViewHeure.imageViewLogoPeople.getVisibility() == View.VISIBLE) {
+            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable) {
                 chaufferOccuper = ChaufferOccuper.CHAUFFER_OCCUPER;
-            }else if(bindingViewHeure.imageViewLogoChauffage.getVisibility() == View.VISIBLE) {
+            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable) {
                 chaufferOccuper = ChaufferOccuper.CHAUFFER;
-            }else if(bindingViewHeure.imageViewLogoPeople.getVisibility() == View.VISIBLE) {
+            }else if(bindingViewHeure.getRoot().getBackground() == occuperDrawable) {
                 chaufferOccuper = ChaufferOccuper.OCCUPER;
             }else{
                 continue;
