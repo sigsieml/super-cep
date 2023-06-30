@@ -1,5 +1,7 @@
 package com.example.super_cep.model.Releve.Enveloppe;
 
+import androidx.annotation.NonNull;
+
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Mur extends ZoneElement {
+public class Mur extends ZoneElement implements Cloneable {
 
 
     public String typeMur;
@@ -53,5 +55,12 @@ public class Mur extends ZoneElement {
                 ", aVerifier=" + aVerifier +
                 ", uriImages=" + images +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public ZoneElement clone(){
+        Mur clone = new Mur(nom, typeMur, typeMiseEnOeuvre, typeIsolant, niveauIsolation, epaisseurIsolant, aVerifier, note, images);
+        return clone;
     }
 }

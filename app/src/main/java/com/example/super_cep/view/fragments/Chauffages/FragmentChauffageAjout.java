@@ -38,24 +38,16 @@ public class FragmentChauffageAjout extends Fragment {
 
 
     private static final String ARG_NOM_CHAUFFAGE = "NOM_CHAUFFAGE";
-
     private static final String ARG2_NOM_ZONE = "NOM_ZONE";
-
     private String nomChauffage;
-
     private boolean isCentraliser = true;
     private String nomZone;
-
     private Mode mode = Mode.Ajout;
-    public FragmentChauffageAjout() {
-        // Required empty public constructor
-    }
+    public FragmentChauffageAjout() {}
 
     public static FragmentChauffageAjout newInstance() {
         return newInstance(null,null);
     }
-
-
     public static FragmentChauffageAjout newInstance(String nomZone, String nomChauffage) {
         FragmentChauffageAjout fragment = new FragmentChauffageAjout();
         Bundle args = new Bundle();
@@ -64,8 +56,6 @@ public class FragmentChauffageAjout extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,21 +72,14 @@ public class FragmentChauffageAjout extends Fragment {
         }
 
     }
-
     private FragmentChauffageAjoutBinding binding;
-
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
-
-
     List<String> typeChauffageProducteur = new ArrayList<>();
     List<String> typeChauffageEmetteur = new ArrayList<>();
-
     List<String> typeChauffageProducteurEmetteur = new ArrayList<>();
-
     private ViewPhoto viewPhoto;
     private ViewZoneSelector viewZoneSelector;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,7 +120,9 @@ public class FragmentChauffageAjout extends Fragment {
         }
         if(!isCentraliser) {
             binding.includeZoneSelection.getRoot().setVisibility(View.GONE);
-            binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + nomZone);
+            if(mode == Mode.Ajout){
+                binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + nomZone);
+            }
         }
 
         return binding.getRoot();
@@ -317,6 +302,10 @@ public class FragmentChauffageAjout extends Fragment {
             if(chauffage instanceof ChauffageCentraliser){
                 viewZoneSelector.setSelectedZones(((ChauffageCentraliser) chauffage).zones);
             }
+        }else{
+            binding.includeZoneSelection.getRoot().setVisibility(View.GONE);
+            binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + ((ChauffageDecentraliser) chauffage).zone);
+
         }
 
         for (String uri : chauffage.images) {

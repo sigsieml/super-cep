@@ -392,5 +392,28 @@ public class ReleveViewModel extends ViewModel {
         return false;
     }
 
+    public void copieZoneElement(String nomZoneElement,String nomPreviousZone,  String nomNewZone) {
+         ZoneElement zoneElement = getReleve().getValue().zones.get(nomPreviousZone).getZoneElement(nomZoneElement).clone();
+        zoneElement.nom = getNextNameForZoneElement(zoneElement.nom + " copie ");
+        addZoneElement(nomNewZone, zoneElement);
+    }
 
+    public void copieChauffage(String nomChauffage, String nomNewZone) {
+        Releve releve = getReleve().getValue();
+        Chauffage chauffage = releve.chauffages.get(nomChauffage).clone();
+        int index = 1;
+        while(true){
+            if(!releve.chauffages.containsKey(chauffage.nom + " (copie" + index + ")")){
+                break;
+            }
+            index++;
+        }
+        chauffage.nom = chauffage.nom + " (copie" + index + ")";
+        if(chauffage instanceof ChauffageCentraliser){
+            addChauffage(chauffage);
+        }else{
+            ((ChauffageDecentraliser)chauffage).zone = nomNewZone;
+            addChauffage(chauffage);
+        }
+    }
 }

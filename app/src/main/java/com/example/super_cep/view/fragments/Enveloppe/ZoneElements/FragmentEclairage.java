@@ -34,54 +34,31 @@ import java.util.List;
 public class FragmentEclairage extends Fragment {
 
     private static final String NOM_ZONE = "nomZone";
-
     private static final String NOM_ELEMENT = "nomElement";
-
-    private static final String NOM_ANCIENNE_ZONE = "nomAncienneZone";
     private String nomZone;
     private String nomElement;
-
-    private String nomAncienneZone;
-
     private Mode mode = Mode.Ajout;
     private PhotoManager photoManager;
-    public FragmentEclairage() {
-        // Required empty public constructor
-    }
-
+    public FragmentEclairage() {}
     public static FragmentEclairage newInstance(String nomZone) {
-        return newInstance(nomZone, null, null);
+        return newInstance(nomZone, null);
     }
-
     public static FragmentEclairage newInstance(String nomZone, String nomElement){
-        return newInstance(nomZone, null, nomElement);
-    }
-
-    public static FragmentEclairage newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
         FragmentEclairage fragment = new FragmentEclairage();
         Bundle args = new Bundle();
-        args.putString(NOM_ZONE, nouvelleZone);
+        args.putString(NOM_ZONE, nomZone);
         args.putString(NOM_ELEMENT, nomElement);
-        args.putString(NOM_ANCIENNE_ZONE, ancienneZone);
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nomZone = requireArguments().getString(NOM_ZONE);
-        if(getArguments().getString(NOM_ANCIENNE_ZONE) != null){
+        if(getArguments().getString(NOM_ELEMENT) != null){
             mode = Mode.Edition;
             nomElement = getArguments().getString(NOM_ELEMENT);
-            nomAncienneZone = getArguments().getString(NOM_ANCIENNE_ZONE);
-        }else if(getArguments().getString(NOM_ELEMENT) != null){
-            mode = Mode.Consultation;
-            nomElement = getArguments().getString(NOM_ELEMENT);
         }
-
     }
 
     private FragmentEclairageBinding binding;
@@ -99,24 +76,14 @@ public class FragmentEclairage extends Fragment {
         updateSpinner();
         viewPhoto = new ViewPhoto(ViewPhotoBinding.bind(binding.includeViewPhoto.getRoot()), this);
         viewPhoto.setupPhotoLaunchers();
-
-
         if(mode == Mode.Ajout){
             prefillZoneElementName();
-        }
-
-        if(mode == Mode.Ajout || mode == Mode.Edition){
             addFooterAjout();
         }
-
         try {
-            if(mode == Mode.Consultation){
+            if(mode == Mode.Edition){
                 ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement);
                 setMondeConsultation(zoneElement);
-                addDataToView(zoneElement);
-            }
-            if(mode == Mode.Edition){
-                ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomAncienneZone).getZoneElement(nomElement);
                 addDataToView(zoneElement);
             }
         }catch (Exception e){

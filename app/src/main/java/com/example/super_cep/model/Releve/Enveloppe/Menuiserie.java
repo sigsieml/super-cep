@@ -1,12 +1,14 @@
 package com.example.super_cep.model.Releve.Enveloppe;
 
+import androidx.annotation.NonNull;
+
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Menuiserie extends ZoneElement {
+public class Menuiserie extends ZoneElement  implements Cloneable{
 
     public String typeMenuiserie;
     public String materiau;
@@ -46,5 +48,12 @@ public class Menuiserie extends ZoneElement {
                 ", note='" + note + '\'' +
                 ", uriImages=" + images +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public ZoneElement clone() {
+        Menuiserie clone = new Menuiserie(nom, typeMenuiserie, materiau, protectionsSolaires, typeVitrage, aVerifier, note, images);
+        return clone;
     }
 }

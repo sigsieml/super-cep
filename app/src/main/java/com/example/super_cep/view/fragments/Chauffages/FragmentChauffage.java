@@ -1,7 +1,9 @@
 package com.example.super_cep.view.fragments.Chauffages;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -18,8 +20,11 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentChauffagesBinding;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
+import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.view.fragments.Enveloppe.PopUpZone;
 import com.example.super_cep.view.fragments.Enveloppe.PopUpZoneHandler;
 
@@ -97,12 +102,29 @@ public class FragmentChauffage extends Fragment {
 
             @Override
             public void moveZoneElement(String nomChauffage, String nomPreviousZone, String nomNewZone) {
-                try {
-                    releveViewModel.moveChauffage(nomChauffage, nomPreviousZone, nomNewZone);
-                }catch (Exception e){
-                    Log.e("moveZoneElement", e.getMessage());
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Déplacer ou copier ?");
+                builder.setMessage("Voulez vous déplacer ou copier l'élément ?");
+                builder.setPositiveButton("Déplacer", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            releveViewModel.moveChauffage(nomChauffage, nomPreviousZone, nomNewZone);
+                        }catch (Exception e){
+                            Log.e("moveZoneElement", e.getMessage());
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Copier", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        releveViewModel.copieChauffage(nomChauffage,  nomNewZone);
+                    }
+                });
+                builder.show();
+
+
             }
 
             @Override

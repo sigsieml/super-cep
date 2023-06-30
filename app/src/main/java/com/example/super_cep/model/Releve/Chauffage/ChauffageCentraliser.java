@@ -1,11 +1,16 @@
 package com.example.super_cep.model.Releve.Chauffage;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.apache.harmony.luni.util.NotImplementedException;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class ChauffageCentraliser extends Chauffage{
+public class ChauffageCentraliser extends Chauffage implements Cloneable{
 
 
     public List<String> zones;
@@ -37,5 +42,10 @@ public class ChauffageCentraliser extends Chauffage{
         }
         builder.delete(Math.max(0,builder.length() - 2) , builder.length());
         return builder.toString();
+    }
+    @NonNull
+    @Override
+    public Chauffage clone() {
+        return new ChauffageCentraliser(nom, type, puissance, quantite, marque, modele, new ArrayList<>(zones), categorie, regulation, new ArrayList<>(images), aVerifier, note);
     }
 }

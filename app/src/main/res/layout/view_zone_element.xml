@@ -31,9 +31,10 @@
 
         <TextView
             android:id="@+id/textViewZoneElement"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="mur chaufferie"
+            android:text="mur chaufferie Lorem ipsum dolor sit ame no de lam psi"
+            android:textAlignment="center"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

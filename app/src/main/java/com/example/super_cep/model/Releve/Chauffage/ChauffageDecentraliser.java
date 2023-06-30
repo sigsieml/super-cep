@@ -1,8 +1,11 @@
 package com.example.super_cep.model.Releve.Chauffage;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChauffageDecentraliser extends Chauffage{
@@ -30,5 +33,11 @@ public class ChauffageDecentraliser extends Chauffage{
     @Override
     public String getZoneText() {
         return zone;
+    }
+
+    @NonNull
+    @Override
+    public Chauffage clone() {
+        return new ChauffageDecentraliser(nom, type, puissance, quantite, marque, modele, zone, categorie, regulation, new ArrayList<>(images), aVerifier, note);
     }
 }

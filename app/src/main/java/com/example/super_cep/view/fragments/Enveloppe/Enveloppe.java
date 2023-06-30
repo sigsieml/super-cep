@@ -149,26 +149,7 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
             builder.setNegativeButton("Copier", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
-                    ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomPreviousZone).getZoneElement(nomZoneElement);
-                    if(zoneElement instanceof Mur){
-                        EnveloppeDirections.ActionNavEnveloppesToFragmentMur action = EnveloppeDirections.actionNavEnveloppesToFragmentMur(nomNewZone, nomZoneElement, nomPreviousZone);
-                        navController.navigate(action);
-                    }else if(zoneElement instanceof Toiture){
-                        EnveloppeDirections.ActionNavEnveloppesToFragmentToitureOuFauxPlafond action = EnveloppeDirections.actionNavEnveloppesToFragmentToitureOuFauxPlafond(nomNewZone, nomZoneElement, nomPreviousZone);
-                        navController.navigate(action);
-                    }else if(zoneElement instanceof Menuiserie){
-                        EnveloppeDirections.ActionNavEnveloppesToFragmentMenuiserie action = EnveloppeDirections.actionNavEnveloppesToFragmentMenuiserie(nomNewZone, nomZoneElement, nomPreviousZone);
-                        navController.navigate(action);
-                    }else if(zoneElement instanceof Sol){
-                        EnveloppeDirections.ActionNavEnveloppesToFragmentSol action = EnveloppeDirections.actionNavEnveloppesToFragmentSol(nomNewZone, nomZoneElement, nomPreviousZone);
-                        navController.navigate(action);
-                    }else if(zoneElement instanceof Eclairage){
-                        EnveloppeDirections.ActionNavEnveloppesToFragmentEclairage action = EnveloppeDirections.actionNavEnveloppesToFragmentEclairage(nomNewZone, nomZoneElement, nomPreviousZone);
-                        navController.navigate(action);
-                    }else {
-                        Toast.makeText(getContext(), "ZoneElement non reconnu", Toast.LENGTH_SHORT).show();
-                    }
+                    releveViewModel.copieZoneElement(nomZoneElement,nomPreviousZone, nomNewZone);
                 }
             });
             builder.show();

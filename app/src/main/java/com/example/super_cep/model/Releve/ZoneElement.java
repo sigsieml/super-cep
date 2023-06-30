@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonTypeInfo(
@@ -27,7 +28,7 @@ import java.util.List;
         @JsonSubTypes.Type(value = Toiture.class, name = "toiture"),
         @JsonSubTypes.Type(value = Menuiserie.class, name = "menuiserie"),
 })
-public class ZoneElement {
+public class ZoneElement implements Cloneable{
 
     public String nom;
     public boolean aVerifier;
@@ -56,5 +57,12 @@ public class ZoneElement {
     public String toString() {
         return "ZoneElement{" +
                 "nom='" + nom + '\'' + '}';
+    }
+
+    @NonNull
+    @Override
+    public ZoneElement clone(){
+        ZoneElement clone = new ZoneElement(this.nom, this.aVerifier, this.note, new ArrayList<>(this.images));
+        return clone;
     }
 }

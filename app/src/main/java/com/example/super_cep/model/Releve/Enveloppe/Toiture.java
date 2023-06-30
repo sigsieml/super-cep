@@ -1,12 +1,14 @@
 package com.example.super_cep.model.Releve.Enveloppe;
 
+import androidx.annotation.NonNull;
+
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Toiture extends ZoneElement {
+public class Toiture extends ZoneElement implements Cloneable {
 
     public String typeToiture;
     public String typeMiseEnOeuvre;
@@ -50,5 +52,11 @@ public class Toiture extends ZoneElement {
                 ", aVerifier=" + aVerifier +
                 ", uriImages=" + images +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public ZoneElement clone() {
+        return new Toiture(nom, typeToiture, typeMiseEnOeuvre, typeIsolant, niveauIsolation, epaisseurIsolant, aVerifier, note, images);
     }
 }

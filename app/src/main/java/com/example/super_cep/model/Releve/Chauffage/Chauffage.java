@@ -1,6 +1,8 @@
 package com.example.super_cep.model.Releve.Chauffage;
 
 
+import androidx.annotation.NonNull;
+
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import org.apache.harmony.luni.util.NotImplementedException;
 
 import java.util.List;
 
@@ -19,11 +23,7 @@ import java.util.List;
         @JsonSubTypes.Type(value = ChauffageCentraliser.class, name = "centraliser"),
         @JsonSubTypes.Type(value = ChauffageDecentraliser.class, name = "decentraliser"),
 })
-public abstract class Chauffage {
-
-
-
-
+public abstract class Chauffage implements Cloneable {
     public String nom;
     public String type;
     public float puissance;
@@ -70,4 +70,9 @@ public abstract class Chauffage {
     @JsonIgnore
     public abstract String getZoneText();
 
+    @NonNull
+    @Override
+    public Chauffage clone() {
+        throw new NotImplementedException();
+    }
 }

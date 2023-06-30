@@ -34,51 +34,31 @@ import java.util.List;
 public class FragmentMenuiserie extends Fragment {
     private static final String NOM_ZONE = "nomZone";
     private static final String NOM_ELEMENT = "nomElement";
-    private static final String NOM_ANCIENNE_ZONE = "nomAncienneZone";
     private String nomZone;
     private String nomElement;
-    private String nomAncienneZone;
-
     private Mode mode = Mode.Ajout;
-    private PhotoManager photoManager;
-    public FragmentMenuiserie() {
-        // Required empty public constructor
+    public FragmentMenuiserie() {}
+    public static FragmentEclairage newInstance(String nomZone) {
+        return newInstance(nomZone, null);
     }
-
-    public static FragmentMenuiserie newInstance(String nomZone) {
-        return newInstance(nomZone, null, null);
-    }
-
-    public static FragmentMenuiserie newInstance(String nomZone, String nomElement){
-        return newInstance(nomZone, null, nomElement);
-    }
-
-    public static FragmentMenuiserie newInstance(String nouvelleZone,String ancienneZone, String nomElement) {
-        FragmentMenuiserie fragment = new FragmentMenuiserie();
+    public static FragmentEclairage newInstance(String nomZone, String nomElement){
+        FragmentEclairage fragment = new FragmentEclairage();
         Bundle args = new Bundle();
-        args.putString(NOM_ZONE, nouvelleZone);
+        args.putString(NOM_ZONE, nomZone);
         args.putString(NOM_ELEMENT, nomElement);
-        args.putString(NOM_ANCIENNE_ZONE, ancienneZone);
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nomZone = requireArguments().getString(NOM_ZONE);
-        if(getArguments().getString(NOM_ANCIENNE_ZONE) != null){
+        if(getArguments().getString(NOM_ELEMENT) != null){
             mode = Mode.Edition;
             nomElement = getArguments().getString(NOM_ELEMENT);
-            nomAncienneZone = getArguments().getString(NOM_ANCIENNE_ZONE);
-        }else if(getArguments().getString(NOM_ELEMENT) != null){
-            mode = Mode.Consultation;
-            nomElement = getArguments().getString(NOM_ELEMENT);
         }
-
     }
+
     private FragmentMenuiserieBinding binding;
     private ReleveViewModel releveViewModel;
     private SpinnerDataViewModel spinnerDataViewModel;
@@ -90,7 +70,6 @@ public class FragmentMenuiserie extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentMenuiserieBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        photoManager = new PhotoManager(getContext());
         updateSpinner();
         viewPhoto = new ViewPhoto(ViewPhotoBinding.bind(binding.includeViewPhoto.getRoot()), this);
         viewPhoto.setupPhotoLaunchers();
@@ -98,20 +77,14 @@ public class FragmentMenuiserie extends Fragment {
 
         if(mode  == Mode.Ajout){
             prefillZoneElementName();
-        }
-
-        if(mode == Mode.Ajout || mode == Mode.Edition){
             addFooterAjout();
+
         }
 
         try {
-            if(mode == Mode.Consultation){
+            if(mode == Mode.Edition){
                 ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomZone).getZoneElement(nomElement);
                 setMondeConsultation(zoneElement);
-                addDataToView(zoneElement);
-            }
-            if(mode == Mode.Edition){
-                ZoneElement zoneElement = releveViewModel.getReleve().getValue().getZone(nomAncienneZone).getZoneElement(nomElement);
                 addDataToView(zoneElement);
             }
         }catch (Exception e){
