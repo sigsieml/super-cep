@@ -1,5 +1,7 @@
 package com.example.super_cep.view;
 
+import static com.example.super_cep.model.Export.PowerpointExporter.POWERPOINT_VIERGE_NAME;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -37,6 +39,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -77,9 +80,14 @@ public class ReleveActivity extends AppCompatActivity {
     }
 
     private void setupSpinnerData() {
-        ConfigDataProvider configDataProvider = new ConfigDataProvider();
-        spinnerDataViewModel = new ViewModelProvider(this).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setSpinnerData(configDataProvider.configData);
+        ConfigDataProvider configDataProvider = null;
+        try {
+            configDataProvider = ConfigDataProvider.configDataProviderFromInputStream(getAssets().open(ConfigDataProvider.CONFIG_FILE_NAME));
+            spinnerDataViewModel = new ViewModelProvider(this).get(SpinnerDataViewModel.class);
+            spinnerDataViewModel.setSpinnerData(configDataProvider.configData);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

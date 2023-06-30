@@ -1,0 +1,294 @@
+{
+  "configData": {
+    "typeChauffageProducteurEmetteur": [
+      "Radiateurs électriques",
+      "Poêles à bois",
+      "Pompes à chaleur air-air",
+      "Poêles à granulés",
+      "Inconnu"
+    ],
+    "energieElectrique": [
+      "Electricité"
+    ],
+    "typeChauffageEmetteur": [
+      "Convecteur électrique simple",
+      "Panneau rayonnant électrique",
+      "Radiateur à inertie électrique",
+      "Emetteur à infrarouges",
+      "Plancher chauffant",
+      "Ventilo-convecteur",
+      "Aérotherme",
+      "Radiateur acier avec rob thermo",
+      "Radiateur acier sans rob thermo",
+      "Radiateur fonte avec rob thermo",
+      "Radiateur fonte sans rob thermo",
+      "Inconnu"
+    ],
+    "marqueClimatisation": [
+      "Daikin",
+      "Mitsubishi",
+      "Hitachi",
+      "Panasonic",
+      "Toshiba",
+      "Fujitsu General",
+      "Technibel",
+      "Samsung",
+      "LG",
+      "Altech",
+      "Inconnu"
+    ],
+    "energieGaz": [
+      "Gaz Naturel",
+      "Propane Réseau",
+      "Propane Cuve"
+    ],
+    "preconisations": [
+      "Remplacer les tubes fluo par des LEDS",
+      "Réaliser une isolation thermique extérieur",
+      "Remplacer les menuiseries",
+      "Remplacer le système de chauffage",
+      "Remplacer le système de régulation ancien"
+    ],
+    "typeMenuiserie": [
+      "Fenêtre",
+      "Porte-fenêtre",
+      "Fenêtre de toiture",
+      "Porte Pleine",
+      "Inconnu"
+    ],
+    "typeSol": [
+      "Terre plein",
+      "Vide sanitaire",
+      "Cave",
+      "Sous-sol",
+      "Inconnu"
+    ],
+    "typeRegulation": [
+      "interrupteur",
+      "détection de présence",
+      "relance temporisée",
+      "Inconnu"
+    ],
+    "typeMur": [
+      "Béton",
+      "Pierre",
+      "Bois",
+      "Brique",
+      "Parpaing",
+      "Métal",
+      "Inconnu"
+    ],
+    "typeClimatisation": [
+      "Climatisation réversible",
+      "Climatisation non réversible",
+      "PAC air/air",
+      "PAC air/eau",
+      "PAC géothermique",
+      "Inconnu"
+    ],
+    "niveauIsolation": [
+      "Non isolé",
+      "Faiblement isolé",
+      "Moyennement isolé",
+      "Assez bien isolé",
+      "Bien isolé",
+      "Niveau d'isolation inconnu"
+    ],
+    "marqueECS": [
+      "Atlantic",
+      "Thermor",
+      "De Dietrich",
+      "Chaffoteaux",
+      "Styx",
+      "Inconnu"
+    ],
+    "typeECS": [
+      "Cumulus électrique",
+      "Cumulus propane",
+      "Cumulus fioul",
+      "Micro accumulation",
+      "Instantané",
+      "Ballon intégré chaudière",
+      "Inconnu"
+    ],
+    "typeEclairage": [
+      "LED",
+      "Tube fluorescent",
+      "Fluocompact",
+      "Ampoule basse consommation",
+      "Halogène",
+      "Inconnu"
+    ],
+    "materiau": [
+      "Aluminium",
+      "Bois",
+      "PVC",
+      "Mixte",
+      "Polycarbonate",
+      "Inconnu"
+    ],
+    "marqueProducteur": [
+      "Acova",
+      "Airelec",
+      "Ariston",
+      "Atlantic",
+      "Chappee",
+      "Daikin",
+      "De Dietrich",
+      "Frisquet",
+      "Froling",
+      "Noirot",
+      "Oertli",
+      "Okofen",
+      "Sauter",
+      "Thermor",
+      "Unical",
+      "Vaillant",
+      "Viessmann",
+      "Weishaupt",
+      "Inconnu"
+    ],
+    "marqueProducteurEmetteur": [
+      "Mitsubishi",
+      "Daikin",
+      "Hitachi",
+      "Inconnu"
+    ],
+    "formuleTarifaire": [
+      "C5 base",
+      "C5 HP/HC",
+      "C5 HPH HCH HPE HCE",
+      "C4",
+      "Inconnu"
+    ],
+    "typeVentilation": [
+      "Ventilation naturelle",
+      "VMC simple flux",
+      "VMC double flux",
+      "Inconnu"
+    ],
+    "regulationChauffage": [
+      "Thermostat simple sur émetteur",
+      "Thermostat programmable centralisé",
+      "Régulation programmable à distance",
+      "GTC",
+      "Horloge",
+      "Sonde d'ambiance intérieure",
+      "Interrupteur",
+      "T° constante",
+      "Loi d'eau et vanne(s) 3 voies",
+      "Loi d'eau + programmation hebdo confort / réduit / HG",
+      "Sonde d'ambiance + programmation hebdo confort / réduit / HG",
+      "Télécommande",
+      "Inconnu"
+    ],
+    "typeVitrage": [
+      "Simple vitrage",
+      "Double vitrage ancien",
+      "Double vitrage assez récent",
+      "Double vitrage récent",
+      "DV 4-6-4 ou éq",
+      "DV 4-8-4 ou éq",
+      "DV 4-10-4 ou éq",
+      "DV 4-12-4 ou éq",
+      "DV 4-14-4 ou éq",
+      "DV 4-16-4 ou éq",
+      "DV 4-20-4 ou éq",
+      "Triple vitrage",
+      "Inconnu"
+    ],
+    "typeDeMiseEnOeuvre": [
+      "Extérieur",
+      "Intérieur",
+      "de façon répartie",
+      "Aucun",
+      "Inconnu"
+    ],
+    "protectionsSolaires": [
+      "Volets roulants électriques extérieurs",
+      "Persiennes",
+      "Volets extérieurs simples",
+      "Grille ou grillage extérieur",
+      "Rideau intérieur",
+      "Inconnu"
+    ],
+    "typeChauffageProducteur": [
+      "Chaudière gaz simple",
+      "Chaudière gaz à condensation",
+      "Chaudière fioul simple",
+      "Chaudière fioul à condensation",
+      "Chaudière bois granulés",
+      "Chaudière bois plaquettes",
+      "PAC air/air",
+      "PAC air/eau",
+      "PAC géothermique",
+      "Chaudière électrique",
+      "Inconnu"
+    ],
+    "marqueEmetteur": [
+      "Acova",
+      "Airelec",
+      "Atlantic",
+      "Sauter",
+      "Thermor",
+      "Inconnu"
+    ],
+    "typeIsolant": [
+      "Laine de verre",
+      "Laine minérale",
+      "Laine de roche",
+      "Polystyrène",
+      "Fibre de bois",
+      "Laine de bois",
+      "Ouate de celllulose",
+      "Laine minérale soufflée",
+      "Polyurethane",
+      "Verre cellulaire",
+      "Isolant biosourcé",
+      "Isolant inconnu"
+    ],
+    "typeToiture": [
+      "Faux plafond en dalles",
+      "Plafond en platre",
+      "Plafond autres",
+      "Toiture terrasse",
+      "Rampants",
+      "Combles perdues",
+      "Inconnu"
+    ],
+    "regulationClimatisation": [
+      "Régulateur thermostatique",
+      "Régulateur séquentiel",
+      "Capteurs",
+      "Actionneurs",
+      "Régulateur",
+      "Domotique",
+      "Inconnu"
+    ],
+    "regulationVentilation": [
+      "Absence de régulation",
+      "Horloge",
+      "Programmation horaire",
+      "Sonde CO2",
+      "Interrupteur",
+      "relance temporisée",
+      "Inconnu"
+    ],
+    "energieAutre": [
+      "Bois Granulés",
+      "Bois Déchiqueté",
+      "Bois Bûches",
+      "Fioul",
+      "Inconnue"
+    ],
+    "nomRemarques": [
+      "Descriptif de l'enveloppe thermique",
+      "Descriptif des systèmes",
+      "Usage et occupation du bâtiment",
+      "Elements de contexte sur le bâtiment",
+      "Descriptif du chauffage",
+      "Energie et consommations",
+      "Remarque diverse"
+    ]
+  }
+}
