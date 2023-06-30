@@ -11,7 +11,7 @@ import com.example.super_cep.R;
 
 public class ZoneViewHolder extends RecyclerView.ViewHolder {
 
-    private View root;
+    public View root;
 
     public ZoneViewHolder(@NonNull View root) {
         super(root);

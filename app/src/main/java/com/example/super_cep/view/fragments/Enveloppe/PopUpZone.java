@@ -9,42 +9,57 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.PopupNouvelleZoneBinding;
 import com.example.super_cep.model.Releve.Releve;
 
-public class PopUpNouvelleZone extends View {
+public class PopUpZone extends View {
+
+    public static void show(Context context, PopUpZoneHandler handler, ReleveViewModel releveViewModel){
+        new PopUpZone(context, handler, releveViewModel);
+    }
+
+    public static void show(Context context, PopUpZoneHandler handler, ReleveViewModel releveViewModel, String zoneModifier){
+        new PopUpZone(context, handler, releveViewModel, zoneModifier);
+    }
+
     PopupNouvelleZoneBinding binding;
     private ReleveViewModel releveViewModel;
-    private PopUpNouvelleZoneHandler handler;
-    public PopUpNouvelleZone(Context context, PopUpNouvelleZoneHandler handler, ReleveViewModel releveViewModel) {
+    private PopUpZoneHandler handler;
+    private final PopupWindow pw;
+
+    private String zoneModifier;
+
+    private PopUpZone(Context context, PopUpZoneHandler handler, ReleveViewModel releveViewModel) {
+        this(context, handler, releveViewModel, null);
+        setupNomZone();
+    }
+
+
+    private PopUpZone(Context context, PopUpZoneHandler handler, ReleveViewModel releveViewModel, String zoneModifier){
         super(context);
         this.releveViewModel = releveViewModel;
         this.handler = handler;
+        this.zoneModifier = zoneModifier;
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_nouvelle_zone, null);
         binding = PopupNouvelleZoneBinding.bind(popupView);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow pw = new PopupWindow(popupView, width, height, focusable);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
-        pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
+        pw = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         pw.setAnimationStyle(R.style.Animation);
-        pw.update();
+        pw.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        setupButtons();
 
-        setupNomZone();
+        if(zoneModifier != null){
+            binding.editTextNomNouvelleZone.setText(zoneModifier);
+            binding.textViewTitle.setText("Modifier le nom de la  zone : " + zoneModifier);
+        }
 
+    }
+
+    private void setupButtons() {
         binding.buttonAnnuler.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +71,12 @@ public class PopUpNouvelleZone extends View {
             @Override
             public void onClick(View v) {
                 pw.dismiss();
-                handler.nouvelleZone(binding.editTextNomNouvelleZone.getText().toString());
+                if(zoneModifier != null){
+                    handler.editZone(zoneModifier, binding.editTextNomNouvelleZone.getText().toString());
+                }
+                else{
+                    handler.nouvelleZone(binding.editTextNomNouvelleZone.getText().toString());
+                }
             }
         });
     }

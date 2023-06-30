@@ -3,13 +3,12 @@ package com.example.super_cep.view.fragments.Chauffages;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,8 @@ import com.example.super_cep.databinding.FragmentChauffagesBinding;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Zone;
-import com.example.super_cep.view.fragments.ECS.FragmentECSDirections;
-import com.example.super_cep.view.fragments.Enveloppe.Enveloppe;
-import com.example.super_cep.view.fragments.Enveloppe.PopUpNouvelleZone;
-import com.example.super_cep.view.fragments.Enveloppe.PopUpNouvelleZoneHandler;
+import com.example.super_cep.view.fragments.Enveloppe.PopUpZone;
+import com.example.super_cep.view.fragments.Enveloppe.PopUpZoneHandler;
 
 public class FragmentChauffage extends Fragment {
 
@@ -47,7 +44,7 @@ public class FragmentChauffage extends Fragment {
         binding.fabZone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), new PopUpNouvelleZoneHandler() {
+                PopUpZone.show(getContext(), new PopUpZoneHandler() {
                     @Override
                     public void nouvelleZone(String nomZone) {
                         try {
@@ -55,6 +52,11 @@ public class FragmentChauffage extends Fragment {
                         }catch (IllegalArgumentException e){
                             Toast.makeText(getContext(), "une zone avec le même nom existe déjà", Toast.LENGTH_SHORT).show();
                         }
+                    }
+
+                    @Override
+                    public void editZone(String oldNomZone, String newNomZone) {
+                        throw new UnsupportedOperationException();
                     }
                 }, releveViewModel);
             }
@@ -95,7 +97,12 @@ public class FragmentChauffage extends Fragment {
 
             @Override
             public void moveZoneElement(String nomChauffage, String nomPreviousZone, String nomNewZone) {
-
+                try {
+                    releveViewModel.moveChauffage(nomChauffage, nomPreviousZone, nomNewZone);
+                }catch (Exception e){
+                    Log.e("moveZoneElement", e.getMessage());
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+
+import org.apache.harmony.luni.util.NotImplementedException;
 
 public class Enveloppe extends Fragment implements ZoneUiHandler {
 
@@ -82,10 +85,15 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopUpNouvelleZone popUpNouvelleZone = new PopUpNouvelleZone(getContext(), new PopUpNouvelleZoneHandler() {
+                PopUpZone.show(getContext(), new PopUpZoneHandler() {
                     @Override
                     public void nouvelleZone(String nomZone) {
                         Enveloppe.this.nouvelleZone(nomZone);
+                    }
+
+                    @Override
+                    public void editZone(String oldNomZone, String newNomZone) {
+                        throw new UnsupportedOperationException();
                     }
                 }, releveViewModel);
             }
@@ -165,6 +173,26 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
             });
             builder.show();
 
+    }
+
+    @Override
+    public void editNomZone(Zone zone) {
+        PopUpZone.show(getContext(), new PopUpZoneHandler() {
+            @Override
+            public void nouvelleZone(String nomZone) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void editZone(String oldNomZone, String newNomZone) {
+                try {
+                    releveViewModel.editZone(oldNomZone, newNomZone);
+                }catch (Exception e){
+                    Log.e("Enveloppe", "editNomZone: ", e);
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, releveViewModel, zone.nom);
     }
 
 

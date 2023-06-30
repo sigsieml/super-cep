@@ -305,4 +305,67 @@ public class ReleveViewModel extends ViewModel {
         releve.getValue().preconisations.addAll(preconisation);
         forceUpdateReleve();
     }
+
+    public void editZone(String oldNomZone, String newNomZone) {
+        Releve releve = this.releve.getValue();
+        if(!releve.zones.containsKey(oldNomZone)){
+            throw new IllegalArgumentException("La zone n'existe pas");
+        }
+        if(oldNomZone.equals(newNomZone)){
+            return;
+        }
+        if(releve.zones.containsKey(newNomZone)){
+            throw new IllegalArgumentException("Une zone porte déjà ce nom : " + newNomZone);
+        }
+        Zone zone = releve.zones.get(oldNomZone);
+        zone.nom = newNomZone;
+        releve.zones.remove(oldNomZone);
+        releve.zones.put(newNomZone, zone);
+        for (Ventilation ventilation : releve.ventilations.values()) {
+            for (String zoneVentilation : ventilation.zones.toArray(new String[0])) {
+                if(zoneVentilation.equals(oldNomZone)){
+                    ventilation.zones.remove(oldNomZone);
+                    ventilation.zones.add(newNomZone);
+                }
+            }
+        }
+        for (Climatisation climatisation : releve.climatisations.values()) {
+            for (String zoneClimatisation : climatisation.zones.toArray(new String[0])) {
+                if(zoneClimatisation.equals(oldNomZone)){
+                    climatisation.zones.remove(oldNomZone);
+                    climatisation.zones.add(newNomZone);
+                }
+            }
+
+        }
+        for (Chauffage chauffage : releve.chauffages.values().toArray(new Chauffage[0])) {
+            if(chauffage instanceof ChauffageCentraliser){
+                ChauffageCentraliser chauffageCentraliser =  ((ChauffageCentraliser) chauffage);
+                for (String zoneChauffage : chauffageCentraliser.zones.toArray(new String[0])) {
+                    if(zoneChauffage.equals(oldNomZone)){
+                        chauffageCentraliser.zones.remove(oldNomZone);
+                        chauffageCentraliser.zones.add(newNomZone);
+                    }
+                }
+            }
+            if(chauffage instanceof ChauffageDecentraliser){
+                if(((ChauffageDecentraliser) chauffage).zone.equals(oldNomZone)){
+                    ((ChauffageDecentraliser) chauffage).zone = newNomZone;
+                }
+            }
+        }
+        setReleve(releve);
+    }
+
+    public void moveChauffage(String nomChauffage, String nomPreviousZone, String nomNewZone) {
+        Releve releve = this.releve.getValue();
+
+        Chauffage chauffage = releve.chauffages.get(nomChauffage);
+        if(chauffage instanceof ChauffageCentraliser){
+            throw new IllegalArgumentException("Un chauffage centralisé ne peut pas être déplacé");
+        }
+        ChauffageDecentraliser chauffageDecentraliser = (ChauffageDecentraliser) chauffage;
+        chauffageDecentraliser.zone= nomNewZone;
+        setReleve(releve);
+    }
 }

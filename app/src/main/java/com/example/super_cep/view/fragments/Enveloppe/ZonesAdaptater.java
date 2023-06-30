@@ -54,6 +54,12 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
     @Override
     public void onBindViewHolder(@NonNull ZoneViewHolder holder, int position) {
         Zone zone = zonesFiltrer[position];
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zoneUiHandler.editNomZone(zone);
+            }
+        });
         setupDragAndDrop(holder, zone);
         holder.getZoneName().setText(zone.nom);
         updateZoneElements(holder, zone);

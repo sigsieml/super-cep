@@ -11,4 +11,5 @@ public interface ZoneUiHandler {
 
     void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone);
 
+    void editNomZone(Zone zone);
 }
