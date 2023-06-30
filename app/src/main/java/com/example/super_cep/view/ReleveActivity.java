@@ -161,7 +161,7 @@ public class ReleveActivity extends AppCompatActivity {
                             ReleveSaver releveSaver = new ReleveSaver(ReleveActivity.this);
                             if(releveViewModel.getReleve().getValue().nomBatiment == null || releveViewModel.getReleve().getValue().nomBatiment.isEmpty()){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ReleveActivity.this);
-                                builder.setMessage("Le Releve n'a pas de nom de batiment et donc ne sera pas sauvegarder continuer ?");
+                                builder.setMessage("Le relevé n'a pas de nom de bâtiment et donc ne sera pas sauvegardée. Continuer ?");
                                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
