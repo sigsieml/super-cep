@@ -77,14 +77,14 @@ public class PowerpointExporter {
              XMLSlideShow ppt = new XMLSlideShow(is)){
 
             List<XSLFSlide> slides = ppt.getSlides();
-            XSLFSlide slideDescriptifEnveloppeThermique = slides.get(3);
-            XSLFSlide slideDescriptifDesSystem = slides.get(4);
-            XSLFSlide slideDescriptifDuChauffage = slides.get(5);
-            XSLFSlide slidePreconisations = slides.get(6);
+            XSLFSlide slideDescriptifEnveloppeThermique = slides.get(4);
+            XSLFSlide slideDescriptifDesSystem = slides.get(5);
+            XSLFSlide slideDescriptifDuChauffage = slides.get(6);
+            XSLFSlide slidePreconisations = slides.get(7);
 
             slideBatiment(ppt, slides.get(0));
-            slideEnergieEtConsomations(slides.get(1));
-            slideUsageEtOccupationDuBatiment(ppt, slides.get(2));
+            slideEnergieEtConsomations(slides.get(2));
+            slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
             slideDescriptifEnveloppeThermique(ppt,slideDescriptifEnveloppeThermique);
             slideDescriptifDesSystem(ppt, slideDescriptifDesSystem);
             slideDescriptifDuChauffage(ppt, slideDescriptifDuChauffage);
