@@ -21,8 +21,10 @@ import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Ventilation;
 
+import org.apache.poi.sl.usermodel.PaintStyle;
 import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.sl.usermodel.TextParagraph;
+import org.apache.poi.sl.usermodel.TextRun;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
@@ -32,6 +34,7 @@ import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
+import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 
 import java.awt.Color;
@@ -198,11 +201,28 @@ public class PowerpointExporter {
     private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
         Calendrier[] calendriers = releve.getCalendriersValues();
         if(calendriers.length == 0){
-            for(XSLFShape shape : slide){
-                if(shape instanceof XSLFTextShape){
-                    PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+            for(XSLFShape shape : slide.getShapes().toArray(new XSLFShape[0])){
+                String name = shape.getShapeName();
+                if(name.equals("tableauUsageEtOccupation")){
+                    slide.removeShape(shape);
                 }
+                if(name.equals("Usage et occupation du bâtiment")){
+                    if(remplacements.containsKey("Usage et occupation du bâtiment")){
+                        PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+                    }else{
+                        ((XSLFTextShape)shape).getTextBody().setText("Aucune remarque");
+                    }
+                }
+                if(name.equals("nomCalendrier")){
+                    ((XSLFTextShape)shape).getTextBody().setText("Aucun calendrier");
+
+                }
+                if(name.equals("nomZones")){
+                    ((XSLFTextShape)shape).getTextBody().setText("Aucune zone");
+                }
+
             }
+
             return;
         }
         XSLFSlide[] slidesCalendrier = new XSLFSlide[calendriers.length];
