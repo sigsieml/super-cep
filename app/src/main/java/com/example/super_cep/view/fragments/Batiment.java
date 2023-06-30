@@ -266,7 +266,27 @@ public class Batiment extends Fragment {
 
         binding.buttonAjouterImage.setOnClickListener(newPhotoOnClick);
         binding.imageView2.setOnClickListener(newPhotoOnClick);
-
+        binding.imageView2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // show a dialog to confirm the deletion
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Supprimer l'image ?");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binding.imageView2.setImageURI(null);
+                        Releve releve = releveViewModel.getReleve().getValue();
+                        releve.imageBatiment = null;
+                        releveViewModel.setReleve(releve);
+                        binding.buttonAjouterImage.setVisibility(View.VISIBLE);
+                    }
+                });
+                builder.setNegativeButton("Non", null);
+                builder.show();
+                return true;
+            }
+        });
     }
 
     @Override
