@@ -106,6 +106,9 @@ public class ReleveViewModel extends ViewModel {
     }
 
     public void addCalendrier(Calendrier calendrier){
+        if(releve.getValue().calendriers.containsKey(calendrier.nom)){
+            throw new IllegalArgumentException("Un calendrier porte déjà ce nom");
+        }
         releve.getValue().addCalendrier(calendrier);
         forceUpdateReleve();
     }

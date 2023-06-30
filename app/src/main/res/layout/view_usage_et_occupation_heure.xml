@@ -4,24 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_black">
+    android:background="@drawable/border_black_thin">
 
         <TextView
             android:id="@+id/textViewHeur"
-            android:layout_width="45dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:autoSizeTextType="none"
+            android:singleLine="false"
+            android:text="12h30"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewFire"
+            android:layout_width="10dp"
+            android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            android:autoSizeTextType="uniform"
-            android:text="12h30"
-            android:textAlignment="center"
-            android:textSize="12sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/textViewHeur"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_menu_chauffages" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,11 @@ public class UsageEtOccupation extends Fragment {
                 PopUpAjoutCalendrier.create(getContext(),releveViewModel.getReleve().getValue().getZonesValues(), new PopUpAjoutCalendrierListener() {
                     @Override
                     public void onValider(Calendrier calendrier) {
-                        releveViewModel.addCalendrier(calendrier);
+                        try {
+                            releveViewModel.addCalendrier(calendrier);
+                        }catch (Exception e){
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

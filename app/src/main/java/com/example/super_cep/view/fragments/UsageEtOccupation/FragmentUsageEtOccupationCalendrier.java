@@ -85,8 +85,8 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
 
         chaufferOccuperDrawable = getResources().getDrawable(R.drawable.border_green);
         chaufferDrawable = getResources().getDrawable(R.drawable.shape_red_corners);
-        occuperDrawable = getContext().getResources().getDrawable(R.drawable.shape_yellow_corners);
-        videDrawable = getContext().getResources().getDrawable(R.drawable.border_black);
+        occuperDrawable = getContext().getResources().getDrawable(R.drawable.border_purple700);
+        videDrawable = getContext().getResources().getDrawable(R.drawable.border_black_thin);
 
 
         setupToggleButton();
@@ -163,10 +163,12 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
                 if(map.containsKey(calendrierDate)){
                     ChaufferOccuper chaufferOccuper = map.get(calendrierDate);
                     if(chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER){
-                        bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
+                        bindingViewHeure.getRoot().setBackground(occuperDrawable);
+                        bindingViewHeure.imageViewFire.setVisibility(View.VISIBLE);
                     }else if(chaufferOccuper == ChaufferOccuper.CHAUFFER) {
-                        bindingViewHeure.getRoot().setBackground(chaufferDrawable);
+                        bindingViewHeure.imageViewFire.setVisibility(View.VISIBLE);
                     }else if(chaufferOccuper == ChaufferOccuper.OCCUPER){
+                        bindingViewHeure.imageViewFire.setVisibility(View.INVISIBLE);
                         bindingViewHeure.getRoot().setBackground(occuperDrawable);
                     }
                 }
@@ -198,22 +200,14 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
                         mapLastDoubleTap.put(childHeur, timeStampDoubleTap);
                         ViewUsageEtOccupationHeureBinding bindingViewHeure = ViewUsageEtOccupationHeureBinding.bind(childHeur);
                         if(modeChauffage){
-                            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable){
-                                bindingViewHeure.getRoot().setBackground(occuperDrawable);
-                            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable){
-                                bindingViewHeure.getRoot().setBackground(videDrawable);
-                            }else if(bindingViewHeure.getRoot().getBackground() == occuperDrawable){
-                                bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
+                            if(bindingViewHeure.imageViewFire.getVisibility() == View.VISIBLE){
+                                bindingViewHeure.imageViewFire.setVisibility(View.INVISIBLE);
                             }else {
-                                bindingViewHeure.getRoot().setBackground(chaufferDrawable);
+                                bindingViewHeure.imageViewFire.setVisibility(View.VISIBLE);
                             }
                         }else{
-                            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable) {
-                                bindingViewHeure.getRoot().setBackground(chaufferDrawable);
-                            }else  if(bindingViewHeure.getRoot().getBackground() == occuperDrawable){
+                            if(bindingViewHeure.getRoot().getBackground() == occuperDrawable){
                                 bindingViewHeure.getRoot().setBackground(videDrawable);
-                            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable){
-                                bindingViewHeure.getRoot().setBackground(chaufferOccuperDrawable);
                             }else {
                                 bindingViewHeure.getRoot().setBackground(occuperDrawable);
                             }
@@ -301,9 +295,9 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
             View childHeur = childsHeurs[i];
             ViewUsageEtOccupationHeureBinding bindingViewHeure = ViewUsageEtOccupationHeureBinding.bind(childHeur);
             ChaufferOccuper chaufferOccuper;
-            if(bindingViewHeure.getRoot().getBackground() == chaufferOccuperDrawable) {
+            if(bindingViewHeure.getRoot().getBackground() == occuperDrawable && bindingViewHeure.imageViewFire.getVisibility() == View.VISIBLE){
                 chaufferOccuper = ChaufferOccuper.CHAUFFER_OCCUPER;
-            }else if(bindingViewHeure.getRoot().getBackground() == chaufferDrawable) {
+            }else if(bindingViewHeure.imageViewFire.getVisibility() == View.VISIBLE) {
                 chaufferOccuper = ChaufferOccuper.CHAUFFER;
             }else if(bindingViewHeure.getRoot().getBackground() == occuperDrawable) {
                 chaufferOccuper = ChaufferOccuper.OCCUPER;
