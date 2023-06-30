@@ -176,8 +176,7 @@ public class FragmentMenuiserie extends Fragment {
 
     private void addZoneElementToReleve() {
         try {
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
-            releveViewModel.forceUpdateReleve();
+            releveViewModel.addZoneElement(nomZone, getZoneElementFromViews());
             back();
             if(mode == Mode.Ajout){
                 back();
@@ -244,14 +243,7 @@ public class FragmentMenuiserie extends Fragment {
     }
 
     private void prefillZoneElementName() {
-        int index = 1;
-        String element  = "Menuiserie ";
-        Releve releve =releveViewModel.getReleve().getValue();
-        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
-            index++;
-        }
-        binding.editTextNomMenuiserie.setText(element + index);
-
+        binding.editTextNomMenuiserie.setText(releveViewModel.getNextNameForZoneElement( "Menuiserie "));
     }
 
 }

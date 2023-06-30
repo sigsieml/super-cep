@@ -182,8 +182,7 @@ public class FragmentEclairage extends Fragment {
 
     private void addZoneElementToReleve() {
         try {
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
-            releveViewModel.forceUpdateReleve();
+            releveViewModel.addZoneElement(nomZone, getZoneElementFromViews());
             back();
             if(mode == Mode.Ajout){
                 back();
@@ -245,12 +244,6 @@ public class FragmentEclairage extends Fragment {
     }
 
     private void prefillZoneElementName() {
-        int index = 1;
-        String element  = "Eclairage ";
-        Releve releve =releveViewModel.getReleve().getValue();
-        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
-            index++;
-        }
-        binding.editTextNomEclairage.setText(element + index);
+        binding.editTextNomEclairage.setText(releveViewModel.getNextNameForZoneElement( "Eclairage "));
     }
 }

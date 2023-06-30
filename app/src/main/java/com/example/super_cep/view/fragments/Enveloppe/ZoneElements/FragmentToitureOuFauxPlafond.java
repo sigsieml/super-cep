@@ -25,6 +25,7 @@ import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Toiture;
+import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
@@ -180,8 +181,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
     private void addZoneElementToReleve() {
         try {
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
-            releveViewModel.forceUpdateReleve();
+            releveViewModel.addZoneElement(nomZone, getZoneElementFromViews());
             back();
             if(mode == Mode.Ajout){
                 back();
@@ -269,14 +269,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
 
     private void prefillZoneElementName() {
-        int index = 1;
-        String element  = "Toiture ";
-        Releve releve =releveViewModel.getReleve().getValue();
-        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
-            index++;
-        }
-        binding.editTextNomToiture.setText(element + index);
-
+        binding.editTextNomToiture.setText(releveViewModel.getNextNameForZoneElement("Toiture "));
     }
 
 }

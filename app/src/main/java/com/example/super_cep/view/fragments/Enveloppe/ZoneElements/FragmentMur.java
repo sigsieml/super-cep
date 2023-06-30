@@ -189,8 +189,7 @@ public class FragmentMur extends Fragment {
 
     private void addZoneElementToReleve() {
         try {
-            releveViewModel.getReleve().getValue().getZone(nomZone).addZoneElement(getZoneElementFromViews());
-            releveViewModel.forceUpdateReleve();
+            releveViewModel.addZoneElement(nomZone, getZoneElementFromViews());
             back();
             if(mode == Mode.Ajout){
                 back();
@@ -276,17 +275,8 @@ public class FragmentMur extends Fragment {
             viewPhoto.addPhotoToView(Uri.parse(uri));
         }
     }
-
-
     private void prefillZoneElementName() {
-        int index = 1;
-        String element  = "Mur ";
-        Releve releve =releveViewModel.getReleve().getValue();
-        while(releve.getZone(nomZone).getZoneElement(element + index) != null){
-            index++;
-        }
-        binding.editTextNomMur.setText(element + index);
-
+        binding.editTextNomMur.setText(releveViewModel.getNextNameForZoneElement( "Mur "));
     }
 
 }

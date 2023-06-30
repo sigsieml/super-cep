@@ -93,8 +93,8 @@ public class ReleveViewModel extends ViewModel {
 
     public void editZoneElement(String oldNameZoneElement,String nomZone, ZoneElement zoneElement){
         Releve releve = this.releve.getValue();
-        if(!oldNameZoneElement.equals(zoneElement.nom) && releve.getZone(nomZone).getZoneElement(zoneElement.nom) != null){
-            throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
+        if(!oldNameZoneElement.equals(zoneElement.nom) && isZoneElementNameAlereadyUsed(zoneElement.nom)){
+            throw new IllegalArgumentException("Un élément porte déjà ce nom");
         }
         releve.getZone(nomZone).removeZoneElement(oldNameZoneElement);
         releve.getZone(nomZone).addZoneElement(zoneElement);
@@ -110,15 +110,20 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void addZoneElement(String nomZone, ZoneElement zoneElementFromViews) {
+        Releve releve = this.releve.getValue();
+        if(isZoneElementNameAlereadyUsed(zoneElementFromViews.nom)){
+            throw new IllegalArgumentException("Un élément porte déjà ce nom");
+        }
+        releve.getZone(nomZone).addZoneElement(zoneElementFromViews);
+        setReleve(releve);
+    }
+
     public void moveZoneElement(String nomZoneElement, String nomPreviousZone, String nomNewZone) {
         Releve releve = this.releve.getValue();
         Zone previousZone = releve.getZone(nomPreviousZone);
         Zone newZone = releve.getZone(nomNewZone);
         ZoneElement zoneElement = previousZone.getZoneElement(nomZoneElement);
-
-        if(newZone.getZoneElement(nomZoneElement) != null){
-            throw new IllegalArgumentException("Un élément de la zone porte déjà ce nom");
-        }
 
         previousZone.removeZoneElement(nomZoneElement);
         newZone.addZoneElement(zoneElement);
@@ -363,4 +368,29 @@ public class ReleveViewModel extends ViewModel {
         chauffageDecentraliser.zone= nomNewZone;
         setReleve(releve);
     }
+
+
+
+    public String getNextNameForZoneElement(String prefix){
+        int index = 1;
+        while(true){
+            String name = prefix + index;
+            if(!isZoneElementNameAlereadyUsed(name)){
+                return name;
+            }
+            index++;
+        }
+    }
+
+    private boolean isZoneElementNameAlereadyUsed(String zoneElementName){
+        Releve releve = this.releve.getValue();
+        for(Zone zone : releve.zones.values()){
+            if(zone.getZoneElements().containsKey(zoneElementName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
