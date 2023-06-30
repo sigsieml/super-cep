@@ -257,7 +257,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                     return new ApprovisionnementEnergetiqueElectrique(
                             binding.editTextNomApprovisionnementEnergetique.getText().toString(),
                             binding.spinnerEnergie.getSelectedItem().toString(),
-                            textPuissance.isEmpty() ? 0 : Float.parseFloat(textPuissance),
+                            textPuissance.isEmpty() ? Float.NaN : Float.parseFloat(textPuissance),
                             ((AutoCompleteTextView) binding.getRoot().findViewById(R.id.autoCompleteFormule)).getText().toString(),
                             viewZoneSelector.getSelectedZones(),
                             images,
