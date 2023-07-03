@@ -2,7 +2,6 @@ package com.example.super_cep.controller;
 
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 
 import androidx.lifecycle.MutableLiveData;
@@ -13,13 +12,13 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 import java.util.Map;
 
-public class SpinnerDataViewModel extends ViewModel {
+public class ConfigDataViewModel extends ViewModel {
 
 
     MutableLiveData<Map<String, List<String>>> spinnerData;
 
 
-    public SpinnerDataViewModel(){
+    public ConfigDataViewModel(){
         spinnerData = new MutableLiveData<>();
     }
 

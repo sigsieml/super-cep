@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentPreconisationBinding;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class FragmentPreconisation extends Fragment {
 
     private FragmentPreconisationBinding binding;
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     private ActivityResultLauncher<Intent> launcherGetPhoto;
     private ActivityResultLauncher<Intent> launcherCapturePhoto;
 
@@ -44,7 +44,7 @@ public class FragmentPreconisation extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentPreconisationBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         photoManager = new PhotoManager(getContext());
         setupPhotoLaunchers();
         setupRecyclerView();
@@ -58,7 +58,7 @@ public class FragmentPreconisation extends Fragment {
         binding.floatingActionButtonPreconisatioAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopUpNouvellePreconisation.create(getContext(), releveViewModel, spinnerDataViewModel, new PopUpNouvellePreconisationListener() {
+                PopUpNouvellePreconisation.create(getContext(), releveViewModel, configDataViewModel, new PopUpNouvellePreconisationListener() {
                     @Override
                     public void onValidate(List<String> preconisation) {
                         try {

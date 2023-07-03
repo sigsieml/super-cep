@@ -12,12 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentChauffageAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
@@ -74,7 +73,7 @@ public class FragmentChauffageAjout extends Fragment {
     }
     private FragmentChauffageAjoutBinding binding;
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     List<String> typeChauffageProducteur = new ArrayList<>();
     List<String> typeChauffageEmetteur = new ArrayList<>();
     List<String> typeChauffageProducteurEmetteur = new ArrayList<>();
@@ -85,8 +84,8 @@ public class FragmentChauffageAjout extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentChauffageAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        Map<String, List<String>> spinnerLiveData = spinnerDataViewModel.getSpinnerData().getValue();
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        Map<String, List<String>> spinnerLiveData = configDataViewModel.getSpinnerData().getValue();
         if(!spinnerLiveData.containsKey("typeChauffageEmetteur") || !spinnerLiveData.containsKey("typeChauffageProducteur")){
             Toast.makeText(getContext(), "Erreur lors de la récupération des données", Toast.LENGTH_SHORT).show();
             back();
@@ -207,21 +206,21 @@ public class FragmentChauffageAjout extends Fragment {
             customList.addAll(typeChauffageEmetteur);
             customList.addAll(typeChauffageProducteurEmetteur);
         }
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage, customList);
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationChauffage");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage, customList);
+        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationChauffage");
 
         binding.autoCompleteTypeChauffage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 switch (getCategorieChauffage()){
                     case Emetteur:
-                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueEmetteur");
+                        configDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueEmetteur");
                         break;
                     case Producteur:
-                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteur");
+                        configDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteur");
                         break;
                     case ProducteurEmetteur:
-                        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteurEmetteur");
+                        configDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueProducteurEmetteur");
                         break;
                     default:
                         throw new IllegalArgumentException("Categorie de chauffage inconnue");

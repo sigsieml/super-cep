@@ -10,8 +10,7 @@ import android.view.View;
 import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.databinding.ActivityMainBinding;
 import com.example.super_cep.view.ReleveActivity;
-
-import java.io.File;
+import com.example.super_cep.view.SettingsActivity.SettingsActivity;
 
 
 public class MainActivity extends AppCompatActivity implements ReleveRecentViewHolderListener {
@@ -31,6 +30,14 @@ public class MainActivity extends AppCompatActivity implements ReleveRecentViewH
             public void onClick(View v) {
                 // start ReleveActivity
                 Intent intent = new Intent(MainActivity.this, ReleveActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        activityMainBinding.modifierDonnesPreRemlisButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });

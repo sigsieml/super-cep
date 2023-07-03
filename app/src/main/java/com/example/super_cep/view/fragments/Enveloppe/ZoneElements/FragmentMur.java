@@ -1,10 +1,8 @@
 package com.example.super_cep.view.fragments.Enveloppe.ZoneElements;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -19,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
-import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentMurBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
@@ -27,8 +24,7 @@ import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
-import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 
@@ -67,7 +63,7 @@ public class FragmentMur extends Fragment {
     private FragmentMurBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     private ViewPhoto viewPhoto;
 
     @Override
@@ -180,9 +176,9 @@ public class FragmentMur extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeMur, "typeMur");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeMur, "typeMur");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
 
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
             @Override
@@ -201,8 +197,8 @@ public class FragmentMur extends Fragment {
                 }
             }
         });
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeIsolant, "typeIsolant");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeIsolant, "typeIsolant");
+        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
     }
 
 

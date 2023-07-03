@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentRemarquesBinding;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
@@ -29,7 +29,7 @@ public class FragmentRemarques extends Fragment {
 
     private FragmentRemarquesBinding binding;
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     Releve releve;
 
 
@@ -37,7 +37,7 @@ public class FragmentRemarques extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRemarquesBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         setupRecyclerView(releveViewModel.getReleve().getValue().remarques.values().toArray(new Remarque[0]));
         setupFabs();
         return binding.getRoot();
@@ -94,7 +94,7 @@ public class FragmentRemarques extends Fragment {
             public void onClick(View v) {
                 if(getActivity().getCurrentFocus() != null)
                     getActivity().getCurrentFocus().clearFocus();
-                PopupNouvelleRemarque.create(getContext(),releveViewModel, spinnerDataViewModel , new PopupNouvelleRemarqueListener() {
+                PopupNouvelleRemarque.create(getContext(),releveViewModel, configDataViewModel, new PopupNouvelleRemarqueListener() {
                     @Override
                     public void onValidate(Remarque remarque) {
                         try {

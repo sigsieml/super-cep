@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentECSAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
@@ -69,7 +69,7 @@ public class FragmentECSAjout extends Fragment {
     private FragmentECSAjoutBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
 
     private ViewZoneSelector viewZoneSelector;
@@ -81,7 +81,7 @@ public class FragmentECSAjout extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentECSAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
         updateSpinner();
@@ -178,8 +178,8 @@ public class FragmentECSAjout extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeECS, "typeECS");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueECS");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeECS, "typeECS");
+        configDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueECS");
     }
 
     private ECS getECSFromViews(){

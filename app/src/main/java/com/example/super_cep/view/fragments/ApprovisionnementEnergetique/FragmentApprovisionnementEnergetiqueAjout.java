@@ -16,12 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentApprovisionnementEnergetiqueAjoutBinding;
 import com.example.super_cep.databinding.ViewApprovisionnementEnergetiqueElectriqueBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
@@ -76,7 +75,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     private FragmentApprovisionnementEnergetiqueAjoutBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
 
     private ViewZoneSelector viewZoneSelector;
@@ -90,8 +89,8 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentApprovisionnementEnergetiqueAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerLiveData = spinnerDataViewModel.getSpinnerData();
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        spinnerLiveData = configDataViewModel.getSpinnerData();
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
         updateSpinner();
@@ -203,7 +202,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
                         viewApprovisionnementEnergetiqueElectriqueBinding = ViewApprovisionnementEnergetiqueElectriqueBinding.bind(inflated);
                     }
                     viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.VISIBLE);
-                    spinnerDataViewModel.setAutoComplete(viewApprovisionnementEnergetiqueElectriqueBinding.autoCompleteFormule, "formuleTarifaire");
+                    configDataViewModel.setAutoComplete(viewApprovisionnementEnergetiqueElectriqueBinding.autoCompleteFormule, "formuleTarifaire");
                 }else{
                     if(viewApprovisionnementEnergetiqueElectriqueBinding != null)
                         viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.GONE);
@@ -234,7 +233,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         customSpinnerData.addAll(spinnerData.get("energieElectrique"));
         customSpinnerData.addAll(spinnerData.get("energieGaz"));
         customSpinnerData.addAll(spinnerData.get("energieAutre"));
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerEnergie, customSpinnerData);
+        configDataViewModel.updateSpinnerData(binding.spinnerEnergie, customSpinnerData);
     }
 
     private ApprovisionnementEnergetique getApprovisionnementEnergetiqueFromViews(){
@@ -282,7 +281,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         viewZoneSelector.setSelectedZones(approvisionnementEnergetique.zones);
         binding.checkBoxAVerifierApprovisionnementEnergetique.setChecked(approvisionnementEnergetique.aVerifier);
         binding.editTextMultilineNoteApprovisionnementEnergetique.setText(approvisionnementEnergetique.note);
-        spinnerDataViewModel.setSpinnerSelection(binding.spinnerEnergie, approvisionnementEnergetique.energie);
+        configDataViewModel.setSpinnerSelection(binding.spinnerEnergie, approvisionnementEnergetique.energie);
 
         for (String path : approvisionnementEnergetique.images) {
             viewPhoto.addPhotoToView(Uri.parse(path));

@@ -7,9 +7,6 @@
       "Poêles à granulés",
       "Inconnu"
     ],
-    "energieElectrique": [
-      "Electricité"
-    ],
     "typeChauffageEmetteur": [
       "Convecteur électrique simple",
       "Panneau rayonnant électrique",
@@ -37,10 +34,20 @@
       "Altech",
       "Inconnu"
     ],
+    "energieElectrique": [
+      "Electricité"
+    ],
     "energieGaz": [
       "Gaz Naturel",
       "Propane Réseau",
       "Propane Cuve"
+    ],
+    "energieAutre": [
+      "Bois Granulés",
+      "Bois Déchiqueté",
+      "Bois Bûches",
+      "Fioul",
+      "Inconnue"
     ],
     "preconisations": [
       "Remplacer les tubes fluo par des LEDS",
@@ -273,13 +280,6 @@
       "Interrupteur",
       "relance temporisée",
       "Inconnu"
-    ],
-    "energieAutre": [
-      "Bois Granulés",
-      "Bois Déchiqueté",
-      "Bois Bûches",
-      "Fioul",
-      "Inconnue"
     ],
     "nomRemarques": [
       "Descriptif de l'enveloppe thermique",

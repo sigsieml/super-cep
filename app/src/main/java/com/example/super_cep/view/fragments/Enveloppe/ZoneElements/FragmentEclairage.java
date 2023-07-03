@@ -17,14 +17,13 @@ import android.widget.Toast;
 import com.example.super_cep.R;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentEclairageBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
 import com.example.super_cep.model.Releve.ZoneElement;
-import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 
@@ -64,7 +63,7 @@ public class FragmentEclairage extends Fragment {
     private FragmentEclairageBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
     private ViewPhoto viewPhoto;
     @Override
@@ -175,9 +174,9 @@ public class FragmentEclairage extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeEclairage, "typeEclairage");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "typeRegulation");
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeEclairage, "typeEclairage");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "typeRegulation");
     }
 
 

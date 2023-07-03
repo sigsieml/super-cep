@@ -11,12 +11,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.PopupPreconisationsBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 interface PopUpNouvellePreconisationListener{
@@ -24,21 +23,21 @@ interface PopUpNouvellePreconisationListener{
 }
 public class PopUpNouvellePreconisation extends View {
 
-    public static void create(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopUpNouvellePreconisationListener popupNouvelleRemarqueListener) {
-        new PopUpNouvellePreconisation(context, releveViewModel, spinnerDataViewModel, popupNouvelleRemarqueListener);
+    public static void create(Context context, ReleveViewModel releveViewModel, ConfigDataViewModel configDataViewModel, PopUpNouvellePreconisationListener popupNouvelleRemarqueListener) {
+        new PopUpNouvellePreconisation(context, releveViewModel, configDataViewModel, popupNouvelleRemarqueListener);
     }
 
     private PopupPreconisationsBinding binding;
     private PopUpNouvellePreconisationListener listener;
     private PopupWindow pw;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     private ReleveViewModel releveViewModel;
     private List<CheckBox> checkBoxesPreconisations = new ArrayList<>();
 
-    public PopUpNouvellePreconisation(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopUpNouvellePreconisationListener listener) {
+    public PopUpNouvellePreconisation(Context context, ReleveViewModel releveViewModel, ConfigDataViewModel configDataViewModel, PopUpNouvellePreconisationListener listener) {
         super(context);
         this.releveViewModel = releveViewModel;
-        this.spinnerDataViewModel = spinnerDataViewModel;
+        this.configDataViewModel = configDataViewModel;
         this.listener = listener;
         this.binding = PopupPreconisationsBinding.inflate((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         setupSpinner();
@@ -79,7 +78,7 @@ public class PopUpNouvellePreconisation extends View {
 
     private void setupSpinner() {
         List<String> preconisationsNom = releveViewModel.getReleve().getValue().preconisations;
-        List<String> spinnerDataRemarque = spinnerDataViewModel.getSpinnerData().getValue().get("preconisations");
+        List<String> spinnerDataRemarque = configDataViewModel.getSpinnerData().getValue().get("preconisations");
         for (String s :spinnerDataRemarque) {
             if(!preconisationsNom.contains(s)){
                 CheckBox checkBox = new CheckBox(getContext());

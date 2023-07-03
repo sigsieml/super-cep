@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentClimatisationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
@@ -70,7 +70,7 @@ public class FragmentClimatisationAjout extends Fragment {
     private FragmentClimatisationAjoutBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
     private ViewPhoto viewPhoto;
     private ViewZoneSelector viewZoneSelector;
@@ -80,7 +80,7 @@ public class FragmentClimatisationAjout extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentClimatisationAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
 
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
@@ -185,9 +185,9 @@ public class FragmentClimatisationAjout extends Fragment {
 
 
     private void updateSpinner() {
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationClimatisation");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeClimatisation, "typeClimatisation");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueClimatisation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationClimatisation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeClimatisation, "typeClimatisation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteMarque, "marqueClimatisation");
     }
 
     private Climatisation getClimatisationFromViews(){

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentVentilationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
@@ -69,7 +69,7 @@ public class FragmentVentilationAjout extends Fragment {
     private FragmentVentilationAjoutBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
 
     private ViewZoneSelector viewZoneSelector;
@@ -81,7 +81,7 @@ public class FragmentVentilationAjout extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentVentilationAjoutBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         viewPhoto = new ViewPhoto(binding.includeViewPhoto, this);
         viewPhoto.setupPhotoLaunchers();
         updateSpinner();
@@ -178,8 +178,8 @@ public class FragmentVentilationAjout extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "regulationVentilation");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeVentilation, "typeVentilation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "regulationVentilation");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeVentilation, "typeVentilation");
     }
 
     private Ventilation getVentilationFromViews(){

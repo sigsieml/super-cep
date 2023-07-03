@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.PopupNouvelleRemarqueBinding;
 import com.example.super_cep.model.Releve.Remarque;
 
@@ -27,20 +27,20 @@ public class PopupNouvelleRemarque extends View {
     public static final String NOM_REMARQUE_PERSONNALISEE = "Remarque personnalisee";
 
 
-    public static void create(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopupNouvelleRemarqueListener popupNouvelleRemarqueListener) {
-        new PopupNouvelleRemarque(context, releveViewModel, spinnerDataViewModel, popupNouvelleRemarqueListener);
+    public static void create(Context context, ReleveViewModel releveViewModel, ConfigDataViewModel configDataViewModel, PopupNouvelleRemarqueListener popupNouvelleRemarqueListener) {
+        new PopupNouvelleRemarque(context, releveViewModel, configDataViewModel, popupNouvelleRemarqueListener);
     }
 
     private PopupNouvelleRemarqueBinding binding;
     private PopupNouvelleRemarqueListener listener;
     private PopupWindow pw;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
     private ReleveViewModel releveViewModel;
 
-    public PopupNouvelleRemarque(Context context, ReleveViewModel releveViewModel, SpinnerDataViewModel spinnerDataViewModel, PopupNouvelleRemarqueListener listener) {
+    public PopupNouvelleRemarque(Context context, ReleveViewModel releveViewModel, ConfigDataViewModel configDataViewModel, PopupNouvelleRemarqueListener listener) {
         super(context);
         this.releveViewModel = releveViewModel;
-        this.spinnerDataViewModel = spinnerDataViewModel;
+        this.configDataViewModel = configDataViewModel;
         this.listener = listener;
         this.binding = PopupNouvelleRemarqueBinding.inflate((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         setupSpinner();
@@ -70,7 +70,7 @@ public class PopupNouvelleRemarque extends View {
 
     private void setupSpinner() {
         Set<String> remarquesNom = releveViewModel.getReleve().getValue().remarques.keySet();
-        List<String> spinnerDataRemarque = spinnerDataViewModel.getSpinnerData().getValue().get("nomRemarques");
+        List<String> spinnerDataRemarque = configDataViewModel.getSpinnerData().getValue().get("nomRemarques");
         List<String> customRemarques = new ArrayList<>();
         for (String s :spinnerDataRemarque) {
             if(!remarquesNom.contains(s)){
@@ -78,7 +78,7 @@ public class PopupNouvelleRemarque extends View {
             }
         }
         customRemarques.add(NOM_REMARQUE_PERSONNALISEE);
-        spinnerDataViewModel.updateSpinnerData(binding.spinnerNomRemarque, customRemarques);
+        configDataViewModel.updateSpinnerData(binding.spinnerNomRemarque, customRemarques);
 
     }
 

@@ -1,7 +1,5 @@
 package com.example.super_cep.view;
 
-import static com.example.super_cep.model.Export.PowerpointExporter.POWERPOINT_VIERGE_NAME;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -9,39 +7,33 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
+import com.example.super_cep.controller.ConfigDataProvider;
 import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.ActivityReleveBinding;
-import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Releve.Releve;
-import com.example.super_cep.model.SpinnerData.ConfigDataProvider;
+import com.example.super_cep.model.ConfigData.ConfigData;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 
 public class ReleveActivity extends AppCompatActivity {
 
@@ -50,7 +42,7 @@ public class ReleveActivity extends AppCompatActivity {
 
     private Releve releve;
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
 
     @Override
@@ -80,14 +72,10 @@ public class ReleveActivity extends AppCompatActivity {
     }
 
     private void setupSpinnerData() {
-        ConfigDataProvider configDataProvider = null;
-        try {
-            configDataProvider = ConfigDataProvider.configDataProviderFromInputStream(getAssets().open(ConfigDataProvider.CONFIG_FILE_NAME));
-            spinnerDataViewModel = new ViewModelProvider(this).get(SpinnerDataViewModel.class);
-            spinnerDataViewModel.setSpinnerData(configDataProvider.configData);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ConfigDataProvider configDataProvider = new ConfigDataProvider(this);
+        ConfigData configData = configDataProvider.getConfigData();
+        configDataViewModel = new ViewModelProvider(this).get(ConfigDataViewModel.class);
+        configDataViewModel.setSpinnerData(configData.map);
     }
 
 
@@ -140,6 +128,24 @@ public class ReleveActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() ==  R.id.action_save){
+
+                ReleveSaver releveSaver = new ReleveSaver(this);
+                try {
+                    releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                    Toast.makeText(this, "Relevé sauvegardé", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Log.e("ReleveActivity", "onOptionsItemSelected: ", e);
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

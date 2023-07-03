@@ -15,16 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
-import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Releve.ZoneElement;
-import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 
@@ -61,7 +59,7 @@ public class FragmentMenuiserie extends Fragment {
 
     private FragmentMenuiserieBinding binding;
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
     private ViewPhoto viewPhoto;
 
@@ -175,11 +173,11 @@ public class FragmentMenuiserie extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeMenuiserie, "typeMenuiserie");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteMatRiau, "materiau");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, "protectionsSolaires");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeVitrage, "typeVitrage");
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeMenuiserie, "typeMenuiserie");
+        configDataViewModel.setAutoComplete(binding.autoCompleteMatRiau, "materiau");
+        configDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, "protectionsSolaires");
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeVitrage, "typeVitrage");
     }
 
 

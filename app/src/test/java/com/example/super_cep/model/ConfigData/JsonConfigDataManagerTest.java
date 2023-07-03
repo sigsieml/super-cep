@@ -1,6 +1,4 @@
-package com.example.super_cep.model.SpinnerData;
-
-import static org.junit.Assert.*;
+package com.example.super_cep.model.ConfigData;
 
 import org.junit.Test;
 
@@ -14,7 +12,7 @@ public class JsonConfigDataManagerTest {
 
     @Test
     public void testSerialize() {
-        String dataProvider = JsonConfigDataManager.serialize(new ConfigDataProvider(Map.of("key", List.of("value"))));
+        String dataProvider = JsonConfigDataManager.serialize(new ConfigData(Map.of("key", List.of("value"))));
         try (FileOutputStream out = new FileOutputStream("configData.json")) {
             out.write(dataProvider.getBytes());
         } catch (FileNotFoundException e) {

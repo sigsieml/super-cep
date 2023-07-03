@@ -17,16 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
-import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
-import com.example.super_cep.controller.SpinnerDataViewModel;
+import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentSolBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
 import com.example.super_cep.model.Releve.Enveloppe.Sol;
 import com.example.super_cep.model.Releve.ZoneElement;
-import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.view.Mode;
 import com.example.super_cep.view.includeView.ViewPhoto;
 
@@ -65,7 +63,7 @@ public class FragmentSol extends Fragment {
     private FragmentSolBinding binding;
 
     private ReleveViewModel releveViewModel;
-    private SpinnerDataViewModel spinnerDataViewModel;
+    private ConfigDataViewModel configDataViewModel;
 
     private ViewPhoto viewPhoto;
     @Override
@@ -175,9 +173,9 @@ public class FragmentSol extends Fragment {
     }
 
     private void updateSpinner() {
-        spinnerDataViewModel = new ViewModelProvider(requireActivity()).get(SpinnerDataViewModel.class);
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
+        configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
+        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
         binding.autoCompleteNiveauIsolation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -192,7 +190,7 @@ public class FragmentSol extends Fragment {
                 }
             }
         });
-        spinnerDataViewModel.setAutoComplete(binding.autoCompleteIsolant, "typeIsolant");
+        configDataViewModel.setAutoComplete(binding.autoCompleteIsolant, "typeIsolant");
     }
 
 

@@ -92,6 +92,8 @@ public class Batiment extends Fragment {
         setupButtonPhoto();
 
 
+        setSaveOnFocusChangeListeners();
+
         return binding.getRoot();
     }
 
@@ -287,6 +289,22 @@ public class Batiment extends Fragment {
                 return true;
             }
         });
+    }
+
+
+
+    private void setSaveOnFocusChangeListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {saveData();}
+        };
+        binding.editTextNomBatiment.addTextChangedListener(textWatcher);
+        binding.editTextNumberDecimalSurfaceTotalChauffe.addTextChangedListener(textWatcher);
+        binding.editTextMultiLineAdresse.addTextChangedListener(textWatcher);
     }
 
     @Override
