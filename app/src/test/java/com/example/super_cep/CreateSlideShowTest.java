@@ -1,5 +1,6 @@
 package com.example.super_cep;
 
+import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.xslf.usermodel.SlideLayout;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -99,6 +100,9 @@ public class CreateSlideShowTest {
             XSLFTableRow row2 = tbl.addRow();
             row2.addCell().setText("Bob");
             row2.addCell().setText("30");
+
+            //set all border of all cells
+
 
             // Enregistrer le résultat
             try (FileOutputStream out = new FileOutputStream("test.pptx")) {

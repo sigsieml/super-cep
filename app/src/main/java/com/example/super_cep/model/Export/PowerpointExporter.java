@@ -817,43 +817,39 @@ public class PowerpointExporter {
         if(calendrierDateChaufferOccuperMap == null){
             return;
         }
-        XSLFTableRow tableName = table.getRows().get(0);
-        XSLFTableRow tableHeader = table.getRows().get(1);
+        XSLFTableRow tableHeader = table.getRows().get(0);
 
-        XSLFTableRow rowExemple = table.getRows().get(2);
+        XSLFTableRow rowExemple = table.getRows().get(1);
 
 
         for (float i = 0; i < 24; i += 0.5) {
             XSLFTableRow rowAppro = table.addRow();
             rowAppro.setHeight(rowExemple.getHeight());
 
-            for (int j = 0; j < rowExemple.getCells().size(); j++) {
-                rowAppro.addCell();
-            }
+            PowerpointExporterTools.copyNumberOfCells(rowExemple,rowAppro);
+
             List<XSLFTableCell> cells = rowAppro.getCells();
             PowerpointExporterTools.addTextToCell(cells.get(0), ((int)i ) + "h" + (i % 1 == 0 ? "00" : "30"));
-            for (int j = 1; j < 15; j++) {
+            for (int j = 1; j < 8; j++) {
                 PowerpointExporterTools.addTextToCell(cells.get(j), ".");
             }
 
             PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
         }
 
-        table.removeRow(2);
+        table.removeRow(1);
 
 
         for(CalendrierDate calendrierDate : calendrierDateChaufferOccuperMap.keySet()){
 
             List<DayOfWeek> dayOfWeeks = List.of( DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY );
-            int column = (dayOfWeeks.indexOf(calendrierDate.jour) * 2) + 1;
+            int column = dayOfWeeks.indexOf(calendrierDate.jour) + 1;
             int row = (calendrierDate.heure * 2) + calendrierDate.minute / 30;
 
             ChaufferOccuper chaufferOccuper = calendrierDateChaufferOccuperMap.get(calendrierDate);
             if(chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER){
                 XSLFTableCell cell = table.getCell(row, column);
-                setCellOccuper(cell);
-                XSLFTableCell cell2 = table.getCell(row, column + 1);
-                setCellChauffer(cell2);
+                setCellChaufferOccuper(cell);
             }else if(chaufferOccuper == ChaufferOccuper.CHAUFFER) {
                 XSLFTableCell cell = table.getCell(row, column + 1);
                 setCellChauffer(cell);
@@ -866,12 +862,21 @@ public class PowerpointExporter {
     }
 
     private void setCellChauffer(XSLFTableCell cell){
-
-        cell.setFillColor(new Color(237,125,49));
+        Color color = new Color(0xCE0000);
+        cell.setFillColor(color);
+        cell.getTextBody().setText("🔥");
     }
 
-    private void setCellOccuper(XSLFTableCell cell){
-        cell.setFillColor(new Color(255,255,0));
+    private void setCellOccuper( XSLFTableCell cell){
+        Color color = new Color(0x00B8FA);
+        cell.getTextBody().setText("🥶");
+        cell.setFillColor(color);
+    }
+
+    private void setCellChaufferOccuper(XSLFTableCell cell){
+        Color color = new Color(0x44546a);
+        cell.setFillColor(color);
+        cell.getTextBody().setText("🙂🔥");
     }
 
 
