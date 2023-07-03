@@ -1,6 +1,8 @@
 package com.example.super_cep.view.fragments.ExportData;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 
@@ -26,16 +28,10 @@ public class AndroidPowerpointProvider implements PowerpointPlatformProvider {
 
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
-            byte[] buffer = new byte[1024];
-            int read;
-
-            while ((read = inputStream.read(buffer)) != -1) {
-                baos.write(buffer, 0, read);
-            }
-
-
-            return baos.toByteArray();
-
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            return out.toByteArray();
         } catch (Exception e) {
             // Handle exception
             e.printStackTrace();

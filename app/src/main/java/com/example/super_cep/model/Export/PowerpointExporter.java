@@ -22,6 +22,7 @@ import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Ventilation;
 
 import org.apache.poi.sl.usermodel.PaintStyle;
+import org.apache.poi.sl.usermodel.PictureData;
 import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.sl.usermodel.TextParagraph;
 import org.apache.poi.sl.usermodel.TextRun;
