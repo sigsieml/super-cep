@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import org.apache.harmony.luni.util.NotImplementedException;
 import org.apache.poi.sl.draw.DrawFactory;
 import org.apache.poi.sl.draw.DrawTableShape;
 import org.apache.poi.sl.draw.DrawTextShape;
@@ -14,6 +15,7 @@ import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.sl.usermodel.TextParagraph;
 import org.apache.poi.sl.usermodel.VerticalAlignment;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSheet;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -270,4 +272,18 @@ public class PowerpointExporterTools {
         }
     }
 
+    public static  PictureData.PictureType getPictureTypeFromBytes(byte[] buffer) {
+            if (buffer[0] == (byte) 0x89 && buffer[1] == (byte) 0x50 && buffer[2] == (byte) 0x4E && buffer[3] == (byte) 0x47) {
+                return PictureData.PictureType.PNG;
+            } else if (buffer[0] == (byte) 0xff && buffer[1] == (byte) 0xd8) {
+                return PictureData.PictureType.JPEG;
+            } else if (buffer[0] == (byte) 0x42 && buffer[1] == (byte) 0x4d) {
+                return PictureData.PictureType.BMP;
+
+            } else if (buffer[0] == (byte) 0x47 && buffer[1] == (byte) 0x49 && buffer[2] == (byte) 0x46) {
+                return PictureData.PictureType.GIF;
+            }else{
+                throw new NotImplementedException("Format non supporté");
+            }
+    }
 }

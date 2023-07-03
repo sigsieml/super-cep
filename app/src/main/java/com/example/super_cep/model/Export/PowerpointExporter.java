@@ -775,12 +775,13 @@ public class PowerpointExporter {
             double y = anchor.getY() + cellHeight * row;
 
             byte[] pictureBytes = platformProvider.getImagesByteFromPath(imagePaths.get(i));
+
             if(pictureBytes == null){
                 continue;
             }
             // Add the image to the slideshow
             //get pictureType from the extension of the file
-            XSLFPictureData pictureData = ppt.addPicture(pictureBytes, PowerpointExporterTools.getPictureTypeFromFileExtension(imagePaths.get(i)));
+            XSLFPictureData pictureData = ppt.addPicture(pictureBytes, PowerpointExporterTools.getPictureTypeFromBytes(pictureBytes));
             XSLFPictureShape picture = slide.createPicture(pictureData);
 
 
