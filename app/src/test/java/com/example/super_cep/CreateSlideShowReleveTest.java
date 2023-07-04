@@ -16,7 +16,8 @@ import java.io.InputStream;
 
 public class CreateSlideShowReleveTest {
 
-    public static final String PATH_RELEVE = "super bâtiment  sans uri.json";
+    public static final String PATH_RELEVE = "super bâtiment.json";
+    public static final String PATH_GROS_RELEVE = "super bâtiment beaucoup de murs.json";
     public static final String PATH_POWERPOINT = "powerpointvierge.pptx";
     @Test
     public void testOpenFile(){
@@ -39,7 +40,7 @@ public class CreateSlideShowReleveTest {
 
     @Test
     public void createSlideShowReleveTest(){
-        Releve releve = getReleve();
+        Releve releve = getReleve(PATH_RELEVE);
         // open file in assets
         PowerpointExporter exporter = new PowerpointExporter(new pcPowerpointProvider());
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
@@ -54,17 +55,34 @@ public class CreateSlideShowReleveTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
-    private Releve getReleve() {
+    @Test
+    public void createSlideShowGrosReleveTest(){
+        Releve releve = getReleve(PATH_GROS_RELEVE);
+        // open file in assets
+        PowerpointExporter exporter = new PowerpointExporter(new pcPowerpointProvider());
+        InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
+        try {
+            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);
+
+            // display in console the path of the file of test.pptx to open it
+            System.out.println(new File("test.pptx").getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Releve getReleve(String path) {
         Releve releve;
         //get text from file
 
 
         try {
-            InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_RELEVE);
+            InputStream is = getClass().getClassLoader().getResourceAsStream(path);
             String text = new String(is.readAllBytes());
             releve = JsonReleveManager.deserialize(text);
             is.close();

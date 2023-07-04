@@ -1,9 +1,5 @@
 package com.example.super_cep.model.Export;
 
-import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.util.Log;
 
 import org.apache.harmony.luni.util.NotImplementedException;
 import org.apache.poi.sl.draw.DrawFactory;
@@ -189,7 +185,7 @@ public class PowerpointExporterTools {
                     assert(col2 < cols);
                     XSLFTableCell tc2 = tableau.getCell(row, col2);
                     if (tc2.getGridSpan() != 1 || tc2.getRowSpan() != 1) {
-                        Log.w("apachePOI", "invalid table span - rendering result is probably wrong");
+                        System.out.println("apachePOI" + "invalid table span - rendering result is probably wrong");
                     }
                     mergedBounds.add(tc2.getAnchor());
                 }
@@ -197,7 +193,7 @@ public class PowerpointExporterTools {
                     assert(row2 < rows);
                     XSLFTableCell tc2 = tableau.getCell(row2, col);
                     if (tc2.getGridSpan() != 1 || tc2.getRowSpan() != 1) {
-                        Log.w("apachePOI", "invalid table span - rendering result is probably wrong");
+                        System.out.println("apachePOI" + "invalid table span - rendering result is probably wrong");
                     }
                     mergedBounds.add(tc2.getAnchor());
                 }
@@ -273,17 +269,43 @@ public class PowerpointExporterTools {
     }
 
     public static  PictureData.PictureType getPictureTypeFromBytes(byte[] buffer) {
-            if (buffer[0] == (byte) 0x89 && buffer[1] == (byte) 0x50 && buffer[2] == (byte) 0x4E && buffer[3] == (byte) 0x47) {
-                return PictureData.PictureType.PNG;
-            } else if (buffer[0] == (byte) 0xff && buffer[1] == (byte) 0xd8) {
-                return PictureData.PictureType.JPEG;
-            } else if (buffer[0] == (byte) 0x42 && buffer[1] == (byte) 0x4d) {
-                return PictureData.PictureType.BMP;
-
-            } else if (buffer[0] == (byte) 0x47 && buffer[1] == (byte) 0x49 && buffer[2] == (byte) 0x46) {
-                return PictureData.PictureType.GIF;
-            }else{
-                throw new NotImplementedException("Format non supporté");
-            }
+        if (buffer.length >= 4 && buffer[0] == (byte) 0x89 && buffer[1] == (byte) 0x50 && buffer[2] == (byte) 0x4E && buffer[3] == (byte) 0x47) {
+            return PictureData.PictureType.PNG;
+        } else if (buffer.length >= 2 && buffer[0] == (byte) 0xff && buffer[1] == (byte) 0xd8) {
+            return PictureData.PictureType.JPEG;
+        } else if (buffer.length >= 2 && buffer[0] == (byte) 0x42 && buffer[1] == (byte) 0x4d) {
+            return PictureData.PictureType.BMP;
+        } else if (buffer.length >= 3 && buffer[0] == (byte) 0x47 && buffer[1] == (byte) 0x49 && buffer[2] == (byte) 0x46) {
+            return PictureData.PictureType.GIF;
+        } else if (buffer.length >= 12 && buffer[0] == (byte) 0x52 && buffer[1] == (byte) 0x49 && buffer[2] == (byte) 0x46 && buffer[3] == (byte) 0x46
+                && buffer[8] == (byte) 0x57 && buffer[9] == (byte) 0x45 && buffer[10] == (byte) 0x42 && buffer[11] == (byte) 0x50) {
+            return PictureData.PictureType.JPEG;
+        } else {
+            throw new NotImplementedException("Format non supporté");
+        }
     }
+
+    public static boolean updateTableauAnchor(XSLFSlide slide,  XSLFTable[] tables) {
+        for (int i = 0; i < tables.length; i++) {
+            PowerpointExporterTools.updateCellAnchor(tables[i], 10);
+        }
+
+        XSLFTable firstTableau = tables[0];
+        for (int i = 1; i < tables.length; i++) {
+            XSLFTable tableau = tables[i];
+            tableau.setAnchor(new Rectangle2D.Double(firstTableau.getAnchor().getX(),
+                    firstTableau.getAnchor().getY() + firstTableau.getAnchor().getHeight() + 2,
+                    tableau.getAnchor().getWidth(),
+                    tableau.getAnchor().getHeight())
+            );
+            if(tableau.getAnchor().getY() + tableau.getAnchor().getHeight() > slide.getSlideShow().getPageSize().getHeight()){
+                return false;
+            }
+            firstTableau = tableau;
+
+        }
+        return true;
+    }
+
+
 }

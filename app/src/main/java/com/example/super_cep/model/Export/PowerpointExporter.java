@@ -57,7 +57,7 @@ import java.util.Map;
 public class PowerpointExporter {
 
     public static final String POWERPOINT_VIERGE_NAME = "powerpointvierge.pptx";
-    public static  final Color[] colors = new Color[]{new Color(191, 143,0), new Color(31, 78,120), new Color(255, 43, 43)};
+    public static final Color[] colors = new Color[]{new Color(191, 143, 0), new Color(31, 78, 120), new Color(255, 43, 43)};
     private Releve releve;
     private Map<String, String> remplacements;
 
@@ -75,7 +75,7 @@ public class PowerpointExporter {
         setupReleve();
 
         try (InputStream is = powerpointVierge;
-             XMLSlideShow ppt = new XMLSlideShow(is)){
+             XMLSlideShow ppt = new XMLSlideShow(is)) {
 
             List<XSLFSlide> slides = ppt.getSlides();
             XSLFSlide slideDescriptifEnveloppeThermique = slides.get(4);
@@ -86,8 +86,8 @@ public class PowerpointExporter {
             slideBatiment(ppt, slides.get(0));
             slideEnergieEtConsomations(slides.get(2));
             slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
-            slideDescriptifEnveloppeThermique(ppt,slideDescriptifEnveloppeThermique);
-            slideDescriptifDesSystem(ppt, slideDescriptifDesSystem);
+            slideDescriptifEnveloppeThermique(ppt, slideDescriptifEnveloppeThermique, null);
+            slideDescriptifDesSystem(ppt, slideDescriptifDesSystem, null,null,null);
             slideDescriptifDuChauffage(ppt, slideDescriptifDuChauffage);
             slidePreconisations(ppt, slidePreconisations);
 
@@ -100,32 +100,31 @@ public class PowerpointExporter {
     }
 
 
-
     private void setupReleve() {
         remplacements = new HashMap<>();
-        if(releve.nomBatiment != null) remplacements.put("nomBatiment", releve.nomBatiment);
-        if(releve.dateDeConstruction != null) {
-            remplacements.put("dateDeConstruction",  formateDate(releve.dateDeConstruction));
-        }else{
-            remplacements.put("dateDeConstruction",  "Inconnue");
+        if (releve.nomBatiment != null) remplacements.put("nomBatiment", releve.nomBatiment);
+        if (releve.dateDeConstruction != null) {
+            remplacements.put("dateDeConstruction", formateDate(releve.dateDeConstruction));
+        } else {
+            remplacements.put("dateDeConstruction", "Inconnue");
         }
-        if(releve.surfaceTotaleChauffe != 0){
+        if (releve.surfaceTotaleChauffe != 0) {
             remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + " m²");
-        }else{
+        } else {
             remplacements.put("surfaceTotaleChauffe", "Inconnue");
         }
-        if(releve.dateDeDerniereRenovation != null) {
+        if (releve.dateDeDerniereRenovation != null) {
             remplacements.put("dateDeRenovation", formateDate(releve.dateDeDerniereRenovation));
-        }else{
+        } else {
             remplacements.put("dateDeRenovation", "Inconnue");
         }
-        if(releve.adresse != null){
+        if (releve.adresse != null) {
             remplacements.put("adresse", releve.adresse);
         }
 
 
         //remarques :
-        if(releve.remarques != null){
+        if (releve.remarques != null) {
             for (Map.Entry<String, Remarque> entry : releve.remarques.entrySet()) {
                 remplacements.put(entry.getKey(), entry.getValue().description);
             }
@@ -136,17 +135,17 @@ public class PowerpointExporter {
         Rectangle2D rectangle2DImageBatiment = null;
         for (XSLFShape shape : slide) {
             if (shape instanceof XSLFTextShape) {
-                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
 
-            if(shape.getShapeName().equals("photoBatiment")){
+            if (shape.getShapeName().equals("photoBatiment")) {
                 rectangle2DImageBatiment = shape.getAnchor();
             }
         }
-        if(rectangle2DImageBatiment == null){
+        if (rectangle2DImageBatiment == null) {
             return;
         }
-        if(releve.imageBatiment != null){
+        if (releve.imageBatiment != null) {
             addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
         }
 
@@ -155,11 +154,11 @@ public class PowerpointExporter {
 
     private void slideEnergieEtConsomations(XSLFSlide slide) {
         for (XSLFShape shape : slide) {
-            if(shape instanceof XSLFTextShape){
-                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+            if (shape instanceof XSLFTextShape) {
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
 
-            if(shape.getShapeName().equals("tableauApprovisionnementEnergetique")){
+            if (shape.getShapeName().equals("tableauApprovisionnementEnergetique")) {
 
                 XSLFTable table = (XSLFTable) shape;
                 XSLFTableRow tableName = table.getRows().get(0);
@@ -179,13 +178,13 @@ public class PowerpointExporter {
                     cells.get(0).setText(approvisionnementEnergetique.energie);
 
                     cells.get(1).setText(approvisionnementEnergetique.nom);
-                    if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique){
+                    if (approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique) {
                         cells.get(2).setText(new DecimalFormat("0.#").format(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance) + " kVA");
                         cells.get(3).setText(((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).formuleTarifaire);
                     }
-                    PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
+                    PowerpointExporterTools.copyRowStyle(rowExemple, rowAppro);
 
-                    if(approvisionnementEnergetique.aVerifier)
+                    if (approvisionnementEnergetique.aVerifier)
                         PowerpointExporterTools.setAverfierStyleToRow(rowAppro);
 
 
@@ -198,25 +197,25 @@ public class PowerpointExporter {
 
     private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
         Calendrier[] calendriers = releve.getCalendriersValues();
-        if(calendriers.length == 0){
-            for(XSLFShape shape : slide.getShapes().toArray(new XSLFShape[0])){
+        if (calendriers.length == 0) {
+            for (XSLFShape shape : slide.getShapes().toArray(new XSLFShape[0])) {
                 String name = shape.getShapeName();
-                if(name.equals("tableauUsageEtOccupation")){
+                if (name.equals("tableauUsageEtOccupation")) {
                     slide.removeShape(shape);
                 }
-                if(name.equals("Usage et occupation du bâtiment")){
-                    if(remplacements.containsKey("Usage et occupation du bâtiment")){
-                        PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
-                    }else{
-                        ((XSLFTextShape)shape).getTextBody().setText("Aucune remarque");
+                if (name.equals("Usage et occupation du bâtiment")) {
+                    if (remplacements.containsKey("Usage et occupation du bâtiment")) {
+                        PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
+                    } else {
+                        ((XSLFTextShape) shape).getTextBody().setText("Aucune remarque");
                     }
                 }
-                if(name.equals("nomCalendrier")){
-                    ((XSLFTextShape)shape).getTextBody().setText("Aucun calendrier");
+                if (name.equals("nomCalendrier")) {
+                    ((XSLFTextShape) shape).getTextBody().setText("Aucun calendrier");
 
                 }
-                if(name.equals("nomZones")){
-                    ((XSLFTextShape)shape).getTextBody().setText("Aucune zone");
+                if (name.equals("nomZones")) {
+                    ((XSLFTextShape) shape).getTextBody().setText("Aucune zone");
                 }
 
             }
@@ -236,18 +235,18 @@ public class PowerpointExporter {
             Calendrier calendrier = calendriers[i];
 
             for (XSLFShape shape : slideCalendrier) {
-                if(shape instanceof XSLFTextShape){
-                    PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+                if (shape instanceof XSLFTextShape) {
+                    PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
                 }
-                if(shape.getShapeName().equals("tableauUsageEtOccupation")){
+                if (shape.getShapeName().equals("tableauUsageEtOccupation")) {
                     setupCalendrier((XSLFTable) shape, calendrier.calendrierDateChaufferOccuperMap);
                 }
 
-                if(shape.getShapeName().equals("nomCalendrier")){
+                if (shape.getShapeName().equals("nomCalendrier")) {
                     XSLFTextShape textShape = (XSLFTextShape) shape;
                     textShape.getTextBody().setText(calendrier.nom);
                 }
-                if(shape.getShapeName().equals("nomZones")){
+                if (shape.getShapeName().equals("nomZones")) {
                     XSLFTextShape textShape = (XSLFTextShape) shape;
                     textShape.getTextBody().setText("zones : " + getZonesText(calendrier.zones));
                 }
@@ -257,33 +256,34 @@ public class PowerpointExporter {
     }
 
 
-
-
-    private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide) {
+    private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide, Map<String, Zone> zones) {
+        XSLFSlide slideCopy  = PowerpointExporterTools.duplicateSlide(ppt, slide);
+        ppt.setSlideOrder(slideCopy, slide.getSlideNumber());
 
 
         Rectangle2D rectangle2DImage = null;
         List<String> tablesNames = List.of("tableauMur", "tableauToiture", "tableauSols", "tableauMenuiseries");
-        Map<String, XSLFTable> tables = new HashMap<>();
-        for (XSLFShape shape : slide.getShapes()){
-            if(shape.getShapeName().equals("photo")){
+        Map<String, XSLFTable> tablesMap = new HashMap<>();
+        for (XSLFShape shape : slide.getShapes()) {
+            if (shape.getShapeName().equals("photo")) {
                 rectangle2DImage = shape.getAnchor();
             }
 
-            if(tablesNames.contains(shape.getShapeName())){
-                tables.put(shape.getShapeName(), (XSLFTable) shape);
+            if (tablesNames.contains(shape.getShapeName())) {
+                tablesMap.put(shape.getShapeName(), (XSLFTable) shape);
             }
 
-            if(shape instanceof XSLFTextShape){
-                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+            if (shape instanceof XSLFTextShape) {
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
 
         }
-        XSLFTable tableauMur = tables.get("tableauMur");
-        XSLFTable tableauToiture = tables.get("tableauToiture");
-        XSLFTable tableauSols = tables.get("tableauSols");
-        XSLFTable tableauMenuiseries = tables.get("tableauMenuiseries");
+        XSLFTable tableauMur = tablesMap.get("tableauMur");
+        XSLFTable tableauToiture = tablesMap.get("tableauToiture");
+        XSLFTable tableauSols = tablesMap.get("tableauSols");
+        XSLFTable tableauMenuiseries = tablesMap.get("tableauMenuiseries");
 
+        XSLFTable[] tables = new XSLFTable[]{tableauMur, tableauToiture, tableauMenuiseries,tableauSols};
 
         int indexColorZone = 0;
 
@@ -294,27 +294,40 @@ public class PowerpointExporter {
 
 
         List<String> images = new ArrayList<>();
-        for (Zone zone : releve.getZonesValues()){
+
+        if(zones == null){
+            zones = releve.zones;
+        }
+        Map<String, Zone> zonesOverflow = new HashMap<>();
+
+        for (Zone zone : zones.values()) {
             Color colorZoneName = colors[indexColorZone % colors.length];
             indexColorZone++;
 
-            for (ZoneElement zoneElement : zone.getZoneElementsValues()){
-
+            for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
+                if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables)) {
+                    if(zonesOverflow.containsKey(zone.nom)){
+                        zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
+                    }else{
+                        zonesOverflow.put(zone.nom, new Zone(zone.nom, List.of(zoneElement)));
+                    }
+                    continue;
+                }
                 XSLFTableRow row = null;
                 //get a random color based on the zone name :
-                if(zoneElement instanceof Mur){
-                    if(zoneElement.images != null)
+                if (zoneElement instanceof Mur) {
+                    if (zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Mur mur = (Mur) zoneElement;
                     row = tableauMur.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),"Mur");
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),mur.typeMur);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),mur.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(4),"(" + mur.typeIsolant  + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) +" cm)");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom.isEmpty() ? " " : zone.nom );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "Mur");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), mur.typeMur.isEmpty() ? " " : mur.typeMur);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" + mur.typeIsolant + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm)");
 
                     PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -323,37 +336,37 @@ public class PowerpointExporter {
 
                 }
 
-                if(zoneElement instanceof Toiture){
-                    if(zoneElement.images != null)
+                if (zoneElement instanceof Toiture) {
+                    if (zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Toiture toiture = (Toiture) zoneElement;
                     row = tableauToiture.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),toiture.typeToiture);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),toiture.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + toiture.typeIsolant  + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) +" cm)");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom.isEmpty() ? " " : zone.nom );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), toiture.typeToiture.isEmpty() ? " " : toiture.typeToiture );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + toiture.typeIsolant + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm)");
                     PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
                     mergeCellsIfSameZone(zoneElementTableauToiture, zone.nom, tableauToiture);
                 }
 
-                if(zoneElement instanceof Menuiserie){
-                    if(zoneElement.images != null)
+                if (zoneElement instanceof Menuiserie) {
+                    if (zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Menuiserie menuiserie = (Menuiserie) zoneElement;
                     row = tableauMenuiseries.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),menuiserie.typeMenuiserie);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),menuiserie.materiau);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),menuiserie.typeVitrage);
-                    if(!menuiserie.protectionsSolaires.equals("aucune")){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4),"Avec");
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(5),menuiserie.protectionsSolaires);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom.isEmpty() ? " " : zone.nom );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), menuiserie.typeMenuiserie.isEmpty() ? " " : menuiserie.typeMenuiserie );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), menuiserie.materiau.isEmpty() ? " " : menuiserie.materiau );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage );
+                    if (!menuiserie.protectionsSolaires.equals("aucune")) {
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(5), menuiserie.protectionsSolaires.isEmpty() ? " " : menuiserie.protectionsSolaires );
                     }
                     PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -361,17 +374,17 @@ public class PowerpointExporter {
                     mergeCellsIfSameZone(zoneElementTableauMenuiseries, zone.nom, tableauMenuiseries);
                 }
 
-                if(zoneElement instanceof Sol){
-                    if(zoneElement.images != null)
+                if (zoneElement instanceof Sol) {
+                    if (zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Sol sol = (Sol) zoneElement;
                     row = tableauSols.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),sol.typeSol);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),sol.typeIsolant);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),sol.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom.isEmpty() ? " " : zone.nom );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.typeIsolant.isEmpty() ? " " : sol.typeIsolant );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation );
 
                     PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -381,7 +394,7 @@ public class PowerpointExporter {
                 }
 
 
-                if(row != null && zoneElement.aVerifier)
+                if (row != null && zoneElement.aVerifier)
                     PowerpointExporterTools.setAverfierStyleToRow(row);
 
             }
@@ -389,62 +402,51 @@ public class PowerpointExporter {
         addImagesToSlide(ppt, slide, images, rectangle2DImage);
 
 
-        PowerpointExporterTools.updateCellAnchor(tableauMur, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauMenuiseries, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauSols, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauToiture, 20);
-
-        //set tableauToiture below tableauMur
-        tableauToiture.setAnchor(new Rectangle2D.Double(tableauMur.getAnchor().getX(),
-                tableauMur.getAnchor().getY() + tableauMur.getAnchor().getHeight() + 2,
-                tableauToiture.getAnchor().getWidth(),
-                tableauToiture.getAnchor().getHeight())
-        );
-
-        //set tableauMenuiseries below tableauToiture
-        tableauMenuiseries.setAnchor(new Rectangle2D.Double(tableauToiture.getAnchor().getX(),
-                tableauToiture.getAnchor().getY() + tableauToiture.getAnchor().getHeight(),
-                tableauMenuiseries.getAnchor().getWidth(),
-                tableauMenuiseries.getAnchor().getHeight())
-        );
-
-        //set tableauSols below tableauMenuiseries
-        tableauSols.setAnchor(new Rectangle2D.Double(tableauMenuiseries.getAnchor().getX(),
-                tableauMenuiseries.getAnchor().getY() + tableauMenuiseries.getAnchor().getHeight(),
-                tableauSols.getAnchor().getWidth(),
-                tableauSols.getAnchor().getHeight())
-        );
-
+        PowerpointExporterTools.updateTableauAnchor(slide, tables);
 
         tableauMur.removeRow(2);
         tableauToiture.removeRow(2);
         tableauMenuiseries.removeRow(2);
         tableauSols.removeRow(2);
+
+
+        if(zonesOverflow.size() > 0){
+            slideDescriptifEnveloppeThermique(ppt, slideCopy, zonesOverflow);
+        }else{
+            ppt.removeSlide(slideCopy.getSlideNumber() - 1);
+        }
     }
 
 
-    private void slideDescriptifDesSystem(XMLSlideShow ppt, XSLFSlide slide) {
+
+
+
+    private void slideDescriptifDesSystem(XMLSlideShow ppt, XSLFSlide slide, Map<String,Zone> eclairages, Ventilation[] ventilations, ECS[] ecss) {
+        XSLFSlide slideCopy  = PowerpointExporterTools.duplicateSlide(ppt, slide);
+        ppt.setSlideOrder(slideCopy, slide.getSlideNumber());
+
 
         Rectangle2D rectangle2DImages = null;
         List<String> tablesNames = List.of("tableauEclairage", "tableauVentilation", "tableauECS", "tableauMenuiseries");
-        Map<String, XSLFTable> tables = new HashMap<>();
-        for (XSLFShape shape : slide.getShapes()){
-            if(shape.getShapeName().equals("photo")){
+        Map<String, XSLFTable> tablesMap = new HashMap<>();
+        for (XSLFShape shape : slide.getShapes()) {
+            if (shape.getShapeName().equals("photo")) {
                 rectangle2DImages = shape.getAnchor();
             }
 
-            if(tablesNames.contains(shape.getShapeName())){
-                tables.put(shape.getShapeName(), (XSLFTable) shape);
+            if (tablesNames.contains(shape.getShapeName())) {
+                tablesMap.put(shape.getShapeName(), (XSLFTable) shape);
             }
 
-            if(shape instanceof XSLFTextShape){
-                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+            if (shape instanceof XSLFTextShape) {
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
         }
-        XSLFTable tableauEclairage = tables.get("tableauEclairage");
-        XSLFTable tableauVentilation = tables.get("tableauVentilation");
-        XSLFTable tableauECS = tables.get("tableauECS");
+        XSLFTable tableauEclairage = tablesMap.get("tableauEclairage");
+        XSLFTable tableauVentilation = tablesMap.get("tableauVentilation");
+        XSLFTable tableauECS = tablesMap.get("tableauECS");
 
+        XSLFTable[] tables = new XSLFTable[]{tableauEclairage, tableauVentilation, tableauECS};
 
         int indexColorZone = 0;
 
@@ -454,101 +456,120 @@ public class PowerpointExporter {
 
         List<String> images = new ArrayList<>();
 
-        for (Zone zone : releve.getZonesValues()){
+        if(eclairages == null){
+            eclairages = releve.zones;
+            ventilations = releve.ventilations.values().toArray(new Ventilation[0]);
+            ecss = releve.ecs.values().toArray(new ECS[0]);
+        }
+
+        Map<String, Zone> eclairageOverflow = new HashMap<>();
+        List<Ventilation> ventilationOverflow = new ArrayList<>();
+        List<ECS> ecsOverflow = new ArrayList<>();
+
+        for (Zone zone : eclairages.values()) {
             Color colorZoneName = colors[indexColorZone % colors.length];
             indexColorZone++;
 
-            for (ZoneElement zoneElement : zone.getZoneElementsValues()){
+            for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
+                if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables)) {
+                    if(eclairageOverflow.containsKey(zone.nom)){
+                        eclairageOverflow.get(zone.nom).addZoneElement(zoneElement);
+                    }else{
+                        eclairageOverflow.put(zone.nom, new Zone(zone.nom, List.of(zoneElement)));
+                    }
+                    continue;
+                }
+
                 //get a random color based on the zone name :
-                if(zoneElement instanceof Eclairage){
-                    if(zoneElement.images != null)
+                if (zoneElement instanceof Eclairage) {
+                    if (zoneElement.images != null)
                         images.addAll(zoneElement.images);
 
                     Eclairage eclairage = (Eclairage) zoneElement;
                     XSLFTableRow row = tableauEclairage.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauEclairage.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0),zone.nom);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),eclairage.typeEclairage);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),"Régulé par :");
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),eclairage.typeDeRegulation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), eclairage.typeEclairage);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), eclairage.typeDeRegulation.equals("Absence de régulation") ? "Absence de régulation" : "Régulé par : " + eclairage.typeDeRegulation);
 
                     PowerpointExporterTools.copyRowStyle(tableauEclairage.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
                     mergeCellsIfSameZone(zoneElementTableauEclairage, zone.nom, tableauEclairage);
 
-                    if(zoneElement.aVerifier)
+                    if (zoneElement.aVerifier)
                         PowerpointExporterTools.setAverfierStyleToRow(row);
 
                 }
             }
         }
 
-        for(Ventilation ventilation : releve.ventilations.values()){
-            if(ventilation.images != null)
+        for (Ventilation ventilation : ventilations) {
+            if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables)) {
+                ventilationOverflow.add(ventilation);
+                continue;
+            }
+
+            if (ventilation.images != null)
                 images.addAll(ventilation.images);
 
             XSLFTableRow row = tableauVentilation.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauVentilation.getRows().get(2), row);
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(ventilation.zones));
-            PowerpointExporterTools.addTextToCell(row.getCells().get(1),ventilation.type);
-            if(ventilation.regulation.equals("Absence de régulation")){
-                PowerpointExporterTools.addTextToCell(row.getCells().get(2),"Absence de régulation");
-            }else{
-                PowerpointExporterTools.addTextToCell(row.getCells().get(2),"réguler par");
-                PowerpointExporterTools.addTextToCell(row.getCells().get(3),ventilation.regulation);
-            }
+            PowerpointExporterTools.addTextToCell(row.getCells().get(1), ventilation.type);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2), ventilation.regulation.equals("Absence de régulation") ? "Absence de régulation" : "Régulé par : " + ventilation.regulation);
             PowerpointExporterTools.copyRowStyle(tableauVentilation.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
 
-            if(ventilation.aVerifier)
+            mergeCellsIfSameZone(zoneElementTableauVentilation, getZonesText(ventilation.zones), tableauVentilation);
+
+
+            if (ventilation.aVerifier)
                 PowerpointExporterTools.setAverfierStyleToRow(row);
 
         }
 
-        for(ECS ecs : releve.ecs.values()){
-            if(ecs.images != null)
+        for (ECS ecs : ecss) {
+            if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables)) {
+                ecsOverflow.add(ecs);
+                continue;
+            }
+
+            if (ecs.images != null)
                 images.addAll(ecs.images);
             XSLFTableRow row = tableauECS.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauECS.getRows().get(2), row);
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(ecs.zones));
-            PowerpointExporterTools.addTextToCell(row.getCells().get(1),ecs.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(2),"( " + ecs.marque + " : " + new DecimalFormat("0.#").format(ecs.volume) + " L )");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(1), ecs.type);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2), "( " + ecs.marque + " : " + new DecimalFormat("0.#").format(ecs.volume) + " L )");
 
             PowerpointExporterTools.copyRowStyle(tableauECS.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
 
-            if(ecs.aVerifier)
+            mergeCellsIfSameZone(zoneElementTableauECS, getZonesText(ecs.zones), tableauECS);
+
+
+            if (ecs.aVerifier)
                 PowerpointExporterTools.setAverfierStyleToRow(row);
+
+
 
         }
         addImagesToSlide(ppt, slide, images, rectangle2DImages);
 
-
-        PowerpointExporterTools.updateCellAnchor(tableauEclairage, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauECS, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauVentilation, 20);
-
-        tableauVentilation.setAnchor(new Rectangle2D.Double(tableauEclairage.getAnchor().getX(),
-                tableauEclairage.getAnchor().getY() + tableauEclairage.getAnchor().getHeight() + 2,
-                tableauVentilation.getAnchor().getWidth(),
-                tableauVentilation.getAnchor().getHeight())
-        );
-
-        tableauECS.setAnchor(new Rectangle2D.Double(tableauVentilation.getAnchor().getX(),
-                tableauVentilation.getAnchor().getY() + tableauVentilation.getAnchor().getHeight(),
-                tableauECS.getAnchor().getWidth(),
-                tableauECS.getAnchor().getHeight())
-        );
-
-
-
         tableauEclairage.removeRow(2);
         tableauVentilation.removeRow(2);
         tableauECS.removeRow(2);
+
+        if(eclairageOverflow.size() > 0 || ventilationOverflow.size() > 0 || ecsOverflow.size() > 0){
+            slideDescriptifDesSystem(ppt, slideCopy, eclairageOverflow, ventilationOverflow.toArray(new Ventilation[0]), ecsOverflow.toArray(new ECS[0]));
+        }else{
+            ppt.removeSlide(slideCopy.getSlideNumber() - 1);
+        }
+
     }
 
 
@@ -558,24 +579,24 @@ public class PowerpointExporter {
 
         XSLFTable tableauEmetteurs = null;
         XSLFTable tableauProduction = null;
-        for (XSLFShape shape : slide.getShapes()){
-            if(shape.getShapeName().equals("photo")){
+        for (XSLFShape shape : slide.getShapes()) {
+            if (shape.getShapeName().equals("photo")) {
                 rectangle2DPhoto = shape.getAnchor();
             }
 
-            if(shape.getShapeName().equals("tableauEmetteurs")){
+            if (shape.getShapeName().equals("tableauEmetteurs")) {
                 tableauEmetteurs = (XSLFTable) shape;
             }
-            if(shape.getShapeName().equals("tableauProduction")){
+            if (shape.getShapeName().equals("tableauProduction")) {
                 tableauProduction = (XSLFTable) shape;
             }
 
 
-            if(shape instanceof XSLFTextShape){
-                PowerpointExporterTools.replaceTextInTextShape(remplacements,(XSLFTextShape) shape);
+            if (shape instanceof XSLFTextShape) {
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
         }
-        if(tableauEmetteurs == null || tableauProduction == null){
+        if (tableauEmetteurs == null || tableauProduction == null) {
             return;
         }
 
@@ -584,20 +605,20 @@ public class PowerpointExporter {
         List<Chauffage> producteurs = new ArrayList<>();
         List<Chauffage> emetteur = new ArrayList<>();
         List<Chauffage> producteursEmetteurs = new ArrayList<>();
-        for(Chauffage chauffage : releve.chauffages.values()){
-            if(chauffage.images != null)
+        for (Chauffage chauffage : releve.chauffages.values()) {
+            if (chauffage.images != null)
                 photo.addAll(chauffage.images);
             XSLFTableRow row = null;
-            switch (chauffage.categorie){
+            switch (chauffage.categorie) {
                 case Producteur:
                     producteurs.add(chauffage);
                     row = tableauProduction.addRow();
                     PowerpointExporterTools.copyNumberOfCells(tableauProduction.getRows().get(2), row);
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " +  new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauProduction.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[1]);
@@ -610,9 +631,9 @@ public class PowerpointExporter {
                     PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
@@ -625,41 +646,41 @@ public class PowerpointExporter {
                     PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2),chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
 
                     PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
                     break;
             }
-            if(row != null && chauffage.aVerifier)
+            if (row != null && chauffage.aVerifier)
                 PowerpointExporterTools.setAverfierStyleToRow(row);
 
         }
 
-        for(Climatisation climatisation : releve.climatisations.values()){
-            if(climatisation.images != null)
+        for (Climatisation climatisation : releve.climatisations.values()) {
+            if (climatisation.images != null)
                 photo.addAll(climatisation.images);
             XSLFTableRow row = tableauEmetteurs.addRow();
             PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(climatisation.zones));
-            PowerpointExporterTools.addTextToCell(row.getCells().get(1),""+climatisation.quantite);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(2),climatisation.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + climatisation.marque + " : " + climatisation.puissance + " kW )");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + climatisation.quantite);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2), climatisation.type);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + climatisation.marque + " : " + climatisation.puissance + " kW )");
 
             PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
 
-            if(climatisation.aVerifier)
+            if (climatisation.aVerifier)
                 PowerpointExporterTools.setAverfierStyleToRow(row);
 
         }
         addImagesToSlide(ppt, slide, photo, rectangle2DPhoto);
 
-        PowerpointExporterTools.updateCellAnchor(tableauEmetteurs, 20);
-        PowerpointExporterTools.updateCellAnchor(tableauProduction, 20);
+        PowerpointExporterTools.updateCellAnchor(tableauEmetteurs, 10);
+        PowerpointExporterTools.updateCellAnchor(tableauProduction, 10);
 
         tableauProduction.setAnchor(new Rectangle2D.Double(tableauEmetteurs.getAnchor().getX(),
                 tableauEmetteurs.getAnchor().getY() + tableauEmetteurs.getAnchor().getHeight() + 2,
@@ -671,37 +692,36 @@ public class PowerpointExporter {
         tableauProduction.removeRow(2);
 
 
-        if(producteurs.size() == 0){
+        if (producteurs.size() == 0) {
             slide.removeShape(tableauProduction);
         }
 
     }
 
 
-
     private void slidePreconisations(XMLSlideShow ppt, XSLFSlide slide) {
-        if(releve.preconisations.size() == 0){
+        if (releve.preconisations.size() == 0) {
             slide.getShapes().clear();
             return;
         }
 
         XSLFTable tableauPreconisations = null;
         Rectangle2D rectangle2DPhoto = null;
-        for(XSLFShape shape : slide){
-            if(shape.getShapeName().equals("tableauPreconisations")){
+        for (XSLFShape shape : slide) {
+            if (shape.getShapeName().equals("tableauPreconisations")) {
                 tableauPreconisations = (XSLFTable) shape;
             }
-            if(shape.getShapeName().equals("photo")){
+            if (shape.getShapeName().equals("photo")) {
                 rectangle2DPhoto = shape.getAnchor();
             }
         }
-        if(tableauPreconisations == null){
+        if (tableauPreconisations == null) {
             return;
         }
 
         List<String> images = new ArrayList<>();
-        for(String preconisation : releve.preconisations){
-            if(platformProvider.isStringAPath(preconisation)) {
+        for (String preconisation : releve.preconisations) {
+            if (platformProvider.isStringAPath(preconisation)) {
                 images.add(preconisation);
                 continue;
             }
@@ -710,7 +730,7 @@ public class PowerpointExporter {
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), preconisation);
             PowerpointExporterTools.copyRowStyle(tableauPreconisations.getRows().get(0), row);
-            row.getCells().get(0).setFillColor( new Color(0,0,0,0) );
+            row.getCells().get(0).setFillColor(new Color(0, 0, 0, 0));
             row.getCells().get(0).setBorderColor(TableCell.BorderEdge.left, colors[1]);
             row.getCells().get(0).setBorderColor(TableCell.BorderEdge.right, colors[1]);
 
@@ -721,10 +741,10 @@ public class PowerpointExporter {
 
         tableauPreconisations.removeRow(0);
 
-        PowerpointExporterTools.updateCellAnchor(tableauPreconisations, 20);
+        PowerpointExporterTools.updateCellAnchor(tableauPreconisations, 10);
 
 
-        if(tableauPreconisations.getNumberOfRows() == 0){
+        if (tableauPreconisations.getNumberOfRows() == 0) {
             slide.removeShape(tableauPreconisations);
             return;
         }
@@ -733,25 +753,24 @@ public class PowerpointExporter {
         tableauPreconisations.getCell(tableauPreconisations.getNumberOfRows() - 1, 0).setBorderColor(TableCell.BorderEdge.bottom, colors[1]);
 
 
-
-
-
     }
 
-    private void mergeCellsIfSameZone(ZoneElementTableauData zoneElementTableauData, String nomZone, XSLFTable tableauMur){
+    private void mergeCellsIfSameZone(ZoneElementTableauData zoneElementTableauData, String nomZone, XSLFTable table) {
         //if the cell above have the same zone name merge the cell zone name
-        if(zoneElementTableauData.lastZoneName.equals(nomZone)){
-            tableauMur.mergeCells(zoneElementTableauData.indexRowSameZone, zoneElementTableauData.indexRow, 0, 0);
-            PowerpointExporterTools.addLineToCell(tableauMur.getRows().get(zoneElementTableauData.indexRowSameZone).getCells().get(0));
-        }else{
-            zoneElementTableauData.indexRowSameZone++;
+        if (zoneElementTableauData.lastZoneName.equals(nomZone)) {
+            table.mergeCells(zoneElementTableauData.indexRowSameZone, zoneElementTableauData.indexRow, 0, 0);
+            if( zoneElementTableauData.indexRow % 2 == 0){
+                PowerpointExporterTools.addLineToCell(table.getRows().get(zoneElementTableauData.indexRowSameZone).getCells().get(0));
+            }
+        } else {
+            zoneElementTableauData.indexRowSameZone = zoneElementTableauData.indexRow;
         }
         zoneElementTableauData.indexRow++;
         zoneElementTableauData.lastZoneName = nomZone;
     }
 
 
-    private String formateDate(Calendar calendar){
+    private String formateDate(Calendar calendar) {
         String pattern = "yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
         return simpleDateFormat.format(calendar.getTime());
@@ -761,8 +780,8 @@ public class PowerpointExporter {
     public void addImagesToSlide(XMLSlideShow ppt, XSLFSlide slide, List<String> imagePaths, Rectangle2D anchor) {
         // Calculate the number of rows and columns based on the number of images
         int numImages = imagePaths.size();
-        int numRows = (int)Math.round(Math.sqrt(numImages));
-        int numCols = (int)Math.ceil((double)numImages / numRows);
+        int numRows = (int) Math.round(Math.sqrt(numImages));
+        int numCols = (int) Math.ceil((double) numImages / numRows);
 
         // Calculate the size of each cell in the grid
         double cellWidth = anchor.getWidth() / numCols;
@@ -777,7 +796,7 @@ public class PowerpointExporter {
 
             byte[] pictureBytes = platformProvider.getImagesByteFromPath(imagePaths.get(i));
 
-            if(pictureBytes == null){
+            if (pictureBytes == null) {
                 continue;
             }
             // Add the image to the slideshow
@@ -806,17 +825,17 @@ public class PowerpointExporter {
     }
 
 
-    private String getZonesText(List<String> zones){
+    private String getZonesText(List<String> zones) {
         StringBuilder builder = new StringBuilder("  ");
         for (String zone : zones) {
             builder.append(zone).append(", ");
         }
-        builder.delete(Math.max(0,builder.length() - 2) , builder.length());
+        builder.delete(Math.max(0, builder.length() - 2), builder.length());
         return builder.toString();
     }
 
     private void setupCalendrier(XSLFTable table, Map<CalendrierDate, ChaufferOccuper> calendrierDateChaufferOccuperMap) {
-        if(calendrierDateChaufferOccuperMap == null){
+        if (calendrierDateChaufferOccuperMap == null) {
             return;
         }
         XSLFTableRow tableHeader = table.getRows().get(0);
@@ -828,34 +847,34 @@ public class PowerpointExporter {
             XSLFTableRow rowAppro = table.addRow();
             rowAppro.setHeight(rowExemple.getHeight());
 
-            PowerpointExporterTools.copyNumberOfCells(rowExemple,rowAppro);
+            PowerpointExporterTools.copyNumberOfCells(rowExemple, rowAppro);
 
             List<XSLFTableCell> cells = rowAppro.getCells();
-            PowerpointExporterTools.addTextToCell(cells.get(0), ((int)i ) + "h" + (i % 1 == 0 ? "00" : "30"));
+            PowerpointExporterTools.addTextToCell(cells.get(0), ((int) i) + "h" + (i % 1 == 0 ? "00" : "30"));
             for (int j = 1; j < 8; j++) {
                 PowerpointExporterTools.addTextToCell(cells.get(j), ".");
             }
 
-            PowerpointExporterTools.copyRowStyle(rowExemple,rowAppro);
+            PowerpointExporterTools.copyRowStyle(rowExemple, rowAppro);
         }
 
         table.removeRow(1);
 
 
-        for(CalendrierDate calendrierDate : calendrierDateChaufferOccuperMap.keySet()){
+        for (CalendrierDate calendrierDate : calendrierDateChaufferOccuperMap.keySet()) {
 
-            List<DayOfWeek> dayOfWeeks = List.of( DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY );
+            List<DayOfWeek> dayOfWeeks = List.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
             int column = dayOfWeeks.indexOf(calendrierDate.jour) + 1;
-            int row = (calendrierDate.heure * 2) + calendrierDate.minute / 30;
+            int row = ((calendrierDate.heure * 2) + calendrierDate.minute / 30) + 1;
 
             ChaufferOccuper chaufferOccuper = calendrierDateChaufferOccuperMap.get(calendrierDate);
-            if(chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER){
+            if (chaufferOccuper == ChaufferOccuper.CHAUFFER_OCCUPER) {
                 XSLFTableCell cell = table.getCell(row, column);
                 setCellChaufferOccuper(cell);
-            }else if(chaufferOccuper == ChaufferOccuper.CHAUFFER) {
+            } else if (chaufferOccuper == ChaufferOccuper.CHAUFFER) {
                 XSLFTableCell cell = table.getCell(row, column + 1);
                 setCellChauffer(cell);
-            }else if(chaufferOccuper == ChaufferOccuper.OCCUPER) {
+            } else if (chaufferOccuper == ChaufferOccuper.OCCUPER) {
                 XSLFTableCell cell = table.getCell(row, column);
                 setCellOccuper(cell);
             }
@@ -863,26 +882,26 @@ public class PowerpointExporter {
         }
     }
 
-    private void setCellChauffer(XSLFTableCell cell){
+    private void setCellChauffer(XSLFTableCell cell) {
         Color color = new Color(0xCE0000);
         cell.setFillColor(color);
         cell.getTextBody().setText("🔥");
     }
 
-    private void setCellOccuper( XSLFTableCell cell){
+    private void setCellOccuper(XSLFTableCell cell) {
         Color color = new Color(0x00B8FA);
         cell.getTextBody().setText("🥶");
         cell.setFillColor(color);
     }
 
-    private void setCellChaufferOccuper(XSLFTableCell cell){
+    private void setCellChaufferOccuper(XSLFTableCell cell) {
         Color color = new Color(0x44546a);
         cell.setFillColor(color);
         cell.getTextBody().setText("🙂🔥");
     }
 
 
-    private class ZoneElementTableauData{
+    private class ZoneElementTableauData {
         public int indexRow;
         public int indexRowSameZone;
         public String lastZoneName;
@@ -893,7 +912,6 @@ public class PowerpointExporter {
             this.lastZoneName = lastZoneName;
         }
     }
-
 
 
 }
