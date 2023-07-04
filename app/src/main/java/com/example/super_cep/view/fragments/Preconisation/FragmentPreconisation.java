@@ -27,7 +27,9 @@ import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentPreconisationBinding;
+import com.example.super_cep.model.Releve.Releve;
 
+import java.io.File;
 import java.util.List;
 
 public class FragmentPreconisation extends Fragment {
@@ -36,9 +38,12 @@ public class FragmentPreconisation extends Fragment {
     private ReleveViewModel releveViewModel;
     private ConfigDataViewModel configDataViewModel;
     private ActivityResultLauncher<Intent> launcherGetPhoto;
-    private ActivityResultLauncher<Intent> launcherCapturePhoto;
+    private ActivityResultLauncher<Uri> takePictureLauncher ;
 
     private PhotoManager photoManager;
+
+    private Uri currentUriTaken;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,9 +94,9 @@ public class FragmentPreconisation extends Fragment {
                                 launcherGetPhoto.launch(intent);
                                 break;
                             case 1:
-                                // Lancer l'activité de capture d'image
-                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent2);
+                                // Créez une intention pour prendre une photo
+                                currentUriTaken = photoManager.getUriForNewImage();
+                                takePictureLauncher.launch(currentUriTaken);
                                 break;
                         }
                     }
@@ -167,19 +172,19 @@ public class FragmentPreconisation extends Fragment {
                 });
 
 
-        launcherCapturePhoto =  registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                try {
-                    releveViewModel.addPreconisations(List.of(photo.toString()));
-                }catch (Exception e){
-                    Log.e("FragmentPreconisation", "onValidate: ", e);
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
+        takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    if (result) {
+                        releveViewModel.addPreconisations(List.of(currentUriTaken.toString()));
+                    } else {
+                        // La prise de l'image a échoué
+                        Toast.makeText(getContext(), "La prise de l'image a échoué", Toast.LENGTH_SHORT).show();
+                        //delete the file
+                        File file = new File(currentUriTaken.getPath());
+                        file.delete();
+                    }
+                });
     }
 
 

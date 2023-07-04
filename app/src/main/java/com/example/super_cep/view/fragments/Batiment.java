@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
@@ -35,6 +37,7 @@ import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.view.MonthYearPicker;
 
+import java.io.File;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -197,13 +200,11 @@ public class Batiment extends Fragment {
         }
     }
 
+    private Uri currentUriTaken;
 
     private void setupButtonPhoto() {
 
-        ActivityResultLauncher<Intent> launcherGetPhoto;
-        ActivityResultLauncher<Intent> launcherCapturePhoto;
-
-        launcherGetPhoto = registerForActivityResult(
+        ActivityResultLauncher<Intent> launcherGetPhoto = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -222,22 +223,23 @@ public class Batiment extends Fragment {
                     }
                 });
 
-
-        launcherCapturePhoto =  registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() != Activity.RESULT_OK){
-                    return;
-                }
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                Releve releve = releveViewModel.getReleve().getValue();
-                releve.imageBatiment = photo.toString();
-                releveViewModel.setReleve(releve);
-                binding.imageView2.setImageURI(photo);
-                binding.buttonAjouterImage.setVisibility(View.GONE);
-            }
-        });
+        ActivityResultLauncher<Uri> takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    if (result) {
+                        Uri photo = currentUriTaken;
+                        Releve releve = releveViewModel.getReleve().getValue();
+                        releve.imageBatiment = photo.toString();
+                        releveViewModel.setReleve(releve);
+                        binding.imageView2.setImageURI(photo);
+                        binding.buttonAjouterImage.setVisibility(View.GONE);
+                    } else {
+                        // La prise de l'image a échoué
+                        Toast.makeText(getContext(), "La prise de l'image a échoué", Toast.LENGTH_SHORT).show();
+                        //delete the file
+                        File file = new File(currentUriTaken.getPath());
+                        file.delete();
+                    }
+                });
         View.OnClickListener newPhotoOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,9 +257,9 @@ public class Batiment extends Fragment {
                                 launcherGetPhoto.launch(intent);
                                 break;
                             case 1:
-                                // Lancer l'activité de capture d'image
-                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent2);
+                                // Créez une intention pour prendre une photo
+                                currentUriTaken = photoManager.getUriForNewImage();
+                                takePictureLauncher.launch(currentUriTaken);
                                 break;
                         }
                     }

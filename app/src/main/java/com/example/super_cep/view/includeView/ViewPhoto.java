@@ -27,7 +27,9 @@ import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.ViewImageZoneElementBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Releve.Releve;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +37,12 @@ public class ViewPhoto extends View {
 
     ViewPhotoBinding binding;
     private ActivityResultLauncher<Intent> launcherGetPhoto;
-    private ActivityResultLauncher<Intent> launcherCapturePhoto;
+    private ActivityResultLauncher<Uri> takePictureLauncher;
     private Fragment fragment;
     private List<Uri> uriImages = new ArrayList<>();
 
     private PhotoManager photoManager;
+    private Uri currentUriTaken;
 
 
     public List<Uri> getUriImages() {
@@ -69,9 +72,8 @@ public class ViewPhoto extends View {
                                 launcherGetPhoto.launch(intent);
                                 break;
                             case 1:
-                                // Lancer l'activité de capture d'image
-                                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                launcherCapturePhoto.launch(intent2);
+                                currentUriTaken = photoManager.getUriForNewImage();
+                                takePictureLauncher.launch(currentUriTaken);
                                 break;
                         }
                     }
@@ -100,21 +102,27 @@ public class ViewPhoto extends View {
                 });
 
 
-        launcherCapturePhoto =  fragment.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if(result.getResultCode() != Activity.RESULT_OK){
-                    return;
-                }
-                Bitmap photoBitmap = (Bitmap) result.getData().getExtras().get("data");
 
-                Uri photo = photoManager.savePhotoToStorage(photoBitmap);
-                addPhotoToView(photo);
-            }
-        });
+        takePictureLauncher = fragment.registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    if (result) {
+                        addPhotoToView(currentUriTaken);
+                    } else {
+                        // La prise de l'image a échoué
+                        Toast.makeText(getContext(), "La prise de l'image a échoué", Toast.LENGTH_SHORT).show();
+                        //delete the file
+                        File file = new File(currentUriTaken.getPath());
+                        file.delete();
+                    }
+                });
+
     }
 
     public void addPhotoToView(Uri selectedPhotoUri) {
+        if(!photoManager.doesImageExist(selectedPhotoUri)){
+            Toast.makeText(getContext(), "Impossible de chargée l'image", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.view_image_zone_element, null);
@@ -123,17 +131,14 @@ public class ViewPhoto extends View {
             view.setLayoutParams(layoutParams);
             binding.linearLayoutImageViews.addView(view, 0);
             ViewImageZoneElementBinding viewImageZoneElementBinding = ViewImageZoneElementBinding.bind(view);
+
+
             viewImageZoneElementBinding.imageViewZoneElement.setImageURI(selectedPhotoUri);
             viewImageZoneElementBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Obtenez l'URI de FileProvider
-                    Uri contentUri = null;
-                    if (selectedPhotoUri.getScheme().equals("content")) {
-                        contentUri = selectedPhotoUri;
-                    } else if (selectedPhotoUri.getScheme().equals("file")) {
-                        contentUri = photoManager.getFileProviderUri(selectedPhotoUri);
-                    }
+                    Uri contentUri = selectedPhotoUri;
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(contentUri, "image/*");
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
