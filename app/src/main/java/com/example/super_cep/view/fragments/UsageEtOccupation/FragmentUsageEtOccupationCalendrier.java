@@ -285,11 +285,7 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
     private void saveData() {
         Releve releve = releveViewModel.getReleve().getValue();
         Calendrier calendrier = releve.calendriers.get(nomCalendrier);
-        Map<CalendrierDate, ChaufferOccuper> map = calendrier.calendrierDateChaufferOccuperMap;
-        if(map == null){
-            map = new HashMap<>();
-            calendrier.calendrierDateChaufferOccuperMap = map;
-        }
+        Map<CalendrierDate, ChaufferOccuper> map =  new HashMap<>();
 
         for (int i = 0; i < childsHeurs.length; i++) {
             View childHeur = childsHeurs[i];
@@ -307,6 +303,7 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
             CalendrierDate calendrierDate = getCalendrierDateFromIndex(i);
             map.put(calendrierDate, chaufferOccuper);
         }
+        calendrier.calendrierDateChaufferOccuperMap = map;
         releveViewModel.setReleve(releve);
         Toast.makeText(getContext(), "calendrier sauvegardé", Toast.LENGTH_SHORT).show();
     }

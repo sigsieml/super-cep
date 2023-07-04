@@ -904,7 +904,7 @@ public class PowerpointExporter {
                 XSLFTableCell cell = table.getCell(row, column);
                 setCellChaufferOccuper(cell);
             } else if (chaufferOccuper == ChaufferOccuper.CHAUFFER) {
-                XSLFTableCell cell = table.getCell(row, column + 1);
+                XSLFTableCell cell = table.getCell(row, column);
                 setCellChauffer(cell);
             } else if (chaufferOccuper == ChaufferOccuper.OCCUPER) {
                 XSLFTableCell cell = table.getCell(row, column);

@@ -102,6 +102,19 @@
         "SATURDAY-4-0":"CHAUFFER_OCCUPER",
         "SATURDAY-3-30":"CHAUFFER_OCCUPER"
       }
+    },
+    "calendrier null ": {
+      "nom": "calendrier null  ",
+      "zones": [
+        "salle de classe",
+        "dortoir "
+      ],
+      "calendrierDateChaufferOccuperMap":{
+        "MONDAY-0-0":"CHAUFFER_OCCUPER",
+        "SUNDAY-0-0":"CHAUFFER_OCCUPER",
+        "MONDAY-23-30":"CHAUFFER_OCCUPER",
+        "SUNDAY-23-30":"CHAUFFER_OCCUPER"
+      }
     }
   },
   "chauffages":{
