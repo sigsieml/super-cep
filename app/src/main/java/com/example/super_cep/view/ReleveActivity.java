@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ConfigDataProvider;
+import com.example.super_cep.controller.LocalisationProvider;
 import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.controller.ConfigDataViewModel;
@@ -43,7 +44,7 @@ public class ReleveActivity extends AppCompatActivity {
     private Releve releve;
     private ReleveViewModel releveViewModel;
     private ConfigDataViewModel configDataViewModel;
-
+    private LocalisationProvider localisationProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,15 @@ public class ReleveActivity extends AppCompatActivity {
         askForPermissions();
         setupReleve();
         setupSpinnerData();
+        setupLocalisation();
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarReleve.toolbar);
         setupNavBar();
+    }
+
+    private void setupLocalisation() {
+        localisationProvider = new LocalisationProvider(this);
     }
 
     private void askForPermissions() {
