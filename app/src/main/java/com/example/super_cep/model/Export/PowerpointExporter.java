@@ -53,6 +53,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class PowerpointExporter {
 
@@ -787,6 +792,24 @@ public class PowerpointExporter {
         double cellWidth = anchor.getWidth() / numCols;
         double cellHeight = anchor.getHeight() / numRows;
 
+
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        Future< byte[]>[] futures = new Future[imagePaths.size()];
+        int index = 0;
+        for (String imagePath : imagePaths) {
+
+            futures[index] = executor.submit(new Callable<byte[]>() {
+                @Override
+                public byte[] call() throws Exception {
+                    return platformProvider.getImagesByteFromPath(imagePath);
+                }
+            });
+            index++;
+        }
+
+
+
+
         for (int i = 0; i < numImages; i++) {
             // Calculate the position of this image in the grid
             int row = i / numCols;
@@ -794,8 +817,15 @@ public class PowerpointExporter {
             double x = anchor.getX() + cellWidth * col;
             double y = anchor.getY() + cellHeight * row;
 
-            byte[] pictureBytes = platformProvider.getImagesByteFromPath(imagePaths.get(i));
 
+            byte[] pictureBytes = null;
+            try {
+                pictureBytes = futures[i].get();
+            } catch (ExecutionException e) {
+                continue;
+            } catch (InterruptedException e) {
+                continue;
+            }
             if (pictureBytes == null) {
                 continue;
             }
@@ -822,6 +852,8 @@ public class PowerpointExporter {
             // Resize the image to fit within its cell in the grid, while maintaining its aspect ratio
             picture.setAnchor(new java.awt.geom.Rectangle2D.Double(x, y, targetWidth, targetHeight));
         }
+        executor.shutdown(); //
+
     }
 
 
