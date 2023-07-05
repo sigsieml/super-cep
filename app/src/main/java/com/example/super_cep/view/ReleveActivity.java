@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
@@ -98,6 +99,8 @@ public class ReleveActivity extends AppCompatActivity {
     private void setupNavBar() {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        navigationView.getHeaderView(0).setOnClickListener((view) -> alertMessageArretDuReleve());
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -159,37 +162,42 @@ public class ReleveActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.i("ReleveActivity", "onBackPressed: " + Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size());
         if(Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size() <= 2){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Voulez-vous arrêter le releve ?")
-                    .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ReleveSaver releveSaver = new ReleveSaver(ReleveActivity.this);
-                            if(releveViewModel.getReleve().getValue().nomBatiment == null || releveViewModel.getReleve().getValue().nomBatiment.isEmpty()){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(ReleveActivity.this);
-                                builder.setMessage("Le relevé n'a pas de nom de bâtiment et donc ne sera pas sauvegardée. Continuer ?");
-                                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        ReleveActivity.super.onBackPressed();
-                                        finish();
-                                    }
-                                });
-                                builder.setNegativeButton("Non", null);
-                                builder.show();
-                            }else{
-                                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
-                                ReleveActivity.super.onBackPressed();
-                                finish();
-                            }
-                        }
-                    })
-                    .setNegativeButton("Non", null)
-                    .show();
-
+            alertMessageArretDuReleve();
         }
         else{
             ReleveActivity.super.onBackPressed();
         }
+    }
+
+    private void alertMessageArretDuReleve() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Voulez-vous arrêter le releve ?")
+                .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ReleveSaver releveSaver = new ReleveSaver(ReleveActivity.this);
+                        if(releveViewModel.getReleve().getValue().nomBatiment == null || releveViewModel.getReleve().getValue().nomBatiment.isEmpty()){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ReleveActivity.this);
+                            builder.setMessage("Le relevé n'a pas de nom de bâtiment et donc ne sera pas sauvegardée. Continuer ?");
+                            builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // load MainActivity
+                                    ReleveActivity.super.onBackPressed();
+                                    finish();
+                                }
+                            });
+                            builder.setNegativeButton("Non", null);
+                            builder.show();
+                        }else{
+                            releveSaver.saveReleve(releveViewModel.getReleve().getValue());
+                            ReleveActivity.super.onBackPressed();
+                            finish();
+                        }
+                    }
+                })
+                .setNegativeButton("Non", null)
+                .show();
+
     }
 }
