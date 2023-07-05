@@ -400,8 +400,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2), menuiserie.materiau.isEmpty() ? " " : menuiserie.materiau );
                     PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage );
                     if (!menuiserie.protectionsSolaires.equals("aucune")) {
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec");
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(5), menuiserie.protectionsSolaires.isEmpty() ? " " : menuiserie.protectionsSolaires );
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec " + menuiserie.protectionsSolaires );
                     }
                     PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -418,8 +417,8 @@ public class PowerpointExporter {
                     PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom.isEmpty() ? " " : zone.nom );
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol );
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.typeIsolant.isEmpty() ? " " : sol.typeIsolant );
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation );
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3),"(" + sol.typeIsolant + ";" + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm)" );
 
                     PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
