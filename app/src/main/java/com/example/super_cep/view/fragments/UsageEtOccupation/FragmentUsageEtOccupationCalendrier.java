@@ -156,7 +156,7 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
             for (float j = 0; j < 24; j += 0.5) {
 
                 ViewUsageEtOccupationHeureBinding bindingViewHeure = ViewUsageEtOccupationHeureBinding.inflate(getLayoutInflater());
-                bindingViewHeure.textViewHeur.setText(String.valueOf((int)Math.floor(j)) + "h" + String.valueOf((int)((j % 1) * 60)));
+                bindingViewHeure.textViewHeur.setText(String.valueOf((int)Math.floor(j)) + ":" + String.valueOf((int)((j % 1) * 60)));
                 bindingViewJour.linearLayoutJour.addView(bindingViewHeure.getRoot());
 
                 CalendrierDate calendrierDate = getCalendrierDateFromIndex((int) ((i * 48) + (j * 2)));
