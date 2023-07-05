@@ -88,7 +88,9 @@ public class PowerpointExporter {
             XSLFSlide slideDescriptifDuChauffage = slides.get(6);
             XSLFSlide slidePreconisations = slides.get(7);
 
-            slideBatiment(ppt, slides.get(0));
+
+            slideTitre(ppt, slides.get(0));
+            slideBatiment(ppt, slides.get(1));
             slideEnergieEtConsomations(slides.get(2));
             slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
             slideDescriptifEnveloppeThermique(ppt, slideDescriptifEnveloppeThermique, null);
@@ -103,6 +105,7 @@ public class PowerpointExporter {
             e.printStackTrace();
         }
     }
+
 
 
     private void setupReleve() {
@@ -134,6 +137,27 @@ public class PowerpointExporter {
                 remplacements.put(entry.getKey(), entry.getValue().description);
             }
         }
+    }
+
+
+    private void slideTitre(XMLSlideShow ppt, XSLFSlide slide) {
+        Rectangle2D rectangle2DImageBatiment = null;
+        for (XSLFShape shape : slide) {
+            if (shape instanceof XSLFTextShape) {
+                PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
+            }
+
+            if (shape.getShapeName().equals("photoBatiment")) {
+                rectangle2DImageBatiment = shape.getAnchor();
+            }
+        }
+        if (rectangle2DImageBatiment == null) {
+            return;
+        }
+        if (releve.imageBatiment != null) {
+            addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
+        }
+
     }
 
     private void slideBatiment(XMLSlideShow ppt, XSLFSlide slide) {
@@ -849,6 +873,9 @@ public class PowerpointExporter {
                 targetWidth = (originalWidth / originalHeight) * cellHeight;
             }
 
+            //center the image in the cell
+            x += (cellWidth - targetWidth) / 2;
+
             // Resize the image to fit within its cell in the grid, while maintaining its aspect ratio
             picture.setAnchor(new java.awt.geom.Rectangle2D.Double(x, y, targetWidth, targetHeight));
         }
@@ -884,7 +911,7 @@ public class PowerpointExporter {
             List<XSLFTableCell> cells = rowAppro.getCells();
             PowerpointExporterTools.addTextToCell(cells.get(0), ((int) i) + "h" + (i % 1 == 0 ? "00" : "30"));
             for (int j = 1; j < 8; j++) {
-                PowerpointExporterTools.addTextToCell(cells.get(j), ".");
+                PowerpointExporterTools.addTextToCell(cells.get(j), " ");
             }
 
             PowerpointExporterTools.copyRowStyle(rowExemple, rowAppro);
@@ -921,15 +948,14 @@ public class PowerpointExporter {
     }
 
     private void setCellOccuper(XSLFTableCell cell) {
-        Color color = new Color(0x00B8FA);
-        cell.getTextBody().setText("🥶");
+        Color color = new Color(0x44546a);
         cell.setFillColor(color);
     }
 
     private void setCellChaufferOccuper(XSLFTableCell cell) {
         Color color = new Color(0x44546a);
         cell.setFillColor(color);
-        cell.getTextBody().setText("🙂🔥");
+        cell.getTextBody().setText("🔥");
     }
 
 

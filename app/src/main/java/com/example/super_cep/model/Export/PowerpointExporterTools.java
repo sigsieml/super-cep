@@ -262,7 +262,14 @@ public class PowerpointExporterTools {
         for(XSLFTableCell cell : row.getCells()){
             for(XSLFTextParagraph paragraph : cell.getTextParagraphs()){
                 for(XSLFTextRun run : paragraph.getTextRuns()){
-                    run.setUnderlined(true);
+                    run.setItalic(true);
+                    if(run.getFontColor() instanceof PaintStyle.SolidPaint){
+                        PaintStyle.SolidPaint solidPaint = (PaintStyle.SolidPaint) run.getFontColor();
+                        float[] rbg = new float[4];
+                        solidPaint.getSolidColor().getColor().getRGBColorComponents(rbg);
+                        Color color = new Color(rbg[0], rbg[1], rbg[2], 0.8f);
+                        run.setFontColor(color);
+                    }
                 }
             }
         }
