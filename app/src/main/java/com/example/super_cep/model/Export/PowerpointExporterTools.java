@@ -293,6 +293,9 @@ public class PowerpointExporterTools {
     }
 
     public static boolean updateTableauAnchor(XSLFSlide slide,  XSLFTable[] tables) {
+        return updateTableauAnchor(slide, tables, slide.getSlideShow().getPageSize().getHeight());
+    }
+    public static boolean updateTableauAnchor(XSLFSlide slide,  XSLFTable[] tables, double maxHeight) {
         for (int i = 0; i < tables.length; i++) {
             PowerpointExporterTools.updateCellAnchor(tables[i], 10);
         }
@@ -305,7 +308,7 @@ public class PowerpointExporterTools {
                     tableau.getAnchor().getWidth(),
                     tableau.getAnchor().getHeight())
             );
-            if(tableau.getAnchor().getY() + tableau.getAnchor().getHeight() > slide.getSlideShow().getPageSize().getHeight()){
+            if(tableau.getAnchor().getY() + tableau.getAnchor().getHeight() > maxHeight){
                 return false;
             }
             firstTableau = tableau;
@@ -313,6 +316,7 @@ public class PowerpointExporterTools {
         }
         return true;
     }
+
 
 
 }

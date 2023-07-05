@@ -293,6 +293,7 @@ public class PowerpointExporter {
         Rectangle2D rectangle2DImage = null;
         List<String> tablesNames = List.of("tableauMur", "tableauToiture", "tableauSols", "tableauMenuiseries");
         Map<String, XSLFTable> tablesMap = new HashMap<>();
+        double maxTableauHeight = ppt.getPageSize().getHeight() - 100;
         for (XSLFShape shape : slide.getShapes()) {
             if (shape.getShapeName().equals("photo")) {
                 rectangle2DImage = shape.getAnchor();
@@ -304,6 +305,11 @@ public class PowerpointExporter {
 
             if (shape instanceof XSLFTextShape) {
                 PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
+            }
+
+
+            if(shape.getShapeName().equals("Descriptif de l'enveloppe thermique")){
+                maxTableauHeight = shape.getAnchor().getY();
             }
 
         }
@@ -334,7 +340,7 @@ public class PowerpointExporter {
             indexColorZone++;
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-                if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables)) {
+                if(!PowerpointExporterTools.updateTableauAnchor(slide,  tables, maxTableauHeight)) {
                     if(zonesOverflow.containsKey(zone.nom)){
                         zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
                     }else{
