@@ -647,48 +647,47 @@ public class PowerpointExporter {
                 case Producteur:
                     producteurs.add(chauffage);
                     row = tableauProduction.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauProduction.getRows().get(2), row);
-
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
-
-                    PowerpointExporterTools.copyRowStyle(tableauProduction.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[1]);
-
                     break;
                 case Emetteur:
                     emetteur.add(chauffage);
-
                     row = tableauEmetteurs.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
-
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
-
-                    PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
-
                     break;
                 case ProducteurEmetteur:
                     producteursEmetteurs.add(chauffage);
-
                     row = tableauEmetteurs.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauEmetteurs.getRows().get(2), row);
+                    break;
+            }
+            if(row == null) continue;
+            PowerpointExporterTools.copyNumberOfCells(tableauProduction.getRows().get(2), row);
 
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + chauffage.quantite);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + chauffage.marque + " : " + new DecimalFormat("0.#").format(chauffage.puissance) + " kW )");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(0), chauffage.getZoneText());
+            PowerpointExporterTools.addTextToCell(row.getCells().get(1), chauffage.quantite == 0 ? " " : chauffage.quantite + "");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2), chauffage.type);
+            StringBuilder sb = new StringBuilder("(");
+            if(chauffage.marque != null && !chauffage.marque.isEmpty())
+                sb.append(chauffage.marque);
+            if(chauffage.marque != null && !chauffage.marque.isEmpty() && chauffage.puissance != 0)
+                sb.append(" : ");
+            if(chauffage.puissance != 0)
+                sb.append(new DecimalFormat("0.#").format(chauffage.puissance)).append(" kW");
+            sb.append(")");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(3), sb.toString());
 
+
+            switch (chauffage.categorie) {
+                case Producteur:
+                    PowerpointExporterTools.copyRowStyle(tableauProduction.getRows().get(2), row);
+                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[1]);
+                    break;
+                case Emetteur:
+                case ProducteurEmetteur:
                     PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
                     break;
             }
-            if (row != null && chauffage.aVerifier)
+
+
+            if (chauffage.aVerifier)
                 PowerpointExporterTools.setAverfierStyleToRow(row);
 
         }
@@ -702,7 +701,15 @@ public class PowerpointExporter {
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(climatisation.zones));
             PowerpointExporterTools.addTextToCell(row.getCells().get(1), "" + climatisation.quantite);
             PowerpointExporterTools.addTextToCell(row.getCells().get(2), climatisation.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + climatisation.marque + " : " + climatisation.puissance + " kW )");
+            StringBuilder sb = new StringBuilder("(");
+            if(climatisation.marque != null && !climatisation.marque.isEmpty())
+                sb.append(climatisation.marque);
+            if(climatisation.marque != null && !climatisation.marque.isEmpty() && climatisation.puissance != 0)
+                sb.append(" : ");
+            if(climatisation.puissance != 0)
+                sb.append(new DecimalFormat("0.#").format(climatisation.puissance)).append(" kW");
+            sb.append(")");
+            PowerpointExporterTools.addTextToCell(row.getCells().get(3), sb.toString());
 
             PowerpointExporterTools.copyRowStyle(tableauEmetteurs.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
