@@ -111,24 +111,8 @@ public class PowerpointExporter {
     private void setupReleve() {
         remplacements = new HashMap<>();
         if (releve.nomBatiment != null) remplacements.put("nomBatiment", releve.nomBatiment);
-        if (releve.dateDeConstruction != null) {
-            remplacements.put("dateDeConstruction", formateDate(releve.dateDeConstruction));
-        } else {
-            remplacements.put("dateDeConstruction", "Inconnue");
-        }
-        if (releve.surfaceTotaleChauffe != 0) {
-            remplacements.put("surfaceTotaleChauffe", releve.surfaceTotaleChauffe + " m²");
-        } else {
-            remplacements.put("surfaceTotaleChauffe", "Inconnue");
-        }
-        if (releve.dateDeDerniereRenovation != null) {
-            remplacements.put("dateDeRenovation", formateDate(releve.dateDeDerniereRenovation));
-        } else {
-            remplacements.put("dateDeRenovation", "Inconnue");
-        }
-        if (releve.adresse != null) {
-            remplacements.put("adresse", releve.adresse);
-        }
+
+
 
 
         //remarques :
@@ -169,6 +153,23 @@ public class PowerpointExporter {
 
             if (shape.getShapeName().equals("photoBatiment")) {
                 rectangle2DImageBatiment = shape.getAnchor();
+            }
+            if(shape.getShapeName().equals("tableauBatiment")){
+                XSLFTable table = (XSLFTable) shape;
+                XSLFTableCell cellAddress = table.getCell(0, 1);
+                cellAddress.getTextBody().setText(releve.adresse != null && !releve.adresse.isEmpty() ? releve.adresse : "Inconnue");
+
+                XSLFTableCell surfaceTotaleChauffe = table.getCell(1, 1);
+                surfaceTotaleChauffe.getTextBody().setText(releve.surfaceTotaleChauffe != 0 ? releve.surfaceTotaleChauffe + " m²" : "Inconnue");
+
+                XSLFTableCell cellDateConstruction = table.getCell(2, 1);
+                cellDateConstruction.getTextBody().setText(releve.dateDeConstruction != null ? formateDate(releve.dateDeConstruction) : "Inconnue");
+
+                XSLFTableCell cellDateDeRenovation = table.getCell(3, 1);
+                cellDateDeRenovation.getTextBody().setText(releve.dateDeDerniereRenovation != null ? formateDate(releve.dateDeDerniereRenovation) : "Inconnue");
+
+
+
             }
         }
         if (rectangle2DImageBatiment == null) {
