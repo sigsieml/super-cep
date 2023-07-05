@@ -18,6 +18,8 @@ import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Zone;
 
+import java.util.Set;
+
 public class UsageEtOccupation extends Fragment {
 
 
@@ -28,23 +30,25 @@ public class UsageEtOccupation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding= FragmentUsageEtOccupationBinding.inflate(inflater, container, false);
+        binding = FragmentUsageEtOccupationBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         setupRecyclerView(releveViewModel.getReleve().getValue().getCalendriersValues(), releveViewModel.getReleve().getValue().getZonesValues());
 
         binding.floatingActionButtonAjoutCalendrier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopUpAjoutCalendrier.create(getContext(),releveViewModel.getReleve().getValue().getZonesValues(), new PopUpAjoutCalendrierListener() {
-                    @Override
-                    public void onValider(Calendrier calendrier) {
-                        try {
-                            releveViewModel.addCalendrier(calendrier);
-                        }catch (Exception e){
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+                PopUpAjoutCalendrier.create(getContext(), releveViewModel.getReleve().getValue().getZonesValues(),
+                        releveViewModel.getNextNameForCalendrier(), new PopUpAjoutCalendrierListener() {
+                            @Override
+                            public void onValider(Calendrier calendrier) {
+                                try {
+                                    releveViewModel.addCalendrier(calendrier);
+                                } catch (Exception e) {
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
         return binding.getRoot();
@@ -67,7 +71,7 @@ public class UsageEtOccupation extends Fragment {
                     public void onValider(String oldName, Calendrier calendrier) {
                         try {
                             releveViewModel.updateCalendrier(oldName, calendrier);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

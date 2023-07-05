@@ -385,6 +385,18 @@ public class ReleveViewModel extends ViewModel {
         }
     }
 
+    public String getNextNameForCalendrier(){
+        Releve releve = this.releve.getValue();
+        int index = 1;
+        while(true){
+            String name = "Calendrier " + index;
+            if(!releve.calendriers.containsKey(name)){
+                return name;
+            }
+            index++;
+        }
+    }
+
     private boolean isZoneElementNameAlereadyUsed(String zoneElementName){
         Releve releve = this.releve.getValue();
         for(Zone zone : releve.zones.values()){

@@ -23,8 +23,8 @@ interface PopUpAjoutCalendrierListener {
 }
 public class PopUpAjoutCalendrier extends View {
 
-    public static void create(Context context, Zone[] zones, PopUpAjoutCalendrierListener listener) {
-        new PopUpAjoutCalendrier(context,zones, listener);
+    public static void create(Context context, Zone[] zones,String nomNewCalendrier,  PopUpAjoutCalendrierListener listener) {
+        new PopUpAjoutCalendrier(context,zones,nomNewCalendrier, listener);
     }
     private PopupWindow pw;
     private PopupCalendrierAjoutBinding binding;
@@ -32,12 +32,13 @@ public class PopUpAjoutCalendrier extends View {
 
     private Zone[] zones;
 
-    private PopUpAjoutCalendrier(Context context,Zone[] zones, PopUpAjoutCalendrierListener listener) {
+    private PopUpAjoutCalendrier(Context context,Zone[] zones,String nomNewCalendrier,  PopUpAjoutCalendrierListener listener) {
         super(context);
         this.listener = listener;
         this.zones = zones;
         binding = PopupCalendrierAjoutBinding.inflate((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 
+        binding.editTextNomCalendrier.setText(nomNewCalendrier);
         setupZones();
 
 
