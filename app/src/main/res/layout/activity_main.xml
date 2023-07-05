@@ -99,7 +99,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Modifier les données pré-remplies"
+        android:text="Modifier les listes"
         app:layout_constraintBottom_toTopOf="@+id/demarrerReleveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
