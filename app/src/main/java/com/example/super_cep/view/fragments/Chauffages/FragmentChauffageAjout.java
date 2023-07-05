@@ -98,7 +98,6 @@ public class FragmentChauffageAjout extends Fragment {
         viewPhoto.setupPhotoLaunchers();
         viewZoneSelector = new ViewZoneSelector(binding.includeZoneSelection, releveViewModel);
 
-        updateSpinner();
 
         if(mode == Mode.Ajout){
             prefillChauffageName();
@@ -109,8 +108,10 @@ public class FragmentChauffageAjout extends Fragment {
             if(mode == Mode.Edition){
                 Chauffage chauffage = releveViewModel.getReleve().getValue().chauffages.get(nomChauffage);
                 isCentraliser = chauffage instanceof ChauffageCentraliser;
+                if(!isCentraliser) nomZone = ((ChauffageDecentraliser) chauffage).zone;
                 setModeEdition(chauffage);
                 addDataToView(chauffage);
+
             }
         }catch (Exception e){
             Log.e("Ajout chauffage", "onCreateView: ", e);
@@ -123,6 +124,7 @@ public class FragmentChauffageAjout extends Fragment {
                 binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + nomZone);
             }
         }
+        updateSpinner();
 
         return binding.getRoot();
 
@@ -301,10 +303,6 @@ public class FragmentChauffageAjout extends Fragment {
             if(chauffage instanceof ChauffageCentraliser){
                 viewZoneSelector.setSelectedZones(((ChauffageCentraliser) chauffage).zones);
             }
-        }else{
-            binding.includeZoneSelection.getRoot().setVisibility(View.GONE);
-            binding.textViewZoneConcerne.setText(binding.textViewZoneConcerne.getText().toString() + " : " + ((ChauffageDecentraliser) chauffage).zone);
-
         }
 
         for (String uri : chauffage.images) {

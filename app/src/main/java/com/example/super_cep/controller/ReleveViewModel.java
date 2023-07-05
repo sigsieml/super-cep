@@ -168,7 +168,7 @@ public class ReleveViewModel extends ViewModel {
     public void editChauffage(String oldName, Chauffage chauffage) {
 
         if(!chauffage.nom.equals(oldName) && releve.getValue().chauffages.containsKey(chauffage.nom)){
-            throw new IllegalArgumentException("Un calendrier porte déjà ce nom : " + chauffage.nom);
+            throw new IllegalArgumentException("Un chauffage porte déjà ce nom : " + chauffage.nom);
         }
         releve.getValue().chauffages.remove(oldName);
         releve.getValue().chauffages.put(chauffage.nom, chauffage);
