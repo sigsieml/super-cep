@@ -209,11 +209,11 @@ public class FragmentChauffageAjout extends Fragment {
             customList.addAll(typeChauffageEmetteur);
             customList.addAll(typeChauffageProducteurEmetteur);
         }
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage, customList);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage,"typeChauffageProducteurEmetteur", customList);
         List<String> listRegulation = new ArrayList<>();
         listRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
         listRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("regulationChauffage"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, listRegulation);
+        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationChauffage", listRegulation);
 
         binding.autoCompleteTypeChauffage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

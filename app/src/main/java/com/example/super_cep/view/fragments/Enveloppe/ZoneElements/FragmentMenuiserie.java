@@ -180,7 +180,7 @@ public class FragmentMenuiserie extends Fragment {
         List<String> listProtectionsSolaires = new ArrayList<>();
         listProtectionsSolaires.add(PowerpointExporter.TEXT_AUCUNE_PROTECTION_SOLAIRE);
         listProtectionsSolaires.addAll(configDataViewModel.getSpinnerData().getValue().get("protectionsSolaires"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, listProtectionsSolaires);
+        configDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, "protectionsSolaires",listProtectionsSolaires);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeVitrage, "typeVitrage");
     }
 

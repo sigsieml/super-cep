@@ -184,7 +184,7 @@ public class FragmentMur extends Fragment {
         List<String> listTypeMiseEnOeuvre = new ArrayList<>();
         listTypeMiseEnOeuvre.add(TEXT_AUCUNE_MISE_EN_OEUVRE);
         listTypeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, listTypeMiseEnOeuvre);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre",listTypeMiseEnOeuvre);
 
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
             @Override

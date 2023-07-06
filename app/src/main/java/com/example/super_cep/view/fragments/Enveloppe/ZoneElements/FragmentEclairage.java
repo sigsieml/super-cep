@@ -180,7 +180,7 @@ public class FragmentEclairage extends Fragment {
         List<String> typeRegulation = new ArrayList<>();
         typeRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
         typeRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("typeRegulation"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, typeRegulation);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "typeRegulation",typeRegulation);
     }
 
 

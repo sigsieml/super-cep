@@ -181,7 +181,7 @@ public class FragmentSol extends Fragment {
         List<String> listNiveauIsolation = new ArrayList<>();
         listNiveauIsolation.add(TEXT_NON_ISOLE);
         listNiveauIsolation.addAll(configDataViewModel.getSpinnerData().getValue().get("niveauIsolation"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, listNiveauIsolation);
+        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation",listNiveauIsolation);
         binding.autoCompleteNiveauIsolation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

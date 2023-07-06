@@ -182,7 +182,7 @@ public class FragmentVentilationAjout extends Fragment {
         List<String> listTypeRegulation = new ArrayList<>();
         listTypeRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
         listTypeRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("regulationVentilation"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, listTypeRegulation);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "regulationVentilation",listTypeRegulation);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeVentilation, "typeVentilation");
     }
 

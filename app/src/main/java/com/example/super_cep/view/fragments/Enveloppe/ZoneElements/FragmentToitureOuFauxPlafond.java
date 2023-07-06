@@ -176,7 +176,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         List<String> listTypeDeMiseEnOeuvre = new ArrayList<>();
         listTypeDeMiseEnOeuvre.add(TEXT_PAS_DE_MISE_EN_OEUVRE);
         listTypeDeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, listTypeDeMiseEnOeuvre);
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre",listTypeDeMiseEnOeuvre);
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
