@@ -57,7 +57,7 @@ public class PowerpointExporterTools {
         for (int i = 0; i < targetCell.getTextParagraphs().size(); i++) {
             targetCell.getTextParagraphs().get(i).setTextAlign(sourceCell.getTextParagraphs().get(0).getTextAlign());
             for (int j = 0; j < targetCell.getTextParagraphs().get(i).getTextRuns().size(); j++) {
-                copyTextRunStyle(sourceCell.getTextParagraphs().get(0).getTextRuns().get(j), targetCell.getTextParagraphs().get(i).getTextRuns().get(j));
+                copyTextRunStyle(sourceCell.getTextParagraphs().get(0).getTextRuns().get(0), targetCell.getTextParagraphs().get(i).getTextRuns().get(j));
             }
         }
 
