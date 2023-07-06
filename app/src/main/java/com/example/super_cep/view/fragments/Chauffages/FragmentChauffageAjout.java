@@ -20,6 +20,7 @@ import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentChauffageAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
@@ -209,7 +210,10 @@ public class FragmentChauffageAjout extends Fragment {
             customList.addAll(typeChauffageProducteurEmetteur);
         }
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeChauffage, customList);
-        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, "regulationChauffage");
+        List<String> listRegulation = new ArrayList<>();
+        listRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
+        listRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("regulationChauffage"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteRegulations, listRegulation);
 
         binding.autoCompleteTypeChauffage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

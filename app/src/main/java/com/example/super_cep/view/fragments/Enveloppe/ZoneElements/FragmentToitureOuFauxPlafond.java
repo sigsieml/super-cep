@@ -34,6 +34,7 @@ import java.util.List;
 public class FragmentToitureOuFauxPlafond extends Fragment {
     private static final String NOM_ZONE = "nomZone";
     private static final String NOM_ELEMENT = "nomElement";
+    private static final String TEXT_PAS_DE_MISE_EN_OEUVRE = "Aucun";
     private String nomZone;
     private String nomElement;
     private Mode mode = Mode.Ajout;
@@ -95,7 +96,6 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         return binding.getRoot();
 
     }
-
     private void addFooterAjout() {
         ViewFooterZoneElementBinding viewFooter = ViewFooterZoneElementBinding.inflate(getLayoutInflater());
         viewFooter.buttonAnnuler.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +173,10 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
     private void updateSpinner() {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeToiture, "typeToiture");
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+        List<String> listTypeDeMiseEnOeuvre = new ArrayList<>();
+        listTypeDeMiseEnOeuvre.add(TEXT_PAS_DE_MISE_EN_OEUVRE);
+        listTypeDeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, listTypeDeMiseEnOeuvre);
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

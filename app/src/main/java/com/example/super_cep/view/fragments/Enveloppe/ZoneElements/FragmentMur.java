@@ -66,6 +66,8 @@ public class FragmentMur extends Fragment {
     private ConfigDataViewModel configDataViewModel;
     private ViewPhoto viewPhoto;
 
+    private static final String TEXT_AUCUNE_MISE_EN_OEUVRE = "Aucun";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -178,7 +180,11 @@ public class FragmentMur extends Fragment {
     private void updateSpinner() {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeMur, "typeMur");
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre");
+
+        List<String> listTypeMiseEnOeuvre = new ArrayList<>();
+        listTypeMiseEnOeuvre.add(TEXT_AUCUNE_MISE_EN_OEUVRE);
+        listTypeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, listTypeMiseEnOeuvre);
 
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
             @Override
@@ -188,7 +194,7 @@ public class FragmentMur extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals("Aucun")){
+                if(s.toString().equals(TEXT_AUCUNE_MISE_EN_OEUVRE)){
                     binding.tableRowIsolant.setVisibility(View.GONE);
                     binding.constraintLayoutNiveauIsolation.setVisibility(View.GONE);
                 }else{

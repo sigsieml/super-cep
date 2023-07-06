@@ -63,6 +63,8 @@ public class PowerpointExporter {
 
     public static final String POWERPOINT_VIERGE_NAME = "powerpointvierge.pptx";
     public static final Color[] colors = new Color[]{new Color(191, 143, 0), new Color(31, 78, 120), new Color(255, 43, 43)};
+    public static final String TEXT_AUCUNE_PROTECTION_SOLAIRE = "Aucune";
+    public static final String TEXT_ABSENCE_REGULATION = "En fonctionnement continu";
     private Releve releve;
     private Map<String, String> remplacements;
 
@@ -400,7 +402,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), menuiserie.typeMenuiserie.isEmpty() ? " " : menuiserie.typeMenuiserie );
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2), menuiserie.materiau.isEmpty() ? " " : menuiserie.materiau );
                     PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage );
-                    if (!menuiserie.protectionsSolaires.equals("aucune")) {
+                    if (!menuiserie.protectionsSolaires.equals(TEXT_AUCUNE_PROTECTION_SOLAIRE)) {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec " + menuiserie.protectionsSolaires );
                     }
                     PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
@@ -526,7 +528,7 @@ public class PowerpointExporter {
 
                     PowerpointExporterTools.addTextToCell(row.getCells().get(0), zone.nom);
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), eclairage.typeEclairage);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), eclairage.typeDeRegulation.equals("Absence de régulation") ? " " : "Régulé par " + eclairage.typeDeRegulation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), eclairage.typeDeRegulation.equals(TEXT_ABSENCE_REGULATION) ? " " : "Régulé par " + eclairage.typeDeRegulation);
 
                     PowerpointExporterTools.copyRowStyle(tableauEclairage.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -554,7 +556,7 @@ public class PowerpointExporter {
 
             PowerpointExporterTools.addTextToCell(row.getCells().get(0), getZonesText(ventilation.zones));
             PowerpointExporterTools.addTextToCell(row.getCells().get(1), ventilation.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(2), ventilation.regulation.equals("Absence de régulation") ? " " : "Régulé par " + ventilation.regulation);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2), ventilation.regulation.equals(TEXT_ABSENCE_REGULATION) ? " " : "Régulé par " + ventilation.regulation);
             PowerpointExporterTools.copyRowStyle(tableauVentilation.getRows().get(2), row);
             PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colors[0]);
 

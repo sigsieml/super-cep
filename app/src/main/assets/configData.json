@@ -94,7 +94,6 @@
       "Inconnu"
     ],
     "niveauIsolation": [
-      "Non isolé",
       "Faiblement isolé",
       "Moyennement isolé",
       "Assez bien isolé",
@@ -208,7 +207,6 @@
       "Extérieur",
       "Intérieur",
       "de façon répartie",
-      "Aucun",
       "Inconnu"
     ],
     "protectionsSolaires": [
@@ -273,7 +271,6 @@
       "Inconnu"
     ],
     "regulationVentilation": [
-      "En fonctionnement continu",
       "Horloge",
       "Programmation horaire",
       "Sonde CO2",

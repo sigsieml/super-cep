@@ -21,6 +21,7 @@ import com.example.super_cep.databinding.FragmentMenuiserieBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Enveloppe.Menuiserie;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.view.Mode;
@@ -176,7 +177,10 @@ public class FragmentMenuiserie extends Fragment {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeMenuiserie, "typeMenuiserie");
         configDataViewModel.setAutoComplete(binding.autoCompleteMatRiau, "materiau");
-        configDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, "protectionsSolaires");
+        List<String> listProtectionsSolaires = new ArrayList<>();
+        listProtectionsSolaires.add(PowerpointExporter.TEXT_AUCUNE_PROTECTION_SOLAIRE);
+        listProtectionsSolaires.addAll(configDataViewModel.getSpinnerData().getValue().get("protectionsSolaires"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteProtectionsSolaires, listProtectionsSolaires);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeVitrage, "typeVitrage");
     }
 

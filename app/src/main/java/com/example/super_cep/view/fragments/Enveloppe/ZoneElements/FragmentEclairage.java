@@ -22,6 +22,7 @@ import com.example.super_cep.databinding.FragmentEclairageBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Enveloppe.Eclairage;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.view.Mode;
@@ -176,7 +177,10 @@ public class FragmentEclairage extends Fragment {
     private void updateSpinner() {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeEclairage, "typeEclairage");
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "typeRegulation");
+        List<String> typeRegulation = new ArrayList<>();
+        typeRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
+        typeRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("typeRegulation"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, typeRegulation);
     }
 
 

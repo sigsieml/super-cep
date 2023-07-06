@@ -20,6 +20,7 @@ import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentVentilationAjoutBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Ventilation;
 import com.example.super_cep.view.Mode;
@@ -178,7 +179,10 @@ public class FragmentVentilationAjout extends Fragment {
     }
 
     private void updateSpinner() {
-        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, "regulationVentilation");
+        List<String> listTypeRegulation = new ArrayList<>();
+        listTypeRegulation.add(PowerpointExporter.TEXT_ABSENCE_REGULATION);
+        listTypeRegulation.addAll(configDataViewModel.getSpinnerData().getValue().get("regulationVentilation"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteTypeRegulation, listTypeRegulation);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeVentilation, "typeVentilation");
     }
 

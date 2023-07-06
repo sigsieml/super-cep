@@ -64,8 +64,11 @@ public class FragmentSol extends Fragment {
 
     private ReleveViewModel releveViewModel;
     private ConfigDataViewModel configDataViewModel;
-
     private ViewPhoto viewPhoto;
+
+    private static final String TEXT_NON_ISOLE = "Non isolé";
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -175,7 +178,10 @@ public class FragmentSol extends Fragment {
     private void updateSpinner() {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
-        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation");
+        List<String> listNiveauIsolation = new ArrayList<>();
+        listNiveauIsolation.add(TEXT_NON_ISOLE);
+        listNiveauIsolation.addAll(configDataViewModel.getSpinnerData().getValue().get("niveauIsolation"));
+        configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, listNiveauIsolation);
         binding.autoCompleteNiveauIsolation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -183,7 +189,7 @@ public class FragmentSol extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals("Non isolé")){
+                if(s.toString().equals(TEXT_NON_ISOLE)){
                     binding.constraintLayoutNiveauIsolant.setVisibility(View.GONE);
                 }else{
                     binding.constraintLayoutNiveauIsolant.setVisibility(View.VISIBLE);
