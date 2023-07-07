@@ -30,6 +30,7 @@ import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xslf.usermodel.XSLFSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
@@ -99,7 +100,7 @@ public class PowerpointExporter {
 
             slideTitre(ppt, slides.get(0));
             slideBatiment(ppt, slides.get(1));
-            slideEnergieEtConsomations(slides.get(2));
+            slideEnergieEtConsomations(ppt,slides.get(2));
             slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
             slideDescriptifEnveloppeThermique(ppt, slideDescriptifEnveloppeThermique, null);
             slideDescriptifDesSystem(ppt, slideDescriptifDesSystem, null, null, null);
@@ -191,12 +192,17 @@ public class PowerpointExporter {
 
     }
 
-    private void slideEnergieEtConsomations(XSLFSlide slide) {
+    private void slideEnergieEtConsomations(XMLSlideShow ppt, XSLFSlide slide) {
+        Rectangle2D rectangle2DImages = null;
+        List<String> images = new ArrayList<>();
         for (XSLFShape shape : slide) {
             if (shape instanceof XSLFTextShape) {
                 PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
             }
 
+            if(shape.getShapeName().equals("photoApprovisionnement")){
+                rectangle2DImages = shape.getAnchor();
+            }
             if (shape.getShapeName().equals("tableauApprovisionnementEnergetique")) {
 
                 XSLFTable table = (XSLFTable) shape;
@@ -207,6 +213,8 @@ public class PowerpointExporter {
 
 
                 for (ApprovisionnementEnergetique approvisionnementEnergetique : releve.approvisionnementEnergetiques.values()) {
+                    if(approvisionnementEnergetique.images != null)
+                        images.addAll(approvisionnementEnergetique.images);
                     XSLFTableRow rowAppro = table.addRow();
                     rowAppro.setHeight(rowExemple.getHeight());
 
@@ -230,6 +238,9 @@ public class PowerpointExporter {
                 }
                 table.removeRow(2);
             }
+        }
+        if(images.size() > 0){
+            addImagesToSlide(ppt, slide, images, rectangle2DImages);
         }
     }
 

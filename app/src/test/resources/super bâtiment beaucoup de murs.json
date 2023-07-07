@@ -33,6 +33,10 @@
         "salle de classe",
         "dortoir "
       ],
+      "images": [
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image5.jpg",
+        "C:\\Users\\TLB\\Pictures\\chauffage\\Image6.jpg"
+      ],
       "aVerifier": true,
       "note": "dhbd"
     }
