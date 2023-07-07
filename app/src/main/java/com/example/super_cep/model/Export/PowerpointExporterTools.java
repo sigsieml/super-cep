@@ -1,6 +1,12 @@
 package com.example.super_cep.model.Export;
 
 
+import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.util.TypedValue;
+
 import org.apache.harmony.luni.util.NotImplementedException;
 import org.apache.poi.sl.draw.DrawFactory;
 import org.apache.poi.sl.draw.DrawTableShape;
@@ -122,7 +128,7 @@ public class PowerpointExporterTools {
         cell.setBottomInset(0);
     }
 
-    public static void updateCellAnchor(XSLFTable tableau, float rowHeight ) {
+    public static void updateCellAnchor(PlatformProvider platformProvider, XSLFTable tableau, float rowHeight ) {
         int rows = tableau.getNumberOfRows();
         int cols = tableau.getNumberOfColumns();
 
@@ -152,9 +158,8 @@ public class PowerpointExporterTools {
                 }
                 // need to set the anchor before height calculation
                 tc.setAnchor(new Rectangle2D.Double(0,0,colWidths[col],0));
-//                DrawTextShape dts = df.getDrawable(tc);
-                //maxHeight = Math.max(maxHeight, getTextHeight(tc));
-                maxHeight = rowHeight;
+                int textHeight = platformProvider.getTextHeight(tc);
+                maxHeight = Math.max(maxHeight, textHeight);
             }
             rowHeights[row] = Math.max(rowHeights[row],maxHeight);
         }
@@ -167,7 +172,7 @@ public class PowerpointExporterTools {
                 XSLFTableCell tc = tableau.getCell(row, col);
                 if (tc != null) {
                     tc.setAnchor(bounds);
-                    nextX += colWidths[col]+ DrawTableShape.borderSize;
+                    nextX += colWidths[col]+DrawTableShape.borderSize;
                 }
             }
             nextY += rowHeights[row]+DrawTableShape.borderSize;
@@ -185,7 +190,7 @@ public class PowerpointExporterTools {
                     assert(col2 < cols);
                     XSLFTableCell tc2 = tableau.getCell(row, col2);
                     if (tc2.getGridSpan() != 1 || tc2.getRowSpan() != 1) {
-                        System.out.println("apachePOI" + "invalid table span - rendering result is probably wrong");
+                        System.out.println("Invalid table span - rendering result is probably wrong");
                     }
                     mergedBounds.add(tc2.getAnchor());
                 }
@@ -193,7 +198,7 @@ public class PowerpointExporterTools {
                     assert(row2 < rows);
                     XSLFTableCell tc2 = tableau.getCell(row2, col);
                     if (tc2.getGridSpan() != 1 || tc2.getRowSpan() != 1) {
-                        System.out.println("apachePOI" + "invalid table span - rendering result is probably wrong");
+                        System.out.println("invalid table span - rendering result is probably wrong");
                     }
                     mergedBounds.add(tc2.getAnchor());
                 }
@@ -206,6 +211,7 @@ public class PowerpointExporterTools {
                 nextY-tblAnc.getY()));
 
     }
+
 
 
     public static void replaceTextInTextShape(Map<String, String> remplacements, XSLFTextShape shape) {
@@ -292,12 +298,12 @@ public class PowerpointExporterTools {
         }
     }
 
-    public static boolean updateTableauAnchor(XSLFSlide slide,  XSLFTable[] tables) {
-        return updateTableauAnchor(slide, tables, slide.getSlideShow().getPageSize().getHeight());
+    public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFSlide slide,  XSLFTable[] tables) {
+        return updateTableauAnchor(platformProvider, slide, tables, slide.getSlideShow().getPageSize().getHeight());
     }
-    public static boolean updateTableauAnchor(XSLFSlide slide,  XSLFTable[] tables, double maxHeight) {
+    public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFSlide slide,  XSLFTable[] tables, double maxHeight) {
         for (int i = 0; i < tables.length; i++) {
-            PowerpointExporterTools.updateCellAnchor(tables[i], 10);
+            PowerpointExporterTools.updateCellAnchor(platformProvider, tables[i], 10);
         }
 
         XSLFTable firstTableau = tables[0];

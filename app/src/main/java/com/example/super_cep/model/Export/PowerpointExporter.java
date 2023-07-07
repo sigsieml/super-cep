@@ -363,7 +363,7 @@ public class PowerpointExporter {
             indexColorZone++;
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-                if (!PowerpointExporterTools.updateTableauAnchor(slide, tables, maxTableauHeight)) {
+                if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables, maxTableauHeight)) {
                     if (zonesOverflow.containsKey(zone.nom)) {
                         zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
                     } else {
@@ -475,7 +475,7 @@ public class PowerpointExporter {
         addImagesToSlide(ppt, slide, images, rectangle2DImage);
 
 
-        PowerpointExporterTools.updateTableauAnchor(slide, tables);
+        PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables);
 
         tableauMur.removeRow(2);
         tableauToiture.removeRow(2);
@@ -541,7 +541,7 @@ public class PowerpointExporter {
             indexColorZone++;
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-                if (!PowerpointExporterTools.updateTableauAnchor(slide, tables)) {
+                if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables)) {
                     if (eclairageOverflow.containsKey(zone.nom)) {
                         eclairageOverflow.get(zone.nom).addZoneElement(zoneElement);
                     } else {
@@ -577,7 +577,7 @@ public class PowerpointExporter {
         }
 
         for (Ventilation ventilation : ventilations) {
-            if (!PowerpointExporterTools.updateTableauAnchor(slide, tables)) {
+            if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables)) {
                 ventilationOverflow.add(ventilation);
                 continue;
             }
@@ -602,7 +602,7 @@ public class PowerpointExporter {
         }
 
         for (ECS ecs : ecss) {
-            if (!PowerpointExporterTools.updateTableauAnchor(slide, tables)) {
+            if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables)) {
                 ecsOverflow.add(ecs);
                 continue;
             }
@@ -757,8 +757,8 @@ public class PowerpointExporter {
         }
         addImagesToSlide(ppt, slide, photo, rectangle2DPhoto);
 
-        PowerpointExporterTools.updateCellAnchor(tableauEmetteurs, 10);
-        PowerpointExporterTools.updateCellAnchor(tableauProduction, 10);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauEmetteurs, 10);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauProduction, 10);
 
         tableauProduction.setAnchor(new Rectangle2D.Double(tableauEmetteurs.getAnchor().getX(),
                 tableauEmetteurs.getAnchor().getY() + tableauEmetteurs.getAnchor().getHeight() + 2,
@@ -819,7 +819,7 @@ public class PowerpointExporter {
 
         tableauPreconisations.removeRow(0);
 
-        PowerpointExporterTools.updateCellAnchor(tableauPreconisations, 10);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauPreconisations, 10);
 
 
         if (tableauPreconisations.getNumberOfRows() == 0) {

@@ -2,7 +2,10 @@ package com.example.super_cep;
 
 import com.example.super_cep.model.Export.PlatformProvider;
 
+import org.apache.poi.sl.draw.DrawFactory;
+import org.apache.poi.sl.draw.DrawTextShape;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xslf.usermodel.XSLFTableCell;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,5 +39,12 @@ public class pcProvider implements PlatformProvider {
                 path.endsWith(".jpeg") ||
                 path.endsWith(".png")
         );
+    }
+
+    @Override
+    public int getTextHeight(XSLFTableCell tc) {
+        DrawFactory df = DrawFactory.getInstance(null);
+        DrawTextShape dts = df.getDrawable(tc);
+        return (int) dts.getTextHeight();
     }
 }
