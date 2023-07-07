@@ -1,6 +1,7 @@
 package com.example.super_cep.view.fragments.UsageEtOccupation;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Calendrier.CalendrierDate;
 import com.example.super_cep.model.Releve.Calendrier.ChaufferOccuper;
 import com.example.super_cep.model.Releve.Releve;
+import com.example.super_cep.view.AideFragment;
 
 import org.apache.poi.poifs.property.Child;
 
@@ -38,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class FragmentUsageEtOccupationCalendrier extends Fragment {
+public class FragmentUsageEtOccupationCalendrier extends Fragment implements AideFragment {
 
     private static final String ARG_CALENDRIER = "nomCalendrier";
     private String nomCalendrier;
@@ -307,4 +309,23 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment {
         releveViewModel.setReleve(releve);
         Toast.makeText(getContext(), "calendrier sauvegardé", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void aide() {
+        // Afficher la fenêtre d'aide
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Aide");
+        builder.setMessage(
+                "Dans cet écran, vous pouvez visualiser et modifier le calendrier d'occupation et d'usage pour le calendrier choisi.\n\n" +
+                        "Les différentes actions que vous pouvez effectuer sont les suivantes :\n" +
+                        "- Vous pouvez basculer entre le mode de chauffage et le mode d'occupation en utilisant les boutons de basculement situés en haut de l'écran. Le mode actif est indiqué par le texte en gras.\n" +
+                        "- Vous pouvez ajouter ou supprimer des périodes de chauffage ou d'occupation en tapotant une fois sur une heure spécifique dans le calendrier. En mode de chauffage, cela affiche ou masque une icône de feu. En mode d'occupation, cela change la couleur de fond de l'heure.\n" +
+                        "- Vous pouvez ajouter ou supprimer plusieurs périodes de chauffage ou d'occupation en faisant un double tap sur une heure pour commencer et en glissant votre doigt vers les heures suivantes ou précédentes.\n\n" +
+                        "Lorsque vous quittez l'écran, vos modifications sont automatiquement sauvegardées."
+        );
+        builder.setPositiveButton("OK", null);
+        builder.show();
+    }
+
+
 }

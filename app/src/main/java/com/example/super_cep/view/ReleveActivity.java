@@ -27,10 +27,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -47,15 +50,11 @@ public class ReleveActivity extends AppCompatActivity {
     private ReleveViewModel releveViewModel;
     private ConfigDataViewModel configDataViewModel;
     private LocalisationProvider localisationProvider;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .build());
-
         binding = ActivityReleveBinding.inflate(getLayoutInflater());
         askForPermissions();
         setupReleve();
@@ -120,7 +119,6 @@ public class ReleveActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         navigationView.getHeaderView(0).setOnClickListener((view) -> alertMessageArretDuReleve());
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -129,7 +127,7 @@ public class ReleveActivity extends AppCompatActivity {
                 R.id.nav_remarques, R.id.nav_preconisations, R.id.nav_export_data)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         final Context context = this;
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
@@ -145,6 +143,7 @@ public class ReleveActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,6 +165,9 @@ public class ReleveActivity extends AppCompatActivity {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 return true;
+        }else if(item.getItemId() == R.id.action_aide) {
+            aide();
+            return true;
         }else{
             return super.onOptionsItemSelected(item);
         }
@@ -220,4 +222,22 @@ public class ReleveActivity extends AppCompatActivity {
                 .show();
 
     }
+    private void aide() {
+        NavBackStackEntry backStackEntry = navController.getCurrentBackStackEntry();
+
+        if (backStackEntry != null) {
+            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
+
+            if (navHostFragment != null) {
+                Fragment fragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
+
+                if (fragment instanceof AideFragment) {
+                    ((AideFragment) fragment).aide();
+                } else {
+                    Toast.makeText(this, "Aide non disponible pour cette page", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 }

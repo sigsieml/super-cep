@@ -2,6 +2,7 @@ package com.example.super_cep.view.SettingsActivity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,9 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.ConfigDataProvider;
 import com.example.super_cep.databinding.ActivitySettingsBinding;
 import com.example.super_cep.model.ConfigData.ConfigData;
@@ -48,7 +52,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingViewHo
         configDataProvider = new ConfigDataProvider(this);
         configData = configDataProvider.getConfigData();
         setupRecyclerView();
-
         setupActivityResult();
 
         binding.fabSettings.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,24 @@ public class SettingsActivity extends AppCompatActivity implements SettingViewHo
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_aide){
+            aide();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     private void loadFromAFileConfigData() {
         openFileLauncher.launch(new String[]{"application/json"});
@@ -150,5 +171,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingViewHo
                 settingAdapter.update(configData.map);
             }
         });
+    }
+    private void aide() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Aide");
+        builder.setMessage("Ce menu vous permet de gérer les paramètres de l'application :\n\n" +
+                "- L'option 'Réinitialiser' vous permet de rétablir les paramètres par défaut de l'application.\n" +
+                "- L'option 'Sauvegarder dans un fichier' vous permet de sauvegarder les configurations actuelles dans un fichier JSON pour une utilisation future. Le fichier sera enregistré sous le nom 'super-cep-config.json'.\n" +
+                "- L'option 'Charger depuis un fichier' vous permet de charger les paramètres à partir d'un fichier JSON précédemment enregistré.\n\n" +
+                "Vous pouvez également modifier les paramètres individuels en cliquant sur un paramètre dans la liste. Après avoir effectué des modifications, vous serez invité à sauvegarder vos modifications lorsque vous quitterez l'activité.\n");
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 }

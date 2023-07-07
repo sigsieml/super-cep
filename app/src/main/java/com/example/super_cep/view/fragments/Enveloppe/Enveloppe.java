@@ -30,10 +30,11 @@ import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.AideFragment;
 
 import org.apache.harmony.luni.util.NotImplementedException;
 
-public class Enveloppe extends Fragment implements ZoneUiHandler {
+public class Enveloppe extends Fragment implements ZoneUiHandler, AideFragment {
 
     public Zone[] zones;
 
@@ -194,4 +195,52 @@ public class Enveloppe extends Fragment implements ZoneUiHandler {
             Toast.makeText(getContext(), "une zone avec le même nom existe déjà", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void aide(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Aide");
+
+        //1. Ajout d'une nouvelle zone :
+        //Pour ajouter une nouvelle zone, appuyez sur le bouton flottant (fab) situé en bas à droite de l'écran. Une fois le bouton pressé, une fenêtre contextuelle s'ouvrira pour vous demander le nom de la nouvelle zone.
+        //
+        //2. Modification du nom d'une zone :
+        //Pour modifier le nom d'une zone, appuyez simplement sur la zone concernée. Une fenêtre contextuelle s'ouvrira pour vous permettre de modifier le nom.
+        //
+        //3. Suppression d'une zone :
+        //Pour supprimer une zone, appuyez sur le bouton de suppression situé à côté de chaque zone. Un message de confirmation apparaîtra pour vous demander de confirmer la suppression de la zone. Veuillez noter que tous les éléments associés à la zone seront également supprimés.
+        //
+        //4. Ajout d'un nouvel élément dans une zone :
+        //Chaque zone peut contenir plusieurs éléments. Pour ajouter un nouvel élément à une zone, appuyez sur le bouton d'ajout (+) situé à côté de chaque zone. Une nouvelle fenêtre s'ouvrira pour vous permettre de saisir les informations de l'élément.
+        //
+        //5. Déplacement des éléments d'une zone à une autre :
+        //Pour déplacer un élément d'une zone à une autre, effectuez un appui long sur l'élément que vous souhaitez déplacer, puis faites-le glisser jusqu'à la zone de destination. Une boîte de dialogue vous demandera si vous souhaitez déplacer ou copier l'élément.
+        //
+        //6. Filtrage des éléments d'une zone :
+        //Vous pouvez rechercher des éléments spécifiques dans une zone en utilisant la barre de recherche située en haut de l'écran. Commencez simplement à taper le nom de l'élément et la liste sera filtrée en conséquence.
+        //
+        //Nous espérons que ce guide vous sera utile. Si vous avez d'autres questions, n'hésitez pas à nous contacter.
+        builder.setMessage("1. Ajout d'une nouvelle zone :\n" +
+                "Pour ajouter une nouvelle zone, appuyez sur le bouton flottant (fab) situé en bas à droite de l'écran. Une fois le bouton pressé, une fenêtre contextuelle s'ouvrira pour vous demander le nom de la nouvelle zone.\n" +
+                "\n" +
+                "2. Modification du nom d'une zone :\n" +
+                "Pour modifier le nom d'une zone, appuyez simplement sur la zone concernée. Une fenêtre contextuelle s'ouvrira pour vous permettre de modifier le nom.\n" +
+                "\n" +
+                "3. Suppression d'une zone :\n" +
+                "Pour supprimer une zone, appuyez sur le bouton de suppression situé à côté de chaque zone. Un message de confirmation apparaîtra pour vous demander de confirmer la suppression de la zone. Veuillez noter que tous les éléments associés à la zone seront également supprimés.\n" +
+                "\n" +
+                "4. Ajout d'un nouvel élément dans une zone :\n" +
+                "Chaque zone peut contenir plusieurs éléments. Pour ajouter un nouvel élément à une zone, appuyez sur le bouton d'ajout (+) situé à côté de chaque zone. Une nouvelle fenêtre s'ouvrira pour vous permettre de saisir les informations de l'élément.\n" +
+                "\n" +
+                "5. Déplacement des éléments d'une zone à une autre :\n" +
+                "Pour déplacer un élément d'une zone à une autre, effectuez un appui long sur l'élément que vous souhaitez déplacer, puis faites-le glisser jusqu'à la zone de destination. Une boîte de dialogue vous demandera si vous souhaitez déplacer ou copier l'élément.\n" +
+                "\n" +
+                "6. Filtrage des éléments d'une zone :\n" +
+                "Vous pouvez rechercher des éléments spécifiques dans une zone en utilisant la barre de recherche située en haut de l'écran. Commencez simplement à taper le nom de l'élément et la liste sera filtrée en conséquence.\n" +
+                "\n" +
+                "Nous espérons que ce guide vous sera utile. Si vous avez d'autres questions, n'hésitez pas à nous contacter.");
+        builder.setPositiveButton("Ok", null);
+        builder.show();
+    }
+
 }
