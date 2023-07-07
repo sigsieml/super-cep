@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -31,6 +32,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.super_cep.controller.LocalisationProvider;
+import com.example.super_cep.controller.LocalisationProviderListener;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
 import com.example.super_cep.model.Releve.Releve;
@@ -57,6 +60,8 @@ public class Batiment extends Fragment {
 
     PhotoManager photoManager;
 
+    private LocalisationProvider localisationProvider;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +69,18 @@ public class Batiment extends Fragment {
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         releve = releveViewModel.getReleve();
         photoManager = new PhotoManager(getContext());
+        localisationProvider = new LocalisationProvider(getActivity());
+        String address = localisationProvider.getLocalisation();
+        if(address != null)
+            binding.editTextMultiLineAdresse.setText(address);
+
+        localisationProvider.registerListener(new LocalisationProviderListener() {
+            @Override
+            public void onLocalisationChanged(Address address) {
+                if(address != null && binding.editTextMultiLineAdresse.getText().toString().isEmpty())
+                    binding.editTextMultiLineAdresse.setText(localisationProvider.getLocalisation());
+            }
+        });
 
         releve.observe(getViewLifecycleOwner(), new Observer<Releve>() {
             @Override
