@@ -23,6 +23,7 @@ import com.example.super_cep.databinding.FragmentSolBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Enveloppe.Sol;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.view.Mode;
@@ -66,7 +67,6 @@ public class FragmentSol extends Fragment {
     private ConfigDataViewModel configDataViewModel;
     private ViewPhoto viewPhoto;
 
-    private static final String TEXT_NON_ISOLE = "Non isolé";
 
 
     @Override
@@ -179,7 +179,7 @@ public class FragmentSol extends Fragment {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeSol, "typeSol");
         List<String> listNiveauIsolation = new ArrayList<>();
-        listNiveauIsolation.add(TEXT_NON_ISOLE);
+        listNiveauIsolation.add(PowerpointExporter.TEXT_AUCUN_ISOLANT);
         listNiveauIsolation.addAll(configDataViewModel.getSpinnerData().getValue().get("niveauIsolation"));
         configDataViewModel.setAutoComplete(binding.autoCompleteNiveauIsolation, "niveauIsolation",listNiveauIsolation);
         binding.autoCompleteNiveauIsolation.addTextChangedListener(new TextWatcher() {
@@ -189,7 +189,7 @@ public class FragmentSol extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals(TEXT_NON_ISOLE)){
+                if(s.toString().equals(PowerpointExporter.TEXT_AUCUN_ISOLANT)){
                     binding.constraintLayoutNiveauIsolant.setVisibility(View.GONE);
                 }else{
                     binding.constraintLayoutNiveauIsolant.setVisibility(View.VISIBLE);

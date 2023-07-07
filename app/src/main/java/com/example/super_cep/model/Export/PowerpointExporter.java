@@ -64,6 +64,7 @@ public class PowerpointExporter {
     public static final Color[] colors = new Color[]{new Color(191, 143, 0), new Color(31, 78, 120), new Color(255, 43, 43)};
     public static final String TEXT_AUCUNE_PROTECTION_SOLAIRE = "Aucune";
     public static final String TEXT_ABSENCE_REGULATION = "En fonctionnement continu";
+    public static final String TEXT_AUCUN_ISOLANT = "Aucun";
     private Releve releve;
     private Map<String, String> remplacements;
 
@@ -137,7 +138,7 @@ public class PowerpointExporter {
 
             if (shape.getShapeName().startsWith("colorZone")) {
                 XSLFTextShape textShape = (XSLFTextShape) shape;
-                PaintStyle color = textShape.getTextParagraphs().get(0).getTextRuns().get(0).getFontColor();
+               PaintStyle color = textShape.getTextParagraphs().get(0).getTextRuns().get(0).getFontColor();
                 colorsForZones.add(color);
             }
             if (shape.getShapeName().equals("photoBatiment")) {
@@ -371,8 +372,13 @@ public class PowerpointExporter {
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), "Mur");
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2), mur.typeMur.isEmpty() ? " " : mur.typeMur);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" + mur.typeIsolant + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm)");
+                    if(mur.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), " ");
+                    }else{
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" + mur.typeIsolant + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm)");
+                    }
 
                     PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -391,8 +397,13 @@ public class PowerpointExporter {
                     PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), toiture.typeToiture.isEmpty() ? " " : toiture.typeToiture);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + toiture.typeIsolant + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm)");
+                    if(toiture.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                    }else{
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + toiture.typeIsolant + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm)");
+                    }
                     PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 
@@ -430,9 +441,13 @@ public class PowerpointExporter {
                     PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + sol.typeIsolant + ";" + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm)");
-
+                    if(sol.niveauIsolation.equals(TEXT_AUCUN_ISOLANT)){
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                    }else{
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + sol.typeIsolant + ";" + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm)");
+                    }
                     PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
 

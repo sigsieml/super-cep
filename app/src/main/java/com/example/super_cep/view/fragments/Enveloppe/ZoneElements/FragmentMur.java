@@ -21,6 +21,7 @@ import com.example.super_cep.databinding.FragmentMurBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.controller.ReleveViewModel;
@@ -66,7 +67,6 @@ public class FragmentMur extends Fragment {
     private ConfigDataViewModel configDataViewModel;
     private ViewPhoto viewPhoto;
 
-    private static final String TEXT_AUCUNE_MISE_EN_OEUVRE = "Aucun";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -182,7 +182,7 @@ public class FragmentMur extends Fragment {
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeMur, "typeMur");
 
         List<String> listTypeMiseEnOeuvre = new ArrayList<>();
-        listTypeMiseEnOeuvre.add(TEXT_AUCUNE_MISE_EN_OEUVRE);
+        listTypeMiseEnOeuvre.add(PowerpointExporter.TEXT_AUCUN_ISOLANT);
         listTypeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre",listTypeMiseEnOeuvre);
 
@@ -194,7 +194,7 @@ public class FragmentMur extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals(TEXT_AUCUNE_MISE_EN_OEUVRE)){
+                if(s.toString().equals(PowerpointExporter.TEXT_AUCUN_ISOLANT)){
                     binding.tableRowIsolant.setVisibility(View.GONE);
                     binding.constraintLayoutNiveauIsolation.setVisibility(View.GONE);
                 }else{

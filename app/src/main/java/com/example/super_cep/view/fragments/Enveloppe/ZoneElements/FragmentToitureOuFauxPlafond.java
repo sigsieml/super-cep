@@ -23,6 +23,7 @@ import com.example.super_cep.databinding.FragmentToitureOuFauxPlafondBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementBinding;
 import com.example.super_cep.databinding.ViewFooterZoneElementConsultationBinding;
 import com.example.super_cep.databinding.ViewPhotoBinding;
+import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Enveloppe.Toiture;
 import com.example.super_cep.model.Releve.ZoneElement;
 import com.example.super_cep.view.Mode;
@@ -34,7 +35,6 @@ import java.util.List;
 public class FragmentToitureOuFauxPlafond extends Fragment {
     private static final String NOM_ZONE = "nomZone";
     private static final String NOM_ELEMENT = "nomElement";
-    private static final String TEXT_PAS_DE_MISE_EN_OEUVRE = "Aucun";
     private String nomZone;
     private String nomElement;
     private Mode mode = Mode.Ajout;
@@ -174,7 +174,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
         configDataViewModel = new ViewModelProvider(requireActivity()).get(ConfigDataViewModel.class);
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeToiture, "typeToiture");
         List<String> listTypeDeMiseEnOeuvre = new ArrayList<>();
-        listTypeDeMiseEnOeuvre.add(TEXT_PAS_DE_MISE_EN_OEUVRE);
+        listTypeDeMiseEnOeuvre.add(PowerpointExporter.TEXT_AUCUN_ISOLANT);
         listTypeDeMiseEnOeuvre.addAll(configDataViewModel.getSpinnerData().getValue().get("typeDeMiseEnOeuvre"));
         configDataViewModel.setAutoComplete(binding.autoCompleteTypeDeMiseEnOeuvre, "typeDeMiseEnOeuvre",listTypeDeMiseEnOeuvre);
         binding.autoCompleteTypeDeMiseEnOeuvre.addTextChangedListener(new TextWatcher() {
@@ -186,7 +186,7 @@ public class FragmentToitureOuFauxPlafond extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().equals("Aucun")){
+                if(s.toString().equals(PowerpointExporter.TEXT_AUCUN_ISOLANT)){
                     binding.tableRowIsolation.setVisibility(View.GONE);
                     binding.constraintLayoutIsolation.setVisibility(View.GONE);
                 }else{
