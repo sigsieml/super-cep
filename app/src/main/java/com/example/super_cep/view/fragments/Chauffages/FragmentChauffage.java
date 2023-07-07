@@ -25,10 +25,11 @@ import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
+import com.example.super_cep.view.AideFragment;
 import com.example.super_cep.view.fragments.Enveloppe.PopUpZone;
 import com.example.super_cep.view.fragments.Enveloppe.PopUpZoneHandler;
 
-public class FragmentChauffage extends Fragment {
+public class FragmentChauffage extends Fragment implements AideFragment {
 
     public FragmentChauffage() {
         // Required empty public constructor
@@ -135,5 +136,20 @@ public class FragmentChauffage extends Fragment {
 
         binding.recyclerViewChauffages.setAdapter(adapter);
         binding.recyclerViewChauffages.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    @Override
+    public void aide() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Aide");
+        builder.setMessage("Voici quelques instructions de base pour utiliser l'application : \n\n" +
+                "Ajout d'un chauffage :\n" +
+                "- Pour ajouter un chauffage centralisé, utilisez le bouton situé en bas à droite de l'écran. Les chauffages centralisés peuvent être appliqués à plusieurs zones à la fois.\n" +
+                "- Pour ajouter un chauffage décentralisé, utilisez le bouton d'ajout présent dans chaque zone. Les chauffages décentralisés sont spécifiques à une zone et ne peuvent être appliqués qu'à cette zone.\n\n" +
+                "Déplacement des éléments d'une zone à une autre :\n" +
+                "Pour déplacer un élément d'une zone à une autre, effectuez un appui long sur l'élément que vous souhaitez déplacer, puis faites-le glisser jusqu'à la zone de destination. Une boîte de dialogue vous demandera si vous souhaitez déplacer ou copier l'élément.\n" +
+                "\n" );
+        builder.setPositiveButton("Ok", null);
+        builder.show();
     }
 }
