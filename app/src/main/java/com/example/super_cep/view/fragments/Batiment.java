@@ -119,6 +119,7 @@ public class Batiment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             binding.editTextMultiLineAdresse.setText(adresse);
+                            releveViewModel.setLocalisation(localisationProvider.getLatitudeLongitude());
                         }
                     });
                     builder.setNegativeButton("Non", null);

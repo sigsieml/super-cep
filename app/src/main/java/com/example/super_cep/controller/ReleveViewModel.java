@@ -91,6 +91,10 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void setLocalisation(double[] localisation){
+        releve.getValue().localisation = localisation;
+        forceUpdateReleve();
+    }
     public void editZoneElement(String oldNameZoneElement,String nomZone, ZoneElement zoneElement){
         Releve releve = this.releve.getValue();
         if(!oldNameZoneElement.equals(zoneElement.nom) && isZoneElementNameAlereadyUsed(zoneElement.nom)){

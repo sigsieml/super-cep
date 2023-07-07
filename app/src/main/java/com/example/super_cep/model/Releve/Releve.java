@@ -32,6 +32,7 @@ public class Releve {
 
     public String imageBatiment;
 
+    public double[] localisation;
 
     public Releve(){
         this.zones = new HashMap<>();

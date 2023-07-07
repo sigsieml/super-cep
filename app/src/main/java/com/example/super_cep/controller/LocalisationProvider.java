@@ -42,6 +42,7 @@ public class LocalisationProvider {
 
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
+    private double[] location = new double[2];
 
     public LocalisationProvider(Activity activity) {
         this.activity = activity;
@@ -77,6 +78,8 @@ public class LocalisationProvider {
     private void onNewLocation(Location location){
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
+        this.location[0] = latitude;
+        this.location[1] = longitude;
         // Utilisez les coordonnées comme vous le souhaitez
         Geocoder geocoder = new Geocoder(activity, Locale.FRANCE);
 
@@ -90,6 +93,9 @@ public class LocalisationProvider {
         }
     }
 
+    public double[] getLatitudeLongitude() {
+        return location;
+    }
 
     @SuppressLint("MissingPermission")
     private void setupFuseLocationClient() {
