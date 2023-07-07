@@ -1,6 +1,6 @@
 package com.example.super_cep.model.Export;
 
-public interface PowerpointPlatformProvider {
+public interface PlatformProvider {
 
     public byte[] getImagesByteFromPath(String path);
 

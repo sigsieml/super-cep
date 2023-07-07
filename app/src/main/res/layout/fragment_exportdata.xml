@@ -14,20 +14,34 @@
             android:id="@+id/buttonExporterLesDonne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="224dp"
+            android:layout_marginBottom="136dp"
             android:text="Exporter les données "
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/buttonCreerUneArchive"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonSauvegarder"
+            app:layout_constraintVertical_bias="0.923" />
 
         <Button
             android:id="@+id/buttonSauvegarder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="156dp"
             android:text="Sauvegarder"
-            app:layout_constraintBottom_toTopOf="@+id/buttonExporterLesDonne"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonCreerUneArchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="124dp"
+            android:text="Créer une archive"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

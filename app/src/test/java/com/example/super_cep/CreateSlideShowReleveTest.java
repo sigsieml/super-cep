@@ -42,7 +42,7 @@ public class CreateSlideShowReleveTest {
     public void createSlideShowReleveTest(){
         Releve releve = getReleve(PATH_RELEVE);
         // open file in assets
-        PowerpointExporter exporter = new PowerpointExporter(new pcPowerpointProvider());
+        PowerpointExporter exporter = new PowerpointExporter(new pcProvider());
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
             exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);
@@ -61,7 +61,7 @@ public class CreateSlideShowReleveTest {
     public void createSlideShowGrosReleveTest(){
         Releve releve = getReleve(PATH_GROS_RELEVE);
         // open file in assets
-        PowerpointExporter exporter = new PowerpointExporter(new pcPowerpointProvider());
+        PowerpointExporter exporter = new PowerpointExporter(new pcProvider());
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
             exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);

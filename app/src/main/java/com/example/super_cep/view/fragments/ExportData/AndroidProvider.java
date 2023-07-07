@@ -3,19 +3,18 @@ package com.example.super_cep.view.fragments.ExportData;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 
-import com.example.super_cep.model.Export.PowerpointPlatformProvider;
+import com.example.super_cep.model.Export.PlatformProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-public class AndroidPowerpointProvider implements PowerpointPlatformProvider {
+public class AndroidProvider implements PlatformProvider {
 
     private Context context;
 
-    public AndroidPowerpointProvider (Context context) {
+    public AndroidProvider(Context context) {
         this.context = context;
     }
 

@@ -1,6 +1,6 @@
 package com.example.super_cep;
 
-import com.example.super_cep.model.Export.PowerpointPlatformProvider;
+import com.example.super_cep.model.Export.PlatformProvider;
 
 import org.apache.poi.util.IOUtils;
 
@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class pcPowerpointProvider implements PowerpointPlatformProvider {
+public class pcProvider implements PlatformProvider {
     @Override
     public byte[] getImagesByteFromPath(String path) {
         // Read the image

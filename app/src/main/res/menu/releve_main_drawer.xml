@@ -46,7 +46,7 @@
             android:title="@string/menu_preconisations" />
         <item
             android:id="@+id/nav_export_data"
-            android:icon="@drawable/ic_enveloppe_window"
+            android:icon="@drawable/ic_file_upload"
             android:title="@string/menu_export" />
     </group>
 </menu>

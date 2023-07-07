@@ -69,14 +69,14 @@ public class PowerpointExporter {
 
     private Context context;
 
-    private PowerpointPlatformProvider platformProvider;
+    private PlatformProvider platformProvider;
 
     private Map<String, PaintStyle> zonesColors;
     private List<PaintStyle> colorsForZones;
 
     private int colorForNewZoneIndex = 0;
 
-    public PowerpointExporter(PowerpointPlatformProvider platformProvider) {
+    public PowerpointExporter(PlatformProvider platformProvider) {
         this.platformProvider = platformProvider;
         this.zonesColors = new HashMap<>();
         this.colorsForZones = new ArrayList<>();
