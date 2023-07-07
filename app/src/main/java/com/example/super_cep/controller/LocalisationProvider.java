@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationRequest;
 import android.os.Build;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,29 +38,16 @@ public class LocalisationProvider {
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private Address address;
-    private static int locationRequestCode = 1000;
 
-    private List<LocalisationProviderListener> listeners;
 
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
 
-    public static void requestPermissions(Activity activity) {
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                locationRequestCode);
-    }
     public LocalisationProvider(Activity activity) {
         this.activity = activity;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
-        listeners = new ArrayList<>();
-        setupFuseLocationClient();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            locationRequest =
-                    new LocationRequest.Builder(
-                            LocationRequest.QUALITY_HIGH_ACCURACY
-                    ).build();
-        }
+        locationRequest = new LocationRequest.Builder(LocationRequest.PRIORITY_HIGH_ACCURACY).build();
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -74,8 +62,18 @@ public class LocalisationProvider {
             }
         };
 
+        setupFuseLocationClient();
     }
 
+    public void onResume() {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+    public void onPause() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
     private void onNewLocation(Location location){
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
@@ -87,17 +85,11 @@ public class LocalisationProvider {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             address = addresses.get(0);
             Log.i("LocalisationProvider", "Localisation changed: " + getLocalisation());
-            for (LocalisationProviderListener listener : listeners) {
-                listener.onLocalisationChanged(address);
-            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void registerListener(LocalisationProviderListener listener) {
-        listeners.add(listener);
-    }
 
     @SuppressLint("MissingPermission")
     private void setupFuseLocationClient() {

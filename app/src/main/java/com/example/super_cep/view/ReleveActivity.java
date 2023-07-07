@@ -1,5 +1,6 @@
 package com.example.super_cep.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -70,11 +71,24 @@ public class ReleveActivity extends AppCompatActivity {
         localisationProvider = new LocalisationProvider(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        localisationProvider.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        localisationProvider.onPause();
+    }
+
     private void askForPermissions() {
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.CAMERA},
+                        android.Manifest.permission.CAMERA,
+                android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                 PackageManager.PERMISSION_GRANTED);
     }
 

@@ -69,18 +69,6 @@ public class Batiment extends Fragment {
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         releve = releveViewModel.getReleve();
         photoManager = new PhotoManager(getContext());
-        localisationProvider = new LocalisationProvider(getActivity());
-        String address = localisationProvider.getLocalisation();
-        if(address != null)
-            binding.editTextMultiLineAdresse.setText(address);
-
-        localisationProvider.registerListener(new LocalisationProviderListener() {
-            @Override
-            public void onLocalisationChanged(Address address) {
-                if(address != null && binding.editTextMultiLineAdresse.getText().toString().isEmpty())
-                    binding.editTextMultiLineAdresse.setText(localisationProvider.getLocalisation());
-            }
-        });
 
         releve.observe(getViewLifecycleOwner(), new Observer<Releve>() {
             @Override
@@ -102,6 +90,7 @@ public class Batiment extends Fragment {
 
 
                 releve.removeObserver(this);
+                setSaveOnFocusChangeListeners();
             }
         });
 
@@ -110,13 +99,37 @@ public class Batiment extends Fragment {
 
         setupCalendar();
         setupButtonPhoto();
+        setupFabLocation();
 
-
-        setSaveOnFocusChangeListeners();
 
         return binding.getRoot();
     }
 
+    private void setupFabLocation() {
+        localisationProvider = new LocalisationProvider(getActivity());
+
+        binding.fabLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String adresse = localisationProvider.getLocalisation();
+                if(adresse != null){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Voulez-vous utiliser la localisation suivante : " + adresse + " ?");
+                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            binding.editTextMultiLineAdresse.setText(adresse);
+                        }
+                    });
+                    builder.setNegativeButton("Non", null);
+                    builder.show();
+                }else{
+                    Toast.makeText(getActivity(), "Impossible de récupérer la localisation", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
 
 
     private void setupCalendar() {
