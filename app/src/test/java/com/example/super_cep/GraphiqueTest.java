@@ -103,16 +103,6 @@ public class GraphiqueTest {
         }
     }
 
-    @Test
-    public void CreatePPTXTest(){
-        try {
-            CreateChartToSlide createChartToSlide = new CreateChartToSlide();
-            createChartToSlide.creatExemplePowerpoint();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     @Test
     public void createBarChart(){
@@ -122,15 +112,15 @@ public class GraphiqueTest {
             // Créer une diapositive
             XSLFSlide slide = ppt.createSlide();
             List<BarChartData> barChartDataList = new ArrayList<>();
-            barChartDataList.add(new BarChartData(2019, 1, 2, 3));
-            barChartDataList.add(new BarChartData(2020, 4, 5, 6));
-            barChartDataList.add(new BarChartData(2021, 7, 8, 9));
-            barChartDataList.add(new BarChartData(2022, 10, 11, 12));
-            barChartDataList.add(new BarChartData(2023, 13, 14, 15));
-            barChartDataList.add(new BarChartData(2024, 16, 17, 18));
+            barChartDataList.add(new BarChartData(2019, new double[]{1, 2, 3}));
+            barChartDataList.add(new BarChartData(2020, new double[]{4, 5, 6}));
+            barChartDataList.add(new BarChartData(2021, new double[]{7, 8, 9}));
+            barChartDataList.add(new BarChartData(2022, new double[]{10, 11, 12}));
+            barChartDataList.add(new BarChartData(2023, new double[]{13, 14, 15}));
+            barChartDataList.add(new BarChartData(2024, new double[]{16, 17, 18}));
 
             CreateChartToSlide createChartToSlide = new CreateChartToSlide();
-            createChartToSlide.createBarChart(slide, barChartDataList);
+            createChartToSlide.createBarChart(slide, barChartDataList, new String[]{"Electricité", "Gaz", "Eau"});
 
 
             // Enregistrer le résultat
@@ -151,12 +141,12 @@ public class GraphiqueTest {
     @Test
     public void testBarChart(){
         List<BarChartData> barChartDataList = new ArrayList<>();
-        barChartDataList.add(new BarChartData(2019, 1, 2, 3));
-        barChartDataList.add(new BarChartData(2020, 4, 5, 6));
-        barChartDataList.add(new BarChartData(2021, 7, 8, 9));
-        barChartDataList.add(new BarChartData(2022, 10, 11, 12));
-        barChartDataList.add(new BarChartData(2023, 13, 14, 15));
-        barChartDataList.add(new BarChartData(2024, 16, 17, 18));
+        barChartDataList.add(new BarChartData(2019, new double[]{1, 2, 3}));
+        barChartDataList.add(new BarChartData(2020, new double[]{4, 5, 6}));
+        barChartDataList.add(new BarChartData(2021, new double[]{7, 8, 9}));
+        barChartDataList.add(new BarChartData(2022, new double[]{10, 11, 12}));
+        barChartDataList.add(new BarChartData(2023, new double[]{13, 14, 15}));
+        barChartDataList.add(new BarChartData(2024, new double[]{16, 17, 18}));
 
         try {
             createStackedBarChart(barChartDataList);
@@ -177,9 +167,9 @@ public class GraphiqueTest {
             for (BarChartData data : dataList) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(data.getCategory());
-                row.createCell(1).setCellValue(data.getHigh());
-                row.createCell(2).setCellValue(data.getMedium());
-                row.createCell(3).setCellValue(data.getLow());
+                for (int i = 0; i < data.getValues().length; i++) {
+                    row.createCell(i + 1).setCellValue(data.getValues()[i]);
+                }
             }
 
             XSSFDrawing drawing = sheet.createDrawingPatriarch();

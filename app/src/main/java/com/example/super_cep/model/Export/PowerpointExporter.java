@@ -108,7 +108,7 @@ public class PowerpointExporter {
 
             CreateChartToSlide wb = new CreateChartToSlide();
             XSLFSlide slide = ppt.createSlide();
-            wb.addExempleToSlide(slide);
+
 
             try (FileOutputStream out = new FileOutputStream(file)) {
                 ppt.write(out);

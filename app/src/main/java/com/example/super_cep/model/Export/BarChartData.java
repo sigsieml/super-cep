@@ -1,31 +1,22 @@
 package com.example.super_cep.model.Export;
 
+import java.util.List;
+
 public class BarChartData {
     private int category;
-    private double high;
-    private double medium;
-    private double low;
+    private double[] values;
 
-    public BarChartData(int category, double high, double medium, double low) {
+    public BarChartData(int category, double[] values) {
         this.category = category;
-        this.high = high;
-        this.medium = medium;
-        this.low = low;
+        this.values = values;
     }
 
-    public double getHigh() {
-        return high;
-    }
 
     public int getCategory() {
         return category;
     }
-
-    public double getMedium() {
-        return medium;
+    public double[] getValues() {
+        return values;
     }
 
-    public double getLow() {
-        return low;
-    }
 }

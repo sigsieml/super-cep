@@ -53,180 +53,11 @@ import java.awt.Rectangle;
 
 public class CreateChartToSlide {
 
-    public void creatExemplePowerpoint() throws Exception {
-        XMLSlideShow slideShow = new XMLSlideShow();
-        XSLFSlide slide = slideShow.createSlide();
 
-        addExempleToSlide(slide);
-        FileOutputStream out = new FileOutputStream("CreateChartToSlide.pptx");
-        slideShow.write(out);
-        out.close();
-        System.out.println(new File("CreateChartToSlide.pptx").getAbsolutePath());
-    }
-    public void addExempleToSlide(XSLFSlide slide){
-        XSLFChartShape XSLFChartShape = null;
-        try {
-            XSLFChartShape = createXSLFChart(slide);
-            XSLFChartShape.setAnchor(new Rectangle(50,100,300,300));
 
-            drawPieChart(XSLFChartShape);
 
-            XSLFChartShape = createXSLFChart(slide);
-            XSLFChartShape.setAnchor(new Rectangle(370,100,300,300));
 
-            drawBarChart(XSLFChartShape);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //a method for creating the chart XML document /ppt/charts/chart*.xml in the *.pptx ZIP archive
-    //and creating a XSLFChartShape as slide shape
-    public XSLFChartShape createXSLFChart(XSLFSlide slide) throws Exception {
-
-        OPCPackage oPCPackage = slide.getSlideShow().getPackage();
-        int chartCount = oPCPackage.getPartsByName(Pattern.compile("/ppt/charts/chart.*")).size() + 1;
-        PackagePartName partName = PackagingURIHelper.createPartName("/ppt/charts/chart" + chartCount + ".xml");
-        PackagePart part = oPCPackage.createPart(partName, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml");
-
-        MyXSLFChart myXSLFChart = new MyXSLFChart(part);
-        XSLFChartShape XSLFChartShape = new XSLFChartShape(slide, myXSLFChart);
-
-        return XSLFChartShape;
-    }
-
-    public void drawPieChart(XSLFChartShape XSLFChartShape) {
-
-        XSSFWorkbook workbook = XSLFChartShape.getMyXSLFChart().getXSLFXSSFWorkbook().getXSSFWorkbook();
-        XSSFSheet sheet = workbook.getSheetAt(0);
-        sheet.createRow(0).createCell(0).setCellValue("Cat");
-        sheet.getRow(0).createCell(1).setCellValue("Val");
-        for (int r = 1; r < 4; r++) {
-            sheet.createRow(r).createCell(0).setCellValue("Cat" + r);
-            sheet.getRow(r).createCell(1).setCellValue(10*r);
-        }
-
-        CTChartSpace chartSpace = XSLFChartShape.getMyXSLFChart().getChartSpace();
-        CTPieChart cTPieChart = chartSpace.addNewChart().addNewPlotArea().addNewPieChart();
-        cTPieChart.addNewVaryColors().setVal(true);
-        CTPieSer cTPieSer = cTPieChart.addNewSer();
-        cTPieSer.addNewIdx().setVal(0);
-        CTStrRef cTStrRef = cTPieSer.addNewTx().addNewStrRef();
-        cTStrRef.setF("Sheet0!$B$1");
-        cTStrRef.addNewStrCache().addNewPtCount().setVal(1);
-        CTStrVal cTStrVal = cTStrRef.getStrCache().addNewPt();
-        cTStrVal.setIdx(0);
-        cTStrVal.setV("Val");
-
-        cTStrRef = cTPieSer.addNewCat().addNewStrRef();
-        cTStrRef.setF("Sheet0!$A$2:$A$4");
-
-        cTStrRef.addNewStrCache().addNewPtCount().setVal(3);
-        for (int r = 1; r < 4; r++) {
-            cTStrVal = cTStrRef.getStrCache().addNewPt();
-            cTStrVal.setIdx(r-1);
-            cTStrVal.setV("Cat" + r);
-        }
-
-        CTNumRef cTNumRef = cTPieSer.addNewVal().addNewNumRef();
-        cTNumRef.setF("Sheet0!$B$2:$B$4");
-
-        cTNumRef.addNewNumCache().addNewPtCount().setVal(3);
-        for (int r = 1; r < 4; r++) {
-            CTNumVal cTNumVal = cTNumRef.getNumCache().addNewPt();
-            cTNumVal.setIdx(r-1);
-            cTNumVal.setV("" + (10*r));
-        }
-    }
-
-    public void drawBarChart(XSLFChartShape XSLFChartShape) {
-
-        // sheet
-        XSSFWorkbook workbook = XSLFChartShape.getMyXSLFChart().getXSLFXSSFWorkbook().getXSSFWorkbook();
-        XSSFSheet sheet = workbook.getSheetAt(0);
-        sheet.createRow(0);
-        for (int c = 1; c < 4; c++) {
-            sheet.getRow(0).createCell(c).setCellValue("Cat" + c);
-        }
-        for (int r = 1; r < 5; r++) {
-            sheet.createRow(r).createCell(0).setCellValue("Val" + r);
-            for (int c = 1; c < 4; c++) {
-                sheet.getRow(r).createCell(c).setCellValue((10+r)*c);
-            }
-        }
-        // chart
-
-        CTChartSpace chartSpace = XSLFChartShape.getMyXSLFChart().getChartSpace();
-        CTChart cTChart = chartSpace.addNewChart();
-        CTPlotArea cTPlotArea = cTChart.addNewPlotArea();
-        CTBarChart cTBarChart = cTPlotArea.addNewBarChart();
-        cTBarChart.addNewVaryColors().setVal(true);
-        cTBarChart.addNewBarDir().setVal(STBarDir.COL);
-
-        for (int r = 1; r < 5; r++) {
-            CTBarSer cTBarSer = cTBarChart.addNewSer();
-            CTStrRef cTStrRef = cTBarSer.addNewTx().addNewStrRef();
-            cTStrRef.setF("Sheet0!$A$" + (r+1));
-            cTStrRef.addNewStrCache().addNewPtCount().setVal(1);
-            CTStrVal cTStrVal = cTStrRef.getStrCache().addNewPt();
-            cTStrVal.setIdx(0);
-            cTStrVal.setV("Val" + r);
-            cTBarSer.addNewIdx().setVal(r-1);
-
-            CTAxDataSource cttAxDataSource = cTBarSer.addNewCat();
-            cTStrRef = cttAxDataSource.addNewStrRef();
-            cTStrRef.setF("Sheet0!$B$1:$D$1");
-            cTStrRef.addNewStrCache().addNewPtCount().setVal(3);
-            for (int c = 1; c < 4; c++) {
-                cTStrVal = cTStrRef.getStrCache().addNewPt();
-                cTStrVal.setIdx(c-1);
-                cTStrVal.setV("Cat" + c);
-            }
-
-            CTNumDataSource ctNumDataSource = cTBarSer.addNewVal();
-            CTNumRef cTNumRef = ctNumDataSource.addNewNumRef();
-            cTNumRef.setF("Sheet0!$B$" + (r+1) + ":$D$" + (r+1));
-            cTNumRef.addNewNumCache().addNewPtCount().setVal(3);
-            for (int c = 1; c < 4; c++) {
-                CTNumVal cTNumVal = cTNumRef.getNumCache().addNewPt();
-                cTNumVal.setIdx(c-1);
-                cTNumVal.setV("" + ((10+r)*c));
-            }
-        }
-
-        //telling the BarChart that it has axes and giving them Ids
-        cTBarChart.addNewAxId().setVal(123456);
-        cTBarChart.addNewAxId().setVal(123457);
-
-        //cat axis
-        CTCatAx cTCatAx = cTPlotArea.addNewCatAx();
-//        XDDFCategoryAxis bottomAxis = new XDDFCategoryAxis(cTPlotArea, AxisPosition.BOTTOM);
-        cTCatAx.addNewAxId().setVal(123456); //id of the cat axis
-        CTScaling cTScaling = cTCatAx.addNewScaling();
-        cTScaling.addNewOrientation().setVal(STOrientation.MIN_MAX);
-        cTCatAx.addNewDelete().setVal(false);
-        cTCatAx.addNewAxPos().setVal(STAxPos.B);
-        cTCatAx.addNewCrossAx().setVal(123457); //id of the val axis
-        cTCatAx.addNewTickLblPos().setVal(STTickLblPos.NEXT_TO);
-
-        //val axis
-        CTValAx cTValAx = cTPlotArea.addNewValAx();
-        cTValAx.addNewAxId().setVal(123457); //id of the val axis
-        CTScaling cTScaling2 = cTValAx.addNewScaling();
-        cTScaling2.addNewOrientation().setVal(STOrientation.MIN_MAX);
-        cTValAx.addNewDelete().setVal(false);
-        cTValAx.addNewAxPos().setVal(STAxPos.L);
-        cTValAx.addNewCrossAx().setVal(123456); //id of the cat axis
-        cTValAx.addNewTickLblPos().setVal(STTickLblPos.NEXT_TO);
-
-        //legend
-        CTLegend cTLegend = cTChart.addNewLegend();
-        cTLegend.addNewLegendPos().setVal(STLegendPos.B);
-        cTLegend.addNewOverlay().setVal(false);
-
-    }
-
-    public void createBarChart(XSLFSlide slide, List<BarChartData> dataList) throws Exception {
+    public void createBarChart(XSLFSlide slide, List<BarChartData> dataList, String[] series) throws Exception {
         XSLFChartShape XSLFChartShape = createXSLFChart(slide);
 
         XSLFChartShape.setAnchor(new Rectangle(370,100,300,300));
@@ -240,10 +71,11 @@ public class CreateChartToSlide {
         for (BarChartData data : dataList) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(data.getCategory());
-            row.createCell(1).setCellValue(data.getHigh());
-            row.createCell(2).setCellValue(data.getMedium());
-            row.createCell(3).setCellValue(data.getLow());
+            for (int i = 0; i < data.getValues().length; i++) {
+                row.createCell(i+1).setCellValue(data.getValues()[i]);
+            }
         }
+        int nbColumns = dataList.get(0).getValues().length;
 
 
         CTChartSpace chartSpace = XSLFChartShape.getMyXSLFChart().getChartSpace();
@@ -253,14 +85,14 @@ public class CreateChartToSlide {
         cTBarChart.addNewVaryColors().setVal(true);
         cTBarChart.addNewBarDir().setVal(STBarDir.COL);
 
-        for (int r = 1; r <= 3; r++) {
+        for (int r = 1; r <= nbColumns; r++) {
             CTBarSer cTBarSer = cTBarChart.addNewSer();
             CTStrRef cTStrRef = cTBarSer.addNewTx().addNewStrRef();
             cTStrRef.setF("Sheet0!$A$" + (r+1));
             cTStrRef.addNewStrCache().addNewPtCount().setVal(1);
             CTStrVal cTStrVal = cTStrRef.getStrCache().addNewPt();
             cTStrVal.setIdx(0);
-            cTStrVal.setV("Series" + r);
+            cTStrVal.setV(series[r-1]);
             cTBarSer.addNewIdx().setVal(r-1);
 
             CTAxDataSource cttAxDataSource = cTBarSer.addNewCat();
@@ -280,7 +112,7 @@ public class CreateChartToSlide {
             for (int i = 0; i < dataList.size(); i++) {
                 CTNumVal cTNumVal = cTNumRef.getNumCache().addNewPt();
                 cTNumVal.setIdx(i);
-                cTNumVal.setV("" + ((r == 1) ? dataList.get(i).getHigh() : (r == 2) ? dataList.get(i).getMedium() : dataList.get(i).getLow()));
+                cTNumVal.setV("" + dataList.get(i).getValues()[r-1]);
             }
         }
 
@@ -298,12 +130,12 @@ public class CreateChartToSlide {
         cTCatAx.addNewCrossAx().setVal(123457); //id of the val axis
         cTCatAx.addNewTickLblPos().setVal(STTickLblPos.NEXT_TO);
 
-        //val axis
+        //val axis left axis with the values
         CTValAx cTValAx = cTPlotArea.addNewValAx();
         cTValAx.addNewAxId().setVal(123457); //id of the val axis
         CTScaling cTScaling2 = cTValAx.addNewScaling();
         cTScaling2.addNewOrientation().setVal(STOrientation.MIN_MAX);
-        cTValAx.addNewDelete().setVal(false);
+        cTValAx.addNewDelete().setVal(true);    // display the val axis or not
         cTValAx.addNewAxPos().setVal(STAxPos.L);
         cTValAx.addNewCrossAx().setVal(123456); //id of the cat axis
         cTValAx.addNewTickLblPos().setVal(STTickLblPos.NEXT_TO);
@@ -320,28 +152,19 @@ public class CreateChartToSlide {
 
     }
 
-    private static void solidFillSeries(XDDFChartData data, int index, PresetColor color) {
-        XDDFSolidFillProperties fill = new XDDFSolidFillProperties(XDDFColor.from(color));
-        XDDFChartData.Series series = data.getSeries().get(index);
-        XDDFShapeProperties properties = series.getShapeProperties();
-        if (properties == null) {
-            properties = new XDDFShapeProperties();
-        }
-        properties.setFillProperties(fill);
-        series.setShapeProperties(properties);
-    }
+     //a method for creating the chart XML document /ppt/charts/chart*.xml in the *.pptx ZIP archive
+    //and creating a XSLFChartShape as slide shape
+    public XSLFChartShape createXSLFChart(XSLFSlide slide) throws Exception {
 
-    private static void solidLineSeries(XDDFChartData data, int index, PresetColor color) {
-        XDDFSolidFillProperties fill = new XDDFSolidFillProperties(XDDFColor.from(color));
-        XDDFLineProperties line = new XDDFLineProperties();
-        line.setFillProperties(fill);
-        XDDFChartData.Series series = data.getSeries().get(index);
-        XDDFShapeProperties properties = series.getShapeProperties();
-        if (properties == null) {
-            properties = new XDDFShapeProperties();
-        }
-        properties.setLineProperties(line);
-        series.setShapeProperties(properties);
+        OPCPackage oPCPackage = slide.getSlideShow().getPackage();
+        int chartCount = oPCPackage.getPartsByName(Pattern.compile("/ppt/charts/chart.*")).size() + 1;
+        PackagePartName partName = PackagingURIHelper.createPartName("/ppt/charts/chart" + chartCount + ".xml");
+        PackagePart part = oPCPackage.createPart(partName, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml");
+
+        MyXSLFChart myXSLFChart = new MyXSLFChart(part);
+        XSLFChartShape XSLFChartShape = new XSLFChartShape(slide, myXSLFChart);
+
+        return XSLFChartShape;
     }
 
     //a class for providing a XSLFChartShape
