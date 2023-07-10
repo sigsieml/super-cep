@@ -113,7 +113,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:autoSizeTextType="uniform"
-        android:backgroundTint="#0440D5"
+        android:backgroundTint="@color/primary_variant"
         android:text="Démarrer un relevé"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

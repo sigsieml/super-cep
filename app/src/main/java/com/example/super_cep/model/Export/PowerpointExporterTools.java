@@ -128,7 +128,7 @@ public class PowerpointExporterTools {
         cell.setBottomInset(0);
     }
 
-    public static void updateCellAnchor(PlatformProvider platformProvider, XSLFTable tableau, float rowHeight ) {
+    public static void updateCellAnchor(PlatformProvider platformProvider, XSLFTable tableau) {
         int rows = tableau.getNumberOfRows();
         int cols = tableau.getNumberOfColumns();
 
@@ -299,18 +299,18 @@ public class PowerpointExporterTools {
     }
 
     public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFSlide slide,  XSLFTable[] tables) {
-        return updateTableauAnchor(platformProvider, slide, tables, slide.getSlideShow().getPageSize().getHeight());
+        return updateTableauAnchor(platformProvider, tables, slide.getSlideShow().getPageSize().getHeight());
     }
-    public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFSlide slide,  XSLFTable[] tables, double maxHeight) {
+    public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFTable[] tables, double maxHeight) {
         for (int i = 0; i < tables.length; i++) {
-            PowerpointExporterTools.updateCellAnchor(platformProvider, tables[i], 10);
+            PowerpointExporterTools.updateCellAnchor(platformProvider, tables[i]);
         }
 
         XSLFTable firstTableau = tables[0];
         for (int i = 1; i < tables.length; i++) {
             XSLFTable tableau = tables[i];
             tableau.setAnchor(new Rectangle2D.Double(firstTableau.getAnchor().getX(),
-                    firstTableau.getAnchor().getY() + firstTableau.getAnchor().getHeight() + 2,
+                    firstTableau.getAnchor().getY() + firstTableau.getAnchor().getHeight() - 10,
                     tableau.getAnchor().getWidth(),
                     tableau.getAnchor().getHeight())
             );

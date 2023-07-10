@@ -363,7 +363,7 @@ public class PowerpointExporter {
             indexColorZone++;
 
             for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-                if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, slide, tables, maxTableauHeight)) {
+                if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, tables, maxTableauHeight)) {
                     if (zonesOverflow.containsKey(zone.nom)) {
                         zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
                     } else {
@@ -561,7 +561,7 @@ public class PowerpointExporter {
 
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), eclairage.typeEclairage);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), eclairage.typeDeRegulation.equals(TEXT_ABSENCE_REGULATION) ? " " : "Régulé par " + eclairage.typeDeRegulation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), eclairage.typeDeRegulation.isEmpty() ? " " :  eclairage.typeDeRegulation.equals(TEXT_ABSENCE_REGULATION) ? eclairage.typeDeRegulation : "Régulé par " + eclairage.typeDeRegulation);
 
                     PowerpointExporterTools.copyRowStyle(tableauEclairage.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -590,7 +590,7 @@ public class PowerpointExporter {
 
             setTextZoneofCell(row.getCells().get(0),ventilation.zones);
             PowerpointExporterTools.addTextToCell(row.getCells().get(1), ventilation.type);
-            PowerpointExporterTools.addTextToCell(row.getCells().get(2), ventilation.regulation.equals(TEXT_ABSENCE_REGULATION) ? " " : "Régulé par " + ventilation.regulation);
+            PowerpointExporterTools.addTextToCell(row.getCells().get(2),ventilation.regulation.isEmpty() ? " " :  ventilation.regulation.equals(TEXT_ABSENCE_REGULATION) ? ventilation.regulation : "Régulé par " + ventilation.regulation);
             PowerpointExporterTools.copyRowStyle(tableauVentilation.getRows().get(2), row);
 
             mergeCellsIfSameZone(zoneElementTableauVentilation, row.getCells().get(0).getText(), tableauVentilation);
@@ -757,8 +757,8 @@ public class PowerpointExporter {
         }
         addImagesToSlide(ppt, slide, photo, rectangle2DPhoto);
 
-        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauEmetteurs, 10);
-        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauProduction, 10);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauEmetteurs);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauProduction);
 
         tableauProduction.setAnchor(new Rectangle2D.Double(tableauEmetteurs.getAnchor().getX(),
                 tableauEmetteurs.getAnchor().getY() + tableauEmetteurs.getAnchor().getHeight() + 2,
@@ -819,7 +819,7 @@ public class PowerpointExporter {
 
         tableauPreconisations.removeRow(0);
 
-        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauPreconisations, 10);
+        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauPreconisations);
 
 
         if (tableauPreconisations.getNumberOfRows() == 0) {
