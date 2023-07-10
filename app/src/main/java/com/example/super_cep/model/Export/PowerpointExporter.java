@@ -30,7 +30,6 @@ import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
@@ -107,8 +106,13 @@ public class PowerpointExporter {
             slideDescriptifDuChauffage(ppt, slideDescriptifDuChauffage);
             slidePreconisations(ppt, slidePreconisations);
 
+            CreateChartToSlide wb = new CreateChartToSlide();
+            XSLFSlide slide = ppt.createSlide();
+            wb.addExempleToSlide(slide);
+
             try (FileOutputStream out = new FileOutputStream(file)) {
                 ppt.write(out);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
