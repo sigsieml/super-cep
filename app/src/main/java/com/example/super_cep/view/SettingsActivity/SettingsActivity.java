@@ -40,8 +40,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingViewHo
 
     private ActivityResultLauncher<String> createFileLauncher;
 
-    private ActivityResultLauncher<String[]> openFileLauncher;
 
+    private ActivityResultLauncher<String[]> openFileLauncher;
     private SettingAdapter settingAdapter;
 
     @Override

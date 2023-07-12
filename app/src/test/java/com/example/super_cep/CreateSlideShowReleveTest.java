@@ -2,7 +2,9 @@ package com.example.super_cep;
 
 import static org.junit.Assert.assertTrue;
 
+import com.example.super_cep.model.Export.ConsoParser;
 import com.example.super_cep.model.Export.JsonReleveManager;
+import com.example.super_cep.model.Export.PowerpointException;
 import com.example.super_cep.model.Export.PowerpointExporter;
 import com.example.super_cep.model.Releve.Releve;
 
@@ -13,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class CreateSlideShowReleveTest {
 
@@ -42,10 +45,10 @@ public class CreateSlideShowReleveTest {
     public void createSlideShowReleveTest(){
         Releve releve = getReleve(PATH_RELEVE);
         // open file in assets
-        PowerpointExporter exporter = new PowerpointExporter(new pcProvider());
+        PowerpointExporter exporter = new PowerpointExporter(new pcProvider(), new ConsoParser(getClass().getClassLoader().getResourceAsStream("consomationbatiment.xlsx")));
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
-            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);
+            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022");
 
             // display in console the path of the file of test.pptx to open it
             System.out.println(new File("test.pptx").getAbsolutePath());
@@ -53,6 +56,8 @@ public class CreateSlideShowReleveTest {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (PowerpointException e) {
             throw new RuntimeException(e);
         }
     }
@@ -61,10 +66,10 @@ public class CreateSlideShowReleveTest {
     public void createSlideShowGrosReleveTest(){
         Releve releve = getReleve(PATH_GROS_RELEVE);
         // open file in assets
-        PowerpointExporter exporter = new PowerpointExporter(new pcProvider());
+        PowerpointExporter exporter = new PowerpointExporter(new pcProvider(), new ConsoParser(getClass().getClassLoader().getResourceAsStream("consomationbatiment.xlsx")));
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
-            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve);
+            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022");
 
             // display in console the path of the file of test.pptx to open it
             System.out.println(new File("test.pptx").getAbsolutePath());
@@ -72,6 +77,8 @@ public class CreateSlideShowReleveTest {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (PowerpointException e) {
             throw new RuntimeException(e);
         }
     }

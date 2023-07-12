@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.super_cep.R;
 import com.example.super_cep.databinding.PopupExportDataBinding;
-import com.example.super_cep.databinding.PopupNouvelleZoneBinding;
-import com.example.super_cep.view.fragments.Enveloppe.Enveloppe;
 
 public class LoadingPopup extends View {
 
@@ -41,10 +41,13 @@ public class LoadingPopup extends View {
         pw.update();
     }
 
-    public void erreur() {
-        binding.textViewPopUpExportDataExportEnCours.setText("Erreur lors de l'export");
-        binding.getRoot().removeView(binding.progressBar);
-        pw.setFocusable(true);
-        pw.update();
+    public void erreur(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Erreur lors de l'export");
+        builder.setMessage(message);
+        builder.setCancelable(true);
+        builder.setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
+        builder.show();
+        pw.dismiss();
     }
 }

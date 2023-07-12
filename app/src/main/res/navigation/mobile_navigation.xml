@@ -280,6 +280,11 @@
         <argument android:name="nomCalendrier"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_graphique"
+        android:name="com.example.super_cep.view.fragments.FragmentGraphique"
+        android:label="@string/menu_graphique"
+        tools:layout="@layout/fragment_graphique" />
 
 
 </navigation>

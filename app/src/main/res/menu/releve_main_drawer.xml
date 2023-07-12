@@ -45,8 +45,13 @@
             android:icon="@drawable/ic_menu_preconisations"
             android:title="@string/menu_preconisations" />
         <item
+            android:id="@+id/nav_graphique"
+            android:icon="@drawable/ic_menu_graphique"
+            android:title="@string/menu_graphique" />
+        <item
             android:id="@+id/nav_export_data"
             android:icon="@drawable/ic_file_upload"
             android:title="@string/menu_export" />
+
     </group>
 </menu>

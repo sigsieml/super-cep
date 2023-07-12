@@ -18,9 +18,8 @@ import android.os.ParcelFileDescriptor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.super_cep.controller.ReleveSaver;
+import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
 import com.example.super_cep.databinding.FragmentExportdataBinding;
 import com.example.super_cep.model.Export.ArchiveExporter;
 import com.example.super_cep.model.Export.PowerpointExporter;
@@ -32,44 +31,27 @@ import java.util.concurrent.Executors;
 
 public class Exportdata extends Fragment {
 
-    public Exportdata() {
-        // Required empty public constructor
-    }
-
     FragmentExportdataBinding binding;
-
     ReleveViewModel releveViewModel;
-
     private ActivityResultLauncher<Intent> createFileActivityResultLauncher;
     private ActivityResultLauncher<Intent> createArchiveActivityResultLauncher;
-
+    private ConsoConfigViewModel consoConfigViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentExportdataBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
+        consoConfigViewModel = new ViewModelProvider(requireActivity()).get(ConsoConfigViewModel.class);
         createLauncherIntent();
-
         binding.buttonExporterLesDonne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createPowerpointFile();
             }
         });
-
-        binding.buttonSauvegarder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //save releve as json to application file
-                ReleveSaver releveSaver = new ReleveSaver(getContext());
-                releveSaver.saveReleve(releveViewModel.getReleve().getValue());
-                Toast.makeText(getContext(), "Relevé sauvegardé", Toast.LENGTH_SHORT).show();
-            }
-        });
         binding.buttonCreerUneArchive.setOnClickListener((view) -> createArchiveFile());
         return binding.getRoot();
     }
-
     private void createLauncherIntent() {
         createFileActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -102,9 +84,6 @@ public class Exportdata extends Fragment {
                     }
                 });
     }
-
-
-
     private void createPowerpointFile() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -113,8 +92,6 @@ public class Exportdata extends Fragment {
         // Lancement de l'ActivityResultLauncher
         createFileActivityResultLauncher.launch(intent);
     }
-
-
     private void createArchiveFile() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -139,8 +116,15 @@ public class Exportdata extends Fragment {
                 try {
                     ParcelFileDescriptor pfd = requireActivity().getContentResolver().
                             openFileDescriptor(uri, "w");
-                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()));
-                    powerpointExporter.export(getContext().getAssets().open(POWERPOINT_VIERGE_NAME), pfd.getFileDescriptor(), releveViewModel.getReleve().getValue());
+                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()), consoConfigViewModel.getConsoParser().getValue());
+                    powerpointExporter.export(getContext().getAssets().open(POWERPOINT_VIERGE_NAME),
+                            pfd.getFileDescriptor(),
+                            releveViewModel.getReleve().getValue(),
+                            consoConfigViewModel.getNomBatimentConso(),
+                            consoConfigViewModel.getAnneesConso(),
+                            consoConfigViewModel.getMeilleurAnne()
+                    );
+
                     pfd.close();
 
                     mainThreadExecutor.execute(new Runnable() {
@@ -156,7 +140,7 @@ public class Exportdata extends Fragment {
                     mainThreadExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadingPopup.erreur();
+                            loadingPopup.erreur(e.getMessage());
                         }
                     });
                 }
@@ -204,7 +188,7 @@ public class Exportdata extends Fragment {
                     mainThreadExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            loadingPopup.erreur();
+                            loadingPopup.erreur(e.getMessage());
                         }
                     });
                 }

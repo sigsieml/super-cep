@@ -5,15 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ConfigDataProvider;
+import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
 import com.example.super_cep.controller.LocalisationProvider;
 import com.example.super_cep.controller.ReleveSaver;
 import com.example.super_cep.controller.ReleveViewModel;
@@ -39,8 +38,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
-
 public class ReleveActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -52,6 +49,8 @@ public class ReleveActivity extends AppCompatActivity {
     private LocalisationProvider localisationProvider;
     private NavController navController;
 
+    private ConsoConfigViewModel consoConfigViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +59,14 @@ public class ReleveActivity extends AppCompatActivity {
         setupReleve();
         setupSpinnerData();
         setupLocalisation();
-
+        setupConsoConfig();
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarReleve.toolbar);
         setupNavBar();
+    }
+
+    private void setupConsoConfig() {
+       consoConfigViewModel = new ViewModelProvider(this).get(ConsoConfigViewModel.class);
     }
 
     private void setupLocalisation() {
@@ -124,7 +127,7 @@ public class ReleveActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_batiment, R.id.nav_enveloppes, R.id.nav_usage_et_occupation, R.id.nav_chauffages,
                 R.id.nav_climatisation, R.id.nav_ventilation, R.id.nav_ecs, R.id.nav_approvisionnement_energetique,
-                R.id.nav_remarques, R.id.nav_preconisations, R.id.nav_export_data)
+                R.id.nav_remarques, R.id.nav_preconisations,R.id.nav_graphique, R.id.nav_export_data)
                 .setOpenableLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

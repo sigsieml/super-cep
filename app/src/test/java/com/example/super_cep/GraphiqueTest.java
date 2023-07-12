@@ -6,6 +6,9 @@ import com.example.super_cep.model.Export.CreateChartToSlide;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.Units;
+import org.apache.poi.xddf.usermodel.XDDFColor;
+import org.apache.poi.xddf.usermodel.XDDFColorRgbPercent;
 import org.apache.poi.xddf.usermodel.chart.AxisCrossBetween;
 import org.apache.poi.xddf.usermodel.chart.AxisCrosses;
 import org.apache.poi.xddf.usermodel.chart.AxisPosition;
@@ -31,6 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -111,16 +115,24 @@ public class GraphiqueTest {
 
             // Créer une diapositive
             XSLFSlide slide = ppt.createSlide();
-            List<BarChartData> barChartDataList = new ArrayList<>();
-            barChartDataList.add(new BarChartData(2019, new double[]{1, 2, 3}));
-            barChartDataList.add(new BarChartData(2020, new double[]{4, 5, 6}));
-            barChartDataList.add(new BarChartData(2021, new double[]{7, 8, 9}));
-            barChartDataList.add(new BarChartData(2022, new double[]{10, 11, 12}));
-            barChartDataList.add(new BarChartData(2023, new double[]{13, 14, 15}));
-            barChartDataList.add(new BarChartData(2024, new double[]{16, 17, 18}));
+
+            Double[][] values = new Double [][] {
+                    //        2019 2020 2021 2022 2023 2024
+                    new Double[]{1d, 4d, 7d, 10d, 13d, 16d}, //electricité
+                    new Double[]{2d,5d, 8d, 11d, 14d, 17d}, //gaz
+                    new Double[]{3d, 6d, 9d, 12d, 15d, 18d}, //eau
+            };
+
 
             CreateChartToSlide createChartToSlide = new CreateChartToSlide();
-            createChartToSlide.createBarChart(slide, barChartDataList, new String[]{"Electricité", "Gaz", "Eau"});
+            Rectangle2D rect = new java.awt.geom.Rectangle2D.Double(1d* Units.EMU_PER_CENTIMETER, 1d*Units.EMU_PER_CENTIMETER, 20d*Units.EMU_PER_CENTIMETER, 15d* Units.EMU_PER_CENTIMETER);
+            //rgb(0, 69, 121)
+            //rgb(235, 107, 10)
+            XDDFColor[] colors = new XDDFColor[]{
+                    new XDDFColorRgbPercent(0 / 100, 69 / 100, 121 / 100),
+                    new XDDFColorRgbPercent(235 / 100, 107 / 100, 10 / 100)
+            };
+            createChartToSlide.createBarChart(ppt, slide,rect, values,new String[]{"2019", "2020", "2021", "2022", "2023", "2024"},new String[]{"Electricité", "Gaz", "Eau"}, colors);
 
 
             // Enregistrer le résultat
@@ -204,7 +216,7 @@ public class GraphiqueTest {
             bar.setBarDirection(BarDirection.COL);
             bar.setBarGrouping(BarGrouping.STACKED);
 // correcting the overlap so bars really are stacked and not side by side
-            chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte)100);
+            chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte) 100);
 
             chart.plot(bar);
 
