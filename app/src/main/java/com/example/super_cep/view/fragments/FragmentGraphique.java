@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -89,6 +91,10 @@ public class FragmentGraphique extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 onBatimentSelected(parent.getItemAtPosition(position).toString());
+                // remove focus
+                binding.autoCompleteNomBatiment.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.autoCompleteNomBatiment.getWindowToken(), 0);
             }
         });
 
@@ -100,16 +106,6 @@ public class FragmentGraphique extends Fragment {
             return false;
         });
 
-        binding.autoCompleteNomBatiment.setOnFocusChangeListener((v, hasFocus) -> {
-            if(!hasFocus){
-                String userTypedString = binding.autoCompleteNomBatiment.getText().toString();
-                if (!adapter.getFilter().convertResultToString(adapter.getItem(0)).equals(userTypedString)) {
-                    binding.autoCompleteNomBatiment.setText(""); // clear auto-complete text view if the user entered value is not from suggestions
-                    Toast.makeText(getContext(), "Veuillez choisir une valeur parmi les propositions", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        });
 
 
         defaultValueNomBatimentConso = binding.autoCompleteNomBatiment.getText().toString();
