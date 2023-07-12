@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
@@ -78,25 +79,40 @@ public class FragmentGraphique extends Fragment {
         } );
     }
 
-    private String getNomBatimentConso(){
-        return binding.spinnerNomBatimentConso.getSelectedItem().toString().equals(defaultValueNomBatimentConso) ? null : binding.spinnerNomBatimentConso.getSelectedItem().toString();
-    }
 
     private void setupSpinner() {
         List<String> values = consoParser.getBatiments();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, values);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerNomBatimentConso.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, values);
+        binding.autoCompleteNomBatiment.setAdapter(adapter);
 
-        binding.spinnerNomBatimentConso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.autoCompleteNomBatiment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 onBatimentSelected(parent.getItemAtPosition(position).toString());
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
         });
-        defaultValueNomBatimentConso = binding.spinnerNomBatimentConso.getSelectedItem().toString();
+
+        binding.autoCompleteNomBatiment.setOnTouchListener((v, event) -> {
+            //only if it's a click
+            if (event.getAction() != android.view.MotionEvent.ACTION_UP)
+                return false;
+            binding.autoCompleteNomBatiment.showDropDown();
+            return false;
+        });
+
+        binding.autoCompleteNomBatiment.setOnFocusChangeListener((v, hasFocus) -> {
+            if(!hasFocus){
+                String userTypedString = binding.autoCompleteNomBatiment.getText().toString();
+                if (!adapter.getFilter().convertResultToString(adapter.getItem(0)).equals(userTypedString)) {
+                    binding.autoCompleteNomBatiment.setText(""); // clear auto-complete text view if the user entered value is not from suggestions
+                    Toast.makeText(getContext(), "Veuillez choisir une valeur parmi les propositions", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
+
+        defaultValueNomBatimentConso = binding.autoCompleteNomBatiment.getText().toString();
         binding.spinnerMeilleurAnne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
