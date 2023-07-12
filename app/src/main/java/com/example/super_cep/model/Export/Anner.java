@@ -13,4 +13,17 @@ public class Anner {
         this.fioul = fioul;
     }
 
+
+    public double getEnergie(String nomEnergie){
+        switch (nomEnergie){
+            case "Elec":
+                return elec;
+            case "Gaz":
+                return gaz;
+            case "Fioul":
+                return fioul;
+            default:
+                return 0;
+        }
+    }
 }

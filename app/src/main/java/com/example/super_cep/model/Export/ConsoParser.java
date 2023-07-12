@@ -55,7 +55,7 @@ public class ConsoParser {
             Cell cell = row.getCell(5);
             if(cell.getStringCellValue().equals(nomBatiment)){
                 Cell cellAnner = row.getCell(15);
-                if(!annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
+                if(cellAnner.getCellType() != CellType.NUMERIC || !annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
                 anners.add(new Anner((int)cellAnner.getNumericCellValue(),
                         row.getCell(27) != null ? row.getCell(27).getNumericCellValue() : 0,
                        row.getCell(32) != null ? row.getCell(32).getNumericCellValue() : 0,
@@ -83,7 +83,7 @@ public class ConsoParser {
             Cell cell = row.getCell(5);
             if(cell.getStringCellValue().equals(nomBatiment)){
                 Cell cellAnner = row.getCell(15);
-                if(!annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
+                if(cellAnner.getCellType() != CellType.NUMERIC || !annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
                 anners.add(new Anner((int)cellAnner.getNumericCellValue(),
                         row.getCell(30) != null ? row.getCell(30).getNumericCellValue() : 0,
                         row.getCell(35) != null ? row.getCell(35).getNumericCellValue() : 0,

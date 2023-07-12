@@ -1,22 +1,28 @@
 package com.example.super_cep.view.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
 import com.example.super_cep.controller.Conso.ConsoProvider;
 import com.example.super_cep.controller.Conso.ConsoProviderListener;
 import com.example.super_cep.databinding.FragmentGraphiqueBinding;
+import com.example.super_cep.model.Export.Anner;
 import com.example.super_cep.model.Export.ConsoParser;
 
 import java.util.ArrayList;
@@ -58,6 +64,8 @@ public class FragmentGraphique extends Fragment {
         });
         if(consoConfigViewModel.getConsoParser().getValue() == null){
             consoParser = consoProvider.getConsoParser();
+            if(consoParser == null) return;
+            consoConfigViewModel.setConsoParser(consoParser);
         }else{
             consoParser = consoConfigViewModel.getConsoParser().getValue();
         }
@@ -120,7 +128,7 @@ public class FragmentGraphique extends Fragment {
             consoConfigViewModel.setMeilleurAnne(anne.get(anne.size()-1));
             setSpinnerSelection(binding.spinnerMeilleurAnne, anne.get(anne.size()-1));
         }
-
+        updateDataTable(nomBatiment);
     }
     private void consoAlreadyExist(String nomBatiment){
 
@@ -143,6 +151,7 @@ public class FragmentGraphique extends Fragment {
         if(consoConfigViewModel.getMeilleurAnne() != null){
             setSpinnerSelection(binding.spinnerMeilleurAnne, consoConfigViewModel.getMeilleurAnne());
         }
+        updateDataTable(nomBatiment);
     }
 
     public void updateSelectedYears(){
@@ -167,6 +176,73 @@ public class FragmentGraphique extends Fragment {
                 return;
             }
         }
+    }
+
+    private void updateDataTable(String nomBatiment){
+        Drawable drawableBackground = getResources().getDrawable(R.drawable.border_black_thin);
+        binding.linearlayoutConso.removeAllViews();
+        List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
+        List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
+        List<Anner> annesEuro = consoParser.getConsoEuro(nomBatiment, annees);
+        LinearLayout linearLayoutAnnees = new LinearLayout(getContext());
+        linearLayoutAnnees.setOrientation(LinearLayout.VERTICAL);
+        TextView textViewTitre = new TextView(getContext());
+        textViewTitre.setText("kWh");
+        linearLayoutAnnees.addView(textViewTitre);
+        for(String anne : annees){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 50;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setText(anne);
+            textViewAnne.setBackground(drawableBackground);
+            linearLayoutAnnees.addView(textViewAnne);
+        }
+        TextView titreEuro = new TextView(getContext());
+        titreEuro.setText("€");
+        linearLayoutAnnees.addView(titreEuro);
+        for(String anne : annees){
+            TextView textViewAnne = new TextView(getContext());
+            textViewAnne.setText(anne);
+            int widthInDp = 50;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            linearLayoutAnnees.addView(textViewAnne);
+        }
+        binding.linearlayoutConso.addView(linearLayoutAnnees);
+
+        String[] energies = new String[]{"Elec", "Gaz", "Fioul"};
+        for(String energie : energies){
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            TextView textView = new TextView(getContext());
+            textView.setText(energie);
+            linearLayout.addView(textView);
+            for(Anner anner : anneesWatt){
+                TextView textViewAnne = new TextView(getContext());
+                int widthInDp = 100;
+                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+                textViewAnne.setBackground(drawableBackground);
+                String value = String.format("%.2f", anner.getEnergie(energie));
+                textViewAnne.setText(value);
+                linearLayout.addView(textViewAnne);
+            }
+            TextView textViewEuro = new TextView(getContext());
+            textViewEuro.setText("");
+            linearLayout.addView(textViewEuro);
+            for(Anner anner: annesEuro){
+                TextView textViewAnne = new TextView(getContext());
+                int widthInDp = 100;
+                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+                textViewAnne.setBackground(drawableBackground);
+                String value = String.format("%.2f", anner.getEnergie(energie));
+                textViewAnne.setText(value);
+                linearLayout.addView(textViewAnne);
+            }
+            binding.linearlayoutConso.addView(linearLayout);
+
+        }
+
+
     }
 
 

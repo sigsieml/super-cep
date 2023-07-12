@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
+import com.example.super_cep.controller.Conso.ConsoProvider;
 import com.example.super_cep.databinding.FragmentExportdataBinding;
 import com.example.super_cep.model.Export.ArchiveExporter;
 import com.example.super_cep.model.Export.PowerpointExporter;
@@ -116,7 +117,7 @@ public class Exportdata extends Fragment {
                 try {
                     ParcelFileDescriptor pfd = requireActivity().getContentResolver().
                             openFileDescriptor(uri, "w");
-                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()), consoConfigViewModel.getConsoParser().getValue());
+                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()),  consoConfigViewModel.getConsoParser().getValue());
                     powerpointExporter.export(getContext().getAssets().open(POWERPOINT_VIERGE_NAME),
                             pfd.getFileDescriptor(),
                             releveViewModel.getReleve().getValue(),
