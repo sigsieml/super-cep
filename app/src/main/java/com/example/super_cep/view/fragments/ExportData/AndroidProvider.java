@@ -26,6 +26,8 @@ public class AndroidProvider implements PlatformProvider {
 
     @Override
     public byte[] getImagesByteFromPath(String path) {
+        if(path == null)
+            return null;
         Uri uri = Uri.parse(path);
         // use content resolver to get image
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
