@@ -28,6 +28,7 @@ import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.openxmlformats.schemas.presentationml.x2006.main.CTPicture;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -322,7 +323,6 @@ public class PowerpointExporterTools {
         }
         return true;
     }
-
 
 
 }
