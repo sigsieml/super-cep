@@ -130,7 +130,8 @@ public class GraphiqueTest {
             //rgb(235, 107, 10)
             XDDFColor[] colors = new XDDFColor[]{
                     new XDDFColorRgbPercent(0 / 100, 69 / 100, 121 / 100),
-                    new XDDFColorRgbPercent(235 / 100, 107 / 100, 10 / 100)
+                    new XDDFColorRgbPercent(235 / 100, 107 / 100, 10 / 100),
+                    new XDDFColorRgbPercent(0 / 100, 176 / 100, 80 / 100)
             };
             createChartToSlide.createBarChart(ppt, slide,rect, values,new String[]{"2019", "2020", "2021", "2022", "2023", "2024"},new String[]{"Electricité", "Gaz", "Eau"}, colors);
 

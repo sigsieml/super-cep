@@ -125,6 +125,7 @@ public class PowerpointExporter {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("erreur à la " + slideActuelle + " : " +  e.getMessage());
             throw new PowerpointException("erreur à la " + slideActuelle + " : " +  e.getMessage());
         }
@@ -560,7 +561,7 @@ public class PowerpointExporter {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" +
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
                                 toiture.typeIsolant +
                                 (Float.isNaN(toiture.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm")
                                 + ")");
