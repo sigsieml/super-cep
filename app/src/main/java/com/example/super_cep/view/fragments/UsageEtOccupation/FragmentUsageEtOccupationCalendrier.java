@@ -325,7 +325,10 @@ public class FragmentUsageEtOccupationCalendrier extends Fragment implements Aid
         );
         builder.setPositiveButton("OK", null);
         builder.show();
+
     }
+
+
 
 
 }

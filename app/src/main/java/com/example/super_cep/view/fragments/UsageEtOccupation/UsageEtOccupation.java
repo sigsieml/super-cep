@@ -2,6 +2,7 @@ package com.example.super_cep.view.fragments.UsageEtOccupation;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -17,10 +18,11 @@ import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Zone;
+import com.example.super_cep.view.AideFragment;
 
 import java.util.Set;
 
-public class UsageEtOccupation extends Fragment {
+public class UsageEtOccupation extends Fragment implements AideFragment {
 
 
     private ReleveViewModel releveViewModel;
@@ -93,4 +95,18 @@ public class UsageEtOccupation extends Fragment {
     }
 
 
+    @Override
+    public void aide() {
+        AlertDialog.Builder constructeurAide = new AlertDialog.Builder(getContext());
+        constructeurAide.setTitle("Aide");
+        constructeurAide.setMessage(
+                "Dans cette interface, vous pouvez facilement visualiser et gérer les différents calendriers de votre application.\n\n" +
+                        "- Visualiser un calendrier : Un simple clic sur un calendrier vous permet de consulter ses détails. Un fragment apparaîtra, où vous pouvez indiquer pour chaque demi-heure l'état du chauffage et l'occupation du calendrier.\n\n" +
+                        "- Modifier un calendrier : Si vous souhaitez apporter des modifications à un calendrier, maintenez le clic sur celui-ci. Cette action ouvre le menu de modification.\n\n" +
+                        "- Les zones d'un calendrier : Pour chaque calendrier, vous trouverez la liste de ses zones associées. Elles sont affichées sous le nom du calendrier.\n\n"
+        );
+        constructeurAide.setPositiveButton("Compris, merci !", null);
+        constructeurAide.show();
+
+    }
 }

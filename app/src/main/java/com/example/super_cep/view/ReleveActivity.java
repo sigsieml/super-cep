@@ -186,8 +186,13 @@ public class ReleveActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.i("ReleveActivity", "onBackPressed: " + Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size());
-        if(Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size() <= 2){
-            alertMessageArretDuReleve();
+
+        if(Navigation.findNavController(this, R.id.nav_host_fragment_content_main).getBackQueue().size() <= 3){
+            if(binding.drawerLayout.isOpen()){
+                alertMessageArretDuReleve();
+            }else{
+                binding.drawerLayout.open();
+            }
         }
         else{
             ReleveActivity.super.onBackPressed();

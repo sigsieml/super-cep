@@ -38,6 +38,7 @@ import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.view.AideFragment;
 import com.example.super_cep.view.MonthYearPicker;
 
 import java.io.File;
@@ -46,7 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class Batiment extends Fragment {
+public class Batiment extends Fragment implements AideFragment {
 
     public Batiment() {
         // Required empty public constructor
@@ -344,6 +345,19 @@ public class Batiment extends Fragment {
     public void onPause() {
         saveData();
         super.onPause();
+    }
+
+    @Override
+    public void aide() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+        builder.setTitle("Besoin d'aide ? Pas de problème !");
+        builder.setMessage("1. Explorez les détails de votre bâtiment : Vous pouvez découvrir les détails charmants du bâtiment tels que le nom, l'adresse, la surface totale chauffée, la date de construction et de rénovation. C'est comme un petit livre d'histoire pour chaque bâtiment.\n\n" +
+                "2. Devenez l'architecte : Vous avez la possibilité de modifier les informations d'un bâtiment. N'hésitez pas à cliquer sur le champ que vous souhaitez modifier et donnez une nouvelle vie à votre bâtiment.\n\n" +
+                "3. Laissez parler votre créativité : Ajoutez une photo du bâtiment en cliquant sur le bouton 'Ajouter Image'. Si une image existe déjà, vous pouvez la modifier en cliquant simplement dessus. Pour supprimer l'image existante, un appui long sur l'image et voilà, elle est partie !\n\n" +
+                "4. On ne se perd jamais ici : Vous pouvez récupérer la localisation actuelle en cliquant sur le bouton de localisation. L'adresse récupérée sera ensuite affichée pour que vous puissiez confirmer. Cependant, si la localisation n'est pas disponible pour le moment, ne vous inquiétez pas ! Réessayez simplement plus tard.\n\n" +
+                "5. Faites un voyage dans le temps : En cliquant sur le champ de la date, un sélecteur de date s'ouvrira vous permettant de sélectionner la date souhaitée. C'est un peu comme une machine à remonter le temps pour votre bâtiment !");
+        builder.setPositiveButton("Génial, merci !", null);
+        builder.show();
     }
 
 }

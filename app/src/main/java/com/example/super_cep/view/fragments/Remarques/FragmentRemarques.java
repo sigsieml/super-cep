@@ -18,13 +18,14 @@ import com.example.super_cep.controller.ConfigDataViewModel;
 import com.example.super_cep.databinding.FragmentRemarquesBinding;
 import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
+import com.example.super_cep.view.AideFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class FragmentRemarques extends Fragment {
+public class FragmentRemarques extends Fragment implements AideFragment {
 
 
     private FragmentRemarquesBinding binding;
@@ -110,4 +111,19 @@ public class FragmentRemarques extends Fragment {
         });
     }
 
+    @Override
+    public void aide() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Aide");
+        builder.setMessage(
+                "Bienvenue dans l'interface de gestion des remarques ! Les remarques sont utilisées sur chaque slide de votre présentation PowerPoint. Le nom de la remarque correspond au nom de la slide, ce qui vous permet d'ajouter facilement des informations pertinentes à chaque partie de votre présentation.\n\n" +
+                        "Dans cette interface, vous pouvez gérer toutes vos remarques. Voici quelques astuces pour vous aider à vous y retrouver :\n\n" +
+                        "- Affichage des remarques : Vos remarques sont affichées dans une liste, triées par ordre alphabétique pour faciliter leur localisation.\n\n" +
+                        "- Ajout d'une remarque : Pour ajouter une nouvelle remarque, il suffit de cliquer sur le bouton flottant en bas à droite. Un formulaire apparaîtra, vous permettant d'entrer les informations nécessaires. Après avoir cliqué sur 'Valider', la nouvelle remarque sera ajoutée à la liste.\n\n" +
+                        "- Édition d'une remarque : Si vous souhaitez modifier une remarque existante, il suffit de cliquer sur la remarque. Vous pouvez alors apporter les modifications nécessaires et valider pour mettre à jour la remarque dans la liste.\n\n" +
+                        "- Suppression d'une remarque : Pour supprimer une remarque, faites un clic long sur celle-ci. Une fenêtre de dialogue apparaîtra, vous demandant de confirmer la suppression. En cliquant sur 'Oui', la remarque sera supprimée de la liste.\n\n" +
+                        "Bonne utilisation !");
+        builder.setPositiveButton("Merci, j'ai compris !", null);
+        builder.show();
+    }
 }

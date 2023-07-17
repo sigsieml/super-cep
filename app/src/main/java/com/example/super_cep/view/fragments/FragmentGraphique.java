@@ -1,5 +1,6 @@
 package com.example.super_cep.view.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,11 +28,12 @@ import com.example.super_cep.controller.Conso.Energie;
 import com.example.super_cep.databinding.FragmentGraphiqueBinding;
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
+import com.example.super_cep.view.AideFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentGraphique extends Fragment {
+public class FragmentGraphique extends Fragment implements AideFragment {
 
     private FragmentGraphiqueBinding binding;
 
@@ -257,5 +259,18 @@ public class FragmentGraphique extends Fragment {
     }
 
 
-
+    @Override
+    public void aide() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Aide graphiques de consommation d'énergie");
+        builder.setMessage(
+                "Bienvenue dans l'interface de gestion des graphiques de consommation d'énergie! Cette interface vous permet de générer des graphiques qui récapitulent la consommation énergétique du bâtiment. Les graphiques sont présentés en deux formats : la consommation en watts et la consommation en euros.\n\n" +
+                        "Voici comment l'utiliser:\n\n" +
+                        "- Chargement de données de consommation : Vous pouvez charger un fichier .xlsx contenant les données de consommation en cliquant sur le bouton flottant en bas à droite.\n\n" +
+                        "- Sélection du bâtiment : Vous pouvez sélectionner le bâtiment pour lequel vous souhaitez générer les graphiques à partir du menu déroulant.\n\n" +
+                        "- Sélection de l'année : Après avoir sélectionné un bâtiment, vous pouvez choisir les années pour lesquelles vous souhaitez visualiser la consommation. Vous pouvez sélectionner plusieurs années en cochant les cases correspondantes.\n\n" +
+                        "N'oubliez pas que pour que le ratio consommation / surface chauffée apparaisse sur la diapositive, vous devez mettre à jour la surface dans la partie 'Bâtiment' de l'application.\n\n" );
+        builder.setPositiveButton("Merci, j'ai compris !", null);
+        builder.show();
+    }
 }
