@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@drawable/border_black">
+    android:background="@drawable/white_round">
 
     <ImageView
         android:id="@+id/imageViewClimatisation"
@@ -27,6 +27,8 @@
         android:layout_marginEnd="16dp"
         android:autoSizeTextType="uniform"
         android:text="TextView"
+        android:textColor="@color/primary_full"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewClimatisation" />
@@ -39,6 +41,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="marque"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout2" />
@@ -52,6 +55,7 @@
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:text="type : radiateur acier avec rob thermo"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,14 +81,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="puissance :" />
+                android:text="puissance :"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textViewQuantite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="quantite" />
+                android:text="quantite"
+                android:textColor="@color/black" />
         </TableRow>
 
     </TableLayout>
@@ -97,6 +103,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="modele"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMarque" />
@@ -109,6 +116,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="zones"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,6 +131,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="regulations"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

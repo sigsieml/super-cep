@@ -49,14 +49,18 @@ public class SettingsActivity extends AppCompatActivity implements SettingViewHo
         super.onCreate(savedInstanceState);
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setTitle("Modifier les listes");
+
         configDataProvider = new ConfigDataProvider(this);
         configData = configDataProvider.getConfigData();
         setupRecyclerView();
         setupActivityResult();
 
+
         binding.fabSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Alert dialog with 3 options : 1) reset to default 2) save to a file 3) load from a file
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
                 builder.setTitle("Options");

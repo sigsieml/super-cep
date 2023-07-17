@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tertiary_variant"
     tools:context=".view.MainActivity.MainActivity">
 
     <TextView
@@ -14,8 +15,9 @@
         android:autoSizeTextType="uniform"
         android:text="SUPER-CEP"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="48sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +30,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Derniers relevé de bâtiments :"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -36,10 +38,9 @@
         android:id="@+id/releveRecentRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@color/tertiary_variant"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.13"
@@ -53,6 +54,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="Options:"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/modifierDonnesPreRemlisButton"
         app:layout_constraintStart_toStartOf="parent" />
 

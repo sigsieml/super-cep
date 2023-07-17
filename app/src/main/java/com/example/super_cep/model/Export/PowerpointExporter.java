@@ -233,14 +233,14 @@ public class PowerpointExporter {
                 Rectangle2D oldAnchor = shape.getAnchor();
                 Rectangle2D rect = new java.awt.geom.Rectangle2D.Double(oldAnchorToNew(oldAnchor.getX()), oldAnchorToNew(oldAnchor.getY()),
                          oldAnchorToNew(oldAnchor.getWidth()), oldAnchorToNew(oldAnchor.getHeight()));
-                wb.createBarChart(ppt, slide,rect, consoWatt);
+                wb.createBarChart(ppt, slide,rect, consoWatt, "kWh");
             }
             if(nomBatimentConso != null && shape.getShapeName().equals("graphiqueEuro")){
                 CreateChartToSlide wb = new CreateChartToSlide();
                 Rectangle2D oldAnchor = shape.getAnchor();
                 Rectangle2D rect = new java.awt.geom.Rectangle2D.Double(oldAnchorToNew(oldAnchor.getX()), oldAnchorToNew(oldAnchor.getY()),
                         oldAnchorToNew(oldAnchor.getWidth()), oldAnchorToNew(oldAnchor.getHeight()));
-                wb.createBarChart(ppt, slide,rect, consoEuro);
+                wb.createBarChart(ppt, slide,rect, consoEuro, "€");
             }
             if(nomBatimentConso != null && shape.getShapeName().equals("kwhmElec") && meilleurAnne != null && !meilleurAnne.isEmpty() && releve.surfaceTotaleChauffe != 0){
                 textShapeRatioWatt = (XSLFTextShape) shape;
@@ -297,7 +297,7 @@ public class PowerpointExporter {
             addImagesToSlide(ppt, slide, images, rectangle2DImages);
         }
 
-        if(nomBatimentConso != null && !nomBatimentConso.isEmpty()){
+        if(nomBatimentConso != null && !nomBatimentConso.isEmpty() && releve.surfaceTotaleChauffe > 0){
             XSLFTextShape lastTextShape = null;
             XSLFAutoShape lastEllipse = null;
             int anne = Integer.parseInt(meilleurAnne);
@@ -402,15 +402,15 @@ public class PowerpointExporter {
                     if (remplacements.containsKey("Usage et occupation du bâtiment")) {
                         PowerpointExporterTools.replaceTextInTextShape(remplacements, (XSLFTextShape) shape);
                     } else {
-                        ((XSLFTextShape) shape).getTextBody().setText("Aucune remarque");
+                        ((XSLFTextShape) shape).getTextBody().setText(" ");
                     }
                 }
                 if (name.equals("nomCalendrier")) {
-                    ((XSLFTextShape) shape).getTextBody().setText("Aucun calendrier");
+                    ((XSLFTextShape) shape).getTextBody().setText("  ");
 
                 }
                 if (name.equals("nomZones")) {
-                    ((XSLFTextShape) shape).getTextBody().setText("Aucune zone");
+                    ((XSLFTextShape) shape).getTextBody().setText("   ");
                 }
 
             }

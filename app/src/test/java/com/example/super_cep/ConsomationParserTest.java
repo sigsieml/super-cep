@@ -76,7 +76,7 @@ public class ConsomationParserTest {
             CreateChartToSlide createChartToSlide = new CreateChartToSlide();
             ConsoParser consoParser = new ConsoParser(is);
             Rectangle2D rect = new java.awt.geom.Rectangle2D.Double(1d* Units.EMU_PER_CENTIMETER, 1d*Units.EMU_PER_CENTIMETER, 20d*Units.EMU_PER_CENTIMETER, 15d* Units.EMU_PER_CENTIMETER);
-            createChartToSlide.createBarChart(ppt, slide,rect, consoParser.getConsoWatt("RUE DE L'ETANG - CHIGNE", consoParser.getAnneOfBatiment("RUE DE L'ETANG - CHIGNE")));
+            createChartToSlide.createBarChart(ppt, slide,rect, consoParser.getConsoWatt("RUE DE L'ETANG - CHIGNE", consoParser.getAnneOfBatiment("RUE DE L'ETANG - CHIGNE")), "kWh");
 
             // Enregistrer le résultat
             try (FileOutputStream out = new FileOutputStream("test.pptx")) {

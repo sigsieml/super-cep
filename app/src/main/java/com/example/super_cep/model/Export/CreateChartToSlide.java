@@ -40,6 +40,7 @@ import org.apache.poi.xslf.usermodel.*;
 //import static org.apache.poi.POIXMLTypeLoader.DEFAULT_XML_OPTIONS;
 
 import org.openxmlformats.schemas.drawingml.x2006.chart.*;
+import org.openxmlformats.schemas.drawingml.x2006.main.CTRegularTextRun;
 import org.openxmlformats.schemas.drawingml.x2006.main.CTShapeProperties;
 import org.openxmlformats.schemas.drawingml.x2006.main.CTStyleMatrixReference;
 import org.openxmlformats.schemas.drawingml.x2006.main.CTTextBody;
@@ -55,8 +56,8 @@ public class CreateChartToSlide {
 
 
 
-    public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide, Rectangle2D anchor, List<Anner> anners) throws PowerpointException {
-        if(anners.size() == 0) throw new PowerpointException("Nombres d'années insuffisant pour créer le graphique");
+    public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide, Rectangle2D anchor, List<Anner> anners, String suffix)  {
+        if(anners.size() == 0) return;
         Double[][] values = new Double[Energie.values().length][anners.size()];
         for (int i = 0; i < anners.size(); i++) {
             for (int j = 0; j < Energie.values().length; j++) {
@@ -74,11 +75,11 @@ public class CreateChartToSlide {
         for(Energie energie : Energie.values()){
             colors[energie.ordinal()] = energie.getXDDFColor();
         }
-        createBarChart(slideShow, slide, anchor,values, annersString, Energie.ENERGIES, colors);
+        createBarChart(slideShow, slide, anchor,values, annersString, Energie.ENERGIES, colors, suffix);
     }
 
 
-    public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide,Rectangle2D anchor,  Double[][] values,String[] categories,  String[] serie, XDDFColor[] colors) {
+    public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide,Rectangle2D anchor,  Double[][] values,String[] categories,  String[] serie, XDDFColor[] colors, String suffix) {
         // create the data
         int numOfPoints = categories.length;
 
@@ -233,27 +234,30 @@ public class CreateChartToSlide {
         chart.plot(data);
 
         // correct the id and order, must not start 0 again because there are bar series already
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getIdx().setVal(c);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getOrder().setVal(c);
+        CTLineChart lineChart = chart.getCTChart().getPlotArea().getLineChartArray(0);
+        CTLineSer ser = lineChart.getSerArray(0);
+        ser.getIdx().setVal(c);
+        ser.getOrder().setVal(c);
 
         // add data labels
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).addNewDLbls();
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls()
+        CTDLbls linedlbls = ser.addNewDLbls();
+        linedlbls
                 .addNewDLblPos().setVal(STDLblPos.T);
 
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewNumFmt();
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().getNumFmt()
+        linedlbls.addNewNumFmt();
+        linedlbls.getNumFmt()
                 .setSourceLinked(false);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().getNumFmt()
+        linedlbls.getNumFmt()
                 .setFormatCode("0;-0;");
+        linedlbls.getNumFmt().setFormatCode("0 \""+ suffix + "\";-0 \"" + suffix + "\";");
 
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowVal().setVal(true);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowLegendKey().setVal(false);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowCatName().setVal(false);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowSerName().setVal(false);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowPercent().setVal(false);
-        chart.getCTChart().getPlotArea().getLineChartArray(0).getSerArray(0).getDLbls().addNewShowBubbleSize().setVal(false);
 
+        linedlbls.addNewShowVal().setVal(true);
+        linedlbls.addNewShowLegendKey().setVal(false);
+        linedlbls.addNewShowCatName().setVal(false);
+        linedlbls.addNewShowSerName().setVal(false);
+        linedlbls.addNewShowPercent().setVal(false);
+        linedlbls.addNewShowBubbleSize().setVal(false);
 
 
 
