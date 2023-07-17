@@ -1,8 +1,5 @@
 package com.example.super_cep.model.Export;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
 import com.example.super_cep.controller.Conso.Energie;
@@ -76,8 +73,6 @@ public class PowerpointExporter {
     private Releve releve;
     private Map<String, String> remplacements;
 
-    private Context context;
-
     private PlatformProvider platformProvider;
 
     private Map<String, PaintStyle> zonesColors;
@@ -130,7 +125,7 @@ public class PowerpointExporter {
 
             }
         } catch (Exception e) {
-            Log.e("PowerpointExporter", "export: ", e);
+            System.err.println("erreur à la " + slideActuelle + " : " +  e.getMessage());
             throw new PowerpointException("erreur à la " + slideActuelle + " : " +  e.getMessage());
         }
     }
