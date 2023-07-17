@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tertiary_variant"
     tools:context=".view.fragments.Chauffages.FragmentChauffage">
 
     <androidx.recyclerview.widget.RecyclerView
