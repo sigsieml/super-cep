@@ -1,8 +1,10 @@
 package com.example.super_cep.model.Export;
 
+import com.example.super_cep.controller.Conso.Anner;
+import com.example.super_cep.controller.Conso.Energie;
+
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xddf.usermodel.XDDFColor;
-import org.apache.poi.xddf.usermodel.XDDFColorRgbPercent;
 import org.apache.poi.xddf.usermodel.XDDFFillProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFNoFillProperties;
@@ -40,11 +42,11 @@ public class CreateChartToSlide {
 
     public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide, Rectangle2D anchor, List<Anner> anners) throws PowerpointException {
         if(anners.size() == 0) throw new PowerpointException("Nombres d'années insuffisant pour créer le graphique");
-        Double[][] values = new Double[3][anners.size()];
+        Double[][] values = new Double[Energie.values().length][anners.size()];
         for (int i = 0; i < anners.size(); i++) {
-            values[0][i] = anners.get(i).elec;
-            values[1][i] = anners.get(i).gaz;
-            values[2][i] = anners.get(i).fioul;
+            for (int j = 0; j < Energie.values().length; j++) {
+                values[j][i] = anners.get(i).getEnergie(Energie.values()[j].name());
+            }
         }
 
         String annersString[] = new String[anners.size()];
@@ -57,8 +59,17 @@ public class CreateChartToSlide {
                 XDDFColor.from(hex2Rgb("#004579")),
                 XDDFColor.from(hex2Rgb("#eb6b0a")),
                 XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
+                XDDFColor.from(hex2Rgb("#f2c504")),
         };
-        createBarChart(slideShow, slide, anchor,values, annersString, new String[]{"Electricité", "Gaz", "Fioul"}, colors);
+        createBarChart(slideShow, slide, anchor,values, annersString, Energie.ENERGIES, colors);
     }
     public static byte[] hex2Rgb(String colorStr) {
         return new byte[]{

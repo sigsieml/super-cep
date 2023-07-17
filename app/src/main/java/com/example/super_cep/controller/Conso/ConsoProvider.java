@@ -11,8 +11,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
-import com.example.super_cep.model.Export.ConsoParser;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

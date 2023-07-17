@@ -1,6 +1,6 @@
 package com.example.super_cep;
 
-import com.example.super_cep.model.Export.ConsoParser;
+import com.example.super_cep.controller.Conso.ConsoParser;
 import com.example.super_cep.model.Export.CreateChartToSlide;
 
 import org.apache.poi.ss.usermodel.Cell;

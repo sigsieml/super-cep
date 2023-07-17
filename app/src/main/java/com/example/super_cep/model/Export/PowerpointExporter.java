@@ -2,6 +2,9 @@ package com.example.super_cep.model.Export;
 
 import android.content.Context;
 
+import com.example.super_cep.controller.Conso.Anner;
+import com.example.super_cep.controller.Conso.ConsoParser;
+import com.example.super_cep.controller.Conso.Energie;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
@@ -233,7 +236,7 @@ public class PowerpointExporter {
                double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoWatt.size(); i++) {
                    if(consoWatt.get(i).anner == anne){
-                       consoMeilleurAnne = consoWatt.get(i).elec;
+                       consoMeilleurAnne = consoWatt.get(i).energies.get(Energie.ELECTRICITE);
                    }
                 }
                 double kwhElec = consoMeilleurAnne / releve.surfaceTotaleChauffe;
@@ -245,7 +248,7 @@ public class PowerpointExporter {
                 double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoWatt.size(); i++) {
                     if(consoWatt.get(i).anner == anne){
-                        consoMeilleurAnne = consoWatt.get(i).gaz;
+                        consoMeilleurAnne = consoWatt.get(i).energies.get(Energie.GAZ_NATUREL);
                     }
                 }
                 double kwhGaz = consoMeilleurAnne / releve.surfaceTotaleChauffe;
@@ -257,7 +260,7 @@ public class PowerpointExporter {
                 double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoWatt.size(); i++) {
                     if(consoWatt.get(i).anner == anne){
-                        consoMeilleurAnne = consoWatt.get(i).fioul;
+                        consoMeilleurAnne = consoWatt.get(i).energies.get(Energie.FIOUL);
                     }
                 }
                 double kwhFioul = consoMeilleurAnne / releve.surfaceTotaleChauffe;
@@ -269,7 +272,7 @@ public class PowerpointExporter {
                double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoEuro.size(); i++) {
                    if(consoEuro.get(i).anner == anne){
-                       consoMeilleurAnne = consoEuro.get(i).elec;
+                       consoMeilleurAnne = consoEuro.get(i).energies.get(Energie.ELECTRICITE);
                    }
                 }
                 double euroElec = consoMeilleurAnne / releve.surfaceTotaleChauffe;
@@ -281,7 +284,7 @@ public class PowerpointExporter {
                 double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoEuro.size(); i++) {
                     if(consoEuro.get(i).anner == anne){
-                        consoMeilleurAnne = consoEuro.get(i).gaz;
+                        consoMeilleurAnne = consoEuro.get(i).energies.get(Energie.GAZ_NATUREL);
                     }
                 }
                 double euroGaz = consoMeilleurAnne / releve.surfaceTotaleChauffe;
@@ -293,7 +296,7 @@ public class PowerpointExporter {
                 double consoMeilleurAnne = 0;
                 for (int i = 0; i < consoEuro.size(); i++) {
                     if(consoEuro.get(i).anner == anne){
-                        consoMeilleurAnne = consoEuro.get(i).fioul;
+                        consoMeilleurAnne = consoEuro.get(i).energies.get(Energie.FIOUL);
                     }
                 }
                 double euroFioul = consoMeilleurAnne / releve.surfaceTotaleChauffe;

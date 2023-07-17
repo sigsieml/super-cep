@@ -1,4 +1,4 @@
-package com.example.super_cep.model.Export;
+package com.example.super_cep.controller.Conso;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoParser {
 
@@ -56,10 +57,13 @@ public class ConsoParser {
             if(cell.getStringCellValue().equals(nomBatiment)){
                 Cell cellAnner = row.getCell(15);
                 if(cellAnner.getCellType() != CellType.NUMERIC || !annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
+
                 anners.add(new Anner((int)cellAnner.getNumericCellValue(),
-                        row.getCell(27) != null ? row.getCell(27).getNumericCellValue() : 0,
-                       row.getCell(32) != null ? row.getCell(32).getNumericCellValue() : 0,
-                        row.getCell(37) != null ? row.getCell(37).getNumericCellValue() : 0
+                        Map.of(
+                                Energie.ELECTRICITE, row.getCell(27) != null ? row.getCell(27).getNumericCellValue() : 0,
+                                Energie.GAZ_NATUREL, row.getCell(32) != null ? row.getCell(32).getNumericCellValue() : 0,
+                                Energie.FIOUL, row.getCell(37) != null ? row.getCell(37).getNumericCellValue() : 0
+                        )
                 ));
             }
         }
@@ -85,9 +89,11 @@ public class ConsoParser {
                 Cell cellAnner = row.getCell(15);
                 if(cellAnner.getCellType() != CellType.NUMERIC || !annees.contains(String.valueOf((int)cellAnner.getNumericCellValue()))) continue;
                 anners.add(new Anner((int)cellAnner.getNumericCellValue(),
-                        row.getCell(30) != null ? row.getCell(30).getNumericCellValue() : 0,
-                        row.getCell(35) != null ? row.getCell(35).getNumericCellValue() : 0,
-                        row.getCell(40) != null ? row.getCell(40).getNumericCellValue() : 0
+                        Map.of(
+                                Energie.ELECTRICITE, row.getCell(30) != null ? row.getCell(30).getNumericCellValue() : 0,
+                                Energie.GAZ_NATUREL, row.getCell(35) != null ? row.getCell(35).getNumericCellValue() : 0,
+                                Energie.FIOUL, row.getCell(40) != null ? row.getCell(40).getNumericCellValue() : 0
+                        )
                 ));
             }
         }

@@ -18,15 +18,15 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
 import com.example.super_cep.controller.Conso.ConsoProvider;
 import com.example.super_cep.controller.Conso.ConsoProviderListener;
+import com.example.super_cep.controller.Conso.Energie;
 import com.example.super_cep.databinding.FragmentGraphiqueBinding;
-import com.example.super_cep.model.Export.Anner;
-import com.example.super_cep.model.Export.ConsoParser;
+import com.example.super_cep.controller.Conso.Anner;
+import com.example.super_cep.controller.Conso.ConsoParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -222,19 +222,18 @@ public class FragmentGraphique extends Fragment {
         }
         binding.linearlayoutConso.addView(linearLayoutAnnees);
 
-        String[] energies = new String[]{"Elec", "Gaz", "Fioul"};
-        for(String energie : energies){
+        for(Energie energie : Energie.values()){
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             TextView textView = new TextView(getContext());
-            textView.setText(energie);
+            textView.setText(energie.nomEnergie);
             linearLayout.addView(textView);
             for(Anner anner : anneesWatt){
                 TextView textViewAnne = new TextView(getContext());
-                int widthInDp = 100;
+                int widthInDp = 120;
                 textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
                 textViewAnne.setBackground(drawableBackground);
-                String value = String.format("%.2f", anner.getEnergie(energie));
+                String value = String.format("%.2f", anner.energies.get(energie));
                 textViewAnne.setText(value);
                 linearLayout.addView(textViewAnne);
             }
@@ -243,10 +242,10 @@ public class FragmentGraphique extends Fragment {
             linearLayout.addView(textViewEuro);
             for(Anner anner: annesEuro){
                 TextView textViewAnne = new TextView(getContext());
-                int widthInDp = 100;
+                int widthInDp = 120;
                 textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
                 textViewAnne.setBackground(drawableBackground);
-                String value = String.format("%.2f", anner.getEnergie(energie));
+                String value = String.format("%.2f", anner.energies.get(energie));
                 textViewAnne.setText(value);
                 linearLayout.addView(textViewAnne);
             }

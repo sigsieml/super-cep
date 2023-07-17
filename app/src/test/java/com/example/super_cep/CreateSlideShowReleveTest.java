@@ -2,7 +2,7 @@ package com.example.super_cep;
 
 import static org.junit.Assert.assertTrue;
 
-import com.example.super_cep.model.Export.ConsoParser;
+import com.example.super_cep.controller.Conso.ConsoParser;
 import com.example.super_cep.model.Export.JsonReleveManager;
 import com.example.super_cep.model.Export.PowerpointException;
 import com.example.super_cep.model.Export.PowerpointExporter;
