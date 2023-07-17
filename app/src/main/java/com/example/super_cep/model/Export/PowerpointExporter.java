@@ -1,6 +1,7 @@
 package com.example.super_cep.model.Export;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
@@ -95,7 +96,7 @@ public class PowerpointExporter {
     public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve, String nomBatimentConso, List<String> annees, String meilleurAnne) throws PowerpointException {
         this.releve = releve;
         setupReleve();
-
+        String slideActuelle = "initialisation";
         try (InputStream is = powerpointVierge;
              XMLSlideShow ppt = new XMLSlideShow(is)) {
 
@@ -106,13 +107,21 @@ public class PowerpointExporter {
             XSLFSlide slidePreconisations = slides.get(7);
 
 
+            slideActuelle = "slide titre";
             slideTitre(ppt, slides.get(0));
+            slideActuelle = "slide bâtiment";
             slideBatiment(ppt, slides.get(1));
+            slideActuelle = "slide énergie et consommations";
             slideEnergieEtConsomations(ppt,slides.get(2), nomBatimentConso, annees, meilleurAnne);
+            slideActuelle = "slide usage et occupation du bâtiment";
             slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
+            slideActuelle = "slide descriptif enveloppe thermique";
             slideDescriptifEnveloppeThermique(ppt, slideDescriptifEnveloppeThermique, null);
+            slideActuelle = "slide descriptif des system";
             slideDescriptifDesSystem(ppt, slideDescriptifDesSystem, null, null, null);
+            slideActuelle = "slide descriptif du chauffage";
             slideDescriptifDuChauffage(ppt, slideDescriptifDuChauffage);
+            slideActuelle = "slide preconisations";
             slidePreconisations(ppt, slidePreconisations);
 
 
@@ -120,8 +129,9 @@ public class PowerpointExporter {
                 ppt.write(out);
 
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e("PowerpointExporter", "export: ", e);
+            throw new PowerpointException("erreur à la " + slideActuelle + " : " +  e.getMessage());
         }
     }
 
@@ -198,7 +208,6 @@ public class PowerpointExporter {
         if (releve.imageBatiment != null) {
             addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
         }
-
 
     }
     private double oldAnchorToNew(double oldAnchorValue){
@@ -292,76 +301,78 @@ public class PowerpointExporter {
             addImagesToSlide(ppt, slide, images, rectangle2DImages);
         }
 
-        XSLFTextShape lastTextShape = null;
-        XSLFAutoShape lastEllipse = null;
-        int anne = Integer.parseInt(meilleurAnne);
-        for (int i = 0; i < consoWatt.size(); i++) {
-            if(consoWatt.get(i).anner == anne){
-                for(Map.Entry<Energie, Double> energie : consoWatt.get(i).energies.entrySet()){
-                    if(energie.getValue() > 0){
-                        double kwhEnergie = energie.getValue() / releve.surfaceTotaleChauffe;
-                        if(lastEllipse == null){
-                            textShapeRatioWatt.getTextBody().setText(String.format("%.1f", kwhEnergie) + " kwh/m²");
-                            ellipseRatioWatt.setFillColor(energie.getKey().color);
-                            lastEllipse = ellipseRatioWatt;
-                            lastTextShape = textShapeRatioWatt;
-                        }else{
-                            //copy text shape
-                            XSLFAutoShape textShape = slide.createAutoShape();
-                            textShape.setAnchor(new Rectangle2D.Double(
-                                    lastTextShape.getAnchor().getX(),
-                                    lastTextShape.getAnchor().getY() + lastTextShape.getAnchor().getHeight(),
-                                    lastTextShape.getAnchor().getWidth(),
-                                    lastTextShape.getAnchor().getHeight()
-                            ));
-                            XSLFTextRun textRun = textShape.addNewTextParagraph().addNewTextRun();
-                            textRun.setText(String.format("%.1f", kwhEnergie) + " kwh/m²");
-                            textRun.setFontSize(14.0);
-                            lastTextShape = textShape;
+        if(nomBatimentConso != null && !nomBatimentConso.isEmpty()){
+            XSLFTextShape lastTextShape = null;
+            XSLFAutoShape lastEllipse = null;
+            int anne = Integer.parseInt(meilleurAnne);
+            for (int i = 0; i < consoWatt.size(); i++) {
+                if(consoWatt.get(i).anner == anne){
+                    for(Map.Entry<Energie, Double> energie : consoWatt.get(i).energies.entrySet()){
+                        if(energie.getValue() > 0){
+                            double kwhEnergie = energie.getValue() / releve.surfaceTotaleChauffe;
+                            if(lastEllipse == null){
+                                textShapeRatioWatt.getTextBody().setText(String.format("%.1f", kwhEnergie) + " kwh/m²");
+                                ellipseRatioWatt.setFillColor(energie.getKey().color);
+                                lastEllipse = ellipseRatioWatt;
+                                lastTextShape = textShapeRatioWatt;
+                            }else{
+                                //copy text shape
+                                XSLFAutoShape textShape = slide.createAutoShape();
+                                textShape.setAnchor(new Rectangle2D.Double(
+                                        lastTextShape.getAnchor().getX(),
+                                        lastTextShape.getAnchor().getY() + lastTextShape.getAnchor().getHeight(),
+                                        lastTextShape.getAnchor().getWidth(),
+                                        lastTextShape.getAnchor().getHeight()
+                                ));
+                                XSLFTextRun textRun = textShape.addNewTextParagraph().addNewTextRun();
+                                textRun.setText(String.format("%.1f", kwhEnergie) + " kwh/m²");
+                                textRun.setFontSize(14.0);
+                                lastTextShape = textShape;
 
-                            lastEllipse =   createCircle(slide, new Rectangle2D.Double(
-                                    lastEllipse.getAnchor().getX(),
-                                    lastEllipse.getAnchor().getY() + lastEllipse.getAnchor().getHeight(),
-                                    lastEllipse.getAnchor().getWidth(),
-                                    lastEllipse.getAnchor().getHeight()
-                            ), energie.getKey().color);
+                                lastEllipse =   createCircle(slide, new Rectangle2D.Double(
+                                        lastEllipse.getAnchor().getX(),
+                                        lastEllipse.getAnchor().getY() + lastEllipse.getAnchor().getHeight(),
+                                        lastEllipse.getAnchor().getWidth(),
+                                        lastEllipse.getAnchor().getHeight()
+                                ), energie.getKey().color);
 
+                            }
                         }
                     }
                 }
             }
-        }
-        lastTextShape = null;
-        lastEllipse = null;
-        for (int i = 0; i < consoEuro.size(); i++) {
-            if(consoEuro.get(i).anner == anne){
-                for(Map.Entry<Energie, Double> energie : consoEuro.get(i).energies.entrySet()){
-                    if(energie.getValue() > 0){
-                        double euroEnergie = energie.getValue() / releve.surfaceTotaleChauffe;
-                        if(lastEllipse == null){
-                            textShapeRatioEuro.getTextBody().setText(String.format("%.1f", euroEnergie) + " €/m²");
-                            ellipseRatioEuro.setFillColor(energie.getKey().color);
-                            lastEllipse = ellipseRatioEuro;
-                            lastTextShape = textShapeRatioEuro;
-                        }else{
-                            //copy text shape
-                            XSLFAutoShape textShape = slide.createAutoShape();
-                            textShape.setAnchor(new Rectangle2D.Double(
-                                    lastTextShape.getAnchor().getX(),
-                                    lastTextShape.getAnchor().getY() + lastTextShape.getAnchor().getHeight(),
-                                    lastTextShape.getAnchor().getWidth(),
-                                    lastTextShape.getAnchor().getHeight()
-                            ));
-                            XSLFTextRun textRun = textShape.addNewTextParagraph().addNewTextRun();
-                            textRun.setText(String.format("%.1f", euroEnergie) + " €/m²");
-                            textRun.setFontSize(14.0);
-                            lastTextShape = textShape;
-                            lastEllipse =   createCircle(slide, new Rectangle2D.Double(
-                                    lastEllipse.getAnchor().getX(),
-                                    lastEllipse.getAnchor().getY() + lastEllipse.getAnchor().getHeight(),
-                                    lastEllipse.getAnchor().getWidth(),
-                                    lastEllipse.getAnchor().getHeight()
-                            ), energie.getKey().color);
+            lastTextShape = null;
+            lastEllipse = null;
+            for (int i = 0; i < consoEuro.size(); i++) {
+                if(consoEuro.get(i).anner == anne){
+                    for(Map.Entry<Energie, Double> energie : consoEuro.get(i).energies.entrySet()){
+                        if(energie.getValue() > 0){
+                            double euroEnergie = energie.getValue() / releve.surfaceTotaleChauffe;
+                            if(lastEllipse == null){
+                                textShapeRatioEuro.getTextBody().setText(String.format("%.1f", euroEnergie) + " €/m²");
+                                ellipseRatioEuro.setFillColor(energie.getKey().color);
+                                lastEllipse = ellipseRatioEuro;
+                                lastTextShape = textShapeRatioEuro;
+                            }else{
+                                //copy text shape
+                                XSLFAutoShape textShape = slide.createAutoShape();
+                                textShape.setAnchor(new Rectangle2D.Double(
+                                        lastTextShape.getAnchor().getX(),
+                                        lastTextShape.getAnchor().getY() + lastTextShape.getAnchor().getHeight(),
+                                        lastTextShape.getAnchor().getWidth(),
+                                        lastTextShape.getAnchor().getHeight()
+                                ));
+                                XSLFTextRun textRun = textShape.addNewTextParagraph().addNewTextRun();
+                                textRun.setText(String.format("%.1f", euroEnergie) + " €/m²");
+                                textRun.setFontSize(14.0);
+                                lastTextShape = textShape;
+                                lastEllipse =   createCircle(slide, new Rectangle2D.Double(
+                                        lastEllipse.getAnchor().getX(),
+                                        lastEllipse.getAnchor().getY() + lastEllipse.getAnchor().getHeight(),
+                                        lastEllipse.getAnchor().getWidth(),
+                                        lastEllipse.getAnchor().getHeight()
+                                ), energie.getKey().color);
+                            }
                         }
                     }
                 }
@@ -526,7 +537,10 @@ public class PowerpointExporter {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(4), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" + mur.typeIsolant + ";" + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm)");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" +
+                                mur.typeIsolant +
+                                (Float.isNaN(mur.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm")
+                                + ")");
                     }
 
                     PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
@@ -551,7 +565,10 @@ public class PowerpointExporter {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + toiture.typeIsolant + ";" + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm)");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" +
+                                toiture.typeIsolant +
+                                (Float.isNaN(toiture.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm")
+                                + ")");
                     }
                     PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -595,7 +612,10 @@ public class PowerpointExporter {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" + sol.typeIsolant + ";" + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm)");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
+                                sol.typeIsolant +
+                                (Float.isNaN(sol.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm")
+                                + ")");
                     }
                     PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
