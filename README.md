@@ -90,3 +90,18 @@ Suivez les étapes suivantes pour générer l'APK :
 
 - Récupération de l'APK : Une fois la génération terminée, une notification apparaîtra en bas à droite de la fenêtre d'Android Studio. Cliquez sur locate pour ouvrir l'emplacement de l'APK dans l'explorateur de fichiers. Vous pouvez maintenant transférer cet APK sur votre appareil Android pour l'installer.
 
+## Personnalisation du Modèle PowerPoint
+
+L'application Super-CEP vous offre la possibilité de personnaliser le modèle PowerPoint qui est utilisé pour générer les présentations. Ce modèle se trouve dans le fichier powerpointvierge.pptx dans le répertoire app/src/main/res/assets/.
+
+Pour modifier ce modèle, vous pouvez suivre les étapes ci-dessous :
+
+- Localisation du fichier modèle : Ouvrez le projet dans Android Studio et naviguez vers app > src > main > res > assets. Vous y trouverez le fichier powerpointvierge.pptx.
+
+- Modification du modèle : Faites un clic droit sur le fichier powerpointvierge.pptx et sélectionnez Show in Explorer (Windows) ou Reveal in Finder (macOS). Ceci ouvrira l'emplacement du fichier dans votre explorateur de fichiers. Vous pouvez maintenant ouvrir ce fichier dans Microsoft PowerPoint et apporter toutes les modifications souhaitées (par exemple, changer les couleurs, la disposition, la taille des éléments, etc.).
+
+- Sauvegarde des modifications : Une fois que vous avez terminé de modifier le modèle, sauvegardez-le. Assurez-vous de ne pas changer le nom ou l'emplacement du fichier pour que l'application puisse toujours y accéder.
+
+- Génération de l'APK : Maintenant que vous avez personnalisé votre modèle PowerPoint, vous pouvez générer un nouvel APK de l'application. L'application utilisera alors le modèle PowerPoint modifié pour générer les présentations.
+
+De cette façon, vous pouvez facilement personnaliser l'aspect des présentations PowerPoint générées par l'application Super-CEP.
