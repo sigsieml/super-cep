@@ -34,6 +34,21 @@ public enum Energie {
          "Gazole"
  };
 
+ public static final Color[] COLORS = new Color[]{
+            hex2Color("#004579"),
+            hex2Color("#fbe5d6"),
+            hex2Color("#984807"),
+            hex2Color("#f2c504"),
+            hex2Color("#86b918"),
+            hex2Color("#dbeef4"),
+            hex2Color("#bf3fff"),
+            hex2Color("#008000"),
+            hex2Color("#5d5da1"),
+            hex2Color("#eb6b0a"),
+            hex2Color("#4f6228"),
+            hex2Color("#ffd966")
+ };
+
  public String nomEnergie = "";
  public Color color = Color.WHITE;
  Energie(String nomEnergie, Color color){

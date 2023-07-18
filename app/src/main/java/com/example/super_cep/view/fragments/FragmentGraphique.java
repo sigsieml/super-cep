@@ -2,6 +2,7 @@ package com.example.super_cep.view.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -32,7 +33,20 @@ import com.example.super_cep.databinding.FragmentGraphiqueBinding;
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
 import com.example.super_cep.view.AideFragment;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,134 +238,53 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     }
 
     private void updateDataTable(String nomBatiment){
-        Drawable drawableBackground = getResources().getDrawable(R.drawable.border_black_thin);
-        binding.linearlayoutConso.removeAllViews();
+        BarChart chart = binding.chart;
         List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
-        List<Anner> annesEuro = consoParser.getConsoEuro(nomBatiment, annees);
 
-        //Annes
-        LinearLayout linearLayoutAnnees = new LinearLayout(getContext());
-        linearLayoutAnnees.setOrientation(LinearLayout.VERTICAL);
-        TextView textViewTitre = new TextView(getContext());
-        textViewTitre.setText("kWh");
-        linearLayoutAnnees.addView(textViewTitre);
-        for(String anne : annees){
-            TextView textViewAnne = new TextView(getContext());
-            int widthInDp = 50;
-            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewAnne.setText(anne);
-            textViewAnne.setBackground(drawableBackground);
-            linearLayoutAnnees.addView(textViewAnne);
-        }
-        TextView titreEuro = new TextView(getContext());
-        titreEuro.setText("€");
-        linearLayoutAnnees.addView(titreEuro);
-        for(String anne : annees){
-            TextView textViewAnne = new TextView(getContext());
-            textViewAnne.setText(anne);
-            int widthInDp = 50;
-            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewAnne.setBackground(drawableBackground);
-            linearLayoutAnnees.addView(textViewAnne);
-        }
-        binding.linearlayoutConso.addView(linearLayoutAnnees);
+        ArrayList<BarEntry> values = new ArrayList<>();
 
 
-        // Total
-        LinearLayout linearLayoutTotal = new LinearLayout(getContext());
-        linearLayoutTotal.setOrientation(LinearLayout.VERTICAL);
-        TextView textViewTotal = new TextView(getContext());
-        textViewTotal.setText("Total");
-        linearLayoutTotal.addView(textViewTotal);
-        for(Anner anner : anneesWatt){
-            TextView textViewAnne = new TextView(getContext());
-            int widthInDp = 60;
-            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewAnne.setBackground(drawableBackground);
-            String value = String.format("%.2f", anner.total);
-            textViewAnne.setText(value);
-            linearLayoutTotal.addView(textViewAnne);
-        }
-        TextView textViewTotalEuro = new TextView(getContext());
-        textViewTotalEuro.setText("");
-        linearLayoutTotal.addView(textViewTotalEuro);
-        for(Anner anner : annesEuro){
-            TextView textViewAnne = new TextView(getContext());
-            int widthInDp = 60;
-            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewAnne.setBackground(drawableBackground);
-            String value = String.format("%.2f", anner.total);
-            textViewAnne.setText(value);
-            linearLayoutTotal.addView(textViewAnne);
-        }
-        binding.linearlayoutConso.addView(linearLayoutTotal);
-
-        // kWh/m² et €/m²
-        float surface = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
-        LinearLayout linearLayoutRatio = new LinearLayout(getContext());
-        linearLayoutRatio.setOrientation(LinearLayout.VERTICAL);
-        TextView textViewTitreRatio = new TextView(getContext());
-        textViewTitreRatio.setText("kWh/m²");
-        linearLayoutRatio.addView(textViewTitreRatio);
-        for(Anner anner : anneesWatt){
-            TextView textViewRatio = new TextView(getContext());
-            int widthInDp = 60;
-            textViewRatio.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewRatio.setBackground(drawableBackground);
-            String value = String.format("%.2f", anner.total/surface);
-            textViewRatio.setText(value);
-            linearLayoutRatio.addView(textViewRatio);
-        }
-        TextView textViewTitreRatioEuro = new TextView(getContext());
-        textViewTitreRatioEuro.setText("€/m²");
-        linearLayoutRatio.addView(textViewTitreRatioEuro);
-        for(Anner anner : annesEuro){
-            TextView textViewRatio = new TextView(getContext());
-            int widthInDp = 60;
-            textViewRatio.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-            textViewRatio.setBackground(drawableBackground);
-            String value = String.format("%.2f", anner.total/surface);
-            textViewRatio.setText(value);
-            linearLayoutRatio.addView(textViewRatio);
-        }
-        binding.linearlayoutConso.addView(linearLayoutRatio);
-
-        //Energie
-        for(Energie energie : Energie.values()){
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-            TextView textView = new TextView(getContext());
-            textView.setText(energie.nomEnergie);
-            linearLayout.addView(textView);
-            for(Anner anner : anneesWatt){
-                TextView textViewAnne = new TextView(getContext());
-                int widthInDp = 120;
-                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-                textViewAnne.setBackground(drawableBackground);
-                String value = String.format("%.2f", anner.getEnergie(energie));
-                textViewAnne.setText(value);
-                linearLayout.addView(textViewAnne);
+        for (int i=0; i<annees.size(); i++) {
+            Anner anner = anneesWatt.get(i);
+            Energie[] energies = Energie.values();
+            float[] energieValues = new float[energies.length];
+            for (int j=0; j<energies.length; j++) {
+                energieValues[j] = (float)anner.getEnergie(energies[j]);
             }
-            TextView textViewEuro = new TextView(getContext());
-            textViewEuro.setText("");
-            linearLayout.addView(textViewEuro);
-            for(Anner anner: annesEuro){
-                TextView textViewAnne = new TextView(getContext());
-                int widthInDp = 120;
-                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
-                textViewAnne.setBackground(drawableBackground);
-                String value = String.format("%.2f", anner.getEnergie(energie));
-                textViewAnne.setText(value);
-                linearLayout.addView(textViewAnne);
-            }
-            binding.linearlayoutConso.addView(linearLayout);
-
+            values.add(new BarEntry(i, energieValues));
         }
 
+        BarDataSet set1 = new BarDataSet(values, "Consommation par énergie");
+        set1.setDrawIcons(false);
+        List<Integer> colors = new ArrayList<>();
+        for (java.awt.Color color : Energie.COLORS) {
+            int colorInt = color.getRGB();
+            colors.add(colorInt);
+        }
+        set1.setColors(colors);
+
+        set1.setStackLabels(Energie.ENERGIES);
+
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(dataSets);
+        data.setValueTextColor(Color.WHITE);
+
+        chart.setData(data);
+
+        chart.setFitBars(true);
+        chart.invalidate();
+
+        // Setting X-axis
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(annees));
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
 
     }
-
 
     @Override
     public void aide() {
@@ -363,7 +296,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
                         "- Chargement de données de consommation : Vous pouvez charger un fichier .xlsx contenant les données de consommation en cliquant sur le bouton flottant en bas à droite.\n\n" +
                         "- Sélection du bâtiment : Vous pouvez sélectionner le bâtiment pour lequel vous souhaitez générer les graphiques à partir du menu déroulant.\n\n" +
                         "- Sélection de l'année : Après avoir sélectionné un bâtiment, vous pouvez choisir les années pour lesquelles vous souhaitez visualiser la consommation. Vous pouvez sélectionner plusieurs années en cochant les cases correspondantes.\n\n"
-                         );
+        );
         builder.setPositiveButton("Merci, j'ai compris !", null);
         builder.show();
     }
