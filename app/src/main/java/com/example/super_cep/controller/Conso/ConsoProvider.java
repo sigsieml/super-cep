@@ -2,8 +2,12 @@ package com.example.super_cep.controller.Conso;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,23 +22,24 @@ import java.io.InputStream;
 public class ConsoProvider {
 
 
-    private static final String CONSO_FILE_NAME = "conso.xlsx";
+    private static final String PREFS_NAME = "ConsoPrefs";
+    private static final String CONSO_URI_KEY = "conso_uri";
+
     private Context context;
     private Fragment fragment;
-
+    private SharedPreferences sharedPreferences;
     private ActivityResultLauncher<String[]> openFileLauncher;
 
     public ConsoProvider(Fragment fragment, ConsoProviderListener consoProviderListener) {
         this.context = fragment.getContext();
         this.fragment = fragment;
+        this.sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         openFileLauncher = fragment.registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
             if(uri == null) return;
             try {
+                saveDataConso(uri);
                 InputStream inputStream = context.getContentResolver().openInputStream(uri);
-                saveDataConso(inputStream);
-                inputStream.close();
-                inputStream = context.getContentResolver().openInputStream(uri);
                 consoProviderListener.onConsoParserChanged(new ConsoParser(inputStream));
                 inputStream.close();
             } catch (IOException e) {
@@ -43,51 +48,62 @@ public class ConsoProvider {
             }
         });
     }
+
     public void loadNewConso(){
         openFileLauncher.launch(new String[]{"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
     }
 
     public ConsoParser getConsoParser(){
-        // check if file exist
+        String uriString = sharedPreferences.getString(CONSO_URI_KEY, null);
+        if (uriString == null) {
+            promptForNewFile();
+            return null;
+        }
+        Uri uri = Uri.parse(uriString);
         try {
-            ConsoParser consoParser;
-            if(!context.getFileStreamPath(CONSO_FILE_NAME).exists()){
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Un fichier excel(\".xlsx\") de consommation est requis");
-                builder.setTitle("Fichier de consommation introuvable");
-                builder.setPositiveButton("OK", (dialog, which) -> {
-                    openFileLauncher.launch(new String[]{"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-                });
-                builder.setNegativeButton("Annuler", (dialog, which) -> {
-                    dialog.dismiss();
-                    fragment.requireActivity().onBackPressed();
-                });
-                builder.create().show();
-                return null;
-            }else{
-                consoParser = new ConsoParser(context.openFileInput(CONSO_FILE_NAME));
-            }
-            return consoParser;
-        }catch (Exception e){
+            return new ConsoParser(context.getContentResolver().openInputStream(uri));
+        } catch (Exception e) {
             Log.e("ConfigDataProvider", "getConfigData: ", e);
             return null;
         }
     }
 
+    private void promptForNewFile() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Un fichier excel(\".xlsx\") de consommation est requis");
+        builder.setTitle("Fichier de consommation introuvable");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            openFileLauncher.launch(new String[]{"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        });
+        builder.setNegativeButton("Annuler", (dialog, which) -> {
+            dialog.dismiss();
+            fragment.requireActivity().onBackPressed();
+        });
+        builder.create().show();
+    }
 
-    public void saveDataConso(InputStream consoData){
-        try {
-            FileOutputStream outputStream = context.openFileOutput(CONSO_FILE_NAME, MODE_PRIVATE);
-            // copy consoData to outputStream
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = consoData.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
+    public void editFileInExcel() {
+        String uriString = sharedPreferences.getString(CONSO_URI_KEY, null);
+        if (uriString != null) {
+            Uri uri = Uri.parse(uriString);
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, "Aucune application pour ouvrir le fichier Excel n'est installée", Toast.LENGTH_SHORT).show();
             }
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("SettingsActivity", "onBackPressed: ", e);
-            throw new RuntimeException(e);
+        } else {
+            Toast.makeText(context, "Aucun fichier Excel n'est disponible pour l'édition", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public void saveDataConso(Uri consoDataUri){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(CONSO_URI_KEY, consoDataUri.toString());
+        editor.apply();
     }
 }

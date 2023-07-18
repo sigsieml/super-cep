@@ -107,6 +107,11 @@ public class FragmentGraphique extends Fragment implements AideFragment {
             //request .xlsx file
             consoProvider.loadNewConso();
         } );
+
+        binding.fabEditFile.setOnClickListener((view) -> {
+            //open file
+            consoProvider.editFileInExcel();
+        } );
     }
 
 
