@@ -362,8 +362,8 @@ public class FragmentGraphique extends Fragment implements AideFragment {
                         "Voici comment l'utiliser:\n\n" +
                         "- Chargement de données de consommation : Vous pouvez charger un fichier .xlsx contenant les données de consommation en cliquant sur le bouton flottant en bas à droite.\n\n" +
                         "- Sélection du bâtiment : Vous pouvez sélectionner le bâtiment pour lequel vous souhaitez générer les graphiques à partir du menu déroulant.\n\n" +
-                        "- Sélection de l'année : Après avoir sélectionné un bâtiment, vous pouvez choisir les années pour lesquelles vous souhaitez visualiser la consommation. Vous pouvez sélectionner plusieurs années en cochant les cases correspondantes.\n\n" +
-                        "N'oubliez pas que pour que le ratio consommation / surface chauffée apparaisse sur la diapositive, vous devez mettre à jour la surface dans la partie 'Bâtiment' de l'application.\n\n" );
+                        "- Sélection de l'année : Après avoir sélectionné un bâtiment, vous pouvez choisir les années pour lesquelles vous souhaitez visualiser la consommation. Vous pouvez sélectionner plusieurs années en cochant les cases correspondantes.\n\n"
+                         );
         builder.setPositiveButton("Merci, j'ai compris !", null);
         builder.show();
     }
