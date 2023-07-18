@@ -45,3 +45,33 @@ Ces dépendances sont spécifiées dans le fichier build.gradle de l'application
 Les autres dépendances incluent diverses bibliothèques Android pour la création d'interfaces utilisateur, la gestion du cycle de vie des composants de l'application, la navigation entre les écrans, etc., ainsi que des bibliothèques pour les tests unitaires et les tests d'interface utilisateur.
 
 
+## Installation et Configuration
+### Prérequis
+
+Pour installer et exécuter l'application Super-CEP, vous devez avoir un appareil Android avec :
+
+- Une version Android minimale de SDK 28.
+- (fortement conseillé) Les applications PowerPoint et Excel installées pour visualiser et modifier les fichiers générés.
+
+### Téléchargement et Installation
+
+- Pour télécharger l'application, rendez-vous dans la section des releases du dépôt GitHub et téléchargez le fichier APK de la version la plus récente.
+
+- Pour installer l'APK téléchargé, vous devrez autoriser les installations à partir de sources inconnues. Vous pouvez généralement trouver cette option dans les paramètres de sécurité de votre appareil Android.
+
+## Configuration
+
+Une fois l'application installée, aucune étape supplémentaire de configuration ou d'inscription n'est requise. Vous pouvez commencer à utiliser l'application immédiatement. 
+## Utilisation de l'application
+
+
+L'application fournit des listes pour remplir les champs de texte (type de mur, marque de chauffage, etc.). Ces listes sont modifiables et exportables. Vous pouvez récupérer les listes d'un collègue au format JSON et les importer dans l'application dans la section "Modifier les listes".
+
+L'application sauvegarde automatiquement vos données à chaque changement d'écran.
+
+Si vous avez besoin d'aide pour utiliser l'application, des aides sont disponibles en cliquant sur les trois petits points en haut de l'écran.
+
+## Mise à jour de l'application
+
+Pour mettre à jour l'application, téléchargez simplement la dernière version de l'APK à partir de la section des releases du dépôt GitHub et installez-la. Vous n'avez pas besoin de désinstaller l'ancienne version de l'application, et vos données seront préservées lors de la mise à jour.
+
