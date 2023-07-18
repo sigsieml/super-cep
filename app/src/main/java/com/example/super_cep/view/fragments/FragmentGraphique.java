@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.example.super_cep.controller.Conso.ConsoConfigViewModel;
 import com.example.super_cep.controller.Conso.ConsoProvider;
 import com.example.super_cep.controller.Conso.ConsoProviderListener;
 import com.example.super_cep.controller.Conso.Energie;
+import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentGraphiqueBinding;
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
@@ -41,12 +44,15 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     private ConsoConfigViewModel consoConfigViewModel;
     private ConsoParser consoParser;
     private ConsoProvider consoProvider;
+    private ReleveViewModel releveViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding=FragmentGraphiqueBinding.inflate(inflater,container,false);
         consoConfigViewModel = new ViewModelProvider(requireActivity()).get(ConsoConfigViewModel.class);
+        releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
+        setUpSurface();
         loadConsoParser();
         if(consoParser == null) return binding.getRoot();
         setupFab();
@@ -57,6 +63,26 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
         return binding.getRoot();
     }
+
+    private void setUpSurface() {
+        binding.editTextNumberSurfaceBatiment.setText(String.valueOf(releveViewModel.getReleve().getValue().surfaceTotaleChauffe));
+        binding.editTextNumberSurfaceBatiment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                releveViewModel.setSurfaceTotaleChauffe(s.toString().isEmpty() ? 0 : Float.parseFloat(s.toString()));
+                if(binding.autoCompleteNomBatiment.getText().toString().equals(defaultValueNomBatimentConso) ||
+                        binding.autoCompleteNomBatiment.getText().toString().isEmpty()) return;
+                String nomBatiment = binding.autoCompleteNomBatiment.getText().toString();
+                updateDataTable(nomBatiment);
+            }
+
+        });
+    }
+
 
     private void loadConsoParser() {
         consoProvider = new ConsoProvider(this, new ConsoProviderListener() {
@@ -198,6 +224,8 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
         List<Anner> annesEuro = consoParser.getConsoEuro(nomBatiment, annees);
+
+        //Annes
         LinearLayout linearLayoutAnnees = new LinearLayout(getContext());
         linearLayoutAnnees.setOrientation(LinearLayout.VERTICAL);
         TextView textViewTitre = new TextView(getContext());
@@ -224,6 +252,67 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         }
         binding.linearlayoutConso.addView(linearLayoutAnnees);
 
+
+        // Total
+        LinearLayout linearLayoutTotal = new LinearLayout(getContext());
+        linearLayoutTotal.setOrientation(LinearLayout.VERTICAL);
+        TextView textViewTotal = new TextView(getContext());
+        textViewTotal.setText("Total");
+        linearLayoutTotal.addView(textViewTotal);
+        for(Anner anner : anneesWatt){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 60;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            String value = String.format("%.2f", anner.total);
+            textViewAnne.setText(value);
+            linearLayoutTotal.addView(textViewAnne);
+        }
+        TextView textViewTotalEuro = new TextView(getContext());
+        textViewTotalEuro.setText("");
+        linearLayoutTotal.addView(textViewTotalEuro);
+        for(Anner anner : annesEuro){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 60;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            String value = String.format("%.2f", anner.total);
+            textViewAnne.setText(value);
+            linearLayoutTotal.addView(textViewAnne);
+        }
+        binding.linearlayoutConso.addView(linearLayoutTotal);
+
+        // kWh/m² et €/m²
+        float surface = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
+        LinearLayout linearLayoutRatio = new LinearLayout(getContext());
+        linearLayoutRatio.setOrientation(LinearLayout.VERTICAL);
+        TextView textViewTitreRatio = new TextView(getContext());
+        textViewTitreRatio.setText("kWh/m²");
+        linearLayoutRatio.addView(textViewTitreRatio);
+        for(Anner anner : anneesWatt){
+            TextView textViewRatio = new TextView(getContext());
+            int widthInDp = 60;
+            textViewRatio.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewRatio.setBackground(drawableBackground);
+            String value = String.format("%.2f", anner.total/surface);
+            textViewRatio.setText(value);
+            linearLayoutRatio.addView(textViewRatio);
+        }
+        TextView textViewTitreRatioEuro = new TextView(getContext());
+        textViewTitreRatioEuro.setText("€/m²");
+        linearLayoutRatio.addView(textViewTitreRatioEuro);
+        for(Anner anner : annesEuro){
+            TextView textViewRatio = new TextView(getContext());
+            int widthInDp = 60;
+            textViewRatio.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewRatio.setBackground(drawableBackground);
+            String value = String.format("%.2f", anner.total/surface);
+            textViewRatio.setText(value);
+            linearLayoutRatio.addView(textViewRatio);
+        }
+        binding.linearlayoutConso.addView(linearLayoutRatio);
+
+        //Energie
         for(Energie energie : Energie.values()){
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setOrientation(LinearLayout.VERTICAL);

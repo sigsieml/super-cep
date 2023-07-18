@@ -73,7 +73,11 @@ public class ConsoParser {
                 energies.put(Energie.RESEAU_DE_FROID, row.getCell(73) != null ? row.getCell(73).getNumericCellValue() : 0);
                 energies.put(Energie.ESSENCE, row.getCell(78) != null ? row.getCell(78).getNumericCellValue() : 0);
                 energies.put(Energie.GAZOLE, row.getCell(83) != null ? row.getCell(83).getNumericCellValue() : 0);
-                anners.add(new Anner((int)cellAnner.getNumericCellValue(), energies));
+                anners.add(new Anner(
+                        (int)cellAnner.getNumericCellValue(),
+                        row.getCell(22) != null ? row.getCell(22).getNumericCellValue() : 0, // conso total en watt
+                        energies
+                ));
             }
         }
 
@@ -110,7 +114,10 @@ public class ConsoParser {
                 energies.put(Energie.RESEAU_DE_FROID, row.getCell(75) != null ? row.getCell(75).getNumericCellValue() : 0);
                 energies.put(Energie.ESSENCE, row.getCell(80) != null ? row.getCell(80).getNumericCellValue() : 0);
                 energies.put(Energie.GAZOLE, row.getCell(85) != null ? row.getCell(85).getNumericCellValue() : 0);
-                anners.add(new Anner((int)cellAnner.getNumericCellValue(), energies));
+                anners.add(new Anner(
+                        (int)cellAnner.getNumericCellValue(),
+                        row.getCell(24) != null ? row.getCell(24).getNumericCellValue() : 0, // conso total en euro
+                        energies));
             }
         }
         return anners;
