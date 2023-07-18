@@ -75,3 +75,18 @@ Si vous avez besoin d'aide pour utiliser l'application, des aides sont disponibl
 
 Pour mettre à jour l'application, téléchargez simplement la dernière version de l'APK à partir de la section des releases du dépôt GitHub et installez-la. Vous n'avez pas besoin de désinstaller l'ancienne version de l'application, et vos données seront préservées lors de la mise à jour.
 
+
+## Génération de votre propre APK avec Android Studio
+
+Pour générer votre propre APK de l'application Super-CEP, vous aurez besoin d'Android Studio. Si vous ne l'avez pas déjà fait, vous pouvez télécharger et installer Android Studio depuis le site officiel d'Android.
+
+Suivez les étapes suivantes pour générer l'APK :
+
+- Récupération du code source : Clonez le dépôt GitHub de l'application Super-CEP sur votre machine locale en utilisant la commande git clone.
+
+- Ouverture du projet : Ouvrez Android Studio et cliquez sur File > Open. Naviguez jusqu'à l'emplacement où vous avez cloné le dépôt et sélectionnez le dossier du projet.
+
+- Génération de l'APK : Dans Android Studio, cliquez sur Build > Build Bundle(s) / APK(s) > Build APK(s). Android Studio commencera à construire l'APK de votre application.
+
+- Récupération de l'APK : Une fois la génération terminée, une notification apparaîtra en bas à droite de la fenêtre d'Android Studio. Cliquez sur locate pour ouvrir l'emplacement de l'APK dans l'explorateur de fichiers. Vous pouvez maintenant transférer cet APK sur votre appareil Android pour l'installer.
+
