@@ -15,7 +15,7 @@
         android:autoSizeTextType="uniform"
         android:text="SUPER-CEP"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/primary_full"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

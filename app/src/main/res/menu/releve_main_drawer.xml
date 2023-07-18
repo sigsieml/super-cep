@@ -9,21 +9,21 @@
             android:icon="@drawable/ic_menu_batiment"
             android:title="@string/menu_batiment" />
         <item
-            android:id="@+id/nav_enveloppes"
-            android:icon="@drawable/ic_menu_enveloppes"
-            android:title="@string/menu_enveloppes" />
+            android:id="@+id/nav_graphique"
+            android:icon="@drawable/ic_menu_graphique"
+            android:title="@string/menu_graphique" />
+        <item
+            android:id="@+id/nav_approvisionnement_energetique"
+            android:icon="@drawable/ic_menu_approvisionnement_energetique"
+            android:title="@string/menu_approvisionnementEnergetique" />
         <item
             android:id="@+id/nav_usage_et_occupation"
             android:icon="@drawable/ic_menu_usage_et_occupation"
             android:title="@string/menu_usageEtOccupation" />
         <item
-            android:id="@+id/nav_chauffages"
-            android:icon="@drawable/ic_menu_chauffages"
-            android:title="@string/menu_chauffages" />
-        <item
-            android:id="@+id/nav_climatisation"
-            android:icon="@drawable/ic_menu_climatisation"
-            android:title="@string/menu_climatisation" />
+            android:id="@+id/nav_enveloppes"
+            android:icon="@drawable/ic_menu_enveloppes"
+            android:title="@string/menu_enveloppes" />
         <item
             android:id="@+id/nav_ventilation"
             android:icon="@drawable/ic_menu_ventilation"
@@ -33,21 +33,21 @@
             android:icon="@drawable/ic_menu_ecs"
             android:title="@string/menu_ecs" />
         <item
-            android:id="@+id/nav_approvisionnement_energetique"
-            android:icon="@drawable/ic_menu_approvisionnement_energetique"
-            android:title="@string/menu_approvisionnementEnergetique" />
+            android:id="@+id/nav_chauffages"
+            android:icon="@drawable/ic_menu_chauffages"
+            android:title="@string/menu_chauffages" />
         <item
-            android:id="@+id/nav_remarques"
-            android:icon="@drawable/ic_menu_remarques"
-            android:title="@string/menu_remarques" />
+            android:id="@+id/nav_climatisation"
+            android:icon="@drawable/ic_menu_climatisation"
+            android:title="@string/menu_climatisation" />
         <item
             android:id="@+id/nav_preconisations"
             android:icon="@drawable/ic_menu_preconisations"
             android:title="@string/menu_preconisations" />
         <item
-            android:id="@+id/nav_graphique"
-            android:icon="@drawable/ic_menu_graphique"
-            android:title="@string/menu_graphique" />
+            android:id="@+id/nav_remarques"
+            android:icon="@drawable/ic_menu_remarques"
+            android:title="@string/menu_remarques" />
         <item
             android:id="@+id/nav_export_data"
             android:icon="@drawable/ic_file_upload"
