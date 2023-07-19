@@ -20,6 +20,7 @@ public class ConsoConfigViewModel extends ViewModel {
     public ConsoConfigViewModel(){
         this.anneesConso.setValue(new ArrayList<>());
         this.nomBatimentConso.setValue(null);
+        this.pourcentageBatiment.setValue(100f);
     }
     public void setConsoParser(ConsoParser consoParser) {
         this.consoParser.setValue(consoParser);

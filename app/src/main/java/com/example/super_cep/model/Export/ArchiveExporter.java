@@ -1,7 +1,5 @@
 package com.example.super_cep.model.Export;
 
-import android.util.Log;
-
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Climatisation;
@@ -12,14 +10,11 @@ import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.zip.ZipEntry;
 
 public  class ArchiveExporter {
 
@@ -65,7 +60,8 @@ public  class ArchiveExporter {
     }
     private static List<String> getAllImageOfReleve(Releve releve, PlatformProvider platformProvider) {
         List<String> images = new ArrayList<>();
-        images.add(releve.imageBatiment);
+        images.add(releve.imageFacadeBatiment);
+        images.add(releve.imagePlanBatiment);
         for(Zone zone: releve.zones.values()){
             for(ZoneElement zoneElement : zone.getZoneElementsValues()){
                 if(zoneElement.images != null)

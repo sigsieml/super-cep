@@ -32,7 +32,8 @@ public class Releve {
     public Map<String, Remarque> remarques;
     public List<String> preconisations;
 
-    public String imageBatiment;
+    public String imageFacadeBatiment;
+    public String imagePlanBatiment;
 
     public double[] localisation;
 

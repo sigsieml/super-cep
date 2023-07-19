@@ -30,7 +30,6 @@ import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.util.Units;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFAutoShape;
-import org.apache.poi.xslf.usermodel.XSLFGroupShape;
 import org.apache.poi.xslf.usermodel.XSLFPictureData;
 import org.apache.poi.xslf.usermodel.XSLFPictureShape;
 import org.apache.poi.xslf.usermodel.XSLFShape;
@@ -46,7 +45,6 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -165,8 +163,8 @@ public class PowerpointExporter {
         if (rectangle2DImageBatiment == null) {
             return;
         }
-        if (releve.imageBatiment != null) {
-            addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
+        if (releve.imageFacadeBatiment != null) {
+            addImagesToSlide(ppt, slide, List.of(releve.imageFacadeBatiment), rectangle2DImageBatiment);
         }
 
     }
@@ -201,8 +199,8 @@ public class PowerpointExporter {
         if (rectangle2DImageBatiment == null) {
             return;
         }
-        if (releve.imageBatiment != null) {
-            addImagesToSlide(ppt, slide, List.of(releve.imageBatiment), rectangle2DImageBatiment);
+        if (releve.imagePlanBatiment != null) {
+            addImagesToSlide(ppt, slide, List.of(releve.imagePlanBatiment), rectangle2DImageBatiment);
         }
 
     }

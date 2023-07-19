@@ -5,26 +5,19 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +26,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.super_cep.controller.LocalisationProvider;
-import com.example.super_cep.controller.LocalisationProviderListener;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
 import com.example.super_cep.model.Releve.Releve;
@@ -80,15 +72,23 @@ public class Batiment extends Fragment implements AideFragment {
                 binding.editTextNumberDecimalSurfaceTotal.setText(String.valueOf(rlv.surfaceTotale).replace(".", ","));
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
-                if(rlv.imageBatiment != null && !rlv.imageBatiment.isEmpty()){
-                    Uri uri = Uri.parse(rlv.imageBatiment);
-                    binding.imageView2.setImageURI(uri);
-                    binding.buttonAjouterImage.setVisibility(View.GONE);
+                if(rlv.imageFacadeBatiment != null && !rlv.imageFacadeBatiment.isEmpty()){
+                    Uri uri = Uri.parse(rlv.imageFacadeBatiment);
+                    binding.imageViewFacade.setImageURI(uri);
+                    binding.buttonAjouterImageFacade.setVisibility(View.GONE);
                 }else{
-                    binding.imageView2.setImageResource(android.R.color.transparent);
-                    binding.buttonAjouterImage.setVisibility(View.VISIBLE);
+                    binding.imageViewFacade.setImageResource(android.R.color.transparent);
+                    binding.buttonAjouterImageFacade.setVisibility(View.VISIBLE);
                 }
 
+                if(rlv.imagePlanBatiment != null && !rlv.imagePlanBatiment.isEmpty()){
+                    Uri uri = Uri.parse(rlv.imagePlanBatiment);
+                    binding.imageViewPlan.setImageURI(uri);
+                    binding.buttonAjouterImagePlan.setVisibility(View.GONE);
+                }else{
+                    binding.imageViewPlan.setImageResource(android.R.color.transparent);
+                    binding.buttonAjouterImagePlan.setVisibility(View.VISIBLE);
+                }
 
                 releve.removeObserver(this);
                 setSaveOnFocusChangeListeners();
@@ -236,7 +236,7 @@ public class Batiment extends Fragment implements AideFragment {
 
     private void setupButtonPhoto() {
 
-        ActivityResultLauncher<Intent> launcherGetPhoto = registerForActivityResult(
+        ActivityResultLauncher<Intent> launcherGetPhotoFacade = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -247,23 +247,41 @@ public class Batiment extends Fragment implements AideFragment {
                         getContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
                         // Faites ce que vous devez faire avec l'URI ici
                         Releve releve = releveViewModel.getReleve().getValue();
-                        releve.imageBatiment = uri.toString();
+                        releve.imageFacadeBatiment = uri.toString();
                         releveViewModel.setReleve(releve);
 
-                        binding.imageView2.setImageURI(uri);
-                        binding.buttonAjouterImage.setVisibility(View.GONE);
+                        binding.imageViewFacade.setImageURI(uri);
+                        binding.buttonAjouterImageFacade.setVisibility(View.GONE);
                     }
                 });
 
-        ActivityResultLauncher<Uri> takePictureLauncher = registerForActivityResult(
+        ActivityResultLauncher<Intent> launcherGetPhotoPlan = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                        // Faites ce que vous devez faire avec l'URI ici
+                        Releve releve = releveViewModel.getReleve().getValue();
+                        releve.imagePlanBatiment = uri.toString();
+                        releveViewModel.setReleve(releve);
+
+                        binding.imageViewPlan.setImageURI(uri);
+                        binding.buttonAjouterImagePlan.setVisibility(View.GONE);
+                    }
+                });
+        ActivityResultLauncher<Uri> takePhotoFacadeLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(), result -> {
                     if (result) {
                         Uri photo = currentUriTaken;
                         Releve releve = releveViewModel.getReleve().getValue();
-                        releve.imageBatiment = photo.toString();
+                        releve.imageFacadeBatiment = photo.toString();
                         releveViewModel.setReleve(releve);
-                        binding.imageView2.setImageURI(photo);
-                        binding.buttonAjouterImage.setVisibility(View.GONE);
+                        binding.imageViewFacade.setImageURI(photo);
+                        binding.buttonAjouterImageFacade.setVisibility(View.GONE);
                     } else {
                         // La prise de l'image a échoué
                         Toast.makeText(getContext(), "La prise de l'image a échoué", Toast.LENGTH_SHORT).show();
@@ -272,7 +290,25 @@ public class Batiment extends Fragment implements AideFragment {
                         file.delete();
                     }
                 });
-        View.OnClickListener newPhotoOnClick = new View.OnClickListener() {
+
+        ActivityResultLauncher<Uri> takePhotoPlanLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    if (result) {
+                        Uri photo = currentUriTaken;
+                        Releve releve = releveViewModel.getReleve().getValue();
+                        releve.imagePlanBatiment = photo.toString();
+                        releveViewModel.setReleve(releve);
+                        binding.imageViewPlan.setImageURI(photo);
+                        binding.buttonAjouterImagePlan.setVisibility(View.GONE);
+                    } else {
+                        // La prise de l'image a échoué
+                        Toast.makeText(getContext(), "La prise de l'image a échoué", Toast.LENGTH_SHORT).show();
+                        //delete the file
+                        File file = new File(currentUriTaken.getPath());
+                        file.delete();
+                    }
+                });
+        View.OnClickListener newPhotoOnClickFacade = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Créer une boîte de dialogue pour choisir entre sélectionner une photo ou prendre une photo
@@ -286,12 +322,12 @@ public class Batiment extends Fragment implements AideFragment {
                                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                                 intent.setType("image/*");
-                                launcherGetPhoto.launch(intent);
+                                launcherGetPhotoFacade.launch(intent);
                                 break;
                             case 1:
                                 // Créez une intention pour prendre une photo
                                 currentUriTaken = photoManager.getUriForNewImage();
-                                takePictureLauncher.launch(currentUriTaken);
+                                takePhotoFacadeLauncher.launch(currentUriTaken);
                                 break;
                         }
                     }
@@ -300,9 +336,36 @@ public class Batiment extends Fragment implements AideFragment {
             }
         };
 
-        binding.buttonAjouterImage.setOnClickListener(newPhotoOnClick);
-        binding.imageView2.setOnClickListener(newPhotoOnClick);
-        binding.imageView2.setOnLongClickListener(new View.OnLongClickListener() {
+        View.OnClickListener newPhotoOnClickPlan = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Créer une boîte de dialogue pour choisir entre sélectionner une photo ou prendre une photo
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Choisir une option");
+                builder.setItems(new CharSequence[]{"Sélectionner une photo", "Prendre une photo"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:// Lancer l'activité de sélection de photo
+                                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                intent.setType("image/*");
+                                launcherGetPhotoPlan.launch(intent);
+                                break;
+                            case 1:
+                                // Créez une intention pour prendre une photo
+                                currentUriTaken = photoManager.getUriForNewImage();
+                                takePhotoPlanLauncher.launch(currentUriTaken);
+                                break;
+                        }
+                    }
+                });
+                builder.show();
+            }
+        };
+        binding.buttonAjouterImageFacade.setOnClickListener(newPhotoOnClickFacade);
+        binding.imageViewFacade.setOnClickListener(newPhotoOnClickFacade);
+        binding.imageViewFacade.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 // show a dialog to confirm the deletion
@@ -311,11 +374,34 @@ public class Batiment extends Fragment implements AideFragment {
                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        binding.imageView2.setImageURI(null);
+                        binding.imageViewFacade.setImageURI(null);
                         Releve releve = releveViewModel.getReleve().getValue();
-                        releve.imageBatiment = null;
+                        releve.imageFacadeBatiment = null;
                         releveViewModel.setReleve(releve);
-                        binding.buttonAjouterImage.setVisibility(View.VISIBLE);
+                        binding.buttonAjouterImageFacade.setVisibility(View.VISIBLE);
+                    }
+                });
+                builder.setNegativeButton("Non", null);
+                builder.show();
+                return true;
+            }
+        });
+        binding.buttonAjouterImagePlan.setOnClickListener(newPhotoOnClickPlan);
+        binding.imageViewPlan.setOnClickListener(newPhotoOnClickPlan);
+        binding.imageViewPlan.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // show a dialog to confirm the deletion
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Supprimer l'image ?");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binding.imageViewPlan.setImageURI(null);
+                        Releve releve = releveViewModel.getReleve().getValue();
+                        releve.imagePlanBatiment = null;
+                        releveViewModel.setReleve(releve);
+                        binding.buttonAjouterImagePlan.setVisibility(View.VISIBLE);
                     }
                 });
                 builder.setNegativeButton("Non", null);
