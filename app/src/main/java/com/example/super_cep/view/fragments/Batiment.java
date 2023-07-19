@@ -77,7 +77,7 @@ public class Batiment extends Fragment implements AideFragment {
                 updateTextBox(binding.editTextDateDeConstruction, rlv.dateDeConstruction);
                 updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
                 binding.editTextNomBatiment.setText(rlv.nomBatiment);
-                binding.editTextNumberDecimalSurfaceTotalChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe).replace(".", ","));
+                binding.editTextNumberDecimalSurfaceTotal.setText(String.valueOf(rlv.surfaceTotale).replace(".", ","));
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
                 if(rlv.imageBatiment != null && !rlv.imageBatiment.isEmpty()){
@@ -96,7 +96,7 @@ public class Batiment extends Fragment implements AideFragment {
         });
 
         char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
-        binding.editTextNumberDecimalSurfaceTotalChauffe.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
+        binding.editTextNumberDecimalSurfaceTotal.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
 
         setupCalendar();
         setupButtonPhoto();
@@ -221,9 +221,9 @@ public class Batiment extends Fragment implements AideFragment {
         }
 
 
-        newText = binding.editTextNumberDecimalSurfaceTotalChauffe.getText().toString();
-        if (!newText.equals(Float.toString(releve.getValue().surfaceTotaleChauffe)) && !newText.equals("")) {
-            releveViewModel.setSurfaceTotaleChauffe(Float.parseFloat(newText.replace(",", ".")));
+        newText = binding.editTextNumberDecimalSurfaceTotal.getText().toString();
+        if (!newText.equals(Float.toString(releve.getValue().surfaceTotale)) && !newText.equals("")) {
+            releveViewModel.setSurfaceTotale(Float.parseFloat(newText.replace(",", ".")));
         }
 
         newText = binding.editTextNomBatiment.getText().toString();
@@ -337,7 +337,7 @@ public class Batiment extends Fragment implements AideFragment {
             public void afterTextChanged(Editable s) {saveData();}
         };
         binding.editTextNomBatiment.addTextChangedListener(textWatcher);
-        binding.editTextNumberDecimalSurfaceTotalChauffe.addTextChangedListener(textWatcher);
+        binding.editTextNumberDecimalSurfaceTotal.addTextChangedListener(textWatcher);
         binding.editTextMultiLineAdresse.addTextChangedListener(textWatcher);
     }
 

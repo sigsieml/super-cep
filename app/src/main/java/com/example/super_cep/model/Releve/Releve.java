@@ -23,6 +23,8 @@ public class Releve {
     public String nomBatiment = "";
     public Calendar dateDeConstruction;
     public Calendar dateDeDerniereRenovation;
+
+    public float surfaceTotale = 0;
     public float surfaceTotaleChauffe = 0;
     public String adresse = "";
     public Map<String, ECS> ecs;

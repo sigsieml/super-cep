@@ -86,6 +86,11 @@ public class ReleveViewModel extends ViewModel {
         forceUpdateReleve();
     }
 
+    public void setSurfaceTotale(float surfaceTotale){
+        releve.getValue().surfaceTotale = surfaceTotale;
+        forceUpdateReleve();
+    }
+
     public void setAdresse(String adresse){
         releve.getValue().adresse = adresse;
         forceUpdateReleve();

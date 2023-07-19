@@ -135,7 +135,7 @@
                     android:inputType="date"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
+                    app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimalSurfaceTotal"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -146,13 +146,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="surface total chauffée"
+                    android:text="surface total"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
+                    app:layout_constraintStart_toStartOf="@+id/editTextNumberDecimalSurfaceTotal"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/editTextNumberDecimalSurfaceTotalChauffe"
+                    android:id="@+id/editTextNumberDecimalSurfaceTotal"
                     android:layout_width="141dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="m²"
-                    app:layout_constraintBottom_toBottomOf="@+id/editTextNumberDecimalSurfaceTotalChauffe"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextNumberDecimalSurfaceTotal"
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

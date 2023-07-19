@@ -79,7 +79,11 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     }
 
     private void setUpSurface() {
-        binding.editTextNumberSurfaceBatiment.setText(String.valueOf(releveViewModel.getReleve().getValue().surfaceTotaleChauffe));
+        float surfaceTotalChauffe = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
+        if(surfaceTotalChauffe <= 0){
+            surfaceTotalChauffe = releveViewModel.getReleve().getValue().surfaceTotale;
+        }
+        binding.editTextNumberSurfaceBatiment.setText(String.valueOf(surfaceTotalChauffe));
         binding.editTextNumberSurfaceBatiment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
