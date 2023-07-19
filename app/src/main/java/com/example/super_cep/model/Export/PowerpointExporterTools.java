@@ -144,7 +144,6 @@ public class PowerpointExporterTools {
         }
 
         Rectangle2D tblAnc = tableau.getAnchor();
-        DrawFactory df = DrawFactory.getInstance(null);
 
         double nextY = tblAnc.getY();
         double nextX = tblAnc.getX();

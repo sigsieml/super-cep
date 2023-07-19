@@ -219,7 +219,8 @@
     "C:\\Users\\TLB\\Pictures\\préconisations\\Image8.jpg",
     "C:\\Users\\TLB\\Pictures\\préconisations\\Image9.jpg"
   ],
-  "imageBatiment":"C:\\Users\\TLB\\Pictures\\shrekfullfilm.gif",
+  "imageFacadeBatiment":"C:\\Users\\TLB\\Pictures\\shrekfullfilm.gif",
+  "imagePlanBatiment":"C:\\Users\\TLB\\Pictures\\shrekfullfilm.gif",
   "remarques":{
     "Elements de contexte sur le bâtiment": {
       "nom": "Elements de contexte sur le bâtiment",

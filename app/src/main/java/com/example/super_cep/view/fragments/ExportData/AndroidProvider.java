@@ -68,9 +68,7 @@ public class AndroidProvider implements PlatformProvider {
         Paint paint = new Paint();
         paint.setTypeface(Typeface.DEFAULT); // Remplacez par la police que vous voulez utiliser
         // Il faut transformer la taille de police en pixels, car Android utilise les pixels comme unité de mesure
-        int fontSizeInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                tc.getTextParagraphs().get(0).getTextRuns().get(0).getFontSize().floatValue(),
-                context.getResources().getDisplayMetrics());
+        int fontSizeInPixels = tc.getTextParagraphs().get(0).getTextRuns().get(0).getFontSize().intValue();
         paint.setTextSize(fontSizeInPixels);
 
         String text = tc.getText();
