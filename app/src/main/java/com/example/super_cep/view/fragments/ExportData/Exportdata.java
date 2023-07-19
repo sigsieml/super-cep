@@ -123,7 +123,8 @@ public class Exportdata extends Fragment {
                             releveViewModel.getReleve().getValue(),
                             consoConfigViewModel.getNomBatimentConso(),
                             consoConfigViewModel.getAnneesConso(),
-                            consoConfigViewModel.getMeilleurAnne()
+                            consoConfigViewModel.getMeilleurAnne(),
+                            consoConfigViewModel.getPourcentageBatiment()
                     );
 
                     pfd.close();
@@ -156,7 +157,6 @@ public class Exportdata extends Fragment {
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
     }
-
 
 
 

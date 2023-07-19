@@ -74,7 +74,6 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         if(consoConfigViewModel.getNomBatimentConso() != null){
             consoAlreadyExist(consoConfigViewModel.getNomBatimentConso());
         }
-
         return binding.getRoot();
     }
 
@@ -99,6 +98,21 @@ public class FragmentGraphique extends Fragment implements AideFragment {
             }
 
         });
+
+         binding.editTextPrcBatiment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().isEmpty() || s.toString().equals("0")) return;
+                consoConfigViewModel.setPourcentageBatiment(Float.parseFloat(s.toString()));
+                String nomBatiment = binding.autoCompleteNomBatiment.getText().toString();
+                updateDataTable(nomBatiment);
+            }
+        });
+
     }
 
 
@@ -244,7 +258,9 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     private void updateDataTable(String nomBatiment){
         List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
+        applyPrctageBatiment(anneesWatt);
         List<Anner> anneesEuro = consoParser.getConsoEuro(nomBatiment, annees);
+        applyPrctageBatiment(anneesEuro);
         addChart(binding.chartWh, annees, anneesWatt, "kWh");
         addChart(binding.chartEuro, annees, anneesEuro, "€");
 
@@ -255,6 +271,16 @@ public class FragmentGraphique extends Fragment implements AideFragment {
             itemEnergieBinding.textViewItemName.setText(Energie.ENERGIES[i]);
             itemEnergieBinding.viewColor.setBackgroundColor(Energie.COLORS[i].getRGB());
             flexboxLayout.addView(itemEnergieBinding.getRoot());
+        }
+    }
+
+    private void applyPrctageBatiment(List<Anner> anners){
+        float prctage = binding.editTextPrcBatiment.getText().toString().isEmpty() ? 0 : Float.parseFloat(binding.editTextPrcBatiment.getText().toString());
+        if(prctage == 0) return;
+        for(Anner anner : anners){
+            for (Energie energie : anner.energies.keySet()){
+               anner.energies.put(energie, anner.energies.get(energie) * prctage / 100);
+            }
         }
     }
 

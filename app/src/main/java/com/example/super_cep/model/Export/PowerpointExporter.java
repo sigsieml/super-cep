@@ -88,7 +88,7 @@ public class PowerpointExporter {
         this.consoParser = consoParser;
     }
 
-    public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve, String nomBatimentConso, List<String> annees, String meilleurAnne) throws PowerpointException {
+    public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) throws PowerpointException {
         this.releve = releve;
         setupReleve();
         String slideActuelle = "initialisation";
@@ -107,7 +107,7 @@ public class PowerpointExporter {
             slideActuelle = "slide bâtiment";
             slideBatiment(ppt, slides.get(1));
             slideActuelle = "slide énergie et consommations";
-            slideEnergieEtConsomations(ppt,slides.get(2), nomBatimentConso, annees, meilleurAnne);
+            slideEnergieEtConsomations(ppt,slides.get(2), nomBatimentConso, annees, meilleurAnne, pourcentageBatiment);
             slideActuelle = "slide usage et occupation du bâtiment";
             slideUsageEtOccupationDuBatiment(ppt, slides.get(3));
             slideActuelle = "slide descriptif enveloppe thermique";
@@ -210,14 +210,14 @@ public class PowerpointExporter {
         return Units.EMU_PER_POINT * oldAnchorValue;
     }
 
-    private void slideEnergieEtConsomations(XMLSlideShow ppt, XSLFSlide slide, String nomBatimentConso, List<String> annees, String meilleurAnne) throws PowerpointException {
+    private void slideEnergieEtConsomations(XMLSlideShow ppt, XSLFSlide slide, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) throws PowerpointException {
         Rectangle2D rectangle2DImages = null;
         List<String> images = new ArrayList<>();
         List<Anner> consoWatt = null;
         List<Anner> consoEuro = null;
         if(nomBatimentConso != null){
-            consoWatt = consoParser.getConsoWatt(nomBatimentConso, annees);
-            consoEuro = consoParser.getConsoEuro(nomBatimentConso, annees);
+            consoWatt = applyPourcentage(consoParser.getConsoWatt(nomBatimentConso, annees), pourcentageBatiment);
+            consoEuro = applyPourcentage(consoParser.getConsoEuro(nomBatimentConso, annees), pourcentageBatiment);
         }
         XSLFTextShape textShapeRatioWatt = null;
         XSLFTextShape textShapeRatioEuro = null;
@@ -374,6 +374,15 @@ public class PowerpointExporter {
                 }
             }
         }
+    }
+
+    private List<Anner> applyPourcentage(List<Anner> anners, float pourcentageBatiment) {
+        for(Anner anner : anners){
+            for(Energie energie : anner.energies.keySet()){
+                anner.energies.put(energie, anner.energies.get(energie) * pourcentageBatiment / 100);
+            }
+        }
+        return anners;
     }
 
     private XSLFAutoShape createCircle(XSLFSlide slide, Rectangle2D rectangle2D, Color color){

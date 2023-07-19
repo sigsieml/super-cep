@@ -48,7 +48,7 @@ public class CreateSlideShowReleveTest {
         PowerpointExporter exporter = new PowerpointExporter(new pcProvider(), new ConsoParser(getClass().getClassLoader().getResourceAsStream("consomationbatiment.xlsx")));
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
-            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022");
+            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022", 100);
 
             // display in console the path of the file of test.pptx to open it
             System.out.println(new File("test.pptx").getAbsolutePath());
@@ -69,7 +69,7 @@ public class CreateSlideShowReleveTest {
         PowerpointExporter exporter = new PowerpointExporter(new pcProvider(), new ConsoParser(getClass().getClassLoader().getResourceAsStream("consomationbatiment.xlsx")));
         InputStream is = getClass().getClassLoader().getResourceAsStream(PATH_POWERPOINT);
         try {
-            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022");
+            exporter.export(is, new FileOutputStream("test.pptx").getFD(), releve, "TEST", List.of("2022"), "2022", 100);
 
             // display in console the path of the file of test.pptx to open it
             System.out.println(new File("test.pptx").getAbsolutePath());

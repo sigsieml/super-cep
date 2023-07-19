@@ -15,6 +15,8 @@ public class ConsoConfigViewModel extends ViewModel {
     private final MutableLiveData<List<String>> anneesConso = new MutableLiveData<>();
     private final MutableLiveData<String> meilleurAnne = new MutableLiveData<>();
 
+    private final MutableLiveData<Float> pourcentageBatiment = new MutableLiveData<>();
+
     public ConsoConfigViewModel(){
         this.anneesConso.setValue(new ArrayList<>());
         this.nomBatimentConso.setValue(null);
@@ -47,5 +49,22 @@ public class ConsoConfigViewModel extends ViewModel {
     }
     public String getMeilleurAnne() {
         return this.meilleurAnne.getValue();
+    }
+
+    public void setPourcentageBatiment(Float pourcentageBatiment) {
+        this.pourcentageBatiment.setValue(pourcentageBatiment);
+    }
+
+    public Float getPourcentageBatiment() {
+        return this.pourcentageBatiment.getValue();
+    }
+
+    public List<Anner> applyPourcentageToConso(List<Anner> anners){
+        for (Anner anner : anners){
+            for(Energie energie : anner.energies.keySet()){
+                anner.energies.put(energie, anner.energies.get(energie) * this.pourcentageBatiment.getValue() / 100);
+            }
+        }
+        return anners;
     }
 }
