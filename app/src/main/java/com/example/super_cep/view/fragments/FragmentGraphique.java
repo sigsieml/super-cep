@@ -66,10 +66,10 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         binding=FragmentGraphiqueBinding.inflate(inflater,container,false);
         consoConfigViewModel = new ViewModelProvider(requireActivity()).get(ConsoConfigViewModel.class);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
+        setupFab();
         setUpSurface();
         loadConsoParser();
         if(consoParser == null) return binding.getRoot();
-        setupFab();
         setupSpinner();
         if(consoConfigViewModel.getNomBatimentConso() != null){
             consoAlreadyExist(consoConfigViewModel.getNomBatimentConso());

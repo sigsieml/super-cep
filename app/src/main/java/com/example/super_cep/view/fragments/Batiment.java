@@ -68,7 +68,7 @@ public class Batiment extends Fragment implements AideFragment {
             public void onChanged(Releve rlv) {
                 updateTextBox(binding.editTextDateDeConstruction, rlv.dateDeConstruction);
                 updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
-                binding.editTextNomBatiment.setText(rlv.nomBatiment);
+                binding.editTextNomBatiment.setText(rlv.nomBatiment.isEmpty() ? "Batiment" : rlv.nomBatiment);
                 binding.editTextNumberDecimalSurfaceTotal.setText(String.valueOf(rlv.surfaceTotale).replace(".", ","));
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
