@@ -55,10 +55,8 @@ public class ReleveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityReleveBinding.inflate(getLayoutInflater());
-        askForPermissions();
         setupReleve();
         setupSpinnerData();
-        setupLocalisation();
         setupConsoConfig();
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarReleve.toolbar);
@@ -69,30 +67,7 @@ public class ReleveActivity extends AppCompatActivity {
        consoConfigViewModel = new ViewModelProvider(this).get(ConsoConfigViewModel.class);
     }
 
-    private void setupLocalisation() {
-        localisationProvider = new LocalisationProvider(this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        localisationProvider.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        localisationProvider.onPause();
-    }
-
-    private void askForPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.CAMERA,
-                android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                PackageManager.PERMISSION_GRANTED);
-    }
 
     private void setupSpinnerData() {
         ConfigDataProvider configDataProvider = new ConfigDataProvider(this);

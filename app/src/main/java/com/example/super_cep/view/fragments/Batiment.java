@@ -106,6 +106,21 @@ public class Batiment extends Fragment implements AideFragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        localisationProvider.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        saveData();
+        localisationProvider.onPause();
+        super.onPause();
+    }
+
+
     private void setupFabLocation() {
         localisationProvider = new LocalisationProvider(getActivity());
 
@@ -427,11 +442,6 @@ public class Batiment extends Fragment implements AideFragment {
         binding.editTextMultiLineAdresse.addTextChangedListener(textWatcher);
     }
 
-    @Override
-    public void onPause() {
-        saveData();
-        super.onPause();
-    }
 
     @Override
     public void aide() {

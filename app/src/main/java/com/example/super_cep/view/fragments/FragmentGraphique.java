@@ -95,6 +95,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
                         binding.autoCompleteNomBatiment.getText().toString().isEmpty()) return;
                 String nomBatiment = binding.autoCompleteNomBatiment.getText().toString();
                 updateDataTable(nomBatiment);
+                updateRatioTable(nomBatiment);
             }
 
         });
@@ -110,6 +111,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
                 consoConfigViewModel.setPourcentageBatiment(Float.parseFloat(s.toString()));
                 String nomBatiment = binding.autoCompleteNomBatiment.getText().toString();
                 updateDataTable(nomBatiment);
+                updateRatioTable(nomBatiment);
             }
         });
 
@@ -156,6 +158,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 onBatimentSelected(parent.getItemAtPosition(position).toString());
+                updateRatioTable(parent.getItemAtPosition(position).toString());
                 // remove focus
                 binding.autoCompleteNomBatiment.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -320,7 +323,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
         BarData data = new BarData(dataSets);
         data.setValueTextColor(Color.BLACK);
-        data.setValueFormatter(new StackedValueFormatter(false, suffix, 0, releveViewModel.getReleve().getValue().surfaceTotaleChauffe));
+        data.setValueFormatter(new StackedValueFormatter(false, suffix, 0));
 
 
         chart.setData(data);
@@ -337,6 +340,113 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
     }
 
+
+    public void updateRatioTable(String nomBatiment){
+        Drawable drawableBackground = getResources().getDrawable(R.drawable.border_black_thin);
+        binding.linearlayoutConso.removeAllViews();
+        List<String> annees =  consoParser.getAnneOfBatiment(nomBatiment);
+        List<Anner> anneesWatt = consoConfigViewModel.applyPourcentageToConso(consoParser.getConsoWatt(nomBatiment, annees));
+        List<Anner> annesEuro = consoConfigViewModel.applyPourcentageToConso(consoParser.getConsoEuro(nomBatiment, annees));
+
+        float surface = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
+        if(surface == 0) {
+            TextView textView = new TextView(getContext());
+            textView.setText("Surface totale chauffée non renseignée");
+            binding.linearlayoutConso.addView(textView);
+            return;
+        }
+        //Annes
+        LinearLayout linearLayoutAnnees = new LinearLayout(getContext());
+        linearLayoutAnnees.setOrientation(LinearLayout.VERTICAL);
+        TextView textViewTitre = new TextView(getContext());
+        textViewTitre.setText("kWh / m²");
+        linearLayoutAnnees.addView(textViewTitre);
+        for(String anne : annees){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 50;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setText(anne);
+            textViewAnne.setBackground(drawableBackground);
+            linearLayoutAnnees.addView(textViewAnne);
+        }
+        TextView titreEuro = new TextView(getContext());
+        titreEuro.setText("€ / m²");
+        linearLayoutAnnees.addView(titreEuro);
+        for(String anne : annees){
+            TextView textViewAnne = new TextView(getContext());
+            textViewAnne.setText(anne);
+            int widthInDp = 50;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            linearLayoutAnnees.addView(textViewAnne);
+        }
+        binding.linearlayoutConso.addView(linearLayoutAnnees);
+
+
+        // Total
+        LinearLayout linearLayoutTotal = new LinearLayout(getContext());
+        linearLayoutTotal.setOrientation(LinearLayout.VERTICAL);
+        TextView textViewTotal = new TextView(getContext());
+        textViewTotal.setText("Total");
+        linearLayoutTotal.addView(textViewTotal);
+        for(Anner anner : anneesWatt){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 60;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            String value =  (int)(anner.total / surface) + "";
+            textViewAnne.setText(value);
+            linearLayoutTotal.addView(textViewAnne);
+        }
+        TextView textViewTotalEuro = new TextView(getContext());
+        textViewTotalEuro.setText("");
+        linearLayoutTotal.addView(textViewTotalEuro);
+        for(Anner anner : annesEuro){
+            TextView textViewAnne = new TextView(getContext());
+            int widthInDp = 60;
+            textViewAnne.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+            textViewAnne.setBackground(drawableBackground);
+            String value = (int)( anner.total / surface) + "";
+            textViewAnne.setText(value);
+            linearLayoutTotal.addView(textViewAnne);
+        }
+        binding.linearlayoutConso.addView(linearLayoutTotal);
+
+        //Energie
+        for(Energie energie : Energie.values()){
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            TextView textView = new TextView(getContext());
+            textView.setText(energie.nomEnergie);
+            linearLayout.addView(textView);
+            for(Anner anner : anneesWatt){
+                TextView textViewAnne = new TextView(getContext());
+                int widthInDp = 120;
+                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+                textViewAnne.setBackground(drawableBackground);
+                String value = (int)(anner.getEnergie(energie) / surface) + "";
+                textViewAnne.setText(value);
+                linearLayout.addView(textViewAnne);
+            }
+            TextView textViewEuro = new TextView(getContext());
+            textViewEuro.setText("");
+            linearLayout.addView(textViewEuro);
+            for(Anner anner: annesEuro){
+                TextView textViewAnne = new TextView(getContext());
+                int widthInDp = 120;
+                textView.setWidth( (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, widthInDp, getResources().getDisplayMetrics()));
+                textViewAnne.setBackground(drawableBackground);
+                String value = (int)(anner.getEnergie(energie) / surface) + "";
+                textViewAnne.setText(value);
+                linearLayout.addView(textViewAnne);
+            }
+            binding.linearlayoutConso.addView(linearLayout);
+
+        }
+
+    }
+
+
     public class StackedValueFormatter extends ValueFormatter
     {
 
@@ -351,7 +461,6 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         private String mSuffix;
 
         private DecimalFormat mFormat;
-        private float surfaceTotalChauffe;
 
         /**
          * Constructor.
@@ -360,10 +469,9 @@ public class FragmentGraphique extends Fragment implements AideFragment {
          * @param suffix         a string that should be appended behind the value
          * @param decimals       the number of decimal digits to use
          */
-        public StackedValueFormatter(boolean drawWholeStack, String suffix, int decimals, float surfaceTotalChauffe) {
+        public StackedValueFormatter(boolean drawWholeStack, String suffix, int decimals) {
             this.mDrawWholeStack = drawWholeStack;
             this.mSuffix = suffix;
-            this.surfaceTotalChauffe = surfaceTotalChauffe;
             StringBuffer b = new StringBuffer();
             for (int i = 0; i < decimals; i++) {
                 if (i == 0)
@@ -385,10 +493,9 @@ public class FragmentGraphique extends Fragment implements AideFragment {
                 if (vals[vals.length - 1] == value) {
 
                     // return the "sum" across all stack values
-                    return mFormat.format(entry.getY()) +"(" + mFormat.format(entry.getY() / surfaceTotalChauffe ) + " " + mSuffix + "/m²)";
+                    return mFormat.format(entry.getY());
                 }
             }
-
             return mFormat.format(value) + mSuffix; // return empty
         }
     }

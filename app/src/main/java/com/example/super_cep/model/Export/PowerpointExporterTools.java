@@ -108,13 +108,6 @@ public class PowerpointExporterTools {
         }
     }
 
-
-    public static void setCellTextAlign(XSLFTableCell cell, TextParagraph.TextAlign center) {
-        for(XSLFTextParagraph paragraph : cell.getTextParagraphs()) {
-            paragraph.setTextAlign(center);
-        }
-    }
-
     public static void addLineToCell(XSLFTableCell xslfTextParagraphs) {
         XSLFTextRun textRun = xslfTextParagraphs.getTextParagraphs().get(0).getTextRuns().get(0);
         textRun.setText("\n" + textRun.getRawText());
@@ -233,36 +226,6 @@ public class PowerpointExporterTools {
 
     }
 
-
-    public static PictureData.PictureType getPictureTypeFromFileExtension(String path){
-        String extension = path.substring(path.lastIndexOf(".") + 1);
-        switch (extension){
-            case "jpg":
-                return PictureData.PictureType.JPEG;
-            case "png":
-                return PictureData.PictureType.PNG;
-            case "gif":
-                return PictureData.PictureType.GIF;
-            case "bmp":
-                return PictureData.PictureType.BMP;
-            case "emf":
-                return PictureData.PictureType.EMF;
-            case "wmf":
-                return PictureData.PictureType.WMF;
-            case "pict":
-                return PictureData.PictureType.PICT;
-            case "dib":
-                return PictureData.PictureType.DIB;
-            case "tiff":
-                return PictureData.PictureType.TIFF;
-            case "eps":
-                return PictureData.PictureType.EPS;
-            case "wpg":
-                return PictureData.PictureType.WPG;
-            default:
-                return PictureData.PictureType.JPEG;
-        }
-    }
 
     public static void setAverfierStyleToRow(XSLFTableRow row){
         for(XSLFTableCell cell : row.getCells()){

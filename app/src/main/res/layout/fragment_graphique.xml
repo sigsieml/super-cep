@@ -93,6 +93,19 @@
                 app:alignItems="stretch"
                 app:flexWrap="wrap" />
 
+            <HorizontalScrollView
+                android:id="@+id/scroolViewHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linearlayoutConso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

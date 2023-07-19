@@ -63,23 +63,30 @@ import java.util.concurrent.Future;
 
 public class PowerpointExporter {
 
+    // Constantes
     public static final String POWERPOINT_VIERGE_NAME = "powerpointvierge.pptx";
     public static final Color[] colors = new Color[]{new Color(191, 143, 0), new Color(31, 78, 120), new Color(255, 43, 43)};
     public static final String TEXT_AUCUNE_PROTECTION_SOLAIRE = "Aucune";
     public static final String TEXT_ABSENCE_REGULATION = "En fonctionnement continu";
     public static final String TEXT_AUCUN_ISOLANT = "Aucun";
+
+    // Variables d'instance
     private Releve releve;
     private Map<String, String> remplacements;
-
     private PlatformProvider platformProvider;
-
     private Map<String, PaintStyle> zonesColors;
     private List<PaintStyle> colorsForZones;
-
     private ConsoParser consoParser;
     private int colorForNewZoneIndex = 0;
     private int quality;
 
+    /**
+     * Constructeur pour la classe PowerpointExporter.
+     *
+     * @param platformProvider Une instance de PlatformProvider.
+     * @param consoParser Une instance de ConsoParser.
+     * @param quality La qualité des photo à exporter. de 0 à 100. 100 étant la meilleure qualité.
+     */
     public PowerpointExporter(PlatformProvider platformProvider, ConsoParser consoParser, int quality) {
         this.platformProvider = platformProvider;
         this.zonesColors = new HashMap<>();
@@ -88,6 +95,18 @@ public class PowerpointExporter {
         this.quality = quality;
     }
 
+    /**
+     * Méthode pour créer un PowerPoint.
+     *
+     * @param powerpointVierge Un InputStream vers le PowerPoint vierge qui sert de modèle.
+     * @param file Un FileDescriptor pour le fichier à créer.
+     * @param releve Une instance de Releve avec les données à exporter.
+     * @param nomBatimentConso Le nom du bâtiment.
+     * @param annees Une liste des années à considérer.
+     * @param meilleurAnne L'année la plus pertinente qui sert à faire le ratio conso / surface .
+     * @param pourcentageBatiment Le pourcentage du bâtiment. de 0 à 100. Au cas où on ne veut pas prendre en compte toutes la conso du bâtiment.
+     * @throws PowerpointException Si une erreur se produit lors de l'exportation. Contient dans le message l'étape où l'erreur s'est produite.
+     */
     public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) throws PowerpointException {
         this.releve = releve;
         setupReleve();
@@ -378,6 +397,7 @@ public class PowerpointExporter {
 
     private List<Anner> applyPourcentage(List<Anner> anners, float pourcentageBatiment) {
         for(Anner anner : anners){
+            anner.total = anner.total * pourcentageBatiment / 100;
             for(Energie energie : anner.energies.keySet()){
                 anner.energies.put(energie, anner.energies.get(energie) * pourcentageBatiment / 100);
             }

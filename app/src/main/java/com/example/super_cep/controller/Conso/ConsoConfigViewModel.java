@@ -62,6 +62,7 @@ public class ConsoConfigViewModel extends ViewModel {
 
     public List<Anner> applyPourcentageToConso(List<Anner> anners){
         for (Anner anner : anners){
+            anner.total = anner.total * this.pourcentageBatiment.getValue() / 100;
             for(Energie energie : anner.energies.keySet()){
                 anner.energies.put(energie, anner.energies.get(energie) * this.pourcentageBatiment.getValue() / 100);
             }
