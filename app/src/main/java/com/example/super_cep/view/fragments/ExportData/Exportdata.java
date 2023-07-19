@@ -117,7 +117,7 @@ public class Exportdata extends Fragment {
                 try {
                     ParcelFileDescriptor pfd = requireActivity().getContentResolver().
                             openFileDescriptor(uri, "w");
-                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()),  consoConfigViewModel.getConsoParser().getValue());
+                    PowerpointExporter powerpointExporter = new PowerpointExporter( new AndroidProvider(getContext()),  consoConfigViewModel.getConsoParser().getValue(), binding.seekbarQualite.getProgress());
                     powerpointExporter.export(getContext().getAssets().open(POWERPOINT_VIERGE_NAME),
                             pfd.getFileDescriptor(),
                             releveViewModel.getReleve().getValue(),
@@ -174,7 +174,7 @@ public class Exportdata extends Fragment {
             @Override
             public void run() {
                 try {
-                    ArchiveExporter.createArchive( getContext().getContentResolver().openOutputStream(uri),releveViewModel.getReleve().getValue(), new AndroidProvider(getContext()));
+                    ArchiveExporter.createArchive( getContext().getContentResolver().openOutputStream(uri),releveViewModel.getReleve().getValue(), new AndroidProvider(getContext()), binding.seekbarQualite.getProgress());
 
                     mainThreadExecutor.execute(new Runnable() {
                         @Override

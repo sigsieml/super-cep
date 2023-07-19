@@ -25,7 +25,7 @@ public class AndroidProvider implements PlatformProvider {
     }
 
     @Override
-    public byte[] getImagesByteFromPath(String path) {
+    public byte[] getImagesByteFromPath(String path, int quality) {
         if(path == null)
             return null;
         Uri uri = Uri.parse(path);
@@ -37,7 +37,7 @@ public class AndroidProvider implements PlatformProvider {
             inputStream = context.getContentResolver().openInputStream(uri);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, out);
             return out.toByteArray();
         } catch (Exception e) {
             // Handle exception

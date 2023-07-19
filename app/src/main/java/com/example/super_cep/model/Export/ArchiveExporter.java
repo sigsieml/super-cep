@@ -19,7 +19,7 @@ import java.util.Set;
 public  class ArchiveExporter {
 
 
-    public static void createArchive(OutputStream outputStream, Releve releve, PlatformProvider platformProvider) throws Exception {
+    public static void createArchive(OutputStream outputStream, Releve releve, PlatformProvider platformProvider, int quality) throws Exception {
         java.util.zip.ZipOutputStream out = new java.util.zip.ZipOutputStream(outputStream);
 
         // Compress the files
@@ -37,7 +37,7 @@ public  class ArchiveExporter {
         List<String> images = getAllImageOfReleve(releve, platformProvider);
         Set<String> entries = new HashSet<>();
         for(String image : images){
-            byte[] imageByte = platformProvider.getImagesByteFromPath(image);
+            byte[] imageByte = platformProvider.getImagesByteFromPath(image, quality);
             if(imageByte == null)
                 continue;
             String suffix = "";

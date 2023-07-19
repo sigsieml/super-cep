@@ -78,12 +78,14 @@ public class PowerpointExporter {
 
     private ConsoParser consoParser;
     private int colorForNewZoneIndex = 0;
+    private int quality;
 
-    public PowerpointExporter(PlatformProvider platformProvider, ConsoParser consoParser) {
+    public PowerpointExporter(PlatformProvider platformProvider, ConsoParser consoParser, int quality) {
         this.platformProvider = platformProvider;
         this.zonesColors = new HashMap<>();
         this.colorsForZones = new ArrayList<>();
         this.consoParser = consoParser;
+        this.quality = quality;
     }
 
     public void export(InputStream powerpointVierge, FileDescriptor file, Releve releve, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) throws PowerpointException {
@@ -1035,7 +1037,7 @@ public class PowerpointExporter {
             futures[index] = executor.submit(new Callable<byte[]>() {
                 @Override
                 public byte[] call() throws Exception {
-                    return platformProvider.getImagesByteFromPath(imagePath);
+                    return platformProvider.getImagesByteFromPath(imagePath, quality);
                 }
             });
             index++;

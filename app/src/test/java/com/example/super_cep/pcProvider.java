@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class pcProvider implements PlatformProvider {
     @Override
-    public byte[] getImagesByteFromPath(String path) {
+    public byte[] getImagesByteFromPath(String path, int quality) {
         // Read the image
         File imageFile = new File(path);
         try {
