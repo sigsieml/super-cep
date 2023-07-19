@@ -143,11 +143,11 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
 
                         zoneUiHandler.moveZoneElement(nomZoneElement.toString(), nomZone.toString(), zone.nom);
 
-                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_black));
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.white_round));
                         v.invalidate();
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
-                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.border_black));
+                        ((ConstraintLayout) v).setBackground(v.getContext().getDrawable(R.drawable.white_round));
                         v.invalidate();
                         return true;
                 }
