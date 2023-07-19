@@ -32,19 +32,19 @@ import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentGraphiqueBinding;
 import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.ConsoParser;
+import com.example.super_cep.databinding.ItemEnergieBinding;
 import com.example.super_cep.view.AideFragment;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+
+
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -242,15 +242,34 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     }
 
     private void updateDataTable(String nomBatiment){
-        BarChart chart = binding.chart;
         List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
+        List<Anner> anneesEuro = consoParser.getConsoEuro(nomBatiment, annees);
+        addChart(binding.chartWh, annees, anneesWatt, "kWh");
+        addChart(binding.chartEuro, annees, anneesEuro, "€");
+
+        FlexboxLayout flexboxLayout = binding.flexboxLayout;
+        flexboxLayout.removeAllViews();
+        for (int i=0; i<Energie.ENERGIES.length; i++) {
+            ItemEnergieBinding itemEnergieBinding = ItemEnergieBinding.bind(LayoutInflater.from(getContext()).inflate(R.layout.item_energie, flexboxLayout, false));
+            itemEnergieBinding.textViewItemName.setText(Energie.ENERGIES[i]);
+            itemEnergieBinding.viewColor.setBackgroundColor(Energie.COLORS[i].getRGB());
+            flexboxLayout.addView(itemEnergieBinding.getRoot());
+        }
+    }
+
+    private void addChart(BarChart chart, List<String> annees, List<Anner> annesEnergie, String suffix){
+
+        chart.setPinchZoom(false);
+        chart.getDescription().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+        chart.setDrawValueAboveBar(true); // make sure it's set to true
+        chart.setHighlightFullBarEnabled(false);
+
 
         ArrayList<BarEntry> values = new ArrayList<>();
-
-
         for (int i=0; i<annees.size(); i++) {
-            Anner anner = anneesWatt.get(i);
+            Anner anner = annesEnergie.get(i);
             Energie[] energies = Energie.values();
             float[] energieValues = new float[energies.length];
             for (int j=0; j<energies.length; j++) {
@@ -261,23 +280,24 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
         BarDataSet set1 = new BarDataSet(values, "Consommation par énergie");
         set1.setDrawIcons(false);
+        set1.setDrawValues(true);
         List<Integer> colors = new ArrayList<>();
         for (java.awt.Color color : Energie.COLORS) {
             int colorInt = color.getRGB();
             colors.add(colorInt);
         }
         set1.setColors(colors);
-
         set1.setStackLabels(Energie.ENERGIES);
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
 
         BarData data = new BarData(dataSets);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
+        data.setValueFormatter(new StackedValueFormatter(false, suffix, 0, releveViewModel.getReleve().getValue().surfaceTotaleChauffe));
+
 
         chart.setData(data);
-
         chart.setFitBars(true);
         chart.invalidate();
 
@@ -288,7 +308,66 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
+
     }
+
+    public class StackedValueFormatter extends ValueFormatter
+    {
+
+        /**
+         * if true, all stack values of the stacked bar entry are drawn, else only top
+         */
+        private boolean mDrawWholeStack;
+
+        /**
+         * a string that should be appended behind the value
+         */
+        private String mSuffix;
+
+        private DecimalFormat mFormat;
+        private float surfaceTotalChauffe;
+
+        /**
+         * Constructor.
+         *
+         * @param drawWholeStack if true, all stack values of the stacked bar entry are drawn, else only top
+         * @param suffix         a string that should be appended behind the value
+         * @param decimals       the number of decimal digits to use
+         */
+        public StackedValueFormatter(boolean drawWholeStack, String suffix, int decimals, float surfaceTotalChauffe) {
+            this.mDrawWholeStack = drawWholeStack;
+            this.mSuffix = suffix;
+            this.surfaceTotalChauffe = surfaceTotalChauffe;
+            StringBuffer b = new StringBuffer();
+            for (int i = 0; i < decimals; i++) {
+                if (i == 0)
+                    b.append(".");
+                b.append("0");
+            }
+
+            this.mFormat = new DecimalFormat("###,###,###,##0" + b.toString());
+        }
+
+        @Override
+        public String getBarStackedLabel(float value, BarEntry entry) {
+
+            float[] vals = entry.getYVals();
+
+            if (vals != null) {
+
+                // find out if we are on top of the stack
+                if (vals[vals.length - 1] == value) {
+
+                    // return the "sum" across all stack values
+                    return mFormat.format(entry.getY()) +"(" + mFormat.format(entry.getY() / surfaceTotalChauffe ) + " " + mSuffix + "/m²)";
+                }
+            }
+
+            return mFormat.format(value) + mSuffix; // return empty
+        }
+    }
+
+
 
     @Override
     public void aide() {
