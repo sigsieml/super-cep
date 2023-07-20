@@ -23,9 +23,9 @@ public class ViewZoneSelector extends View {
         this.releveViewModel = releveViewModel;
         releveViewModel.getReleve().observe((LifecycleOwner) getContext(), releve -> {
             binding.linearLayoutZones.removeAllViews();
-            setZonesCheckBox(releve.getZonesValues());
+            setZonesCheckBox(releve.zones.values().toArray(new Zone[0]));
         });
-        setZonesCheckBox(releveViewModel.getReleve().getValue().getZonesValues());
+        setZonesCheckBox(releveViewModel.getReleve().getValue().zones.values().toArray(new Zone[0]));
 
     }
 

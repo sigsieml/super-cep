@@ -10,16 +10,31 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
-
+/**
+ * Module pour sérialiser/désérialiser les clés de type CalendrierDate.
+ */
 public class CalendrierDateModule extends SimpleModule {
-
+    /**
+     * Constructeur pour le module CalendrierDateModule.
+     * Ajoute un désérialiseur de clés et un sérialiseur de clés pour le type CalendrierDate.
+     */
     public CalendrierDateModule() {
         super();
         addKeyDeserializer(CalendrierDate.class, new CalendrierDateKeyDeserializer());
         addKeySerializer(CalendrierDate.class, new CalendrierDateKeySerializer());
     }
-
+    /**
+     * Désérialiseur de clés pour le type CalendrierDate.
+     */
     private class CalendrierDateKeyDeserializer extends KeyDeserializer {
+        /**
+         * Désérialise une clé de type String en une instance de CalendrierDate.
+         * La clé est supposée être formatée comme "DayOfWeek-hour-minute".
+         *
+         * @param key La clé de type String à désérialiser.
+         * @param ctxt Le contexte de désérialisation.
+         * @return Une instance de CalendrierDate.
+         */
         @Override
         public CalendrierDate deserializeKey(String key, DeserializationContext ctxt) {
             String[] parts = key.split("-"); // Assume that the key is formatted as "DayOfWeek-hour-minute"
@@ -34,8 +49,19 @@ public class CalendrierDateModule extends SimpleModule {
 
     }
 
-
+    /**
+     * Sérialiseur de clés pour le type CalendrierDate.
+     */
     private class CalendrierDateKeySerializer extends JsonSerializer<CalendrierDate> {
+        /**
+         * Sérialise une instance de CalendrierDate en une clé de type String.
+         * La clé est formatée comme "DayOfWeek-hour-minute".
+         *
+         * @param value L'instance de CalendrierDate à sérialiser.
+         * @param gen Le générateur Json utilisé pour la sérialisation.
+         * @param serializers Le fournisseur de sérialiseurs.
+         * @throws IOException Si une erreur d'E/S se produit lors de l'écriture de la clé sérialisée.
+         */
         @Override
         public void serialize(CalendrierDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
             gen.writeFieldName(value.jour.toString() + "-" + value.heure + "-" + value.minute);

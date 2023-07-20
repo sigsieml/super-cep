@@ -57,13 +57,13 @@ public class SerialiseJsonReleveManager {
                 null
                 );
         superZone.addZoneElement(mur);
-        releve.addZone(superZone);
+        releve.zones.put(superZone.nom, superZone);
 
         Zone zone1 = new Zone("Zone 1");
-        releve.addZone(zone1);
+        releve.zones.put(zone1.nom, zone1);
 
         Zone zone2 = new Zone("Zone 2");
-        releve.addZone(zone2);
+        releve.zones.put(zone2.nom, zone2);
 
         releve.chauffages.put("chauffage 1", new ChauffageCentraliser(
                 "chauffage 1",

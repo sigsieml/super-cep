@@ -420,7 +420,7 @@ public class PowerpointExporter {
 
 
     private void slideUsageEtOccupationDuBatiment(XMLSlideShow ppt, XSLFSlide slide) {
-        Calendrier[] calendriers = releve.getCalendriersValues();
+        Calendrier[] calendriers = releve.calendriers.values().toArray(new Calendrier[0]);
         if (calendriers.length == 0) {
             for (XSLFShape shape : slide.getShapes().toArray(new XSLFShape[0])) {
                 String name = shape.getShapeName();

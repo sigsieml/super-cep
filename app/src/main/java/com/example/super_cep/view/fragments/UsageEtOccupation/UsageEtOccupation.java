@@ -17,6 +17,7 @@ import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
 import com.example.super_cep.databinding.FragmentUsageEtOccupationBinding;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.view.AideFragment;
 
@@ -34,13 +35,14 @@ public class UsageEtOccupation extends Fragment implements AideFragment {
         // Inflate the layout for this fragment
         binding = FragmentUsageEtOccupationBinding.inflate(inflater, container, false);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
-        setupRecyclerView(releveViewModel.getReleve().getValue().getCalendriersValues(), releveViewModel.getReleve().getValue().getZonesValues());
+        Releve releve = releveViewModel.getReleve().getValue();
+        setupRecyclerView(releve.calendriers.values().toArray(new Calendrier[0]), releve.zones.values().toArray(new Zone[0]));
 
         binding.floatingActionButtonAjoutCalendrier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                PopUpAjoutCalendrier.create(getContext(), releveViewModel.getReleve().getValue().getZonesValues(),
+                PopUpAjoutCalendrier.create(getContext(), releveViewModel.getReleve().getValue().zones.values().toArray(new Zone[0]),
                         releveViewModel.getNextNameForCalendrier(), new PopUpAjoutCalendrierListener() {
                             @Override
                             public void onValider(Calendrier calendrier) {
@@ -88,7 +90,7 @@ public class UsageEtOccupation extends Fragment implements AideFragment {
         });
 
         releveViewModel.getReleve().observe(getViewLifecycleOwner(), releve -> {
-            calendrierAdaptater.updateValues(releve.getCalendriersValues(), releve.getZonesValues());
+            calendrierAdaptater.updateValues(releve.calendriers.values().toArray(new Calendrier[0]), releve.zones.values().toArray(new Zone[0]));
         });
         binding.recyclerViewCalendrier.setAdapter(calendrierAdaptater);
         binding.recyclerViewCalendrier.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));

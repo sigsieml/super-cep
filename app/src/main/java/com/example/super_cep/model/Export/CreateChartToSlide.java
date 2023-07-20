@@ -50,12 +50,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.geom.Rectangle2D;
-
+/**
+ * La classe CreateChartToSlide gère la création de graphiques à inclure dans les diapositives.
+ */
 public class CreateChartToSlide {
 
-
-
-
+    /**
+     * Méthode pour créer un graphique à barres avec les données fournies et l'ajouter à la diapositive.
+     *
+     * @param slideShow La présentation à laquelle appartient la diapositive.
+     * @param slide La diapositive où le graphique à barres sera ajouté.
+     * @param anchor La position et la taille du graphique dans la diapositive.
+     * @param anners La liste de données pour chaque série dans le graphique.
+     * @param suffix Le suffixe à utiliser dans les étiquettes de données.
+     */
     public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide, Rectangle2D anchor, List<Anner> anners, String suffix)  {
         if(anners.size() == 0) return;
         Double[][] values = new Double[Energie.values().length][anners.size()];
@@ -78,7 +86,18 @@ public class CreateChartToSlide {
         createBarChart(slideShow, slide, anchor,values, annersString, Energie.ENERGIES, colors, suffix);
     }
 
-
+    /**
+     * Méthode surchargée pour créer un graphique à barres avec des paramètres plus spécifiques et l'ajouter à la diapositive.
+     *
+     * @param slideShow La présentation à laquelle appartient la diapositive.
+     * @param slide La diapositive où le graphique à barres sera ajouté.
+     * @param anchor La position et la taille du graphique dans la diapositive.
+     * @param values Un tableau 2D contenant les données pour chaque série dans le graphique.
+     * @param categories Les noms des catégories à afficher sur l'axe X.
+     * @param serie Les noms des séries à afficher dans la légende.
+     * @param colors Les couleurs à utiliser pour chaque série dans le graphique.
+     * @param suffix Le suffixe à utiliser dans les étiquettes de données.
+     */
     public void createBarChart(XMLSlideShow slideShow, XSLFSlide slide,Rectangle2D anchor,  Double[][] values,String[] categories,  String[] serie, XDDFColor[] colors, String suffix) {
         // create the data
         int numOfPoints = categories.length;

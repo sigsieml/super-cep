@@ -37,10 +37,17 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Map;
-
+/**
+ * Classe d'utilitaires pour exporter des données vers PowerPoint.
+ */
 public class PowerpointExporterTools {
 
-
+    /**
+     * Copie le style d'un bloc de texte source dans un bloc de texte cible.
+     *
+     * @param sourceRun Le bloc de texte source dont le style doit être copié.
+     * @param targetRun Le bloc de texte cible où le style sera appliqué.
+     */
     public static void copyTextRunStyle(XSLFTextRun sourceRun, XSLFTextRun targetRun) {
         // Copy font color
         targetRun.setFontColor(sourceRun.getFontColor());
@@ -54,7 +61,12 @@ public class PowerpointExporterTools {
         // Copy font bold style
         targetRun.setBold(sourceRun.isBold());
     }
-
+    /**
+     * Copie le style d'une cellule source dans une cellule cible.
+     *
+     * @param sourceCell La cellule source dont le style doit être copié.
+     * @param targetCell La cellule cible où le style sera appliqué.
+     */
     public static void copyCellStyle(XSLFTableCell sourceCell, XSLFTableCell targetCell) {
 
         // Copy fill color
@@ -69,7 +81,12 @@ public class PowerpointExporterTools {
         }
 
     }
-
+    /**
+     * Copie le style d'une ligne source dans une ligne cible.
+     *
+     * @param sourceRow La ligne source dont le style doit être copié.
+     * @param targetRow La ligne cible où le style sera appliqué.
+     */
     public static void copyRowStyle(XSLFTableRow sourceRow, XSLFTableRow targetRow) {
         targetRow.setHeight(sourceRow.getHeight());
         // Assuming both rows have the same number of cells
@@ -77,7 +94,12 @@ public class PowerpointExporterTools {
             copyCellStyle(sourceRow.getCells().get(i), targetRow.getCells().get(i));
         }
     }
-
+    /**
+     * Assure que le nombre de cellules dans la ligne cible correspond à celui de la ligne source.
+     *
+     * @param sourceRow La ligne source utilisée pour déterminer le nombre de cellules nécessaires.
+     * @param targetRow La ligne cible où le nombre de cellules sera ajusté.
+     */
     public static void copyNumberOfCells(XSLFTableRow sourceRow, XSLFTableRow targetRow) {
         // Assuming both rows have the same number of cells
         for (int i = 0; i < sourceRow.getCells().size(); i++) {
@@ -86,7 +108,13 @@ public class PowerpointExporterTools {
             }
         }
     }
-
+    /**
+     * Duplique une diapositive dans une présentation PowerPoint.
+     *
+     * @param ppt   La présentation où la diapositive sera dupliquée.
+     * @param slide La diapositive à dupliquer.
+     * @return La nouvelle diapositive créée.
+     */
     public static XSLFSlide  duplicateSlide(XMLSlideShow ppt, XSLFSlide slide) {
         // Get the slide that you want to duplicate
         XSLFSlide oldSlide = slide;
@@ -99,7 +127,12 @@ public class PowerpointExporterTools {
         newSlide.importContent(slide);
         return newSlide;
     }
-
+    /**
+     * Modifie la couleur de texte d'une cellule.
+     *
+     * @param cell  La cellule dont la couleur de texte doit être modifiée.
+     * @param color La nouvelle couleur à appliquer au texte.
+     */
     public static void setCellTextColor(XSLFTableCell cell, Color color) {
         for (XSLFTextParagraph paragraph : cell.getTextParagraphs()) {
             for (XSLFTextRun run : paragraph.getTextRuns()) {
@@ -107,13 +140,22 @@ public class PowerpointExporterTools {
             }
         }
     }
-
+    /**
+     * Ajoute une ligne de texte à une cellule.
+     *
+     * @param xslfTextParagraphs La cellule où ajouter une ligne.
+     */
     public static void addLineToCell(XSLFTableCell xslfTextParagraphs) {
         XSLFTextRun textRun = xslfTextParagraphs.getTextParagraphs().get(0).getTextRuns().get(0);
         textRun.setText("\n" + textRun.getRawText());
 
     }
-
+    /**
+     * Ajoute du texte à une cellule.
+     *
+     * @param cell La cellule où ajouter le texte.
+     * @param text Le texte à ajouter.
+     */
     public static void addTextToCell(XSLFTableCell cell, String text) {
         cell.addNewTextParagraph().addNewTextRun().setText(text);
         cell.setLeftInset(0);
@@ -121,7 +163,12 @@ public class PowerpointExporterTools {
         cell.setTopInset(0);
         cell.setBottomInset(0);
     }
-
+    /**
+     * Met à jour les ancres d'une cellule en fonction de la taille du texte.
+     *
+     * @param platformProvider Un fournisseur de plateforme.
+     * @param tableau          Le tableau contenant la cellule à mettre à jour.
+     */
     public static void updateCellAnchor(PlatformProvider platformProvider, XSLFTable tableau) {
         int rows = tableau.getNumberOfRows();
         int cols = tableau.getNumberOfColumns();
@@ -206,7 +253,12 @@ public class PowerpointExporterTools {
     }
 
 
-
+    /**
+     * Remplace le texte dans un objet de forme texte.
+     *
+     * @param remplacements Un dictionnaire avec les remplacements à effectuer.
+     * @param shape         La forme texte où effectuer les remplacements.
+     */
     public static void replaceTextInTextShape(Map<String, String> remplacements, XSLFTextShape shape) {
         if(!remplacements.containsKey(shape.getShapeName()))
             return;
@@ -226,7 +278,11 @@ public class PowerpointExporterTools {
 
     }
 
-
+    /**
+     * Applique un style "À vérifier" à une ligne.
+     *
+     * @param row La ligne où appliquer le style.
+     */
     public static void setAverfierStyleToRow(XSLFTableRow row){
         for(XSLFTableCell cell : row.getCells()){
             for(XSLFTextParagraph paragraph : cell.getTextParagraphs()){
@@ -243,7 +299,12 @@ public class PowerpointExporterTools {
             }
         }
     }
-
+    /**
+     * Détermine le type d'une image à partir de ses premiers octets.
+     *
+     * @param buffer Les premiers octets de l'image.
+     * @return Le type de l'image.
+     */
     public static  PictureData.PictureType getPictureTypeFromBytes(byte[] buffer) {
         if (buffer.length >= 4 && buffer[0] == (byte) 0x89 && buffer[1] == (byte) 0x50 && buffer[2] == (byte) 0x4E && buffer[3] == (byte) 0x47) {
             return PictureData.PictureType.PNG;
@@ -260,10 +321,26 @@ public class PowerpointExporterTools {
             throw new NotImplementedException("Format non supporté");
         }
     }
-
+    /**
+     * Met à jour les ancres d'un tableau dans une diapositive.
+     *
+     * @param platformProvider Un fournisseur de plateforme.
+     * @param slide            La diapositive contenant le tableau.
+     * @param tables           Le tableau à mettre à jour.
+     * @return Renvoie false si le tableau dépasse de la diapositive.
+     */
     public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFSlide slide,  XSLFTable[] tables) {
         return updateTableauAnchor(platformProvider, tables, slide.getSlideShow().getPageSize().getHeight());
     }
+
+    /**
+     * Met à jour les ancres d'un tableau en fonction de la hauteur maximale spécifiée.
+     *
+     * @param platformProvider Un fournisseur de plateforme.
+     * @param tables           Le tableau à mettre à jour.
+     * @param maxHeight        La hauteur maximale pour les ancres.
+     * @return Renvoie false si le tableau dépasse de la diapositive.
+     */
     public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFTable[] tables, double maxHeight) {
         for (int i = 0; i < tables.length; i++) {
             PowerpointExporterTools.updateCellAnchor(platformProvider, tables[i]);
@@ -273,7 +350,7 @@ public class PowerpointExporterTools {
         for (int i = 1; i < tables.length; i++) {
             XSLFTable tableau = tables[i];
             tableau.setAnchor(new Rectangle2D.Double(firstTableau.getAnchor().getX(),
-                    firstTableau.getAnchor().getY() + firstTableau.getAnchor().getHeight() - 10,
+                    firstTableau.getAnchor().getY() + firstTableau.getAnchor().getHeight(),
                     tableau.getAnchor().getWidth(),
                     tableau.getAnchor().getHeight())
             );

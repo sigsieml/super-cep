@@ -7,6 +7,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
 
+/**
+ * La classe JsonReleveManager gère la sérialisation et la désérialisation des objets Releve en JSON et vice versa.
+ * Elle utilise la bibliothèque Jackson pour effectuer ces opérations.
+ */
 public class JsonReleveManager {
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -16,7 +20,12 @@ public class JsonReleveManager {
         mapper.registerModule(new JavaTimeModule());
         mapper.registerModule(new CalendrierDateModule());
     }
-
+    /**
+     * Sérialise l'objet Releve en une chaîne JSON.
+     *
+     * @param releve L'objet Releve à sérialiser.
+     * @return La chaîne JSON représentant l'objet Releve.
+     */
     public static String serialize(Releve releve) {
         String jsonString = "";
         try {
@@ -26,7 +35,12 @@ public class JsonReleveManager {
         }
         return jsonString;
     }
-
+    /**
+     * Désérialise une chaîne JSON en un objet Releve.
+     *
+     * @param jsonString La chaîne JSON représentant l'objet Releve.
+     * @return L'objet Releve désérialisé à partir de la chaîne JSON.
+     */
     public static Releve deserialize(String jsonString) {
         Releve releve = null;
         try {

@@ -32,9 +32,17 @@ public class ReleveViewModel extends ViewModel {
         return releve;
     }
 
+    /**
+     * Ajoute une nouvelle zone
+     * @param zone La zone à ajouter.
+     * @throws IllegalArgumentException Si une zone avec le même nom existe déjà.
+     */
     public void addZone(Zone zone){
-        releve.getValue().addZone(zone);
-        forceUpdateReleve();
+        Releve releve = this.releve.getValue();
+        if(releve.zones.containsKey(zone.nom))
+            throw new IllegalArgumentException("La zone existe déjà");
+        releve.zones.put(zone.nom, zone);
+        this.releve.setValue(releve);
     }
 
     public void forceUpdateReleve(){
@@ -105,21 +113,22 @@ public class ReleveViewModel extends ViewModel {
         if(!oldNameZoneElement.equals(zoneElement.nom) && isZoneElementNameAlereadyUsed(zoneElement.nom)){
             throw new IllegalArgumentException("Un élément porte déjà ce nom");
         }
-        releve.getZone(nomZone).removeZoneElement(oldNameZoneElement);
-        releve.getZone(nomZone).addZoneElement(zoneElement);
+        Zone zone = releve.zones.get(nomZone);
+        zone.removeZoneElement(oldNameZoneElement);
+        zone.addZoneElement(zoneElement);
         forceUpdateReleve();
     }
     public void removeZoneElement(String nomZone, String nomZoneElement){
         getReleve().getValue().getZone(nomZone).removeZoneElement(nomZoneElement);
         forceUpdateReleve();
     }
-
     public void addCalendrier(Calendrier calendrier){
-        if(releve.getValue().calendriers.containsKey(calendrier.nom)){
+        Releve releve = this.releve.getValue();
+        if(releve.calendriers.containsKey(calendrier.nom)){
             throw new IllegalArgumentException("Un calendrier porte déjà ce nom");
         }
-        releve.getValue().addCalendrier(calendrier);
-        forceUpdateReleve();
+        releve.calendriers.put(calendrier.nom, calendrier);
+        setReleve(releve);
     }
 
     public void addZoneElement(String nomZone, ZoneElement zoneElementFromViews) {
@@ -151,8 +160,8 @@ public class ReleveViewModel extends ViewModel {
             throw new IllegalArgumentException("Un calendrier porte déjà ce nom : " + calendrier.nom);
         }
         releve.calendriers.remove(oldName);
-        releve.addCalendrier(calendrier);
-        forceUpdateReleve();
+        releve.calendriers.put(calendrier.nom, calendrier);
+        setReleve(releve);
     }
 
 

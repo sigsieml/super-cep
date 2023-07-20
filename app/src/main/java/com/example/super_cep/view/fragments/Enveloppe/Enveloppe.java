@@ -52,9 +52,9 @@ public class Enveloppe extends Fragment implements ZoneUiHandler, AideFragment {
         releve = releveViewModel.getReleve();
         binding = FragmentEnveloppeBinding.inflate(inflater, container, false);
         setupFab();
-        setupRecyclerView(releve.getValue().getZonesValues());
+        setupRecyclerView(releve.getValue().zones.values().toArray(new Zone[0]));
         releve.observe(getViewLifecycleOwner(), releve -> {
-            zones = releve.getZonesValues();
+            zones = releve.zones.values().toArray(new Zone[0]);
             updateRecyclerView(zones);
         });
         return binding.getRoot();

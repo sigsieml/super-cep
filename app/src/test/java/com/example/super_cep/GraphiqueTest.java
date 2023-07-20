@@ -1,6 +1,5 @@
 package com.example.super_cep;
 
-import com.example.super_cep.model.Export.BarChartData;
 import com.example.super_cep.model.Export.CreateChartToSlide;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -149,83 +148,6 @@ public class GraphiqueTest {
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-    @Test
-    public void testBarChart(){
-        List<BarChartData> barChartDataList = new ArrayList<>();
-        barChartDataList.add(new BarChartData(2019, new double[]{1, 2, 3}));
-        barChartDataList.add(new BarChartData(2020, new double[]{4, 5, 6}));
-        barChartDataList.add(new BarChartData(2021, new double[]{7, 8, 9}));
-        barChartDataList.add(new BarChartData(2022, new double[]{10, 11, 12}));
-        barChartDataList.add(new BarChartData(2023, new double[]{13, 14, 15}));
-        barChartDataList.add(new BarChartData(2024, new double[]{16, 17, 18}));
-
-        try {
-            createStackedBarChart(barChartDataList);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
-
-    public void createStackedBarChart(List<BarChartData> dataList) throws IOException {
-        try (XSSFWorkbook wb = new XSSFWorkbook()) {
-            XSSFSheet sheet = wb.createSheet("Sheet 1");
-
-            // Écrire les données dans la feuille
-            int rowNum = 0;
-            for (BarChartData data : dataList) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(data.getCategory());
-                for (int i = 0; i < data.getValues().length; i++) {
-                    row.createCell(i + 1).setCellValue(data.getValues()[i]);
-                }
-            }
-
-            XSSFDrawing drawing = sheet.createDrawingPatriarch();
-            XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 0, 5, 10, 15);
-
-            XSSFChart chart = drawing.createChart(anchor);
-            XDDFChartLegend legend = chart.getOrAddLegend();
-            legend.setPosition(LegendPosition.TOP_RIGHT);
-
-            XDDFCategoryAxis bottomAxis = chart.createCategoryAxis(AxisPosition.BOTTOM);
-            XDDFValueAxis leftAxis = chart.createValueAxis(AxisPosition.LEFT);
-            leftAxis.setTitle("Valeurs");
-            leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
-
-            XDDFDataSource<String> categoriesData = XDDFDataSourcesFactory.fromStringCellRange(sheet,
-                    new CellRangeAddress(0, dataList.size() - 1, 0, 0));
-            XDDFNumericalDataSource<Double> highData = XDDFDataSourcesFactory.fromNumericCellRange(sheet,
-                    new CellRangeAddress(0, dataList.size() - 1, 1, 1));
-            XDDFNumericalDataSource<Double> mediumData = XDDFDataSourcesFactory.fromNumericCellRange(sheet,
-                    new CellRangeAddress(0, dataList.size() - 1, 2, 2));
-            XDDFNumericalDataSource<Double> lowData = XDDFDataSourcesFactory.fromNumericCellRange(sheet,
-                    new CellRangeAddress(0, dataList.size() - 1, 3, 3));
-
-            XDDFBarChartData bar = (XDDFBarChartData) chart.createData(ChartTypes.BAR, bottomAxis, leftAxis);
-            XDDFBarChartData.Series highSeries = (XDDFBarChartData.Series) bar.addSeries(categoriesData, highData);
-            highSeries.setTitle("High", null);
-            XDDFBarChartData.Series mediumSeries = (XDDFBarChartData.Series) bar.addSeries(categoriesData, mediumData);
-            mediumSeries.setTitle("Medium", null);
-            XDDFBarChartData.Series lowSeries = (XDDFBarChartData.Series) bar.addSeries(categoriesData, lowData);
-            lowSeries.setTitle("Low", null);
-
-            bar.setBarDirection(BarDirection.COL);
-            bar.setBarGrouping(BarGrouping.STACKED);
-// correcting the overlap so bars really are stacked and not side by side
-            chart.getCTChart().getPlotArea().getBarChartArray(0).addNewOverlap().setVal((byte) 100);
-
-            chart.plot(bar);
-
-            try (FileOutputStream fileOut = new FileOutputStream("StackedBarChart.xlsx")) {
-                wb.write(fileOut);
-
-                System.out.println(new File("StackedBarChart.xlsx").getAbsolutePath());
-            }
         }
     }
 

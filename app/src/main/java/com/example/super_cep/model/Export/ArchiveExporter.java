@@ -18,7 +18,15 @@ import java.util.Set;
 
 public  class ArchiveExporter {
 
-
+    /**
+     * Crée une archive compressée des données de Releve et l'écrit dans le OutputStream donné.
+     *
+     * @param outputStream Le OutputStream où écrire l'archive.
+     * @param releve Les données de Releve à archiver.
+     * @param platformProvider Le fournisseur de la plateforme utilisée.
+     * @param quality La qualité de compression. de 0 à 100. 100 étant la meilleure qualité.
+     * @throws Exception En cas d'erreur lors de la création de l'archive.
+     */
     public static void createArchive(OutputStream outputStream, Releve releve, PlatformProvider platformProvider, int quality) throws Exception {
         java.util.zip.ZipOutputStream out = new java.util.zip.ZipOutputStream(outputStream);
 

@@ -12,6 +12,8 @@ import android.util.TypedValue;
 import com.example.super_cep.model.Export.PlatformProvider;
 
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
+import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
+import org.apache.poi.xslf.usermodel.XSLFTextRun;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -65,15 +67,24 @@ public class AndroidProvider implements PlatformProvider {
     public int getTextHeight(XSLFTableCell tc) {
         if(tc.getTextParagraphs().size() == 0 || tc.getTextParagraphs().get(0).getTextRuns().size() == 0)
             return 10;
-        Paint paint = new Paint();
-        paint.setTypeface(Typeface.DEFAULT); // Remplacez par la police que vous voulez utiliser
-        // Il faut transformer la taille de police en pixels, car Android utilise les pixels comme unité de mesure
-        int fontSizeInPixels = tc.getTextParagraphs().get(0).getTextRuns().get(0).getFontSize().intValue();
-        paint.setTextSize(fontSizeInPixels);
+        // Get the first paragraph in the cell
+        XSLFTextParagraph paragraph = tc.getTextParagraphs().get(0);
 
-        String text = tc.getText();
+        // Get the first run in the paragraph
+        XSLFTextRun run = paragraph.getTextRuns().get(0);
+
+        // Get the font size in points and convert to pixels
+        double fontSizePoints = run.getFontSize();
+        double deviceDensity = context.getResources().getDisplayMetrics().density;
+        float fontSizePixels = (float) (fontSizePoints * 96 / 72);
+
+        // Create a new Paint object and set its text size
+        Paint paint = new Paint();
+        paint.setTextSize(fontSizePixels);
+
+        // Get the bounds of the text
         Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
+        paint.getTextBounds(run.getRawText(), 0, run.getRawText().length(), bounds);
 
         return bounds.height();
     }
