@@ -80,12 +80,12 @@ public class PowerpointExporter {
     // Variables d'instance
     private Releve releve;
     private Map<String, String> remplacements;
-    private PlatformProvider platformProvider;
-    private Map<String, PaintStyle> zonesColors;
-    private List<PaintStyle> colorsForZones;
-    private ConsoParser consoParser;
+    private final PlatformProvider platformProvider;
+    private final Map<String, PaintStyle> zonesColors;
+    private final List<PaintStyle> colorsForZones;
+    private final ConsoParser consoParser;
     private int colorForNewZoneIndex = 0;
-    private int quality;
+    private final int quality;
 
     /**
      * Constructeur pour la classe PowerpointExporter.

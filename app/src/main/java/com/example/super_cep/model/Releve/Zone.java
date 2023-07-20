@@ -14,7 +14,7 @@ import java.util.Map;
 public class Zone {
 
     public String nom;
-    private Map<String, ZoneElement> zoneElements;
+    private final Map<String, ZoneElement> zoneElements;
 
     @JsonCreator
     public Zone(@JsonProperty("nom") String nom){

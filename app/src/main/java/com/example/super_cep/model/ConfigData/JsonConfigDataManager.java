@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class JsonConfigDataManager {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
 
     public static String serialize(ConfigData releve) {

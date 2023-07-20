@@ -18,9 +18,9 @@ import org.apache.poi.xslf.usermodel.XSLFTableCell;
  */
 public interface PlatformProvider {
 
-    public byte[] getImagesByteFromPath(String path, int quality);
+    byte[] getImagesByteFromPath(String path, int quality);
 
-    public boolean isStringAPath(String path);
+    boolean isStringAPath(String path);
 
-    public int getTextHeight(XSLFTableCell tc);
+    int getTextHeight(XSLFTableCell tc);
 }

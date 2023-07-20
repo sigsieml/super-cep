@@ -78,7 +78,7 @@ public class CreateChartToSlide {
             }
         }
 
-        String annersString[] = new String[anners.size()];
+        String[] annersString = new String[anners.size()];
         for (int i = 0; i < anners.size(); i++) {
             annersString[i] = String.valueOf(anners.get(i).anner);
         }
@@ -182,13 +182,9 @@ public class CreateChartToSlide {
         ((XDDFBarChartData)data).setOverlap((byte)100);
 
         // create series
-        if (valuesData.size() == 1) {
-            // if only one series do not vary colors for each bar
-            ((XDDFBarChartData)data).setVaryColors(false);
-        } else {
-            // if more than one series do vary colors of the series
-            ((XDDFBarChartData)data).setVaryColors(true);
-        }
+        // if only one series do not vary colors for each bar
+        // if more than one series do vary colors of the series
+        ((XDDFBarChartData)data).setVaryColors(valuesData.size() != 1);
 
         for (int s = 0; s < valuesData.size(); s++) {
             XDDFChartData.Series series = data.addSeries(categoriesData, valuesData.get(s));

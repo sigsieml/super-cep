@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class JsonReleveManager {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     static {
         // Pour la gestion des objets de type Calendar.
