@@ -2,18 +2,10 @@ package com.example.super_cep.model.Export;
 
 
 import org.apache.harmony.luni.util.NotImplementedException;
-import org.apache.poi.sl.draw.DrawFactory;
 import org.apache.poi.sl.draw.DrawTableShape;
-import org.apache.poi.sl.draw.DrawTextShape;
 import org.apache.poi.sl.usermodel.PaintStyle;
 import org.apache.poi.sl.usermodel.PictureData;
-import org.apache.poi.sl.usermodel.TableCell;
-import org.apache.poi.sl.usermodel.TextParagraph;
-import org.apache.poi.sl.usermodel.VerticalAlignment;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFPictureData;
-import org.apache.poi.xslf.usermodel.XSLFShape;
-import org.apache.poi.xslf.usermodel.XSLFSheet;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFSlideLayout;
 import org.apache.poi.xslf.usermodel.XSLFTable;
@@ -22,14 +14,10 @@ import org.apache.poi.xslf.usermodel.XSLFTableRow;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
-import org.openxmlformats.schemas.presentationml.x2006.main.CTPicture;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.Map;
 /**
  * Classe d'utilitaires pour exporter des données vers PowerPoint.
@@ -116,11 +104,8 @@ public class PowerpointExporterTools {
      * @return La nouvelle diapositive créée.
      */
     public static XSLFSlide  duplicateSlide(XMLSlideShow ppt, XSLFSlide slide) {
-        // Get the slide that you want to duplicate
-        XSLFSlide oldSlide = slide;
-
         // Get the layout of the old slide
-        XSLFSlideLayout layout = oldSlide.getSlideLayout();
+        XSLFSlideLayout layout = slide.getSlideLayout();
 
         // Create a new slide with the layout of the old slide
         XSLFSlide newSlide = ppt.createSlide(layout);
@@ -342,8 +327,8 @@ public class PowerpointExporterTools {
      * @return Renvoie false si le tableau dépasse de la diapositive.
      */
     public static boolean updateTableauAnchor(PlatformProvider platformProvider, XSLFTable[] tables, double maxHeight) {
-        for (int i = 0; i < tables.length; i++) {
-            PowerpointExporterTools.updateCellAnchor(platformProvider, tables[i]);
+        for (XSLFTable table : tables) {
+            PowerpointExporterTools.updateCellAnchor(platformProvider, table);
         }
 
         XSLFTable firstTableau = tables[0];

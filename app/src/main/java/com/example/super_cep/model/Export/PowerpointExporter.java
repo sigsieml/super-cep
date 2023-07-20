@@ -236,7 +236,7 @@ public class PowerpointExporter {
         return Units.EMU_PER_POINT * oldAnchorValue;
     }
 
-    private void slideEnergieEtConsomations(XMLSlideShow ppt, XSLFSlide slide, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) throws PowerpointException {
+    private void slideEnergieEtConsomations(XMLSlideShow ppt, XSLFSlide slide, String nomBatimentConso, List<String> annees, String meilleurAnne, float pourcentageBatiment) {
         Rectangle2D rectangle2DImages = null;
         List<String> images = new ArrayList<>();
         List<Anner> consoWatt = null;
@@ -405,9 +405,7 @@ public class PowerpointExporter {
     private List<Anner> applyPourcentage(List<Anner> anners, float pourcentageBatiment) {
         for(Anner anner : anners){
             anner.total = anner.total * pourcentageBatiment / 100;
-            for(Energie energie : anner.energies.keySet()){
-                anner.energies.put(energie, anner.energies.get(energie) * pourcentageBatiment / 100);
-            }
+            anner.energies.replaceAll((e, v) -> anner.energies.get(e) * pourcentageBatiment / 100);
         }
         return anners;
     }
@@ -1061,12 +1059,7 @@ public class PowerpointExporter {
         int index = 0;
         for (String imagePath : imagePaths) {
 
-            futures[index] = executor.submit(new Callable<byte[]>() {
-                @Override
-                public byte[] call() throws Exception {
-                    return platformProvider.getImagesByteFromPath(imagePath, quality);
-                }
-            });
+            futures[index] = executor.submit(() -> platformProvider.getImagesByteFromPath(imagePath, quality));
             index++;
         }
 
@@ -1079,12 +1072,10 @@ public class PowerpointExporter {
             double y = anchor.getY() + cellHeight * row;
 
 
-            byte[] pictureBytes = null;
+            byte[] pictureBytes;
             try {
                 pictureBytes = futures[i].get();
-            } catch (ExecutionException e) {
-                continue;
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 continue;
             }
             if (pictureBytes == null) {

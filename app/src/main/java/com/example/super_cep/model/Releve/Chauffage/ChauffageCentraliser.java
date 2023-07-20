@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.apache.harmony.luni.util.NotImplementedException;
-
 import java.util.ArrayList;
 import java.util.List;
 

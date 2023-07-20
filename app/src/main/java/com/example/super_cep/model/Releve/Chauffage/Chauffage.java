@@ -3,8 +3,6 @@ package com.example.super_cep.model.Releve.Chauffage;
 
 import androidx.annotation.NonNull;
 
-import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
-import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueGaz;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +15,6 @@ import java.util.List;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "centralisation")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ChauffageCentraliser.class, name = "centraliser"),

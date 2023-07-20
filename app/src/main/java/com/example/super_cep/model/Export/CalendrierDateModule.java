@@ -17,6 +17,7 @@ import java.time.DayOfWeek;
  *     pour sérialiser/désérialiser les clés de type CalendrierDate.
  * </p>
  */
+@SuppressWarnings("ALL")
 public class CalendrierDateModule extends SimpleModule {
     /**
      * Constructeur pour le module CalendrierDateModule.

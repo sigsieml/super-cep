@@ -19,7 +19,6 @@ import java.util.List;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Mur.class, name = "mur"),
@@ -62,7 +61,6 @@ public class ZoneElement implements Cloneable{
     @NonNull
     @Override
     public ZoneElement clone(){
-        ZoneElement clone = new ZoneElement(this.nom, this.aVerifier, this.note, new ArrayList<>(this.images));
-        return clone;
+        return new ZoneElement(this.nom, this.aVerifier, this.note, new ArrayList<>(this.images));
     }
 }

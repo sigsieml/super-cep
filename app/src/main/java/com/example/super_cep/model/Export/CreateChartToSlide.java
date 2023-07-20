@@ -4,9 +4,7 @@ import com.example.super_cep.controller.Conso.Anner;
 import com.example.super_cep.controller.Conso.Energie;
 
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xddf.usermodel.SchemeColor;
 import org.apache.poi.xddf.usermodel.XDDFColor;
-import org.apache.poi.xddf.usermodel.XDDFExtensionList;
 import org.apache.poi.xddf.usermodel.XDDFFillProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFNoFillProperties;
@@ -29,22 +27,14 @@ import org.apache.poi.xddf.usermodel.chart.XDDFChartLegend;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
 import org.apache.poi.xddf.usermodel.chart.XDDFLayout;
-import org.apache.poi.xddf.usermodel.chart.XDDFLegendEntry;
 import org.apache.poi.xddf.usermodel.chart.XDDFLineChartData;
-import org.apache.poi.xddf.usermodel.chart.XDDFManualLayout;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFValueAxis;
-import org.apache.poi.xddf.usermodel.text.TextContainer;
 import org.apache.poi.xddf.usermodel.text.XDDFTextBody;
 import org.apache.poi.xslf.usermodel.*;
 //import static org.apache.poi.POIXMLTypeLoader.DEFAULT_XML_OPTIONS;
 
 import org.openxmlformats.schemas.drawingml.x2006.chart.*;
-import org.openxmlformats.schemas.drawingml.x2006.main.CTRegularTextRun;
-import org.openxmlformats.schemas.drawingml.x2006.main.CTShapeProperties;
-import org.openxmlformats.schemas.drawingml.x2006.main.CTStyleMatrixReference;
-import org.openxmlformats.schemas.drawingml.x2006.main.CTTextBody;
-import org.openxmlformats.schemas.drawingml.x2006.main.CTTextBodyProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +43,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * La classe CreateChartToSlide gère la création de graphiques à inclure dans les diapositives.
  * <p>
- *     Cette classe est utilisée dans {@link com.example.super_cep.model.Export.PowerpointGenerator}
+ *     Cette classe est utilisée dans {@link com.example.super_cep.model.Export.PowerpointExporter}
  *     pour créer des graphiques à inclure dans les diapositives.
  *     Elle utilise les librairies Apache POI, et plus particulièrement la librairie XDDF.
  * </p>
@@ -156,7 +146,7 @@ public class CreateChartToSlide {
 
         XDDFDataSource<String> categoriesData = XDDFDataSourcesFactory.fromArray(categories, categoryDataRange, 0);
 
-        List<XDDFNumericalDataSource<Double>> valuesData = new ArrayList<XDDFNumericalDataSource<Double>>();
+        List<XDDFNumericalDataSource<Double>> valuesData = new ArrayList<>();
         int c = 1;
         for (Double[] valueRow : values) {
             String valuesDataRange = chart.formatRange(new CellRangeAddress(1, numOfPoints, c, c));

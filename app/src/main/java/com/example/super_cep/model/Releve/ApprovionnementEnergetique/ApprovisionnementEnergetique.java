@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
 
+@SuppressWarnings({"ALL", "CanBeFinal"})
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
         property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ApprovisionnementEnergetiqueElectrique.class, name = "electrique"),

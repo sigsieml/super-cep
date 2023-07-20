@@ -3,7 +3,6 @@ package com.example.super_cep.model.Releve;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
