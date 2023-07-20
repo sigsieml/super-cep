@@ -16,6 +16,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Classe permettant de créer une archive compressée des données de Releve.
+ * <p>
+ *     Cette classe est utilisée pour créer une archive compressée des données de Releve.
+ *     Elle est utilisée dans {@link com.example.super_cep.model.Export.ExportManager}
+ * </p>
+ */
 public  class ArchiveExporter {
 
     /**

@@ -1,12 +1,6 @@
 package com.example.super_cep.model.Export;
 
 
-import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.util.TypedValue;
-
 import org.apache.harmony.luni.util.NotImplementedException;
 import org.apache.poi.sl.draw.DrawFactory;
 import org.apache.poi.sl.draw.DrawTableShape;
@@ -39,6 +33,12 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 /**
  * Classe d'utilitaires pour exporter des données vers PowerPoint.
+ * <p>
+ *     Cette classe contient des méthodes utilitaires pour exporter des données vers PowerPoint.
+ *     Elle est utilisée par {@link PowerpointExporter}.
+ *     Elle contient des méthodes pour exporter des tableaux, des images, des textes, etc.
+ *     Elle contient aussi des méthodes pour copier le style d'un élément vers un autre.
+ * </p>
  */
 public class PowerpointExporterTools {
 

@@ -5,6 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * Class représentant un approvisionnement énergétique électrique
+ * <p>
+ *     Cette classe est une sous-classe de {@link ApprovisionnementEnergetique}
+ *     Elle est utilisée pour représenter un approvisionnement énergétique électrique
+ * </p>
+ */
 public class ApprovisionnementEnergetiqueElectrique extends ApprovisionnementEnergetique {
 
     public float puissance;

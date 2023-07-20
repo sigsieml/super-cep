@@ -52,6 +52,11 @@ import java.util.List;
 import java.awt.geom.Rectangle2D;
 /**
  * La classe CreateChartToSlide gère la création de graphiques à inclure dans les diapositives.
+ * <p>
+ *     Cette classe est utilisée dans {@link com.example.super_cep.model.Export.PowerpointGenerator}
+ *     pour créer des graphiques à inclure dans les diapositives.
+ *     Elle utilise les librairies Apache POI, et plus particulièrement la librairie XDDF.
+ * </p>
  */
 public class CreateChartToSlide {
 

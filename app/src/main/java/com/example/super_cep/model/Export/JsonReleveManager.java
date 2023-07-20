@@ -9,7 +9,11 @@ import java.io.IOException;
 
 /**
  * La classe JsonReleveManager gère la sérialisation et la désérialisation des objets Releve en JSON et vice versa.
- * Elle utilise la bibliothèque Jackson pour effectuer ces opérations.
+ * <p>
+ *     Elle utilise la bibliothèque Jackson pour effectuer ces opérations.
+ *     Cette classe est utilisée dans {@link com.example.super_cep.model.Export.ExportManager}
+ *     pour sérialiser et désérialiser des objets Releve en JSON et vice versa.
+ * </p>
  */
 public class JsonReleveManager {
 

@@ -61,6 +61,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Classe pour exporter un PowerPoint.
+ * <p>
+ *     Cette classe permet d'exporter un PowerPoint à partir d'un modèle.
+ *     Elle permet de remplacer des variables dans le modèle par des valeurs.
+ * </p>
+ */
 public class PowerpointExporter {
 
     // Constantes

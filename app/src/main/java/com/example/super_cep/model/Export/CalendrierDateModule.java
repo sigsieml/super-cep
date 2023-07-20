@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 /**
  * Module pour sérialiser/désérialiser les clés de type CalendrierDate.
+ * <p>
+ *     Ce module est utilisé dans {@link com.example.super_cep.model.Export.JsonReleveManager}
+ *     pour sérialiser/désérialiser les clés de type CalendrierDate.
+ * </p>
  */
 public class CalendrierDateModule extends SimpleModule {
     /**

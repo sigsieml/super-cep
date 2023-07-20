@@ -10,6 +10,13 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * La classe ConfigData représente les données de configuration de l'application.
+ * <p>
+ *     Elle est utilisée pour stocker les données de configuration de l'application.
+ *     Elle est utilisée dans {@link com.example.super_cep.model.ConfigData.JsonConfigDataManager}
+ * </p>
+ */
 public class ConfigData {
 
     public Map<String, List<String>> map;
