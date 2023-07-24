@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_graphique"
             android:title="@string/menu_graphique" />
         <item
+            android:id="@+id/nav_enveloppes"
+            android:icon="@drawable/ic_menu_enveloppes"
+            android:title="@string/menu_enveloppes" />
+        <item
             android:id="@+id/nav_approvisionnement_energetique"
             android:icon="@drawable/ic_menu_approvisionnement_energetique"
             android:title="@string/menu_approvisionnementEnergetique" />
@@ -20,10 +24,6 @@
             android:id="@+id/nav_usage_et_occupation"
             android:icon="@drawable/ic_menu_usage_et_occupation"
             android:title="@string/menu_usageEtOccupation" />
-        <item
-            android:id="@+id/nav_enveloppes"
-            android:icon="@drawable/ic_menu_enveloppes"
-            android:title="@string/menu_enveloppes" />
         <item
             android:id="@+id/nav_ventilation"
             android:icon="@drawable/ic_menu_ventilation"
