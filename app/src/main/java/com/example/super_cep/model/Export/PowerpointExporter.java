@@ -216,12 +216,15 @@ public class PowerpointExporter {
                 cellAddress.getTextBody().setText(releve.adresse != null && !releve.adresse.isEmpty() ? releve.adresse : "Inconnue");
 
                 XSLFTableCell surfaceTotalCell = table.getCell(1, 1);
-                surfaceTotalCell.getTextBody().setText(releve.surfaceTotale != 0 ? releve.surfaceTotale + " m²" : "Inconnue");
+                surfaceTotalCell.getTextBody().setText(releve.surfaceTotale != 0 ? new DecimalFormat("0").format(releve.surfaceTotale)  + " m²" : "Inconnue");
 
-                XSLFTableCell cellDateConstruction = table.getCell(2, 1);
+                XSLFTableCell surfaceTotalChauffeCell = table.getCell(2, 1);
+                surfaceTotalChauffeCell.getTextBody().setText(releve.surfaceTotaleChauffe != 0 ? new DecimalFormat("0").format(releve.surfaceTotaleChauffe)  + " m²" : "Inconnue");
+
+                XSLFTableCell cellDateConstruction = table.getCell(3, 1);
                 cellDateConstruction.getTextBody().setText(releve.dateDeConstruction != null ? formateDate(releve.dateDeConstruction) : "Inconnue");
 
-                XSLFTableCell cellDateDeRenovation = table.getCell(3, 1);
+                XSLFTableCell cellDateDeRenovation = table.getCell(4, 1);
                 cellDateDeRenovation.getTextBody().setText(releve.dateDeDerniereRenovation != null ? formateDate(releve.dateDeDerniereRenovation) : "Inconnue");
 
 
