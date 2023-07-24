@@ -144,6 +144,8 @@ public class PowerpointExporter {
             slideDescriptifDuChauffage(ppt, slideDescriptifDuChauffage);
             slideActuelle = "slide preconisations";
             slidePreconisations(ppt, slidePreconisations);
+            slideActuelle = "clean up";
+            cleanUp(ppt);
 
 
             try (FileOutputStream out = new FileOutputStream(file)) {
@@ -156,6 +158,7 @@ public class PowerpointExporter {
             throw new PowerpointException("erreur à la " + slideActuelle + " : " +  e.getMessage());
         }
     }
+
 
 
     private void setupReleve() {
@@ -1021,6 +1024,24 @@ public class PowerpointExporter {
 
     }
 
+    private void cleanUp(XMLSlideShow ppt) {
+        List<String> shapeNamesToRemove = List.of(
+                "ZoneTexte Couleurs pour zones"
+        );
+        XSLFSlide slide = ppt.getSlides().get(0);
+        List<XSLFShape> shapesToRemove = new ArrayList<>();
+        for(XSLFShape shape : new ArrayList<>(slide.getShapes())){
+            if(shapeNamesToRemove.contains(shape.getShapeName())){
+                shapesToRemove.add(shape);
+            }
+            if(shape.getShapeName().startsWith("colorZone")){
+                slide.removeShape(shape);
+            }
+        }
+        for(XSLFShape shape : shapesToRemove){
+            slide.removeShape(shape);
+        }
+    }
     private void mergeCellsIfSameZone(ZoneElementTableauData zoneElementTableauData, String nomZone, XSLFTable table) {
         //if the cell above have the same zone name merge the cell zone name
         if (zoneElementTableauData.lastZoneName.equals(nomZone)) {
