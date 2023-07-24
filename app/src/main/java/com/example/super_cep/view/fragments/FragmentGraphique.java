@@ -79,9 +79,6 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
     private void setUpSurface() {
         float surfaceTotalChauffe = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
-        if(surfaceTotalChauffe <= 0){
-            surfaceTotalChauffe = releveViewModel.getReleve().getValue().surfaceTotale;
-        }
         binding.editTextNumberSurfaceBatiment.setText(String.valueOf(surfaceTotalChauffe));
         binding.editTextNumberSurfaceBatiment.addTextChangedListener(new TextWatcher() {
             @Override

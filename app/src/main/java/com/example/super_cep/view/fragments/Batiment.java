@@ -70,6 +70,7 @@ public class Batiment extends Fragment implements AideFragment {
                 updateTextBox(binding.editTextDateDeRenovation, rlv.dateDeDerniereRenovation);
                 binding.editTextNomBatiment.setText(rlv.nomBatiment.isEmpty() ? "Batiment" : rlv.nomBatiment);
                 binding.editTextNumberDecimalSurfaceTotal.setText(String.valueOf(rlv.surfaceTotale).replace(".", ","));
+                binding.editTextNumberDecimalSurfaceChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe).replace(".", ","));
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
 
                 if(rlv.imageFacadeBatiment != null && !rlv.imageFacadeBatiment.isEmpty()){
@@ -97,7 +98,7 @@ public class Batiment extends Fragment implements AideFragment {
 
         char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
         binding.editTextNumberDecimalSurfaceTotal.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
-
+        binding.editTextNumberDecimalSurfaceChauffe.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
         setupCalendar();
         setupButtonPhoto();
         setupFabLocation();
@@ -154,7 +155,6 @@ public class Batiment extends Fragment implements AideFragment {
             @Override
             public void onClick(View view) {
                 saveData();
-
 
                 Calendar calendar = releve.getValue().dateDeConstruction;
                 if(calendar == null){
@@ -239,6 +239,10 @@ public class Batiment extends Fragment implements AideFragment {
         newText = binding.editTextNumberDecimalSurfaceTotal.getText().toString();
         if (!newText.equals(Float.toString(releve.getValue().surfaceTotale)) && !newText.equals("")) {
             releveViewModel.setSurfaceTotale(Float.parseFloat(newText.replace(",", ".")));
+        }
+        newText = binding.editTextNumberDecimalSurfaceChauffe.getText().toString();
+        if (!newText.equals(Float.toString(releve.getValue().surfaceTotale)) && !newText.equals("")) {
+            releveViewModel.setSurfaceTotaleChauffe(Float.parseFloat(newText.replace(",", ".")));
         }
 
         newText = binding.editTextNomBatiment.getText().toString();
@@ -439,6 +443,7 @@ public class Batiment extends Fragment implements AideFragment {
         };
         binding.editTextNomBatiment.addTextChangedListener(textWatcher);
         binding.editTextNumberDecimalSurfaceTotal.addTextChangedListener(textWatcher);
+        binding.editTextNumberDecimalSurfaceChauffe.addTextChangedListener(textWatcher);
         binding.editTextMultiLineAdresse.addTextChangedListener(textWatcher);
     }
 
