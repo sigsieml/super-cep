@@ -37,6 +37,7 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTable;
 import org.apache.poi.xslf.usermodel.XSLFTableCell;
 import org.apache.poi.xslf.usermodel.XSLFTableRow;
+import org.apache.poi.xslf.usermodel.XSLFTextBox;
 import org.apache.poi.xslf.usermodel.XSLFTextParagraph;
 import org.apache.poi.xslf.usermodel.XSLFTextRun;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
@@ -977,55 +978,38 @@ public class PowerpointExporter {
             slide.getShapes().clear();
             return;
         }
-
-        XSLFTable tableauPreconisations = null;
-        Rectangle2D rectangle2DPhoto = null;
-        for (XSLFShape shape : slide) {
+        Rectangle2D anchor = null;
+        Rectangle2D anchorTextBox = null;
+        for (XSLFShape shape : slide.getShapes()) {
             if (shape.getShapeName().equals("tableauPreconisations")) {
-                tableauPreconisations = (XSLFTable) shape;
+                anchorTextBox = shape.getAnchor();
             }
             if (shape.getShapeName().equals("photo")) {
-                rectangle2DPhoto = shape.getAnchor();
+                anchor = shape.getAnchor();
             }
         }
-        if (tableauPreconisations == null) {
+
+        if (anchor == null || anchorTextBox == null) {
             return;
         }
-
         List<String> images = new ArrayList<>();
+        double bulletPointStartY = anchorTextBox.getY();
         for (String preconisation : releve.preconisations) {
             if (platformProvider.isStringAPath(preconisation)) {
                 images.add(preconisation);
                 continue;
             }
-            XSLFTableRow row = tableauPreconisations.addRow();
-            PowerpointExporterTools.copyNumberOfCells(tableauPreconisations.getRows().get(0), row);
 
-            PowerpointExporterTools.addTextToCell(row.getCells().get(0), preconisation);
-            PowerpointExporterTools.copyRowStyle(tableauPreconisations.getRows().get(0), row);
-            row.getCells().get(0).setFillColor(new Color(0, 0, 0, 0));
-            row.getCells().get(0).setBorderColor(TableCell.BorderEdge.left, colors[1]);
-            row.getCells().get(0).setBorderColor(TableCell.BorderEdge.right, colors[1]);
-
+            XSLFTextBox textBox = slide.createTextBox();
+            textBox.setAnchor(new java.awt.Rectangle((int)anchorTextBox.getX(), (int)bulletPointStartY, (int) anchorTextBox.getWidth(), 75));
+            XSLFTextParagraph p = textBox.addNewTextParagraph();
+            p.setBullet(true);
+            XSLFTextRun r = p.addNewTextRun();
+            r.setText(preconisation);
+            bulletPointStartY += 75; // Adjust bullet point vertical spacing here
         }
 
-        addImagesToSlide(ppt, slide, images, rectangle2DPhoto);
-
-
-        tableauPreconisations.removeRow(0);
-
-        PowerpointExporterTools.updateCellAnchor(platformProvider, tableauPreconisations);
-
-
-        if (tableauPreconisations.getNumberOfRows() == 0) {
-            slide.removeShape(tableauPreconisations);
-            return;
-        }
-
-        tableauPreconisations.getCell(0, 0).setBorderColor(TableCell.BorderEdge.top, colors[1]);
-        tableauPreconisations.getCell(tableauPreconisations.getNumberOfRows() - 1, 0).setBorderColor(TableCell.BorderEdge.bottom, colors[1]);
-
-
+        addImagesToSlide(ppt, slide, images, anchor);
     }
 
     private void cleanUp(XMLSlideShow ppt) {
