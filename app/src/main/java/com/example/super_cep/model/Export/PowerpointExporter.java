@@ -55,7 +55,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -1045,6 +1044,31 @@ public class PowerpointExporter {
         }
         for(XSLFShape shape : shapesToRemove){
             slide.removeShape(shape);
+        }
+
+        if(!ppt.getCTPresentation().isSetDefaultTextStyle()){
+            ppt.getCTPresentation().addNewDefaultTextStyle();
+        }
+        if(!ppt.getCTPresentation().getDefaultTextStyle().isSetDefPPr()){
+            ppt.getCTPresentation().getDefaultTextStyle().addNewDefPPr();
+        }
+        if(!ppt.getCTPresentation().getDefaultTextStyle().getDefPPr().isSetDefRPr()){
+            ppt.getCTPresentation().getDefaultTextStyle().getDefPPr().addNewDefRPr();
+        }
+        ppt.getCTPresentation().getDefaultTextStyle().getDefPPr().getDefRPr().setLang("fr-FR");
+        // set all text shape locale to fr-FR
+        for (XSLFSlide s : ppt.getSlides()) {
+            for (XSLFShape shape : s.getShapes()) {
+                if (shape instanceof XSLFTextShape) {
+                    XSLFTextShape textShape = (XSLFTextShape) shape;
+                    for(XSLFTextParagraph paragraph : textShape.getTextParagraphs()){
+                        if(!paragraph.getXmlObject().isSetEndParaRPr()){
+                           paragraph.getXmlObject().addNewEndParaRPr();
+                        }
+                        paragraph.getXmlObject().getEndParaRPr().setLang("fr-FR");
+                    }
+                }
+            }
         }
     }
     private void mergeCellsIfSameZone(ZoneElementTableauData zoneElementTableauData, String nomZone, XSLFTable table) {
