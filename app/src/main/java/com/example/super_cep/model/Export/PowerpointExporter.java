@@ -569,7 +569,7 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), "Mur");
                     PowerpointExporterTools.addTextToCell(row.getCells().get(2), mur.typeMur.isEmpty() ? " " : mur.typeMur);
                     if(mur.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "Aucun isolant");
                         PowerpointExporterTools.addTextToCell(row.getCells().get(4), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
@@ -597,7 +597,7 @@ public class PowerpointExporter {
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), toiture.typeToiture.isEmpty() ? " " : toiture.typeToiture);
                     if(toiture.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
@@ -626,6 +626,8 @@ public class PowerpointExporter {
                     PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage);
                     if (!menuiserie.protectionsSolaires.equals(TEXT_AUCUNE_PROTECTION_SOLAIRE)) {
                         PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec " + menuiserie.protectionsSolaires);
+                    }else{
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Sans protection solaire");
                     }
                     PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
                     PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
@@ -644,7 +646,7 @@ public class PowerpointExporter {
                     setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
                     PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol);
                     if(sol.niveauIsolation.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), " ");
+                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
                         PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
                     }else{
                         PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
