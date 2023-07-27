@@ -26,7 +26,6 @@ import com.example.super_cep.model.Releve.Ventilation;
 
 import org.apache.poi.sl.usermodel.PaintStyle;
 import org.apache.poi.sl.usermodel.ShapeType;
-import org.apache.poi.sl.usermodel.TableCell;
 import org.apache.poi.util.Units;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFAutoShape;
@@ -491,13 +490,22 @@ public class PowerpointExporter {
         }
     }
 
-
+    private class ZoneAndZoneElement{
+        public Zone zone;
+        public ZoneElement zoneElement;
+        public ZoneAndZoneElement(Zone zone, ZoneElement zoneElement){
+            this.zone = zone;
+            this.zoneElement = zoneElement;
+        }
+    }
 
     private void slideDescriptifEnveloppeThermique(XMLSlideShow ppt, XSLFSlide slide, Map<String, Zone> zones) {
+        //copy slide in case of overflow
         XSLFSlide slideCopy = PowerpointExporterTools.duplicateSlide(ppt, slide);
         ppt.setSlideOrder(slideCopy, slide.getSlideNumber());
 
 
+        // Get shapes of slide to complete
         Rectangle2D rectangle2DImage = null;
         List<String> tablesNames = List.of("tableauMur", "tableauToiture", "tableauSols", "tableauMenuiseries");
         Map<String, XSLFTable> tablesMap = new HashMap<>();
@@ -543,130 +551,122 @@ public class PowerpointExporter {
         }
         Map<String, Zone> zonesOverflow = new HashMap<>();
 
-        for (Zone zone : zones.values()) {
-            Color colorZoneName = colors[indexColorZone % colors.length];
-            indexColorZone++;
+        List<ZoneAndZoneElement> zonesElements = getZonesElementsOrdered(zones);
 
-            for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-                if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, tables, maxTableauHeight)) {
-                    if (zonesOverflow.containsKey(zone.nom)) {
-                        zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
-                    } else {
-                        zonesOverflow.put(zone.nom, new Zone(zone.nom, List.of(zoneElement)));
-                    }
-                    continue;
+        // iterate over zones and fill tables
+        for (ZoneAndZoneElement zoneAndZoneElement : zonesElements) {
+            Zone zone = zoneAndZoneElement.zone;
+            ZoneElement zoneElement = zoneAndZoneElement.zoneElement;
+
+            if (!PowerpointExporterTools.updateTableauAnchor(platformProvider, tables, maxTableauHeight)) {
+                if (zonesOverflow.containsKey(zone.nom)) {
+                    zonesOverflow.get(zone.nom).addZoneElement(zoneElement);
+                } else {
+                    zonesOverflow.put(zone.nom, new Zone(zone.nom, List.of(zoneElement)));
                 }
-                XSLFTableRow row = null;
-                //get a random color based on the zone name :
-                if (zoneElement instanceof Mur) {
-                    if (zoneElement.images != null)
-                        images.addAll(zoneElement.images);
-
-                    Mur mur = (Mur) zoneElement;
-                    row = tableauMur.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
-                    setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), "Mur");
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), mur.typeMur.isEmpty() ? " " : mur.typeMur);
-                    if(mur.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "Aucun isolant");
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), " ");
-                    }else{
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" +
-                                mur.typeIsolant +
-                                (Float.isNaN(mur.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm")
-                                + ")");
-                    }
-
-                    PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
-
-                    mergeCellsIfSameZone(zoneElementTableauMur, zone.nom, tableauMur);
-
-                    setColorOfTextZone(row.getCells().get(0));
-                }
-
-                if (zoneElement instanceof Toiture) {
-                    if (zoneElement.images != null)
-                        images.addAll(zoneElement.images);
-
-                    Toiture toiture = (Toiture) zoneElement;
-                    row = tableauToiture.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
-                    setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), toiture.typeToiture.isEmpty() ? " " : toiture.typeToiture);
-                    if(toiture.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
-                    }else{
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
-                                toiture.typeIsolant +
-                                (Float.isNaN(toiture.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm")
-                                + ")");
-                    }
-                    PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
-
-                    mergeCellsIfSameZone(zoneElementTableauToiture, zone.nom, tableauToiture);
-                    setColorOfTextZone(row.getCells().get(0));
-                }
-
-                if (zoneElement instanceof Menuiserie) {
-                    if (zoneElement.images != null)
-                        images.addAll(zoneElement.images);
-
-                    Menuiserie menuiserie = (Menuiserie) zoneElement;
-                    row = tableauMenuiseries.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
-                    setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), menuiserie.typeMenuiserie.isEmpty() ? " " : menuiserie.typeMenuiserie);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), menuiserie.materiau.isEmpty() ? " " : menuiserie.materiau);
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage);
-                    if (!menuiserie.protectionsSolaires.equals(TEXT_AUCUNE_PROTECTION_SOLAIRE)) {
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec " + menuiserie.protectionsSolaires);
-                    }else{
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Sans protection solaire");
-                    }
-                    PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
-
-                    mergeCellsIfSameZone(zoneElementTableauMenuiseries, zone.nom, tableauMenuiseries);
-                    setColorOfTextZone(row.getCells().get(0));
-                }
-
-                if (zoneElement instanceof Sol) {
-                    if (zoneElement.images != null)
-                        images.addAll(zoneElement.images);
-
-                    Sol sol = (Sol) zoneElement;
-                    row = tableauSols.addRow();
-                    PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
-                    setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
-                    PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol);
-                    if(sol.niveauIsolation.equals(TEXT_AUCUN_ISOLANT)){
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
-                    }else{
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
-                        PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
-                                sol.typeIsolant +
-                                (Float.isNaN(sol.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm")
-                                + ")");
-                    }
-                    PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
-                    PowerpointExporterTools.setCellTextColor(row.getCells().get(0), colorZoneName);
-
-                    mergeCellsIfSameZone(zoneElementTableauSols, zone.nom, tableauSols);
-                    setColorOfTextZone(row.getCells().get(0));
-                }
-
-
-                if (row != null && zoneElement.aVerifier)
-                    PowerpointExporterTools.setAverfierStyleToRow(row);
-
+                continue;
             }
+            XSLFTableRow row = null;
+            //get a random color based on the zone name :
+            if (zoneElement instanceof Mur) {
+                if (zoneElement.images != null)
+                    images.addAll(zoneElement.images);
+
+                Mur mur = (Mur) zoneElement;
+                row = tableauMur.addRow();
+                PowerpointExporterTools.copyNumberOfCells(tableauMur.getRows().get(2), row);
+                setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
+                PowerpointExporterTools.addTextToCell(row.getCells().get(1), "Mur");
+                PowerpointExporterTools.addTextToCell(row.getCells().get(2), mur.typeMur.isEmpty() ? " " : mur.typeMur);
+                if(mur.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "Aucun isolant");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), " ");
+                }else{
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), mur.niveauIsolation.isEmpty() ? " " : mur.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), "(" +
+                            mur.typeIsolant +
+                            (Float.isNaN(mur.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(mur.epaisseurIsolant) + " cm")
+                            + ")");
+                }
+
+                PowerpointExporterTools.copyRowStyle(tableauMur.getRows().get(2), row);
+                mergeCellsIfSameZone(zoneElementTableauMur, zone.nom, tableauMur);
+
+                setColorOfTextZone(row.getCells().get(0));
+            }
+
+            if (zoneElement instanceof Toiture) {
+                if (zoneElement.images != null)
+                    images.addAll(zoneElement.images);
+
+                Toiture toiture = (Toiture) zoneElement;
+                row = tableauToiture.addRow();
+                PowerpointExporterTools.copyNumberOfCells(tableauToiture.getRows().get(2), row);
+                setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
+                PowerpointExporterTools.addTextToCell(row.getCells().get(1), toiture.typeToiture.isEmpty() ? " " : toiture.typeToiture);
+                if(toiture.typeMiseEnOeuvre.equals(TEXT_AUCUN_ISOLANT)){
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                }else{
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), toiture.niveauIsolation.isEmpty() ? " " : toiture.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
+                            toiture.typeIsolant +
+                            (Float.isNaN(toiture.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(toiture.epaisseurIsolant) + " cm")
+                            + ")");
+                }
+                PowerpointExporterTools.copyRowStyle(tableauToiture.getRows().get(2), row);
+                mergeCellsIfSameZone(zoneElementTableauToiture, zone.nom, tableauToiture);
+                setColorOfTextZone(row.getCells().get(0));
+            }
+
+            if (zoneElement instanceof Menuiserie) {
+                if (zoneElement.images != null)
+                    images.addAll(zoneElement.images);
+
+                Menuiserie menuiserie = (Menuiserie) zoneElement;
+                row = tableauMenuiseries.addRow();
+                PowerpointExporterTools.copyNumberOfCells(tableauMenuiseries.getRows().get(2), row);
+                setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
+                PowerpointExporterTools.addTextToCell(row.getCells().get(1), menuiserie.typeMenuiserie.isEmpty() ? " " : menuiserie.typeMenuiserie);
+                PowerpointExporterTools.addTextToCell(row.getCells().get(2), menuiserie.materiau.isEmpty() ? " " : menuiserie.materiau);
+                PowerpointExporterTools.addTextToCell(row.getCells().get(3), menuiserie.typeVitrage.isEmpty() ? " " : menuiserie.typeVitrage);
+                if (!menuiserie.protectionsSolaires.equals(TEXT_AUCUNE_PROTECTION_SOLAIRE)) {
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Avec " + menuiserie.protectionsSolaires);
+                }else{
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(4), "Sans protection solaire");
+                }
+                PowerpointExporterTools.copyRowStyle(tableauMenuiseries.getRows().get(2), row);
+                mergeCellsIfSameZone(zoneElementTableauMenuiseries, zone.nom, tableauMenuiseries);
+                setColorOfTextZone(row.getCells().get(0));
+            }
+
+            if (zoneElement instanceof Sol) {
+                if (zoneElement.images != null)
+                    images.addAll(zoneElement.images);
+
+                Sol sol = (Sol) zoneElement;
+                row = tableauSols.addRow();
+                PowerpointExporterTools.copyNumberOfCells(tableauSols.getRows().get(2), row);
+                setTextZoneofCell(row.getCells().get(0), List.of(zone.nom.isEmpty() ? " " : zone.nom));
+                PowerpointExporterTools.addTextToCell(row.getCells().get(1), sol.typeSol.isEmpty() ? " " : sol.typeSol);
+                if(sol.niveauIsolation.equals(TEXT_AUCUN_ISOLANT)){
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), "Aucun isolant");
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), " ");
+                }else{
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(2), sol.niveauIsolation.isEmpty() ? " " : sol.niveauIsolation);
+                    PowerpointExporterTools.addTextToCell(row.getCells().get(3), "(" +
+                            sol.typeIsolant +
+                            (Float.isNaN(sol.epaisseurIsolant) ? "" :  " ; " + new DecimalFormat("0.#").format(sol.epaisseurIsolant) + " cm")
+                            + ")");
+                }
+                PowerpointExporterTools.copyRowStyle(tableauSols.getRows().get(2), row);
+                mergeCellsIfSameZone(zoneElementTableauSols, zone.nom, tableauSols);
+                setColorOfTextZone(row.getCells().get(0));
+            }
+
+
+            if (row != null && zoneElement.aVerifier)
+                PowerpointExporterTools.setAverfierStyleToRow(row);
         }
         addImagesToSlide(ppt, slide, images, rectangle2DImage);
 
@@ -686,12 +686,43 @@ public class PowerpointExporter {
         }
     }
 
+    private List<ZoneAndZoneElement> getZonesElementsOrdered(Map<String, Zone> zones) {
+        List<ZoneAndZoneElement> mur = new ArrayList<>();
+        List<ZoneAndZoneElement> toiture = new ArrayList<>();
+        List<ZoneAndZoneElement> menuiserie = new ArrayList<>();
+        List<ZoneAndZoneElement> sol = new ArrayList<>();
+
+        for(Zone zone : zones.values()){
+            for(ZoneElement zoneElement : zone.getZoneElementsValues()){
+                if(zoneElement instanceof Mur){
+                    mur.add(new ZoneAndZoneElement(zone, zoneElement));
+                }
+                if(zoneElement instanceof Toiture){
+                    toiture.add(new ZoneAndZoneElement(zone, zoneElement));
+                }
+                if(zoneElement instanceof Menuiserie){
+                    menuiserie.add(new ZoneAndZoneElement(zone, zoneElement));
+                }
+                if(zoneElement instanceof Sol){
+                    sol.add(new ZoneAndZoneElement(zone, zoneElement));
+                }
+            }
+        }
+        List<ZoneAndZoneElement> finalList = new ArrayList<>();
+        finalList.addAll(mur);
+        finalList.addAll(toiture);
+        finalList.addAll(menuiserie);
+        finalList.addAll(sol);
+        return finalList;
+    }
+
 
     private void slideDescriptifDesSystem(XMLSlideShow ppt, XSLFSlide slide, Map<String, Zone> eclairages, Ventilation[] ventilations, ECS[] ecss) {
+        // copy slide in case of overflow
         XSLFSlide slideCopy = PowerpointExporterTools.duplicateSlide(ppt, slide);
         ppt.setSlideOrder(slideCopy, slide.getSlideNumber());
 
-
+        // Get shapes of slide to complete
         Rectangle2D rectangle2DImages = null;
         List<String> tablesNames = List.of("tableauEclairage", "tableauVentilation", "tableauECS", "tableauMenuiseries");
         Map<String, XSLFTable> tablesMap = new HashMap<>();
@@ -732,6 +763,10 @@ public class PowerpointExporter {
         List<Ventilation> ventilationOverflow = new ArrayList<>();
         List<ECS> ecsOverflow = new ArrayList<>();
 
+
+
+
+        // iterate over zones and fill tables
         for (Zone zone : eclairages.values()) {
             Color colorZoneName = colors[indexColorZone % colors.length];
             indexColorZone++;
@@ -1047,7 +1082,7 @@ public class PowerpointExporter {
                     XSLFTextShape textShape = (XSLFTextShape) shape;
                     for(XSLFTextParagraph paragraph : textShape.getTextParagraphs()){
                         if(!paragraph.getXmlObject().isSetEndParaRPr()){
-                           paragraph.getXmlObject().addNewEndParaRPr();
+                            paragraph.getXmlObject().addNewEndParaRPr();
                         }
                         paragraph.getXmlObject().getEndParaRPr().setLang("fr-FR");
                     }
