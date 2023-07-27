@@ -256,6 +256,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     }
 
     private void updateDataTable(String nomBatiment){
+        if(consoParser == null) return;
         List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
         applyPrctageBatiment(anneesWatt);
@@ -339,6 +340,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
 
     public void updateRatioTable(String nomBatiment){
+        if(consoParser == null) return;
         Drawable drawableBackground = getResources().getDrawable(R.drawable.border_black_thin);
         binding.linearlayoutConso.removeAllViews();
         List<String> annees =  consoParser.getAnneOfBatiment(nomBatiment);

@@ -32,6 +32,7 @@ import com.example.super_cep.view.fragments.Enveloppe.ZoneElementView;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneElementViewClickHandler;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneUiHandler;
 import com.example.super_cep.view.fragments.Enveloppe.ZoneViewHolder;
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.collections4.KeyValue;
@@ -82,16 +83,13 @@ public class ChauffagesAdapter extends RecyclerView.Adapter<ZoneViewHolder> {
     }
 
     private void setupChauffagesInZone(ZoneViewHolder holder, String nomZone, List<Chauffage> chauffages){
-        TableLayout tableLayout = holder.getTableLayout();
-        Context context = holder.getTableLayout().getContext();
-        int nbElementPerRow = 0;
-        tableLayout.removeAllViews();
-        TableRow tableRow = new TableRow(context);
-        tableLayout.addView(tableRow);
+        FlexboxLayout flexboxLayout = holder.getFlexboxLayout();
+        Context context = holder.getFlexboxLayout().getContext();
+        flexboxLayout.removeAllViews();
 
         for (Chauffage chauffage : chauffages) {
             String logoChauffage = chauffage instanceof ChauffageCentraliser ? "centraliser" : "decentraliser";
-            ZoneElementView zoneElementView = new ZoneElementView(tableRow, chauffage.nom, logoChauffage, new ZoneElementViewClickHandler() {
+            new ZoneElementView(flexboxLayout, chauffage.nom, logoChauffage, new ZoneElementViewClickHandler() {
                 @Override
                 public void onClick(View v) { listener.voirZoneElement(nomZone, chauffage);}
                 @Override
@@ -99,31 +97,15 @@ public class ChauffagesAdapter extends RecyclerView.Adapter<ZoneViewHolder> {
                     startDragAndDrop(nomZone, chauffage, v);
                 }
             });
-
-            // Define LayoutParams for ZoneElementView
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-            zoneElementView.setLayoutParams(lp);
-            nbElementPerRow++;
-            tableRow.addView(zoneElementView);
-
-            if (nbElementPerRow == 4) {
-                nbElementPerRow = 0;
-                tableRow = new TableRow(context);
-                tableLayout.addView(tableRow);
-            }
-
         }
-        ajouterBouttonAjoutElement(tableRow, nomZone);
+        ajouterBouttonAjoutElement(flexboxLayout, nomZone);
         if(chauffages.size() == 0)
-            ajouterBouttonSuprimerZone(tableRow, nomZone);
+            ajouterBouttonSuprimerZone(flexboxLayout, nomZone);
     }
 
-    private void ajouterBouttonAjoutElement(TableRow tableRow, String nomZone) {
-        View buttonAjout = LayoutInflater.from(tableRow.getContext()).inflate(R.layout.view_zone_ajouter_un_element, tableRow, false);
-        // Define LayoutParams for ZoneElementView
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-        buttonAjout.setLayoutParams(lp);
-        tableRow.addView(buttonAjout);
+    private void ajouterBouttonAjoutElement(FlexboxLayout flexboxLayout, String nomZone) {
+        View buttonAjout = LayoutInflater.from(flexboxLayout.getContext()).inflate(R.layout.view_zone_ajouter_un_element, flexboxLayout, false);
+        flexboxLayout.addView(buttonAjout);
         buttonAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,13 +114,9 @@ public class ChauffagesAdapter extends RecyclerView.Adapter<ZoneViewHolder> {
         });
     }
 
-    private void ajouterBouttonSuprimerZone(TableRow tableRow, String nomZone){
-        View buttonSuprimer = LayoutInflater.from(tableRow.getContext()).inflate(R.layout.view_zone_suprimer_zone, tableRow, false);
-// Define LayoutParams for ZoneElementView
-
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-        buttonSuprimer.setLayoutParams(lp);
-        tableRow.addView(buttonSuprimer);
+    private void ajouterBouttonSuprimerZone(FlexboxLayout flexboxLayout, String nomZone){
+        View buttonSuprimer = LayoutInflater.from(flexboxLayout.getContext()).inflate(R.layout.view_zone_suprimer_zone, flexboxLayout, false);
+        flexboxLayout.addView(buttonSuprimer);
         buttonSuprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

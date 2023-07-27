@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.super_cep.R;
 import com.example.super_cep.model.Releve.Zone;
 import com.example.super_cep.model.Releve.ZoneElement;
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -66,15 +67,11 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
     }
 
     private void updateZoneElements(ZoneViewHolder holder, Zone zone) {
-        int nbElementPerRow = 0;
-        Context context = holder.getTableLayout().getContext();
-        TableLayout tableLayout = holder.getTableLayout();
-        tableLayout.removeAllViews();
-        TableRow tableRow = new TableRow(context);
-        tableLayout.addView(tableRow);
+        FlexboxLayout flexboxLayout = holder.getFlexboxLayout();
+        flexboxLayout.removeAllViews();
         ZoneElement[] zoneElements = zone.getZoneElementsValues();
         for (ZoneElement zoneElement : zone.getZoneElementsValues()) {
-            ZoneElementView zoneElementView = new ZoneElementView(tableRow,  zoneElement.nom, zoneElement.logo(), new ZoneElementViewClickHandler() {
+            new ZoneElementView(flexboxLayout,  zoneElement.nom, zoneElement.logo(), new ZoneElementViewClickHandler() {
                 @Override
                 public void onClick(View v) { zoneUiHandler.voirZoneElement(zone, zoneElement);}
                 @Override
@@ -82,23 +79,10 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
                     startDragAndDrop(zone, zoneElement, v);
                 }
             });
-
-            // Define LayoutParams for ZoneElementView
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-            zoneElementView.setLayoutParams(lp);
-            nbElementPerRow++;
-            tableRow.addView(zoneElementView);
-
-            if (nbElementPerRow == 4) {
-                nbElementPerRow = 0;
-                tableRow = new TableRow(context);
-                tableLayout.addView(tableRow);
-            }
-
         }
-        ajouterBouttonAjoutElement(tableRow, zone);
+        ajouterBouttonAjoutElement(flexboxLayout, zone);
         if(zoneElements.length == 0)
-            ajouterBouttonSuprimerZone(tableRow, zone);
+            ajouterBouttonSuprimerZone(flexboxLayout, zone);
     }
 
     private void startDragAndDrop(Zone zone, ZoneElement zoneElement, View v) {
@@ -156,14 +140,9 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
         });
     }
 
-    private void ajouterBouttonAjoutElement(TableRow tableRow, Zone zone) {
-        View buttonAjout = LayoutInflater.from(tableRow.getContext()).inflate(R.layout.view_zone_ajouter_un_element, tableRow, false);
-
-
-        // Define LayoutParams for ZoneElementView
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-        buttonAjout.setLayoutParams(lp);
-        tableRow.addView(buttonAjout);
+    private void ajouterBouttonAjoutElement(ViewGroup container, Zone zone) {
+        View buttonAjout = LayoutInflater.from(container.getContext()).inflate(R.layout.view_zone_ajouter_un_element, container, false);
+        container.addView(buttonAjout);
         buttonAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,13 +151,9 @@ public class ZonesAdaptater extends RecyclerView.Adapter<ZoneViewHolder> impleme
         });
     }
 
-    private void ajouterBouttonSuprimerZone(TableRow tableRow, Zone zone){
-        View buttonSuprimer = LayoutInflater.from(tableRow.getContext()).inflate(R.layout.view_zone_suprimer_zone, tableRow, false);
-// Define LayoutParams for ZoneElementView
-
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-        buttonSuprimer.setLayoutParams(lp);
-        tableRow.addView(buttonSuprimer);
+    private void ajouterBouttonSuprimerZone(ViewGroup container, Zone zone){
+        View buttonSuprimer = LayoutInflater.from(container.getContext()).inflate(R.layout.view_zone_suprimer_zone, container, false);
+        container.addView(buttonSuprimer);
         buttonSuprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
