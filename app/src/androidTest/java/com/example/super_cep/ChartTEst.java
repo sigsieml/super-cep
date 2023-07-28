@@ -89,13 +89,4 @@ public class ChartTEst {
         }
     }
 
-    @Test
-    public void CreatePPTXCharts(){
-        try {
-            CreateChartToSlide createChartToSlide = new CreateChartToSlide();
-            createChartToSlide.creatExemplePowerpoint();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
