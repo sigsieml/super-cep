@@ -212,7 +212,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Adresse"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimalSurfaceTotal" />
+                    app:layout_constraintTop_toBottomOf="@+id/dateVisiteInput" />
 
                 <EditText
                     android:id="@+id/editTextMultiLineAdresse"
@@ -227,9 +227,10 @@
                     android:inputType="textMultiLine"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13"
-                    app:layout_constraintVertical_bias="0.995" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -240,6 +241,16 @@
                     android:text="Surface totale de Plancher"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView47"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Date de visite"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimalSurfaceTotal" />
 
                 <TextView
                     android:id="@+id/textView43"
@@ -262,6 +273,20 @@
                     app:layout_constraintEnd_toStartOf="@+id/textView11"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+                <EditText
+                    android:id="@+id/dateVisiteInput"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:editable="false"
+                    android:ems="10"
+                    android:inputType="text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
                 <EditText
                     android:id="@+id/editTextNumberDecimalSurfaceChauffe"

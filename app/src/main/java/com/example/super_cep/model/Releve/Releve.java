@@ -26,6 +26,7 @@ public class Releve {
     public String nomBatiment = "";
     public Calendar dateDeConstruction;
     public Calendar dateDeDerniereRenovation;
+    public Calendar dateDeVisite;
 
     public float surfaceTotale = 0;
     public float surfaceTotaleChauffe = 0;
@@ -52,6 +53,7 @@ public class Releve {
         this.approvisionnementEnergetiques = new HashMap<>();
         this.remarques = new HashMap<>();
         this.preconisations = new ArrayList<>();
+        dateDeVisite = Calendar.getInstance();
     }
 
     /**

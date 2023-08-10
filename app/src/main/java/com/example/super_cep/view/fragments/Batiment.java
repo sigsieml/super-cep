@@ -25,6 +25,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.super_cep.R;
 import com.example.super_cep.controller.LocalisationProvider;
 import com.example.super_cep.controller.PhotoManager;
 import com.example.super_cep.databinding.FragmentBatimentBinding;
@@ -72,6 +73,7 @@ public class Batiment extends Fragment implements AideFragment {
                 binding.editTextNumberDecimalSurfaceTotal.setText(String.valueOf(rlv.surfaceTotale).replace(".", ","));
                 binding.editTextNumberDecimalSurfaceChauffe.setText(String.valueOf(rlv.surfaceTotaleChauffe).replace(".", ","));
                 binding.editTextMultiLineAdresse.setText(rlv.adresse);
+                binding.dateVisiteInput.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(rlv.dateDeVisite.getTime()));
 
                 if(rlv.imageFacadeBatiment != null && !rlv.imageFacadeBatiment.isEmpty()){
                     Uri uri = Uri.parse(rlv.imageFacadeBatiment);
@@ -103,8 +105,28 @@ public class Batiment extends Fragment implements AideFragment {
         setupButtonPhoto();
         setupFabLocation();
 
+        setupDateVisite();
 
         return binding.getRoot();
+    }
+
+    private void setupDateVisite() {
+        binding.dateVisiteInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
+                datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int yearSelected, int monthSelected, int dayOfMonthSelected) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(yearSelected, monthSelected, dayOfMonthSelected);
+                        releveViewModel.setDateDeVisite(calendar);
+                        binding.dateVisiteInput.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(calendar.getTime()));
+                    }
+                });
+                datePickerDialog.show();
+            }
+        });
     }
 
     @Override

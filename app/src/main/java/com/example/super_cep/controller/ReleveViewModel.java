@@ -449,4 +449,10 @@ public class ReleveViewModel extends ViewModel {
             addChauffage(chauffage);
         }
     }
+
+    public void setDateDeVisite(Calendar calendar) {
+        Releve releve = this.releve.getValue();
+        releve.dateDeVisite = calendar;
+        setReleve(releve);
+    }
 }

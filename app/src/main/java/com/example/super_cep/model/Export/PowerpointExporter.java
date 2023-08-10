@@ -226,6 +226,9 @@ public class PowerpointExporter {
                 XSLFTableCell cellDateDeRenovation = table.getCell(4, 1);
                 cellDateDeRenovation.getTextBody().setText(releve.dateDeDerniereRenovation != null ? formateDate(releve.dateDeDerniereRenovation) : "Inconnue");
 
+                XSLFTableCell cellDateDeVisite = table.getCell(5, 1);
+                cellDateDeVisite.getTextBody().setText(releve.dateDeVisite != null ? new SimpleDateFormat("dd/MM/yyyy").format(releve.dateDeVisite.getTime()) : "Inconnue");
+
 
             }
         }
