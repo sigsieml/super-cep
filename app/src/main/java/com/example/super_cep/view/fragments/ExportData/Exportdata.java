@@ -3,6 +3,7 @@ package com.example.super_cep.view.fragments.ExportData;
 import static com.example.super_cep.model.Export.PowerpointExporter.POWERPOINT_VIERGE_NAME;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,10 +78,19 @@ public class Exportdata extends Fragment {
                         // Votre logique ici
                         Intent data = result.getData();
                         // Faire quelque chose avec les données d'intention
-                        Uri uri = null;
+                        Uri uri;
                         if (data != null) {
                             uri = data.getData();
-                            writeArchive(uri);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                            builder.setTitle("Création de l'archive");
+                            builder.setMessage("Json ou CSV ?");
+                            builder.setPositiveButton("CSV", (dialog, which) -> {
+                                writeArchive(uri, false);
+                            });
+                            builder.setNegativeButton("JSON", (dialog, which) -> {
+                                writeArchive(uri, true);
+                            });
+                            builder.show();
                         }
                     }
                 });
@@ -160,7 +170,7 @@ public class Exportdata extends Fragment {
 
 
 
-    private void writeArchive(Uri uri) {
+    private void writeArchive(Uri uri, boolean jsonOrCsv) {
         final Executor backgroundExecutor = Executors.newSingleThreadExecutor();
         final Handler handler = new Handler(Looper.getMainLooper());
         final LoadingPopup loadingPopup = LoadingPopup.create(getContext());
@@ -174,7 +184,7 @@ public class Exportdata extends Fragment {
             @Override
             public void run() {
                 try {
-                    ArchiveExporter.createArchive( getContext().getContentResolver().openOutputStream(uri),releveViewModel.getReleve().getValue(), new AndroidProvider(getContext()), binding.seekbarQualite.getProgress());
+                    ArchiveExporter.createArchive( getContext().getContentResolver().openOutputStream(uri),releveViewModel.getReleve().getValue(), new AndroidProvider(getContext()), binding.seekbarQualite.getProgress(), jsonOrCsv);
 
                     mainThreadExecutor.execute(new Runnable() {
                         @Override

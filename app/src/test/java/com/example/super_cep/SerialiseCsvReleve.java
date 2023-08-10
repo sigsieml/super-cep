@@ -1,6 +1,7 @@
 package com.example.super_cep;
 
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
+import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
 import com.example.super_cep.model.Releve.Calendrier.CalendrierDate;
 import com.example.super_cep.model.Releve.Calendrier.ChaufferOccuper;
@@ -8,33 +9,90 @@ import com.example.super_cep.model.Releve.Chauffage.CategorieChauffage;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
 import com.example.super_cep.model.Releve.Enveloppe.Mur;
+import com.example.super_cep.model.Releve.Releve;
 import com.example.super_cep.model.Releve.Remarque;
 import com.example.super_cep.model.Releve.Zone;
-import com.example.super_cep.model.Export.JsonReleveManager;
-import com.example.super_cep.model.Releve.Releve;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class SerialiseJsonReleveManager {
+public class SerialiseCsvReleve {
+    private void releveToCsv(FileWriter fileWriter, Releve releve) throws IOException {
+
+        final String ENTETE = "adresse;dateDeConostruction;dateDeDerniereRenovation;imageFacadeBatiment;imagePlanBatiment;localisationLatitude;localisationLongitude;surfaceTotale;surfaceTotaleChauffe";
+        final String ENTETEApprovisionnementEnergetique = "puissanceElectriqueTotal";
+        final String ENETETEChauffage = "puissanceChauffageTotal;nbChauffageCentralise;nbChauffageDecentralise";
+        final String ENTETECLIMATISATION = "puissanceClimatisationTotal";
+        final String ENTETEECS = "volumeTotalECS";
+        fileWriter.append(ENTETE +";" +
+                ENTETEApprovisionnementEnergetique + ";"+
+                ENETETEChauffage + ";" +
+                ENTETECLIMATISATION + ";" +
+                ENTETEECS +
+                '\n');
+
+        fileWriter.append(releve.adresse).append(';');
+        String formatedDate = releve.dateDeConstruction.get(Calendar.DAY_OF_MONTH) + "/" + releve.dateDeConstruction.get(Calendar.MONTH) + "/" + releve.dateDeConstruction.get(Calendar.YEAR);
+        fileWriter.append(formatedDate).append(';');
+        formatedDate = releve.dateDeDerniereRenovation.get(Calendar.DAY_OF_MONTH) + "/" + releve.dateDeDerniereRenovation.get(Calendar.MONTH) + "/" + releve.dateDeDerniereRenovation.get(Calendar.YEAR);
+        fileWriter.append(formatedDate).append(';');
+        fileWriter.append(releve.imageFacadeBatiment).append(';');
+        fileWriter.append(releve.imagePlanBatiment).append(';');
+        fileWriter.append(releve.localisation[0] + "").append(';');
+        fileWriter.append(releve.localisation[1] + "").append(';');
+        fileWriter.append(releve.surfaceTotale + "").append(';');
+        fileWriter.append(releve.surfaceTotaleChauffe + "").append(';');
+
+        //approvisionnementEnergetique
+        float puissanceElectriqueTotal = releve.approvisionnementEnergetiques.values().stream().map(approvisionnementEnergetique -> approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique ? ((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance : 0.0f).reduce(0.0f, Float::sum);
+        fileWriter.append(puissanceElectriqueTotal + "").append(';');
 
 
+        //chauffage
+        float puissanceChauffageTotal = releve.chauffages.values().stream().map(chauffage -> chauffage.puissance).reduce(0.0f, Float::sum);
+        fileWriter.append(puissanceChauffageTotal + "").append(';');
+
+        int nbChauffageCentralise = (int) releve.chauffages.values().stream().filter(chauffage -> chauffage instanceof ChauffageCentraliser).count();
+        fileWriter.append(nbChauffageCentralise + "").append(';');
+        int nbChauffageDecentralise = (int) releve.chauffages.values().stream().filter(chauffage -> chauffage instanceof ChauffageDecentraliser).count();
+        fileWriter.append(nbChauffageDecentralise + "").append(';');
+
+        //climatisation
+        float puissanceClimatisationTotal = releve.climatisations.values().stream().map(climatisation -> climatisation.puissance * climatisation.quantite).reduce(0.0f, Float::sum);
+        fileWriter.append(puissanceClimatisationTotal + "").append(';');
+
+        //ECS
+        float volumeTotalECS = releve.ecs.values().stream().map(ecs -> ecs.volume * ecs.quantite).reduce(0.0f, Float::sum);
+        fileWriter.append(volumeTotalECS + "");
+
+        fileWriter.flush();
+    }
     @Test
-    public void serialiseJsonReleve() {
+    public void serialiseCsvReleve() {
         Releve releve = createTestReleve();
-        String jsonReleve = JsonReleveManager.serialize(releve);
-        System.out.println("jsonReleve = " + jsonReleve);
-        Releve deserializedReleve = JsonReleveManager.deserialize(jsonReleve);
-        System.out.println("deserializedReleve = " + deserializedReleve);
+
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter("releve.csv");
+            releveToCsv(fileWriter, releve);
+            fileWriter.close();
+
+            String absolutePathFile = new File("releve.csv").getAbsolutePath();
+            System.out.println("File created at: " + absolutePathFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
-
-
     public Releve createTestReleve() {
         Releve releve = new Releve();
 
@@ -57,7 +115,7 @@ public class SerialiseJsonReleveManager {
                 true,
                 "note",
                 null
-                );
+        );
         superZone.addZoneElement(mur);
         releve.zones.put(superZone.nom, superZone);
 
