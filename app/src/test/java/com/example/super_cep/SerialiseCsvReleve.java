@@ -1,5 +1,7 @@
 package com.example.super_cep;
 
+import static com.example.super_cep.model.Export.ArchiveExporter.releveToCsv;
+
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetique;
 import com.example.super_cep.model.Releve.ApprovionnementEnergetique.ApprovisionnementEnergetiqueElectrique;
 import com.example.super_cep.model.Releve.Calendrier.Calendrier;
@@ -25,71 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SerialiseCsvReleve {
-    private void releveToCsv(FileWriter fileWriter, Releve releve) throws IOException {
-
-        final String ENTETE = "adresse;dateDeConostruction;dateDeDerniereRenovation;imageFacadeBatiment;imagePlanBatiment;localisationLatitude;localisationLongitude;surfaceTotale;surfaceTotaleChauffe";
-        final String ENTETEApprovisionnementEnergetique = "puissanceElectriqueTotal";
-        final String ENETETEChauffage = "puissanceChauffageTotal;nbChauffageCentralise;nbChauffageDecentralise";
-        final String ENTETECLIMATISATION = "puissanceClimatisationTotal";
-        final String ENTETEECS = "volumeTotalECS";
-        fileWriter.append(ENTETE +";" +
-                ENTETEApprovisionnementEnergetique + ";"+
-                ENETETEChauffage + ";" +
-                ENTETECLIMATISATION + ";" +
-                ENTETEECS +
-                '\n');
-
-        fileWriter.append(releve.adresse).append(';');
-        String formatedDate = releve.dateDeConstruction.get(Calendar.DAY_OF_MONTH) + "/" + releve.dateDeConstruction.get(Calendar.MONTH) + "/" + releve.dateDeConstruction.get(Calendar.YEAR);
-        fileWriter.append(formatedDate).append(';');
-        formatedDate = releve.dateDeDerniereRenovation.get(Calendar.DAY_OF_MONTH) + "/" + releve.dateDeDerniereRenovation.get(Calendar.MONTH) + "/" + releve.dateDeDerniereRenovation.get(Calendar.YEAR);
-        fileWriter.append(formatedDate).append(';');
-        fileWriter.append(releve.imageFacadeBatiment).append(';');
-        fileWriter.append(releve.imagePlanBatiment).append(';');
-        fileWriter.append(releve.localisation[0] + "").append(';');
-        fileWriter.append(releve.localisation[1] + "").append(';');
-        fileWriter.append(releve.surfaceTotale + "").append(';');
-        fileWriter.append(releve.surfaceTotaleChauffe + "").append(';');
-
-        //approvisionnementEnergetique
-        float puissanceElectriqueTotal = releve.approvisionnementEnergetiques.values().stream().map(approvisionnementEnergetique -> approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique ? ((ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique).puissance : 0.0f).reduce(0.0f, Float::sum);
-        fileWriter.append(puissanceElectriqueTotal + "").append(';');
-
-
-        //chauffage
-        float puissanceChauffageTotal = releve.chauffages.values().stream().map(chauffage -> chauffage.puissance).reduce(0.0f, Float::sum);
-        fileWriter.append(puissanceChauffageTotal + "").append(';');
-
-        int nbChauffageCentralise = (int) releve.chauffages.values().stream().filter(chauffage -> chauffage instanceof ChauffageCentraliser).count();
-        fileWriter.append(nbChauffageCentralise + "").append(';');
-        int nbChauffageDecentralise = (int) releve.chauffages.values().stream().filter(chauffage -> chauffage instanceof ChauffageDecentraliser).count();
-        fileWriter.append(nbChauffageDecentralise + "").append(';');
-
-        //climatisation
-        float puissanceClimatisationTotal = releve.climatisations.values().stream().map(climatisation -> climatisation.puissance * climatisation.quantite).reduce(0.0f, Float::sum);
-        fileWriter.append(puissanceClimatisationTotal + "").append(';');
-
-        //ECS
-        float volumeTotalECS = releve.ecs.values().stream().map(ecs -> ecs.volume * ecs.quantite).reduce(0.0f, Float::sum);
-        fileWriter.append(volumeTotalECS + "");
-
-        fileWriter.flush();
-    }
     @Test
     public void serialiseCsvReleve() {
         Releve releve = createTestReleve();
 
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter("releve.csv");
-            releveToCsv(fileWriter, releve);
-            fileWriter.close();
-
-            String absolutePathFile = new File("releve.csv").getAbsolutePath();
-            System.out.println("File created at: " + absolutePathFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println(            releveToCsv( releve, new pcProvider()));
 
 
     }
@@ -172,10 +114,17 @@ public class SerialiseCsvReleve {
 
         releve.preconisations.add("preconisation 1");
         releve.preconisations.add("preconisation 2");
-        releve.remarques.put("remarque 1", new Remarque("remarque 1", "note 1", false));
+
+        releve.remarques.put("Elements de contexte sur le bâtiment", new Remarque("Elements de contexte sur le bâtiment", "Elements de contexte sur le bâtiment", false));
+        releve.remarques.put("Energie et consommations", new Remarque("Energie et consommations", "Energie et consommations", false));
+        releve.remarques.put("Usage et occupation du bâtiment", new Remarque("Usage et occupation du bâtiment", "Usage et occupation du bâtiment", false));
+        releve.remarques.put("Descriptif de l'enveloppe thermique", new Remarque("Descriptif de l'enveloppe thermique", "Descriptif de l'enveloppe thermique", false));
+        releve.remarques.put("Descriptif des systèmes", new Remarque("Descriptif des systèmes", "Descriptif des systèmes", false));
+        releve.remarques.put("Descriptif du chauffage",new Remarque("Descriptif du chauffage", "Descriptif du chauffage", false));
 
 
-        releve.imageFacadeBatiment = "C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png";
+
+                releve.imageFacadeBatiment = "C:\\Users\\TLB\\Pictures\\cropped-cropped-Logo-Sieml-110-1.png";
 
         releve.approvisionnementEnergetiques.put("fioul", new ApprovisionnementEnergetique("fioul", "fioul", new ArrayList<>(), new ArrayList<>(), false, ""));
 

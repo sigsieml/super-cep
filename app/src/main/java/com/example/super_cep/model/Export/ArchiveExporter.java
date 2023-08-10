@@ -54,7 +54,7 @@ public  class ArchiveExporter {
         }else{
             releveText = releveToCsv(releve, platformProvider);
         }
-        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry("releve.csv");
+        java.util.zip.ZipEntry entry = new java.util.zip.ZipEntry("releve" + (jsonOrCsv ? ".json" : ".csv"));
         out.putNextEntry(entry);
         java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(releveText.getBytes());
         int count;
@@ -140,7 +140,7 @@ public  class ArchiveExporter {
         return images.toArray(new String[images.size()]);
     }
 
-    private static String releveToCsv( Releve releve, PlatformProvider platformProvider) {
+    public static String releveToCsv( Releve releve, PlatformProvider platformProvider) {
         StringBuilder stringBuilder = new StringBuilder();
 
         final String ENTETE = "adresse;dateDeConostruction;dateDeDerniereRenovation;imageFacadeBatiment;imagePlanBatiment;localisationLatitude;localisationLongitude;surfaceTotale;surfaceTotaleChauffe";
@@ -148,11 +148,13 @@ public  class ArchiveExporter {
         final String ENETETEChauffage = "puissanceChauffageTotal;nbChauffageCentralise;nbChauffageDecentralise";
         final String ENTETECLIMATISATION = "puissanceClimatisationTotal";
         final String ENTETEECS = "volumeTotalECS";
+        final String ENTETERemarque = "RemarqueElementsDeContexteSurLeBâtiment;RemarqueEnergieEtConsommations;RemarqueUsageEtOccupationDuBâtiment;RemarqueDescriptifDeEnveloppeThermique;RemarqueDescriptifDesSystèmes;RemarqueDescriptifDuChauffage";
         stringBuilder.append(ENTETE +";" +
                 ENTETEApprovisionnementEnergetique + ";"+
                 ENETETEChauffage + ";" +
                 ENTETECLIMATISATION + ";" +
-                ENTETEECS +
+                ENTETEECS + ";" +
+                ENTETERemarque +
                 '\n');
 
         stringBuilder.append(releve.adresse).append(';');
@@ -168,10 +170,18 @@ public  class ArchiveExporter {
         stringBuilder.append(formatedDate).append(';');
 
         String[] imagesNames = getAllImageNameOfReleve(releve, platformProvider);
-        String imageNameFacadeBatiment = imagesNames[0];
-        String imageNamePlanBatiment = imagesNames[1];
-        stringBuilder.append(imageNameFacadeBatiment).append(';');
-        stringBuilder.append(imageNamePlanBatiment).append(';');
+        if(imagesNames.length > 0){
+            String imageNameFacadeBatiment = imagesNames[0];
+            stringBuilder.append(imageNameFacadeBatiment).append(';');
+            if(imagesNames.length > 1){
+                String imageNamePlanBatiment = imagesNames[1];
+                stringBuilder.append(imageNamePlanBatiment).append(';');
+            }else{
+                stringBuilder.append(";");
+            }
+        }else{
+            stringBuilder.append(";;");
+        }
         if(releve.localisation != null && releve.localisation.length == 2){
             stringBuilder.append(releve.localisation[0] + "").append(';');
             stringBuilder.append(releve.localisation[1] + "").append(';');
@@ -199,7 +209,16 @@ public  class ArchiveExporter {
 
         //ECS
         float volumeTotalECS = releve.ecs.values().stream().map(ecs -> ecs.volume * ecs.quantite).reduce(0.0f, Float::sum);
-        stringBuilder.append(volumeTotalECS + "");
+        stringBuilder.append(volumeTotalECS + "").append(";");
+
+        //remarque
+        stringBuilder.append(releve.remarques.containsKey("Elements de contexte sur le bâtiment") ? releve.remarques.get("Elements de contexte sur le bâtiment").description : "").append(';');
+        stringBuilder.append(releve.remarques.containsKey("Energie et consommations") ? releve.remarques.get("Energie et consommations").description : "").append(';');
+        stringBuilder.append(releve.remarques.containsKey("Usage et occupation du bâtiment") ? releve.remarques.get("Usage et occupation du bâtiment").description : "").append(';');
+        stringBuilder.append(releve.remarques.containsKey("Descriptif de l'enveloppe thermique") ? releve.remarques.get("Descriptif de l'enveloppe thermique").description : "").append(';');
+        stringBuilder.append(releve.remarques.containsKey("Descriptif des systèmes") ? releve.remarques.get("Descriptif des systèmes").description : "").append(';');
+        stringBuilder.append(releve.remarques.containsKey("Descriptif du chauffage") ? releve.remarques.get("Descriptif du chauffage").description : "");
+
 
 
         return stringBuilder.toString();
