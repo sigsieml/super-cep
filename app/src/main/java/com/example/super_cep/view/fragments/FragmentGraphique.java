@@ -193,8 +193,11 @@ public class FragmentGraphique extends Fragment implements AideFragment {
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 updateSelectedYears();
+                updateDataTable(nomBatiment);
+                updateRatioTable(nomBatiment);
             });
             checkBox.setText(s);
+            checkBox.setChecked(true);
             binding.linearLayoutAnne.addView(checkBox);
         }
 
@@ -257,7 +260,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
     private void updateDataTable(String nomBatiment){
         if(consoParser == null) return;
-        List<String> annees = consoParser.getAnneOfBatiment(nomBatiment);
+        List<String> annees = getSelectedYears();
         List<Anner> anneesWatt = consoParser.getConsoWatt(nomBatiment, annees);
         applyPrctageBatiment(anneesWatt);
         List<Anner> anneesEuro = consoParser.getConsoEuro(nomBatiment, annees);
@@ -343,16 +346,16 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         if(consoParser == null) return;
         Drawable drawableBackground = getResources().getDrawable(R.drawable.border_black_thin);
         binding.linearlayoutConso.removeAllViews();
-        List<String> annees =  consoParser.getAnneOfBatiment(nomBatiment);
+        List<String> annees =  getSelectedYears();
         List<Anner> anneesWatt = consoConfigViewModel.applyPourcentageToConso(consoParser.getConsoWatt(nomBatiment, annees));
         List<Anner> annesEuro = consoConfigViewModel.applyPourcentageToConso(consoParser.getConsoEuro(nomBatiment, annees));
 
         float surface = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
         if(surface == 0) {
-            TextView textView = new TextView(getContext());
-            textView.setText("Surface totale chauffée non renseignée");
-            binding.linearlayoutConso.addView(textView);
+            binding.surfaceNotSetLayout.setVisibility(View.VISIBLE);
             return;
+        }else{
+            binding.surfaceNotSetLayout.setVisibility(View.GONE);
         }
         //Annes
         LinearLayout linearLayoutAnnees = new LinearLayout(getContext());
@@ -505,12 +508,20 @@ public class FragmentGraphique extends Fragment implements AideFragment {
     public void aide() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Aide graphiques de consommation d'énergie");
-        builder.setMessage(
-                "Bienvenue dans l'interface de gestion des graphiques de consommation d'énergie! Cette interface vous permet de générer des graphiques qui récapitulent la consommation énergétique du bâtiment. Les graphiques sont présentés en deux formats : la consommation en watts et la consommation en euros.\n\n" +
-                        "Voici comment l'utiliser:\n\n" +
-                        "- Chargement de données de consommation : Vous pouvez charger un fichier .xlsx contenant les données de consommation en cliquant sur le bouton flottant en bas à droite.\n\n" +
-                        "- Sélection du bâtiment : Vous pouvez sélectionner le bâtiment pour lequel vous souhaitez générer les graphiques à partir du menu déroulant.\n\n" +
-                        "- Sélection de l'année : Après avoir sélectionné un bâtiment, vous pouvez choisir les années pour lesquelles vous souhaitez visualiser la consommation. Vous pouvez sélectionner plusieurs années en cochant les cases correspondantes.\n\n"
+        builder.setMessage("Chargement des données de consommation :\n\n" +
+        "Cliquez sur le bouton flottant avec un logo de téléchargement situé en bas à droite de l'écran, puis sélectionnez et chargez un fichier .xlsx contenant les données de consommation.\n\n" +
+        "Modification des données de consommation :\n\n" +
+        "Vous pouvez manuellement modifier les données de consommation en les ouvrant dans Excel en cliquant sur le deuxième bouton flottant avec un logo en forme de crayon en bas à droite de l'écran. Cette fonctionnalité nécessite d'avoir installé l'application Android Excel, disponible sur le Play Store.\n\n" +
+        "Surface totale du bâtiment :\n\n" +
+        "La surface chauffée du bâtiment est utilisée pour calculer les ratios Kwh/m² et €/m². Elle doit être différente de 0 pour que le tableau s'affiche. La surface chauffée peut également être modifiée dans la partie \"Bâtiment\".\n\n" +
+        "Nom du bâtiment :\n\n" +
+        "Utilisez le menu déroulant pour choisir le bâtiment dont vous voulez visualiser la consommation. Vous pouvez aussi rechercher le bâtiment en tapant son nom.\n\n" +
+        "Pourcentage du bâtiment :\n\n" +
+        "Cette valeur est utilisée pour le calcul des Kwh/m² et €/m². Par exemple, si la consommation du bâtiment ne représente que 30 % de la consommation totale des graphiques, il suffit de changer la valeur à \"30\", et les valeurs de consommation seront multipliées par 30 %.\n\n" +
+        "Année de calcul des ratios :\n\n" +
+        "Dans le PowerPoint, les ratios Kwh/m² et €/m² ne sont affichés que pour une seule année. Cette année peut être sélectionnée ici.\n\n" +
+        "Sélection de l'année ou des années :\n\n" +
+        "Une fois le bâtiment sélectionné, une liste de cases avec les années disponibles apparaîtra. Cochez les cases correspondant aux années que vous souhaitez visualiser et faire apparaître dans le PowerPoint. Vous pouvez choisir une ou plusieurs années."
         );
         builder.setPositiveButton("Merci, j'ai compris !", null);
         builder.show();

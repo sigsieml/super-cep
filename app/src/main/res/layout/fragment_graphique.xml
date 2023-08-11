@@ -23,7 +23,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="nom du bâtiment :"
+                    android:layout_marginTop="16dp"
+                    android:text="Nom du bâtiment :"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextNumberSurfaceBatiment" />
 
@@ -48,7 +49,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text=" surface total du bâtiment : "
+                    android:text="Surface chauffée : "
                     app:layout_constraintBottom_toBottomOf="@+id/editTextNumberSurfaceBatiment"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
                     app:layout_constraintStart_toStartOf="parent"
@@ -93,6 +94,28 @@
                 app:alignItems="stretch"
                 app:flexWrap="wrap" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/surfaceNotSetLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView48"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/surface_not_set"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <HorizontalScrollView
                 android:id="@+id/scroolViewHorizontal"
                 android:layout_width="match_parent"
@@ -100,7 +123,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearlayoutConso"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" />
             </HorizontalScrollView>
@@ -122,10 +145,11 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="année de calcul des ratios :"
+                    android:text="Année de calcul des ratios :"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextPrcBatiment" />
@@ -169,11 +193,12 @@
 
                 <TextView
                     android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Pourcentage Bâtiment :"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

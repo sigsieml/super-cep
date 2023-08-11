@@ -38,4 +38,5 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="menu_graphique">Graphique</string>
+    <string name="surface_not_set">Impossible d\'afficher les ratio €/m² la surface chauffée est null</string>
 </resources>
