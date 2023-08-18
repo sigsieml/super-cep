@@ -113,6 +113,8 @@ public  class ArchiveExporter {
             if(platformProvider.isStringAPath(preconisation))
                 images.add(preconisation);
         }
+        //remove all null images
+        images.removeIf(s -> s == null);
         return images.toArray(new String[images.size()]);
     }
     private static void addToSetWithSuffix(Set<String> set, String string){
