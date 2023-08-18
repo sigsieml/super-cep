@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +69,6 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         consoConfigViewModel = new ViewModelProvider(requireActivity()).get(ConsoConfigViewModel.class);
         releveViewModel = new ViewModelProvider(requireActivity()).get(ReleveViewModel.class);
         setupFab();
-        setUpSurface();
         loadConsoParser();
         if(consoParser == null) return binding.getRoot();
         setupSpinner();
@@ -77,9 +78,17 @@ public class FragmentGraphique extends Fragment implements AideFragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpSurface();
+    }
+
     private void setUpSurface() {
+        char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+        binding.editTextNumberSurfaceBatiment.setKeyListener(DigitsKeyListener.getInstance("0123456789" + separator));
         float surfaceTotalChauffe = releveViewModel.getReleve().getValue().surfaceTotaleChauffe;
-        binding.editTextNumberSurfaceBatiment.setText(String.valueOf(surfaceTotalChauffe));
+        binding.editTextNumberSurfaceBatiment.setText(String.valueOf(surfaceTotalChauffe).replace(".", String.valueOf(separator)));
         binding.editTextNumberSurfaceBatiment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
