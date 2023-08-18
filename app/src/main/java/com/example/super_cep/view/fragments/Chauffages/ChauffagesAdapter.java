@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.super_cep.R;
 import com.example.super_cep.controller.ReleveViewModel;
+import com.example.super_cep.databinding.ViewZoneAjouterUnElementBinding;
 import com.example.super_cep.model.Releve.Chauffage.Chauffage;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageCentraliser;
 import com.example.super_cep.model.Releve.Chauffage.ChauffageDecentraliser;
@@ -105,6 +106,8 @@ public class ChauffagesAdapter extends RecyclerView.Adapter<ZoneViewHolder> {
 
     private void ajouterBouttonAjoutElement(FlexboxLayout flexboxLayout, String nomZone) {
         View buttonAjout = LayoutInflater.from(flexboxLayout.getContext()).inflate(R.layout.view_zone_ajouter_un_element, flexboxLayout, false);
+        ViewZoneAjouterUnElementBinding binding = ViewZoneAjouterUnElementBinding.bind(buttonAjout);
+        binding.textViewZoneElement.setText("Ajouter un chauffage décentralisé");
         flexboxLayout.addView(buttonAjout);
         buttonAjout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -192,15 +192,14 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
     }
 
     private void setupViewStub() {
+        View inflated = binding.viewStubElectricite.inflate(); // inflate the layout resource
+        viewApprovisionnementEnergetiqueElectriqueBinding = ViewApprovisionnementEnergetiqueElectriqueBinding.bind(inflated);
+        viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.GONE);
         binding.spinnerEnergie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TypeApprovisionnement typeApprovisionnement = getTypeApprovisionnement();
                 if(typeApprovisionnement == TypeApprovisionnement.ELECTRICITE){
-                    if(viewApprovisionnementEnergetiqueElectriqueBinding == null){
-                        View inflated = binding.viewStubElectricite.inflate(); // inflate the layout resource
-                        viewApprovisionnementEnergetiqueElectriqueBinding = ViewApprovisionnementEnergetiqueElectriqueBinding.bind(inflated);
-                    }
                     viewApprovisionnementEnergetiqueElectriqueBinding.getRoot().setVisibility(View.VISIBLE);
                     configDataViewModel.setAutoComplete(viewApprovisionnementEnergetiqueElectriqueBinding.autoCompleteFormule, "formuleTarifaire");
                 }else{
@@ -216,6 +215,7 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
             }
         });
     }
+
 
     private TypeApprovisionnement getTypeApprovisionnement(){
         String value = binding.spinnerEnergie.getSelectedItem().toString();
@@ -282,6 +282,12 @@ public class FragmentApprovisionnementEnergetiqueAjout extends Fragment {
         binding.checkBoxAVerifierApprovisionnementEnergetique.setChecked(approvisionnementEnergetique.aVerifier);
         binding.editTextMultilineNoteApprovisionnementEnergetique.setText(approvisionnementEnergetique.note);
         configDataViewModel.setSpinnerSelection(binding.spinnerEnergie, approvisionnementEnergetique.energie);
+
+        if(approvisionnementEnergetique instanceof ApprovisionnementEnergetiqueElectrique){
+            ApprovisionnementEnergetiqueElectrique approvisionnementEnergetiqueElectrique = (ApprovisionnementEnergetiqueElectrique) approvisionnementEnergetique;
+            viewApprovisionnementEnergetiqueElectriqueBinding.editTextNumberSignedPuissance.setText(String.valueOf(approvisionnementEnergetiqueElectrique.puissance));
+            viewApprovisionnementEnergetiqueElectriqueBinding.autoCompleteFormule.setText(approvisionnementEnergetiqueElectrique.formuleTarifaire);
+        }
 
         for (String path : approvisionnementEnergetique.images) {
             viewPhoto.addPhotoToView(Uri.parse(path));
