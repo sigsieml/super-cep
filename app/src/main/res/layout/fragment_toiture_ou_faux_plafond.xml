@@ -54,6 +54,7 @@
                     android:ems="10"
                     android:hint="Entrez le nom de la toiture"
                     android:inputType="text"
+                    android:nextFocusDown="@id/autoCompleteTypeToiture"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -100,18 +101,18 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeToiture"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:completionThreshold="0"
-                            app:layout_constraintTop_toBottomOf="@+id/textView27"
-                            app:layout_constraintVertical_bias="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,18 +132,18 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeDeMiseEnOeuvre"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:completionThreshold="0"
-                            app:layout_constraintTop_toBottomOf="@+id/textView28"
-                            app:layout_constraintVertical_bias="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
@@ -169,18 +170,18 @@
 
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeIsolant"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:completionThreshold="0"
-                            app:layout_constraintTop_toBottomOf="@+id/textView29"
-                            app:layout_constraintVertical_bias="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -207,6 +208,7 @@
                             android:layout_marginBottom="16dp"
                             android:ems="10"
                             android:inputType="numberSigned"
+                            android:nextFocusDown="@id/autoCompleteNiveauIsolation"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/textView31"
                             app:layout_constraintStart_toStartOf="parent"
@@ -248,6 +250,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:imeOptions="actionDone"
                     android:singleLine="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

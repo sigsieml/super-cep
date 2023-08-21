@@ -54,6 +54,7 @@
                     android:ems="10"
                     android:hint="Entrez le nom du chauffage"
                     android:inputType="text"
+                    android:nextFocusDown="@id/autoCompleteTypeChauffage"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -100,12 +101,13 @@
 
                         <AutoCompleteTextView
                             android:id="@+id/autoCompleteTypeChauffage"
-                            android:singleLine="true"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -136,6 +138,7 @@
                             android:layout_marginEnd="16dp"
                             android:ems="10"
                             android:inputType="number"
+                            android:nextFocusDown="@id/autoCompleteRegulations"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -164,11 +167,12 @@
 
                         <AutoCompleteTextView
                             android:id="@+id/autoCompleteRegulations"
-                            android:singleLine="true"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="16dp"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="1.0"
@@ -201,6 +205,7 @@
                             android:layout_marginBottom="16dp"
                             android:ems="10"
                             android:inputType="numberDecimal"
+                            android:nextFocusDown="@id/autoCompleteMarque"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -261,6 +266,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
+
                 <TextView
                     android:id="@+id/textView26"
                     android:layout_width="wrap_content"
@@ -271,7 +277,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/autoCompleteMarque" />
 
-
                 <EditText
                     android:id="@+id/editTextModele"
                     android:layout_width="0dp"
@@ -280,6 +285,7 @@
                     android:layout_marginEnd="16dp"
                     android:ems="10"
                     android:hint="Modèle"
+                    android:imeOptions="actionDone"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -302,18 +308,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="zones concernées"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextModele" />
 
                 <AutoCompleteTextView
-                    android:singleLine="true"
                     android:id="@+id/autoCompleteMarque"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView32" />

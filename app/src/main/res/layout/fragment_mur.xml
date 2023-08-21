@@ -54,6 +54,7 @@
                     android:ems="10"
                     android:hint="Entrez le nom du mur"
                     android:inputType="text"
+                    android:nextFocusDown="@id/autoCompleteTypeMur"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -100,7 +101,6 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeMur"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
@@ -108,6 +108,8 @@
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
                             android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -135,7 +137,6 @@
 
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeDeMiseEnOeuvre"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
@@ -143,6 +144,8 @@
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
                             android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -174,7 +177,6 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <AutoCompleteTextView
-                            android:singleLine="true"
                             android:id="@+id/autoCompleteTypeIsolant"
                             android:layout_width="0dp"
                             android:layout_height="48dp"
@@ -182,6 +184,8 @@
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
                             android:completionThreshold="0"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -214,6 +218,7 @@
                             android:layout_marginBottom="16dp"
                             android:ems="10"
                             android:inputType="numberSigned"
+                            android:nextFocusDown="@id/autoCompleteNiveauIsolation"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/textView31"
                             app:layout_constraintStart_toStartOf="parent"
@@ -258,6 +263,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:completionThreshold="0"
+                    android:imeOptions="actionDone"
                     android:singleLine="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -299,6 +305,7 @@
                     android:ems="10"
                     android:gravity="start|top"
                     android:hint="note"
+                    android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
