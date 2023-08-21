@@ -23,14 +23,14 @@
         android:theme="@style/Theme.Supercep"
         tools:targetApi="31">
         <activity
-            android:name=".view.SettingsActivity.SettingsActivity"
+            android:name="fr.sieml.super_cep.view.SettingsActivity.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Supercep" />
         <activity
-            android:name=".view.ReleveActivity"
+            android:name="fr.sieml.super_cep.view.ReleveActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:configChanges="orientation"
@@ -38,7 +38,7 @@
             android:theme="@style/Theme.Supercep.NoActionBar" />
 
         <activity
-            android:name=".view.MainActivity.MainActivity"
+            android:name="fr.sieml.super_cep.view.MainActivity.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:exported="true">

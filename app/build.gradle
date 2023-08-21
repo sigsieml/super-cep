@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace 'com.example.super_cep'
+    namespace 'fr.sieml.super_cep'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.super_cep"
+        applicationId "fr.sieml.super_cep"
         minSdk 28
         targetSdk 33
-        versionCode 13
-        versionName "1.0.14"
+        versionCode 14
+        versionName "1.0.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

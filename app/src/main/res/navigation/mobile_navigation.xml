@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_batiment"
-        android:name="com.example.super_cep.view.fragments.Batiment"
+        android:name="fr.sieml.super_cep.view.fragments.Batiment"
         android:label="Batiment"
         tools:layout="@layout/fragment_batiment"/>
     <fragment
         android:id="@+id/nav_enveloppes"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.Enveloppe"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.Enveloppe"
         android:label="Enveloppe"
         tools:layout="@layout/fragment_enveloppe" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_usage_et_occupation"
-        android:name="com.example.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupation"
+        android:name="fr.sieml.super_cep.view.fragments.UsageEtOccupation.UsageEtOccupation"
         android:label="Usage et occupation"
         tools:layout="@layout/fragment_usage_et_occupation" >
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_chauffages"
-        android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffage"
+        android:name="fr.sieml.super_cep.view.fragments.Chauffages.FragmentChauffage"
         android:label="Chauffage"
         tools:layout="@layout/fragment_chauffages">
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_climatisation"
-        android:name="com.example.super_cep.view.fragments.Climatisation.FragmentClimatisation"
+        android:name="fr.sieml.super_cep.view.fragments.Climatisation.FragmentClimatisation"
         android:label="Climatisation"
         tools:layout="@layout/fragment_climatisation" >
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_ventilation"
-        android:name="com.example.super_cep.view.fragments.Ventilation.FragmentVentilation"
+        android:name="fr.sieml.super_cep.view.fragments.Ventilation.FragmentVentilation"
         android:label="Ventilation"
         tools:layout="@layout/fragment_ventilation">
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_ecs"
-        android:name="com.example.super_cep.view.fragments.ECS.FragmentECS"
+        android:name="fr.sieml.super_cep.view.fragments.ECS.FragmentECS"
         android:label="Eau chaude sanitaire"
         tools:layout="@layout/fragment_e_c_s">
         <action
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_approvisionnement_energetique"
-        android:name="com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetique"
+        android:name="fr.sieml.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetique"
         android:label="Approvisionnement énergétique"
         tools:layout="@layout/fragment_approvisionnement_energetique">
         <action
@@ -90,22 +90,22 @@
     </fragment>
     <fragment
         android:id="@+id/nav_remarques"
-        android:name="com.example.super_cep.view.fragments.Remarques.FragmentRemarques"
+        android:name="fr.sieml.super_cep.view.fragments.Remarques.FragmentRemarques"
         android:label="Remarques"
         tools:layout="@layout/fragment_remarques"></fragment>
     <fragment
         android:id="@+id/nav_preconisations"
-        android:name="com.example.super_cep.view.fragments.Preconisation.FragmentPreconisation"
+        android:name="fr.sieml.super_cep.view.fragments.Preconisation.FragmentPreconisation"
         android:label="Préconisations"
         tools:layout="@layout/fragment_preconisation" />
     <fragment
         android:id="@+id/nav_export_data"
-        android:name="com.example.super_cep.view.fragments.ExportData.Exportdata"
+        android:name="fr.sieml.super_cep.view.fragments.ExportData.Exportdata"
         android:label="Exporter les données"
         tools:layout="@layout/fragment_exportdata" />
     <fragment
         android:id="@+id/nav_ecs_ajout"
-        android:name="com.example.super_cep.view.fragments.ECS.FragmentECSAjout"
+        android:name="fr.sieml.super_cep.view.fragments.ECS.FragmentECSAjout"
         android:label="@string/menu_ecs"
         tools:layout="@layout/fragment_e_c_s_ajout">
         <argument
@@ -115,7 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_chauffage_ajout"
-        android:name="com.example.super_cep.view.fragments.Chauffages.FragmentChauffageAjout"
+        android:name="fr.sieml.super_cep.view.fragments.Chauffages.FragmentChauffageAjout"
         android:label="Chauffage"
         tools:layout="@layout/fragment_chauffage_ajout" >
         <argument
@@ -129,7 +129,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_ajout_element_zone"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.AjoutElementsZone.AjoutElementZone"
         android:label="Enveloppe"
         tools:layout="@layout/fragment_ajout_element_zone" >
         <argument
@@ -154,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentMur"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMur"
         android:label="Mur"
         tools:layout="@layout/fragment_mur">
         <argument
@@ -172,7 +172,7 @@
 
     <fragment
         android:id="@+id/fragmentApprovisionnementEnergetiqueAjout"
-        android:name="com.example.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetiqueAjout"
+        android:name="fr.sieml.super_cep.view.fragments.ApprovisionnementEnergetique.FragmentApprovisionnementEnergetiqueAjout"
         android:label="Approvisionnement Energetique"
         tools:layout="@layout/fragment_approvisionnement_energetique_ajout" >
         <argument
@@ -182,7 +182,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentClimatisationAjout"
-        android:name="com.example.super_cep.view.fragments.Climatisation.FragmentClimatisationAjout"
+        android:name="fr.sieml.super_cep.view.fragments.Climatisation.FragmentClimatisationAjout"
         android:label="Climatisation"
         tools:layout="@layout/fragment_climatisation_ajout">
         <argument
@@ -193,7 +193,7 @@
 
     <fragment
         android:id="@+id/fragmentEclairage"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentEclairage"
         android:label="Eclairage"
         tools:layout="@layout/fragment_eclairage">
         <argument
@@ -211,7 +211,7 @@
 
     <fragment
         android:id="@+id/fragmentMenuiserie"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentMenuiserie"
         android:label="Menuiserie"
         tools:layout="@layout/fragment_menuiserie">
         <argument
@@ -229,7 +229,7 @@
 
     <fragment
         android:id="@+id/fragmentSol"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentSol"
         android:label="Sol"
         tools:layout="@layout/fragment_sol">
         <argument
@@ -247,7 +247,7 @@
 
     <fragment
         android:id="@+id/fragmentToitureOuFauxPlafond"
-        android:name="com.example.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond"
+        android:name="fr.sieml.super_cep.view.fragments.Enveloppe.ZoneElements.FragmentToitureOuFauxPlafond"
         android:label="Toiture"
         tools:layout="@layout/fragment_toiture_ou_faux_plafond">
         <argument
@@ -264,7 +264,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentVentilationAjout"
-        android:name="com.example.super_cep.view.fragments.Ventilation.FragmentVentilationAjout"
+        android:name="fr.sieml.super_cep.view.fragments.Ventilation.FragmentVentilationAjout"
         android:label="Ventilation"
         tools:layout="@layout/fragment_ventilation_ajout" >
         <argument
@@ -274,7 +274,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentUsageEtOccupationCalendrier"
-        android:name="com.example.super_cep.view.fragments.UsageEtOccupation.FragmentUsageEtOccupationCalendrier"
+        android:name="fr.sieml.super_cep.view.fragments.UsageEtOccupation.FragmentUsageEtOccupationCalendrier"
         android:label="Calendrier"
         tools:layout="@layout/fragment_ueo_calendrier">
         <argument android:name="nomCalendrier"
@@ -282,7 +282,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_graphique"
-        android:name="com.example.super_cep.view.fragments.FragmentGraphique"
+        android:name="fr.sieml.super_cep.view.fragments.FragmentGraphique"
         android:label="@string/menu_graphique"
         tools:layout="@layout/fragment_graphique" />
 
