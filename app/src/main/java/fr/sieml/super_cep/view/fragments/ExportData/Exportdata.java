@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.sieml.super_cep.R;
 import fr.sieml.super_cep.controller.Conso.ConsoConfigViewModel;
 
 import fr.sieml.super_cep.databinding.FragmentExportdataBinding;
@@ -166,6 +167,21 @@ public class Exportdata extends Fragment {
         startActivity(intent);
     }
 
+    private void sendFileToEmail(Uri uri, String type){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(type);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        String destinataire = getResources().getString(R.string.destinataire);
+        //destination mail
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{destinataire});
+        //objet mail
+        String objet = getResources().getString(R.string.objet);
+        intent.putExtra(Intent.EXTRA_SUBJECT, objet + releveViewModel.getReleve().getValue().nomBatiment);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(intent);
+
+    }
+
 
 
     private void writeArchive(Uri uri, boolean jsonOrCsv) {
@@ -190,7 +206,9 @@ public class Exportdata extends Fragment {
                             loadingPopup.terminer();
                         }
                     });
-                    showFileToUser(uri, "application/zip");
+
+
+                    sendFileToEmail(uri, "application/zip");
 
                 } catch (Exception e) {
                     e.printStackTrace();
