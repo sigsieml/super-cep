@@ -339,7 +339,7 @@ public class FragmentGraphique extends Fragment implements AideFragment {
 
         BarData data = new BarData(dataSets);
         data.setValueTextColor(Color.BLACK);
-        data.setValueFormatter(new StackedValueFormatter(false, suffix, 0));
+        //data.setValueFormatter(new StackedValueFormatter(false, suffix, 0));
 
 
         chart.setData(data);
