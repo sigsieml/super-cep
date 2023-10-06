@@ -22,7 +22,7 @@ android {
         applicationId "fr.sieml.super_cep"
         minSdk 28
         targetSdk 33
-        versionCode 18
+        versionCode 19
         versionName "1.0.19"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
